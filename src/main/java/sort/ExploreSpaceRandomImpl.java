@@ -62,7 +62,7 @@ public class ExploreSpaceRandomImpl implements Explore {
 
     public void log() {
         try {
-            FileWriter writer = new FileWriter("results/sort/resultRandom", false);
+            FileWriter writer = new FileWriter(Main.path + "resultRandom", false);
             String format = "%-10s %-8s %-8s %-27s%n";
             writer.write(String.format(format,"Value","#Success","#Failure","%Success"));
             for (int j = 0 ; j < randomRates.length ; j++) {
@@ -81,7 +81,7 @@ public class ExploreSpaceRandomImpl implements Explore {
 
     public void logLocation() {
         try {
-            FileWriter writer = new FileWriter("results/sort/resultRandom_locations", false);
+            FileWriter writer = new FileWriter(Main.path + "resultRandom_locations", false);
             String format = "%-10s %-20s %-8s %-8s %-8s %-8s %-27s%n";
             writer.write(String.format(format,"Index", "Location","#Success","#Failure","#Calls","#Enactions","%Success"));
             for (PerturbationLocation key : Main.locations) {

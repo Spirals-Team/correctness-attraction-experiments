@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
  */
 public class Main {
 
+    public static String path = "results/sort/";
+
     public static double perc(int nb, int total) {
         return (double)nb / (double) total * 100;
     }
@@ -49,8 +51,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
+
+        if (args.length >= 1)
+            path += args[0];
+
         run(new ExploreSpaceNCallImpl());
-        Oracle.numberOfArrayToBeSorted = 1000;
+        Oracle.numberOfArrayToBeSorted = 1;
         Oracle.initList();
         run(new ExploreSpaceRandomImpl());
     }

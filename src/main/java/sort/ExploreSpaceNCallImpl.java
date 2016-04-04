@@ -33,8 +33,8 @@ public class ExploreSpaceNCallImpl implements Explore{
 
         Main.locations.stream().forEach(location -> resultPerLocation.put(location, new Tuple()));
 
-        for (int j = 0 ; j < numberToAdd.length ; j++) {
-            resultPerValue.put(numberToAdd[j], new Tuple());
+        for (int aNumberToAdd : numberToAdd) {
+            resultPerValue.put(aNumberToAdd, new Tuple());
         }
     }
 
@@ -45,10 +45,10 @@ public class ExploreSpaceNCallImpl implements Explore{
     }
 
     public void run(int indexOfArray, PerturbationLocation location) {
-        for (int indexOfValueToAdd = 0 ; indexOfValueToAdd < numberToAdd.length ; indexOfValueToAdd++) {
-            location.setPerturbator(new AddNPerturbatorImpl(numberToAdd[indexOfValueToAdd]));
-            resultPerValue.put(numberToAdd[indexOfValueToAdd],
-                            resultPerValue.get(numberToAdd[indexOfValueToAdd]).add(runMagnitudes(indexOfArray, location)));
+        for (int aNumberToAdd : numberToAdd) {
+            location.setPerturbator(new AddNPerturbatorImpl(aNumberToAdd));
+            resultPerValue.put(aNumberToAdd,
+                    resultPerValue.get(aNumberToAdd).add(runMagnitudes(indexOfArray, location)));
         }
     }
 
@@ -88,11 +88,10 @@ public class ExploreSpaceNCallImpl implements Explore{
 
     public void log() {
         try {
-            FileWriter writer = new FileWriter("results/sort/resultNCall", false);
+            FileWriter writer = new FileWriter(Main.path + "resultNCall", false);
             String format = "%-10s %-8s %-8s %-27s%n";
             writer.write(String.format(format,"Value","#Success","#Failure","%Success"));
-            for (int j = 0 ; j < numberToAdd.length ; j++) {
-                Integer key =  numberToAdd[j];
+            for (int key : numberToAdd) {
                 Tuple result = resultPerValue.get(key);
                 double perc = Main.perc(result.valueOne, result.total());
                 String dash = Main.dash(perc);
@@ -107,7 +106,7 @@ public class ExploreSpaceNCallImpl implements Explore{
 
     public void logLocation() {
         try {
-            FileWriter writer = new FileWriter("results/sort/resultNCall_locations", false);
+            FileWriter writer = new FileWriter(Main.path + "resultNCall_locations", false);
             String format = "%-10s %-20s %-8s %-8s %-27s%n";
             writer.write(String.format(format,"Index", "Location","#Success","#Failure","%Success"));
             for (PerturbationLocation key : Main.locations) {
