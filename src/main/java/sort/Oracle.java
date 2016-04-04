@@ -17,6 +17,8 @@ public class Oracle {
 
     public static int boudOfValue = 100;
 
+    private static final java.util.Random rnd = new java.util.Random(seedOfTheRandomUsed);
+
     private static List<List<Integer>> listOfArraysToBeSorted = new ArrayList<List<Integer>>();
 
     static {
@@ -31,7 +33,6 @@ public class Oracle {
     }
 
     public static List<Integer> generateOneListToBeSorted() {
-        java.util.Random rnd = new java.util.Random(seedOfTheRandomUsed);
         List<Integer> newListToBeSorted = new ArrayList<Integer>();
         for (int i = 0; i < sizeOfEachArrayToBeSorted; i++) {
             if (boudOfValue == -1)
