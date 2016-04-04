@@ -11,13 +11,18 @@ public class Oracle {
 
     public final static int seedOfTheRandomUsed = 23;
 
-    public final static int numberOfArrayToBeSorted = 5;
+    public static int numberOfArrayToBeSorted = 10;
 
     public final static int sizeOfEachArrayToBeSorted = 100;
 
     private static List<List<Integer>> listOfArraysToBeSorted = new ArrayList<List<Integer>>();
 
     static {
+        initList();
+    }
+
+    public static void initList() {
+        listOfArraysToBeSorted.clear();
         for (int i = 0; i < numberOfArrayToBeSorted; i++) {
             listOfArraysToBeSorted.add(generateOneListToBeSorted());
         }
