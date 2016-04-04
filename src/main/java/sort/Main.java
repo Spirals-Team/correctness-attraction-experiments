@@ -52,11 +52,15 @@ public class Main {
 
     public static void main(String[] args) {
 
-        if (args.length >= 1)
+        if (args.length == 1)
             path += args[0];
+        else if (args.length > 1) {
+            path += args[0];
+            Oracle.boudOfValue = Integer.parseInt(args[1]);
+        }
 
         run(new ExploreSpaceNCallImpl());
-        Oracle.numberOfArrayToBeSorted = 1;
+        Oracle.numberOfArrayToBeSorted = 1000;
         Oracle.initList();
         run(new ExploreSpaceRandomImpl());
     }
