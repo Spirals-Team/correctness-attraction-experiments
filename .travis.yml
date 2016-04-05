@@ -4,7 +4,6 @@ jdk:
   - oraclejdk8
 
 install:
-    - src/script/install.sh
     - git clone http://github.com/Spirals-Team/jPerturb.git
     - cd jPerturb
     - mvn install
