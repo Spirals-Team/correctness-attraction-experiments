@@ -31,7 +31,6 @@ public class Runner {
 
     public static void runLocations(int indexOfTask) {
         for (PerturbationLocation location : locations) {
-            System.out.println(String.format("%.2f", perc(locations.indexOf(location),locations.size())));
             explorer.run(indexOfTask, location);
         }
         explorer.log();

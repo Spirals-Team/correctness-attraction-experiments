@@ -15,20 +15,20 @@ public class ZipOracleImpl implements Oracle<String> {
 
     private List<String> scenarios = new ArrayList<>();
 
-    private int numberOfTask = 100;
+    private int numberOfTask = 20;
 
     private int seedForGenTask = 23;
 
     private Random randomForGenTask = new Random(seedForGenTask);
 
-    private int sizeOfEachTask = 150;
+    private int sizeOfEachTask = 100;
 
     public ZipOracleImpl(){
         while (scenarios.size() < numberOfTask)
-            scenarios.add(generateOneString());
+            scenarios.add(generateOneScenario());
     }
 
-    private String generateOneString() {
+    private String generateOneScenario() {
         String string = "";
         for (int i = 0 ; i < sizeOfEachTask ; i++) {
             string += ((char)randomForGenTask.nextInt(256));
