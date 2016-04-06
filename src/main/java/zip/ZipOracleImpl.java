@@ -1,34 +1,19 @@
 package zip;
 
-import experiment.Oracle;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import experiment.OracleImpl;
 
 /**
  * Created by spirals on 05/04/16.
  */
-public class ZipOracleImpl implements Oracle<String> {
-
-    private String PATH = "zip";
-
-    private List<String> scenarios = new ArrayList<>();
-
-    private int numberOfTask = 20;
-
-    private int seedForGenTask = 23;
-
-    private Random randomForGenTask = new Random(seedForGenTask);
-
-    private int sizeOfEachTask = 100;
+public class ZipOracleImpl extends OracleImpl<String> {
 
     public ZipOracleImpl(){
-        while (scenarios.size() < numberOfTask)
-            scenarios.add(generateOneScenario());
+       super();
+        super.path = "zip";
     }
 
-    private String generateOneScenario() {
+    @Override
+    protected String generateOneTask() {
         String string = "";
         for (int i = 0 ; i < sizeOfEachTask ; i++) {
             string += ((char)randomForGenTask.nextInt(256));
@@ -46,21 +31,12 @@ public class ZipOracleImpl implements Oracle<String> {
 
     @Override
     public boolean check(String perturbedValue, int index) {
-        return perturbedValue.equals(scenarios.get(index));
+        return perturbedValue.equals(scenario.get(index));
     }
 
     @Override
     public String get(int index) {
-        return new String(scenarios.get(index));
+        return new String(scenario.get(index));
     }
 
-    @Override
-    public int getNumberOfTask() {
-        return numberOfTask;
-    }
-
-    @Override
-    public String getPath() {
-        return PATH;
-    }
 }

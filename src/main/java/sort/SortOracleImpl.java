@@ -1,30 +1,18 @@
 package sort;
 
-import experiment.Oracle;
+import experiment.OracleImpl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by spirals on 05/04/16.
  */
-public class SortOracleImpl implements Oracle<List<Integer>> {
+public class SortOracleImpl extends OracleImpl<List<Integer>> {
 
-    private String PATH = "sort";
-
-    private List<List<Integer>> scenario = new ArrayList<>();
-
-    private int numberOfTask = 20;
-
-    private int seedForGenTask = 23;
-
-    private Random randomForGenTask = new Random(seedForGenTask);
-
-    private int sizeOfEachTask = 100;
-
-    private List<Integer> generateOneTask() {
+    @Override
+    protected List<Integer> generateOneTask() {
         List<Integer> newTask = new ArrayList<>();
         for (int i = 0 ; i < sizeOfEachTask ; i++)
             newTask.add(randomForGenTask.nextInt());
@@ -32,8 +20,8 @@ public class SortOracleImpl implements Oracle<List<Integer>> {
     }
 
     public SortOracleImpl() {
-        while (scenario.size() < numberOfTask)
-            scenario.add(generateOneTask());
+        super();
+        super.path = "sort";
     }
 
     @Override
@@ -75,13 +63,4 @@ public class SortOracleImpl implements Oracle<List<Integer>> {
         return new ArrayList(scenario.get(index));
     }
 
-    @Override
-    public int getNumberOfTask() {
-        return numberOfTask;
-    }
-
-    @Override
-    public String getPath() {
-        return PATH;
-    }
 }
