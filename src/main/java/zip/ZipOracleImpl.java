@@ -25,7 +25,7 @@ public class ZipOracleImpl extends OracleImpl<String> {
     @Override
     public String header() {
         String header = numberOfTask + " string of " + sizeOfEachTask + " char\n";
-        header += "Random integer generated with " + seedForGenTask + " as seed\n";
+        header += "Random char generated with " + seedForGenTask + " as seed\n";
         return header;
     }
 

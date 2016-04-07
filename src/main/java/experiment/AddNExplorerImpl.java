@@ -8,8 +8,8 @@ import perturbation.perturbator.NothingPerturbatorImpl;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by spirals on 05/04/16.
@@ -18,21 +18,21 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
 
     private int [] magnitudes = new int[]{1,2,5,10,20,50};
 
-    private Map<PerturbationLocation, Tuple>[] resultPerLocationPerMagnitude;
-
     public AddNExplorerImpl() {
         super();
         super.header = "SEPM\n";
         super.header += "magnitudes : ";
 
-        resultPerLocationPerMagnitude = new Map[magnitudes.length];
+        super.results = new Tuple[Runner.locations.size()][Runner.oracle.getNumberOfTask()][magnitudes.length];
 
         for (int i = 0 ; i < magnitudes.length ; i++) {
             super.header += magnitudes[i] + " ";
-            resultPerLocationPerMagnitude[i] = new HashMap<>();
-            for (PerturbationLocation location : Runner.locations)
-                resultPerLocationPerMagnitude[i].put(location, new Tuple(3));
+            for (PerturbationLocation location : Runner.locations) {
+                for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask++)
+                    super.results[Runner.locations.indexOf(location)][indexTask][i] = new Tuple(3);
+            }
         }
+
         super.header += "\n" + Runner.locations.size() + " perturbation point\n";
         super.header += "N Excecution Enactor\n";
         super.header += "PMAG : Numerical Perturbator\n";
@@ -63,28 +63,86 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
 
             Tuple result = super.runAtTheIndexOfCall(indexOfCall, indexOfTask, location);
 
-            resultPerLocationPerMagnitude[indexMagnitude].put(location,
-                    resultPerLocationPerMagnitude[indexMagnitude].get(location).add(result));
-            resultPerLocation.put(location, resultPerLocation.get(location).add(result));
+            results[Runner.locations.indexOf(location)][indexOfTask][indexMagnitude] =
+                    results[Runner.locations.indexOf(location)][indexOfTask][indexMagnitude].add(result);
         }
     }
 
     @Override
     public void log() {
-        super.log();
+
+        List<PerturbationLocation> locationExceptionFragile = new ArrayList<PerturbationLocation>();
+        List<PerturbationLocation> locationOracleFragile = new ArrayList<PerturbationLocation>();
+        List<PerturbationLocation> locationAntiFragile = new ArrayList<PerturbationLocation>();
+
         try {
-            FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+super.path+"_perN", false);
-            String format = "%-5s %-10s %-8s %-8s %-8s %-27s%n";
-            writer.write(header + Runner.oracle.header());
-            writer.write(String.format(format,"N", "IndexLoc","#Success","#Failure", "#Error","%Success"));
-            for (PerturbationLocation location : Runner.locations) {
-                for (int i = 0 ; i < magnitudes.length ; i++) {
-                    Tuple result = resultPerLocationPerMagnitude[i].get(location);
-                    writer.write(String.format(format, magnitudes[i], location.getLocationIndex(),
-                            result.get(0), result.get(1), result.get(2), Runner.getStringPerc(result.get(0), result.total())));
+            FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+super.path, false);
+            String format = "%-8s %-8s %-8s %-8s %-8s %-8s %-27s%n";
+            writer.write(header + Runner.oracle.header() + "All Result\n");
+            writer.write(String.format(format,"Task", "N", "IndexLoc", "#Success","#Failure", "#Error","%Success"));
+            for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
+                for (PerturbationLocation location : Runner.locations) {
+                    for (int indexMagnitude = 0 ; indexMagnitude < magnitudes.length ; indexMagnitude++) {
+                        Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexMagnitude];
+                        writer.write(String.format(format,indexTask, magnitudes[indexMagnitude], location.getLocationIndex(),
+                                result.get(0), result.get(1), result.get(2), Runner.getStringPerc(result.get(0), result.total())));
+                    }
                 }
             }
             writer.close();
+
+            /* Sum Arrays */
+            writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+path+"_perRates", false);
+            writer.write(header + Runner.oracle.header() + "sum of result per magnitudes\n");
+            format = "%-8s %-8s %-8s %-8s %-8s %-27s%n";
+            writer.write(String.format(format, "N", "IndexLoc","#Success","#Failure", "#Error","%Success"));
+            for (PerturbationLocation location : Runner.locations) {
+                for (int indexRandomRates = 0 ; indexRandomRates < magnitudes.length ; indexRandomRates++) {
+                    Tuple result = new Tuple(3);
+                    for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask++)
+                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
+
+                    writer.write(String.format(format, magnitudes[indexRandomRates], location.getLocationIndex(),
+                            result.get(0), result.get(1), result.get(2),
+                            Runner.getStringPerc(result.get(0), result.total())));
+                }
+            }
+            writer.close();
+
+            /* Sum PerturbationPoint */
+            writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+path+"_perLocation", false);
+            format = "%-8s %-8s %-8s %-8s %-27s%n";
+            writer.write(header + Runner.oracle.header() + "sum of result per Perturbation point\n");
+            writer.write(String.format(format, "IndexLoc", "#Success","#Failure", "#Error","%Success"));
+            for (PerturbationLocation location : Runner.locations) {
+                Tuple result = new Tuple(3);
+                for (int indexMagnitude = 0 ; indexMagnitude < magnitudes.length ; indexMagnitude++) {
+                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
+                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
+                }
+
+                Explorer.addToFragilityList(result, result.total(), location, locationExceptionFragile, locationAntiFragile, locationOracleFragile);
+
+                writer.write(String.format(format, location.getLocationIndex(),
+                        result.get(0), result.get(1), result.get(2), Runner.getStringPerc(result.get(0), result.total())));
+            }
+            writer.close();
+
+            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_AntiFragile", false);
+            for (PerturbationLocation location : locationAntiFragile)
+                writer.write(location + "\n");
+            writer.close();
+
+            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_OracleFragile", false);
+            for (PerturbationLocation location : locationOracleFragile)
+                writer.write(location + "\n");
+            writer.close();
+
+            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_ExceptionFragile", false);
+            for (PerturbationLocation location : locationExceptionFragile)
+                writer.write(location + "\n");
+            writer.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
