@@ -21,7 +21,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
     public AddNExplorerImpl() {
         super();
         super.header = "SEPM\n";
-        super.header += "magnitudes : ";
+        super.header += "magnitudes value : ";
 
         super.results = new Tuple[Runner.locations.size()][Runner.oracle.getNumberOfTask()][magnitudes.length];
 

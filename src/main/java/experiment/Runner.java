@@ -57,7 +57,7 @@ public class Runner {
     }
 
     public static void setup(Class<?> classUnderPerturbation, String nameOfEntryMethod, Oracle oracleImpl, Class<?>... argsOfMethods) {
-        setup(CUP, CUP, nameOfEntryMethod, oracleImpl, argsOfMethods);
+        setup(classUnderPerturbation, classUnderPerturbation, nameOfEntryMethod, oracleImpl, argsOfMethods);
     }
 
     /**

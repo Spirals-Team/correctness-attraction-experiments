@@ -37,6 +37,7 @@ public class AddOneExplorerImpl implements Explorer {
         }
 
         header = "SEP1\n";
+        header += Runner.locations.size() + " perturbation point\n";
         header += "N Excecution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
 

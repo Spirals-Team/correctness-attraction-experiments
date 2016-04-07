@@ -38,7 +38,7 @@ public class RndExplorerImpl implements Explorer {
         results = new Tuple[Runner.locations.size()][Runner.oracle.getNumberOfTask()][randomRates.length];
 
         header = "SERN\n";
-        header += "Rates : ";
+        header += "random Rates : ";
 
         for (int indexOfRandomRate = 0 ; indexOfRandomRate < randomRates.length ; indexOfRandomRate++) {
             header += randomRates[indexOfRandomRate] + " ";
