@@ -18,7 +18,8 @@ public class Runner {
 
     public static Oracle oracle;
     public static Class<?> CUP;// Class Under Perturbation
-    public static Method MUP;// Method Under Perturbation
+    public static Class<?> classRunner;// Class to run exp have to be static
+    public static Method methodRunner;// Method to run exp have to be static
     public static List<PerturbationLocation> locations;
     public static Explorer explorer;
 
@@ -39,7 +40,7 @@ public class Runner {
     public static Tuple runPerturbation(int indexOfTask) {
         Tuple result = new Tuple(3);
         try {
-            boolean checked = oracle.check(MUP.invoke(CUP, oracle.get(indexOfTask)), indexOfTask);
+            boolean checked = oracle.check(methodRunner.invoke(Runner.classRunner, oracle.get(indexOfTask)), indexOfTask);
             if (checked)
                 result.set(0, 1);
             else
@@ -56,16 +57,7 @@ public class Runner {
     }
 
     public static void setup(Class<?> classUnderPerturbation, String nameOfEntryMethod, Oracle oracleImpl, Class<?>... argsOfMethods) {
-        CUP = classUnderPerturbation;
-        try {
-            MUP = CUP.getMethod(nameOfEntryMethod, argsOfMethods);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        locations = PerturbationLocation.getLocationFromClass(CUP).stream().filter(location ->
-                location.getType().equals("Numerical")).collect(Collectors.toList()
-        );
-        oracle = oracleImpl;
+        setup(CUP, CUP, nameOfEntryMethod, oracleImpl, argsOfMethods);
     }
 
     /**
@@ -77,9 +69,10 @@ public class Runner {
      * @param argsOfMethods
      */
     public static void setup(Class<?> classUnderPerturbation, Class<?> classRunner, String nameOfEntryMethod, Oracle oracleImpl, Class<?>... argsOfMethods) {
-        CUP = classRunner;
+        CUP = classUnderPerturbation;
+        Runner.classRunner = classRunner;
         try {
-            MUP = CUP.getMethod(nameOfEntryMethod, argsOfMethods);
+            methodRunner = Runner.classRunner.getMethod(nameOfEntryMethod, argsOfMethods);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
