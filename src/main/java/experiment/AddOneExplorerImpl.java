@@ -94,10 +94,6 @@ public class AddOneExplorerImpl implements Explorer {
             writer.close();
 
             /* Sum PerturbationPoint */
-
-            String latexOutput = "\\begin{tabular}{c|ccccl}\n";
-            latexOutput += "IndexLoc&\\#Success&\\#Failure&\\#Error&\\#Calls&\\#Enaction&\\%Success\\\\\n\\hline\n";
-
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_perLocation", false);
             format = "%-8s %-8s %-8s %-8s %-8s %-10s %-27s%n";
             writer.write(header + Runner.oracle.header() + "sum of result per Perturbation point\n");
@@ -109,19 +105,10 @@ public class AddOneExplorerImpl implements Explorer {
 
                 Explorer.addToFragilityList(result, result.total(3), location, locationExceptionFragile, locationAntiFragile, locationOracleFragile);
 
-                latexOutput += location.getLocationIndex() + "&" + result.get(0) + "&" +result.get(1) + "&"+ result.get(2) + "&"
-                        + result.get(3)+ "&" + result.get(4) + "&" + Runner.getStringPerc(result.get(0), result.total(3)) + "\\\\\n";
-
                 writer.write(String.format(format, location.getLocationIndex(),
                         result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
                         Runner.getStringPerc(result.get(0), result.total(3))));
             }
-            writer.close();
-
-            latexOutput += "\\end{tabular}\\\\\n";
-            /* write output latex */
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/latex/" + path + "_perLocation", false);
-            writer.write(latexOutput);
             writer.close();
 
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_AntiFragile", false);
