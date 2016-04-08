@@ -2,7 +2,7 @@ package experiment;
 
 import md5.MD5;
 import md5.MD5CallableImpl;
-import md5.Md5OracleImpl;
+import md5.MD5OracleImpl;
 import perturbation.location.PerturbationLocation;
 import sort.QuickSort;
 import sort.QuickSortCallableImpl;
@@ -134,7 +134,7 @@ public class Runner {
         setup(LZW.class, ZipCallableImpl.class, "run", new ZipOracleImpl(), String.class);
         runAllCampaign();
         System.out.println("Run md5...");
-        Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new Md5OracleImpl(), String.class);
+        Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new MD5OracleImpl(), String.class);
         Runner.runAllCampaign();
 //        System.out.println("Run sudoku...");
 //        Runner.setup(Sudoku.class, SudokuCallableImpl.class, "runSudoku", new SudokuOracleImpl() , int[][].class);

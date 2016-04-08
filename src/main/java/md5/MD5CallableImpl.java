@@ -14,14 +14,16 @@ public class MD5CallableImpl extends CallableImpl<String> {
 
     @Override
     public String call() throws Exception {
-        return "0x" + MD5.toHexString(MD5.computeMD5(super.originalValue.getBytes()));
+        return "0x" + MD5OracleImpl.toHexString(MD5.computeMD5(super.originalValue.getBytes()));
     }
 
     @Deprecated
     public static void main(String[] args) {
         System.out.println("Run md5...");
-        Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new Md5OracleImpl(), String.class);
+        Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new MD5OracleImpl(), String.class);
         Runner.runAllCampaign();
     }
+
+
 
 }

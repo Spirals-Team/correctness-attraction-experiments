@@ -8,16 +8,16 @@ import java.util.List;
 /**
  * Created by spirals on 07/04/16.
  */
-public class Md5OracleImpl extends OracleImpl<String> {
+public class MD5OracleImpl extends OracleImpl<String> {
 
     private List<String> hashOfTask;
 
-    public Md5OracleImpl() {
+    public MD5OracleImpl() {
         super();
         super.path = "md5";
         hashOfTask = new ArrayList<String>();
         for (String stringToBeHash : scenario)
-            hashOfTask.add("0x" + MD5.toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
+            hashOfTask.add("0x" + toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
     }
 
     protected String generateOneTask() {
@@ -44,4 +44,14 @@ public class Md5OracleImpl extends OracleImpl<String> {
     public String get(int index) {
         return new String(super.scenario.get(index));
     }
+
+    public static String toHexString(byte[] b) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < b.length; i++)
+        {
+            sb.append(String.format("%02X", b[i] & 0xFF));
+        }
+        return sb.toString();
+    }
+
 }
