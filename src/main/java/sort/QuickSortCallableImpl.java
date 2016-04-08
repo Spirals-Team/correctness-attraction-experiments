@@ -16,12 +16,12 @@ public class QuickSortCallableImpl extends CallableImpl<List<Integer>> {
 
     @Override
     public List<Integer> call() throws Exception {
-        return QuickSort.sort(originalValue);
+        return QuickSort.sort(super.originalValue);
     }
 
     @Deprecated
     public static void main(String[] args) {
-        Runner.setup(QuickSort.class, "sort", new SortOracleImpl(), List.class);
+        Runner.setup(QuickSort.class, QuickSortCallableImpl.class ,"sort", new SortOracleImpl(), List.class);
         Runner.runAllCampaign();
     }
 }

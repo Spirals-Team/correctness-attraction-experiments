@@ -1,14 +1,24 @@
 package experiment;
 
+import md5.MD5;
+import md5.MD5CallableImpl;
+import md5.Md5OracleImpl;
 import perturbation.location.PerturbationLocation;
 import sort.QuickSort;
+import sort.QuickSortCallableImpl;
 import sort.SortOracleImpl;
 import zip.LZW;
-import zip.Main;
+import zip.ZipCallableImpl;
 import zip.ZipOracleImpl;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Constructor;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
 
 /**
@@ -18,10 +28,12 @@ public class Runner {
 
     public static Oracle oracle;
     public static Class<?> CUP;// Class Under Perturbation
-    public static Class<?> classRunner;// Class to run exp have to be static
-    public static Method methodRunner;// Method to run exp have to be static
+    public static Class<?> classCallable;// Class to run exp have to be static
+    public static Constructor constructorRunner;
     public static List<PerturbationLocation> locations;
     public static Explorer explorer;
+
+    public static boolean verbose = true;
 
     public static void run(Explorer explorerUnderPerturbation) {
         explorer = explorerUnderPerturbation;
@@ -32,6 +44,8 @@ public class Runner {
 
     public static void runLocations(int indexOfTask) {
         for (PerturbationLocation location : locations) {
+            if (verbose)
+                System.out.println(location.getLocationIndex()+" \t "+getStringPerc(locations.indexOf(location) , locations.size()));
             explorer.run(indexOfTask, location);
         }
         explorer.log();
@@ -39,41 +53,46 @@ public class Runner {
 
     public static Tuple runPerturbation(int indexOfTask) {
         Tuple result = new Tuple(3);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
-            boolean checked = oracle.check(methodRunner.invoke(Runner.classRunner, oracle.get(indexOfTask)), indexOfTask);
-            if (checked)
-                result.set(0, 1);
-            else
-                result.set(1, 1);
-            return result;
-        } catch (IllegalArgumentException arg) {
-            result.set(2, 1);
-            arg.printStackTrace();
-            return result;
+            Callable instanceRunner = (Callable)constructorRunner.newInstance(oracle.get(indexOfTask));
+            Future<String> future = executor.submit(instanceRunner);
+            try {
+                Object perturbedValue = (future.get(1, TimeUnit.MINUTES));
+                boolean checked = oracle.check(perturbedValue, indexOfTask);
+                if (checked)
+                    result.set(0, 1); // success
+                else
+                    result.set(1, 1); // failures
+                return result;
+
+            } catch (TimeoutException e) {
+                future.cancel(true);
+                executor.shutdownNow();
+                result.set(2, 1); // error computation time
+                return result;
+            }
+
         } catch (Exception | Error e) {
             result.set(2, 1);
             return result;
         }
     }
 
-    public static void setup(Class<?> classUnderPerturbation, String nameOfEntryMethod, Oracle oracleImpl, Class<?>... argsOfMethods) {
-        setup(classUnderPerturbation, classUnderPerturbation, nameOfEntryMethod, oracleImpl, argsOfMethods);
-    }
-
     /**
      * Method for setting up the class under Perturbation (CUP)
      * @param classUnderPerturbation
-     * @param classRunner Class which contains the entry method nameOfEntryMethod in case of the CUP doesn't contain it
+     * @param classCallable Class which contains the entry method nameOfEntryMethod
      * @param nameOfEntryMethod
      * @param oracleImpl
      * @param argsOfMethods
      */
-    public static void setup(Class<?> classUnderPerturbation, Class<?> classRunner, String nameOfEntryMethod, Oracle oracleImpl, Class<?>... argsOfMethods) {
+    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, String nameOfEntryMethod, Oracle oracleImpl, Class<?>... argsOfMethods) {
         CUP = classUnderPerturbation;
-        Runner.classRunner = classRunner;
+        Runner.classCallable = classCallable;
         try {
-            methodRunner = Runner.classRunner.getMethod(nameOfEntryMethod, argsOfMethods);
-        } catch (NoSuchMethodException e) {
+            Runner.constructorRunner = classCallable.getConstructor(argsOfMethods);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         locations = PerturbationLocation.getLocationFromClass(classUnderPerturbation).stream().filter(location ->
@@ -105,12 +124,22 @@ public class Runner {
     }
 
     public static void main(String[] args) {
+        long time = System.currentTimeMillis();
         System.out.println("Run sort...");
-        setup(QuickSort.class, "sort", new SortOracleImpl(), List.class);
+        setup(QuickSort.class, QuickSortCallableImpl.class, "sort", new SortOracleImpl(), List.class);
         runAllCampaign();
         System.out.println("Run LZW...");
-        setup(LZW.class, Main.class, "run", new ZipOracleImpl(), String.class);
+        setup(LZW.class, ZipCallableImpl.class, "run", new ZipOracleImpl(), String.class);
         runAllCampaign();
+        System.out.println("Run md5...");
+        Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new Md5OracleImpl(), String.class);
+        Runner.runAllCampaign();
+//        System.out.println("Run sudoku...");
+//        Runner.setup(Sudoku.class, SudokuCallableImpl.class, "runSudoku", new SudokuOracleImpl() , int[][].class);
+//        Runner.run(new AddOneExplorerImpl());
+//        Runner.run(new AddNExplorerImpl(1,2,5));
+//        Runner.run(new RndExplorerImpl(0.001f, 0.002f , 0.005f, 0.009f, 0.01f));
+        System.err.println(System.currentTimeMillis()-time +" ms");
     }
 
 
