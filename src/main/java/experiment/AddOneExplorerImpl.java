@@ -33,7 +33,7 @@ public class AddOneExplorerImpl implements Explorer {
 
         for (PerturbationLocation location : Runner.locations) {
             for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
-                results[Runner.locations.indexOf(location)][indexTask][0] = new Tuple(4);
+                results[Runner.locations.indexOf(location)][indexTask][0] = new Tuple(5);
         }
 
         header = "SEP1\n";
@@ -55,10 +55,11 @@ public class AddOneExplorerImpl implements Explorer {
         //perturbation
         location.setPerturbator(new AddNPerturbatorImpl(1));
         for (int indexOfCall = 1; indexOfCall < currentNbCall + 1; indexOfCall++) {
-            Tuple result = new Tuple(4);
+            Tuple result = new Tuple(5);
             PerturbationEngine.logger.logOn(location);
             result = result.add(runAtTheIndexOfCall(indexOfCall, indexOfTask, location));
             result.set(3, PerturbationEngine.logger.getCalls(location));
+            result.set(4, PerturbationEngine.logger.getEnactions(location));
             PerturbationEngine.logger.reset();
             results[Runner.locations.indexOf(location)][indexOfTask][0] = results[Runner.locations.indexOf(location)][indexOfTask][0].add(result);
         }
@@ -80,48 +81,62 @@ public class AddOneExplorerImpl implements Explorer {
 
         try {
             FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path, false);
-            String format = "%-8s %-8s %-8s %-8s %-8s %-8s %-27s%n";
+            String format = "%-8s %-8s %-8s %-8s %-8s %-8s %-10s %-27s%n";
             writer.write(header + Runner.oracle.header() + "All Result\n");
-            writer.write(String.format(format, "Task", "IndexLoc", "#Success", "#Failure", "#Error", "#Calls", "%Success"));
+            writer.write(String.format(format, "Task", "IndexLoc", "#Success", "#Failure", "#Error", "#Calls",  "#Enactions", "%Success"));
             for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = results[Runner.locations.indexOf(location)][indexTask][0];
                     writer.write(String.format(format, indexTask, location.getLocationIndex(),
-                            result.get(0), result.get(1), result.get(2), result.get(3), Runner.getStringPerc(result.get(0), result.total(3))));
+                            result.get(0), result.get(1), result.get(2), result.get(3), result.get(4), Runner.getStringPerc(result.get(0), result.total(3))));
                 }
             }
             writer.close();
 
             /* Sum PerturbationPoint */
+
+            String latexOutput = "\\begin{tabular}{c|ccccl}\n";
+            latexOutput += "IndexLoc&\\#Success&\\#Failure&\\#Error&\\#Calls&\\#Enaction&\\%Success\\\\\n\\hline\n";
+
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_perLocation", false);
-            format = "%-8s %-8s %-8s %-8s %-27s%n";
+            format = "%-8s %-8s %-8s %-8s %-8s %-10s %-27s%n";
             writer.write(header + Runner.oracle.header() + "sum of result per Perturbation point\n");
-            writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Error", "%Success"));
+            writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Error",  "#Calls",  "#Enactions", "%Success"));
             for (PerturbationLocation location : Runner.locations) {
-                Tuple result = new Tuple(3);
+                Tuple result = new Tuple(5);
                 for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
                     result = result.add(results[Runner.locations.indexOf(location)][indexTask][0]);
 
-                Explorer.addToFragilityList(result, result.total(), location, locationExceptionFragile, locationAntiFragile, locationOracleFragile);
+                Explorer.addToFragilityList(result, result.total(3), location, locationExceptionFragile, locationAntiFragile, locationOracleFragile);
+
+                latexOutput += location.getLocationIndex() + "&" + result.get(0) + "&" +result.get(1) + "&"+ result.get(2) + "&"
+                        + result.get(3)+ "&" + result.get(4) + "&" + Runner.getStringPerc(result.get(0), result.total(3)) + "\\\\\n";
 
                 writer.write(String.format(format, location.getLocationIndex(),
-                        result.get(0), result.get(1), result.get(2), Runner.getStringPerc(result.get(0), result.total())));
+                        result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
+                        Runner.getStringPerc(result.get(0), result.total(3))));
             }
+            writer.close();
+
+            latexOutput += "\\end{tabular}\\\\\n";
+            /* write output latex */
+            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/latex/" + path + "_perLocation", false);
+            writer.write(latexOutput);
             writer.close();
 
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_AntiFragile", false);
             for (PerturbationLocation location : locationAntiFragile)
-                writer.write(location + "\n");
+                writer.write(location.getLocationIndex() + " ");
             writer.close();
 
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_OracleFragile", false);
             for (PerturbationLocation location : locationOracleFragile)
-                writer.write(location + "\n");
+                writer.write(location.getLocationIndex() + " ");
             writer.close();
 
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_ExceptionFragile", false);
             for (PerturbationLocation location : locationExceptionFragile)
-                writer.write(location + "\n");
+                writer.write(location.getLocationIndex() + " ");
             writer.close();
 
         } catch (IOException e) {

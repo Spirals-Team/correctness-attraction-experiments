@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class RndExplorerImpl implements Explorer {
 
-    private float[] randomRates = new float[]{0.001f, 0.002f , 0.005f, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f, 0.9f};
+    private float[] randomRates = new float[]{0.001f, 0.002f , 0.005f, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f , 0.9f};
 
     private int seedOfRandomEnactor = 32;
 
@@ -31,20 +31,23 @@ public class RndExplorerImpl implements Explorer {
 
     private Map<PerturbationLocation, RandomEnactorImpl>[] enactorsOfLocationPerRandomRates;
 
-    public RndExplorerImpl() {
+    public RndExplorerImpl(float... randomRates) {
 
-        enactorsOfLocationPerRandomRates = new Map[randomRates.length];
+        if (randomRates.length > 0)
+            this.randomRates = randomRates;
 
-        results = new Tuple[Runner.locations.size()][Runner.oracle.getNumberOfTask()][randomRates.length];
+        enactorsOfLocationPerRandomRates = new Map[this.randomRates.length];
+
+        results = new Tuple[Runner.locations.size()][Runner.oracle.getNumberOfTask()][this.randomRates.length];
 
         header = "SERN\n";
         header += "random Rates : ";
 
-        for (int indexOfRandomRate = 0 ; indexOfRandomRate < randomRates.length ; indexOfRandomRate++) {
-            header += randomRates[indexOfRandomRate] + " ";
+        for (int indexOfRandomRate = 0 ; indexOfRandomRate < this.randomRates.length ; indexOfRandomRate++) {
+            header += this.randomRates[indexOfRandomRate] + " ";
             enactorsOfLocationPerRandomRates[indexOfRandomRate] = new HashMap<>();
             for (PerturbationLocation location : Runner.locations) {
-                enactorsOfLocationPerRandomRates[indexOfRandomRate].put(location, new RandomEnactorImpl(seedOfRandomEnactor, randomRates[indexOfRandomRate]));
+                enactorsOfLocationPerRandomRates[indexOfRandomRate].put(location, new RandomEnactorImpl(seedOfRandomEnactor, this.randomRates[indexOfRandomRate]));
                 for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask ++)
                     results[Runner.locations.indexOf(location)][indexTask][indexOfRandomRate] = new Tuple(5);
             }
@@ -127,6 +130,9 @@ public class RndExplorerImpl implements Explorer {
             }
             writer.close();
 
+            String latexOutput = "\\begin{tabular}{c|cccccl}\n";
+            latexOutput += "IndexLoc&\\#Success&\\#Failure&\\#Error&\\#Calls&\\#Enactions&\\%Success\\\\\n\\hline\n";
+
             /* Sum PerturbationPoint */
             writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+path+"_perLocation", false);
             writer.write(header + Runner.oracle.header() + "sum of result per Perturbation point\n");
@@ -141,25 +147,34 @@ public class RndExplorerImpl implements Explorer {
 
                 Explorer.addToFragilityList(result, result.total(3), location, locationExceptionFragile, locationAntiFragile, locationOracleFragile);
 
+                latexOutput += location.getLocationIndex() + "&" + result.get(0) + "&" +result.get(1) + "&"+ result.get(2) + "&"
+                        + result.get(3)+ "&"+result.get(4)+ "&" + Runner.getStringPerc(result.get(0), result.total(3)) + "\\\\\n";
+
                 writer.write(String.format(format, location.getLocationIndex(),
                         result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
                         Runner.getStringPerc(result.get(0), result.total(3))));
             }
             writer.close();
 
+            latexOutput += "\\end{tabular}\\\\\n";
+            /* write output latex */
+            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/latex/" + path + "_perLocation", false);
+            writer.write(latexOutput);
+            writer.close();
+
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_AntiFragile", false);
             for (PerturbationLocation location : locationAntiFragile)
-                writer.write(location + "\n");
+                writer.write(location.getLocationIndex() + " ");
             writer.close();
 
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_OracleFragile", false);
             for (PerturbationLocation location : locationOracleFragile)
-                writer.write(location + "\n");
+                writer.write(location.getLocationIndex() + " ");
             writer.close();
 
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_ExceptionFragile", false);
             for (PerturbationLocation location : locationExceptionFragile)
-                writer.write(location + "\n");
+                writer.write(location.getLocationIndex() + " ");
             writer.close();
 
 
