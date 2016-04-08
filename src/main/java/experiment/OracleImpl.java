@@ -27,6 +27,13 @@ public abstract class OracleImpl<T> implements Oracle<T> {
             scenario.add(generateOneTask());
     }
 
+    public OracleImpl(int numberOfTask) {
+        this.numberOfTask = numberOfTask;
+        scenario = new ArrayList<T>();
+        while (scenario.size() <  this.numberOfTask)
+            scenario.add(generateOneTask());
+    }
+
     protected abstract T generateOneTask();
 
     @Override
