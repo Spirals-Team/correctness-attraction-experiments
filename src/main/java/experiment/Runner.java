@@ -64,17 +64,19 @@ public class Runner {
                     result.set(0, 1); // success
                 else
                     result.set(1, 1); // failures
+                executor.shutdownNow();
                 return result;
 
             } catch (TimeoutException e) {
                 future.cancel(true);
-                executor.shutdownNow();
                 result.set(2, 1); // error computation time
+                executor.shutdownNow();
                 return result;
             }
 
         } catch (Exception | Error e) {
             result.set(2, 1);
+            executor.shutdownNow();
             return result;
         }
     }
