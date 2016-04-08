@@ -33,7 +33,7 @@ public class Runner {
     public static List<PerturbationLocation> locations;
     public static Explorer explorer;
 
-    public static boolean verbose = true;
+    public static boolean verbose = false;
 
     public static void run(Explorer explorerUnderPerturbation) {
         explorer = explorerUnderPerturbation;
