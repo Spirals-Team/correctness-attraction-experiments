@@ -56,9 +56,9 @@ public class Runner {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
             Callable instanceRunner = (Callable)constructorRunner.newInstance(oracle.get(indexOfTask));
-            Future<String> future = executor.submit(instanceRunner);
+            Future future = executor.submit(instanceRunner);
             try {
-                Object perturbedValue = (future.get(1, TimeUnit.MINUTES));
+                Object perturbedValue = (future.get(30, TimeUnit.SECONDS));
                 boolean checked = oracle.check(perturbedValue, indexOfTask);
                 if (checked)
                     result.set(0, 1); // success
@@ -70,6 +70,7 @@ public class Runner {
             } catch (TimeoutException e) {
                 future.cancel(true);
                 result.set(2, 1); // error computation time
+                System.err.println("Time out!");
                 executor.shutdownNow();
                 return result;
             }
