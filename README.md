@@ -7,6 +7,7 @@ This project contains experiments for jPerturb
 * sort : Perturbation on Quicksort.
 * zip : Perturbation on LZW compression.
 * md5 : Perturbation on MD5 hash function.
+* sudoku : Perturbation on a Sudoku solver.
 
 ## Experiments
 
