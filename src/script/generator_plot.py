@@ -112,7 +112,7 @@ def plot_nbPerturbations_percentageSuccess(path, filename, subject):
 
 subjects=["sort","zip","md5","sudoku"]
 for subject in subjects:
-    plot_nbPerturbations_percentageSuccess("results/"+subject, "RndExplorer_random_rates_analysis_graph_data", subject)
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data", subject)
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "RndExplorer_random_rates_analysis_graph_data", subject)
+    plot_nbPerturbations_percentageSuccess("results/"+subject, "RndExplorer_random_rates_analysis_graph_data.txt", subject)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", subject)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "RndExplorer_random_rates_analysis_graph_data.txt", subject)
 
