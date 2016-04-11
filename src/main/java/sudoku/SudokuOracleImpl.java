@@ -18,7 +18,7 @@ public class SudokuOracleImpl extends OracleImpl<int[][]> {
     private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
 
     public SudokuOracleImpl() {
-        super(2);
+        super(1);
         super.path = "sudoku";
         try {
             br.close();
