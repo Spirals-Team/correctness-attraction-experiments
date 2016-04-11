@@ -36,4 +36,4 @@ In order to run experiments, you can use the script :
 ./src/script/run.sh
 ```
 
-It will run all campaigns describe above, on all subjects.
+It will process classes in results/java/ with jPerturb, compile and run all campaigns describe above, on all subjects.
