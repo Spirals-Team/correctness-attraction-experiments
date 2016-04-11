@@ -18,3 +18,21 @@ In order to explore it, we use 3 campaigns :
    * Add 1 at each call of each perturbation Point.
    * Add N, an incresing magnitude at each call of each perturbation points.
    * Add 1 with a increasing random probability.
+
+## Install & Running
+
+Before running experimentation, you need to retrieve jPerturb and Spoon. A shell script is available.
+
+'''
+./src/script/install.sh
+'''
+
+It will clone jPerturb from github, install it and retrieve the last jar of Spoon.
+
+In order to run experiments, you can use the script :
+
+'''
+./src/script/run.sh
+'''
+
+It will run all campaigns describe above, on all subjects.
