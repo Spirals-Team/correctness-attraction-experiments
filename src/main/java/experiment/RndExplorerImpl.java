@@ -93,10 +93,11 @@ public class RndExplorerImpl implements Explorer {
         List<PerturbationLocation> locationExceptionFragile = new ArrayList<>();
         List<PerturbationLocation> locationOracleFragile = new ArrayList<>();
         List<PerturbationLocation> locationAntiFragile = new ArrayList<>();
+        List<PerturbationLocation> locationSuperAntiFragile = new ArrayList<>();
 
         try {
             /* All Log */
-            FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail", false);
+            FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail.txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
             writer.write(header + Runner.oracle.header() + "detail per task and per random rate.\n");
             writer.write(String.format(format, "Task", "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
@@ -113,7 +114,7 @@ public class RndExplorerImpl implements Explorer {
             writer.close();
 
             /* Sum Arrays */
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_random_rates_analysis_graph_data", false);
+            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_random_rates_analysis_graph_data.txt", false);
             writer.write(header + Runner.oracle.header() + "contains the data for the random rates analysis graph.\n");
             format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
             writer.write(String.format(format, "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
@@ -124,23 +125,21 @@ public class RndExplorerImpl implements Explorer {
                     for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
 
-                    Explorer.addToFragilityList(result, result.total(3), location, locationExceptionFragile, locationAntiFragile, locationOracleFragile);
-
                     writer.write(String.format(format, randomRates[indexRandomRates], location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
                             Runner.getStringPerc(result.get(0), result.total(3))));
 
                     resultForLocation = resultForLocation.add(result);
                 }
-                Explorer.addToFragilityList(resultForLocation, resultForLocation.total(), location,
-                        locationExceptionFragile, locationAntiFragile, locationOracleFragile);
+                Explorer.addToFragilityList(resultForLocation, resultForLocation.total(), location, locationExceptionFragile,locationSuperAntiFragile,
+                        locationAntiFragile, locationOracleFragile);
             }
             writer.close();
 
             format = "%-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
             for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
-                writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates], false);
+                writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates] + ".txt", false);
                 writer.write(header + Runner.oracle.header() + "aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n");
                 writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
                 for (PerturbationLocation location : Runner.locations) {
@@ -155,11 +154,13 @@ public class RndExplorerImpl implements Explorer {
                 writer.close();
             }
 
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_anti_fragile",
+            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_anti_fragile.txt",
                     "List of ids antifragile points.", locationAntiFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_oracle_fragile",
+            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_super_anti_fragile.txt",
+                    "List of ids antifragile points.", locationSuperAntiFragile);
+            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_oracle_fragile.txt",
                     "list ids of oracle fragile code : >" + Explorer.TOLERANCE +"% of oracle failures", locationOracleFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_exception_fragile",
+            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_exception_fragile.txt",
                     "list ids of exception fragile code : >" + Explorer.TOLERANCE +"% of exceptions.", locationExceptionFragile);
 
 

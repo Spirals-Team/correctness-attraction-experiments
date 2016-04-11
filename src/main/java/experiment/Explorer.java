@@ -13,9 +13,12 @@ public interface Explorer {
 
     double TOLERANCE = 70.0f;
 
-    static void addToFragilityList(Tuple result, int total, PerturbationLocation location, List<PerturbationLocation> locationExceptionFragile,
+    static void addToFragilityList(Tuple result, int total, PerturbationLocation location,
+                                   List<PerturbationLocation> locationExceptionFragile, List<PerturbationLocation> locationSuperAntiFragile,
                         List<PerturbationLocation> locationAntiFragile , List<PerturbationLocation> locationOracleFragile) {
-        if (result.get(0) == total)//Antifragile
+        if (result.get(0) == total)//Super - Antifragile
+            locationSuperAntiFragile.add(location);
+        else if (Runner.perc(result.get(0), total) >= TOLERANCE)//AntiFragile
             locationAntiFragile.add(location);
         else if (Runner.perc(result.get(1), total) >= TOLERANCE)//OracleFragile
             locationOracleFragile.add(location);
