@@ -7,11 +7,19 @@ import perturbation.location.PerturbationLocation;
 import sort.QuickSort;
 import sort.QuickSortCallableImpl;
 import sort.SortOracleImpl;
+import sudoku.Sudoku;
+import sudoku.SudokuCallableImpl;
+import sudoku.SudokuOracleImpl;
 import zip.LZW;
 import zip.ZipCallableImpl;
 import zip.ZipOracleImpl;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -33,7 +41,7 @@ public class Runner {
     public static List<PerturbationLocation> locations;
     public static Explorer explorer;
 
-    public static boolean verbose = false;
+    public static boolean verbose = true;
 
     public static void run(Explorer explorerUnderPerturbation) {
         explorer = explorerUnderPerturbation;
@@ -58,7 +66,7 @@ public class Runner {
             Callable instanceRunner = (Callable)constructorRunner.newInstance(oracle.get(indexOfTask));
             Future future = executor.submit(instanceRunner);
             try {
-                Object perturbedValue = (future.get(30, TimeUnit.SECONDS));
+                Object perturbedValue = (future.get(1, TimeUnit.SECONDS));
                 boolean checked = oracle.check(perturbedValue, indexOfTask);
                 if (checked)
                     result.set(0, 1); // success
@@ -122,8 +130,30 @@ public class Runner {
 
     public static void runAllCampaign() {
         run(new AddOneExplorerImpl());
+        //getting the top-ten of the first campaign
+//        readAntifragileFile();
         run(new AddNExplorerImpl());
         run(new RndExplorerImpl());
+    }
+
+    public static void readAntifragileFile() {
+        List<PerturbationLocation> topTenLocations = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("results/"+oracle.getPath()+"/AddOneExplorer_AntiFragile"));
+            br.readLine(); // thrash header line
+            String [] indices = br.readLine().split(" ");
+            for (int i = 0 ; i < Math.min(indices.length, 10) ; i++) {
+                final int index = i;
+                topTenLocations.add(locations.stream().filter(location ->
+                        location.getLocationIndex() == Integer.parseInt(indices[index])
+                ).collect(Collectors.toList()).get(0));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        locations = topTenLocations;
     }
 
     public static void main(String[] args) {
@@ -137,11 +167,12 @@ public class Runner {
         System.out.println("Run md5...");
         Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new MD5OracleImpl(), String.class);
         Runner.runAllCampaign();
-//        System.out.println("Run sudoku...");
-//        Runner.setup(Sudoku.class, SudokuCallableImpl.class, "runSudoku", new SudokuOracleImpl() , int[][].class);
-//        Runner.run(new AddOneExplorerImpl());
-//        Runner.run(new AddNExplorerImpl(1,2,5));
-//        Runner.run(new RndExplorerImpl(0.001f, 0.002f , 0.005f, 0.009f, 0.01f));
+        System.out.println("Run sudoku...");
+        Runner.setup(Sudoku.class, SudokuCallableImpl.class, "runSudoku", new SudokuOracleImpl() , int[][].class);
+        Runner.run(new AddOneExplorerImpl());
+//        readAntifragileFile();
+        Runner.run(new AddNExplorerImpl(1,2,5));
+        Runner.run(new RndExplorerImpl());
         System.err.println(System.currentTimeMillis()-time +" ms");
     }
 

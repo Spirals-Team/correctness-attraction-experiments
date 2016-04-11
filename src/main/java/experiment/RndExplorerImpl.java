@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class RndExplorerImpl implements Explorer {
 
-    private float[] randomRates = new float[]{0.001f, 0.002f , 0.005f, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f , 0.9f};
+    private float[] randomRates = new float[]{0.001f, 0.002f, 0.005f, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f, 0.9f};
 
     private int seedOfRandomEnactor = 32;
 
@@ -43,18 +43,18 @@ public class RndExplorerImpl implements Explorer {
         header = "SERN\n";
         header += "random Rates : ";
 
-        for (int indexOfRandomRate = 0 ; indexOfRandomRate < this.randomRates.length ; indexOfRandomRate++) {
+        for (int indexOfRandomRate = 0; indexOfRandomRate < this.randomRates.length; indexOfRandomRate++) {
             header += this.randomRates[indexOfRandomRate] + " ";
             enactorsOfLocationPerRandomRates[indexOfRandomRate] = new HashMap<>();
             for (PerturbationLocation location : Runner.locations) {
                 enactorsOfLocationPerRandomRates[indexOfRandomRate].put(location, new RandomEnactorImpl(seedOfRandomEnactor, this.randomRates[indexOfRandomRate]));
-                for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask ++)
+                for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
                     results[Runner.locations.indexOf(location)][indexTask][indexOfRandomRate] = new Tuple(5);
             }
         }
 
         header += "\n" + Runner.locations.size() + " perturbation point\n";
-        header += "Random Enactor, seed :" + seedOfRandomEnactor +"\n";
+        header += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
         header += "PONE : Numerical Perturbator\n";
 
         path = "RndExplorer";
@@ -63,11 +63,11 @@ public class RndExplorerImpl implements Explorer {
     @Override
     public void run(int indexOfTask, PerturbationLocation location) {
         location.setPerturbator(new AddNPerturbatorImpl(1));
-        for (int indexOfRandomRate = 0 ; indexOfRandomRate < randomRates.length ; indexOfRandomRate++) {
+        for (int indexOfRandomRate = 0; indexOfRandomRate < randomRates.length; indexOfRandomRate++) {
 
             PerturbationEngine.logger.logOn(location);
 
-            Tuple result = runRandomRate(indexOfTask,location,indexOfRandomRate);
+            Tuple result = runRandomRate(indexOfTask, location, indexOfRandomRate);
 
             Tuple resultWithLog = new Tuple(5);
             resultWithLog = resultWithLog.add(result);
@@ -90,21 +90,21 @@ public class RndExplorerImpl implements Explorer {
     @Override
     public void log() {
 
-        List<PerturbationLocation> locationExceptionFragile = new ArrayList<PerturbationLocation>();
-        List<PerturbationLocation> locationOracleFragile = new ArrayList<PerturbationLocation>();
-        List<PerturbationLocation> locationAntiFragile = new ArrayList<PerturbationLocation>();
+        List<PerturbationLocation> locationExceptionFragile = new ArrayList<>();
+        List<PerturbationLocation> locationOracleFragile = new ArrayList<>();
+        List<PerturbationLocation> locationAntiFragile = new ArrayList<>();
 
         try {
             /* All Log */
-            FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+path, false);
-            String format = "%-8s %-8s %-8s %-8s %-8s %-8s %-8s %-8s %-27s%n";
-            writer.write(header + Runner.oracle.header() + "All Result\n");
-            writer.write(String.format(format, "Task", "N", "IndexLoc","#Success","#Failure", "#Error", "#Call", "#Enactions" ,"%Success"));
-            for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask++) {
+            FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail", false);
+            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            writer.write(header + Runner.oracle.header() + "detail per task and per random rate.\n");
+            writer.write(String.format(format, "Task", "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
+            for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
-                    for (int indexRandomRates = 0 ; indexRandomRates < randomRates.length ; indexRandomRates++) {
+                    for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                         Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
-                        writer.write(String.format(format,indexTask, randomRates[indexRandomRates], location.getLocationIndex(),
+                        writer.write(String.format(format, indexTask, randomRates[indexRandomRates], location.getLocationIndex(),
                                 result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
                                 Runner.getStringPerc(result.get(0), result.total(3))));
                     }
@@ -113,57 +113,54 @@ public class RndExplorerImpl implements Explorer {
             writer.close();
 
             /* Sum Arrays */
-            writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+path+"_perRates", false);
-            writer.write(header + Runner.oracle.header() + "sum of result per random Rates\n");
-            format = "%-5s %-8s %-8s %-8s %-8s %-8s %-8s %-27s%n";
-            writer.write(String.format(format, "N", "IndexLoc","#Success","#Failure", "#Error", "#Call", "#Enactions" ,"%Success"));
-                for (PerturbationLocation location : Runner.locations) {
-                    for (int indexRandomRates = 0 ; indexRandomRates < randomRates.length ; indexRandomRates++) {
-                        Tuple result = new Tuple(5);
-                        for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask++)
-                            result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
-
-                        writer.write(String.format(format, randomRates[indexRandomRates], location.getLocationIndex(),
-                                result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                                Runner.getStringPerc(result.get(0), result.total(3))));
-                }
-            }
-            writer.close();
-
-            /* Sum PerturbationPoint */
-            writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+path+"_perLocation", false);
-            writer.write(header + Runner.oracle.header() + "sum of result per Perturbation point\n");
-            format = "%-8s %-8s %-8s %-8s %-8s %-8s %-27s%n";
-            writer.write(String.format(format, "IndexLoc","#Success","#Failure", "#Error", "#Call", "#Enactions" ,"%Success"));
+            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_random_rates_analysis_graph_data", false);
+            writer.write(header + Runner.oracle.header() + "contains the data for the random rates analysis graph.\n");
+            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            writer.write(String.format(format, "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
             for (PerturbationLocation location : Runner.locations) {
-                Tuple result = new Tuple(5);
-                for (int indexRandomRates = 0 ; indexRandomRates < randomRates.length ; indexRandomRates++) {
+                Tuple resultForLocation = new Tuple(3);
+                for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
+                    Tuple result = new Tuple(5);
                     for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
+
+                    Explorer.addToFragilityList(result, result.total(3), location, locationExceptionFragile, locationAntiFragile, locationOracleFragile);
+
+                    writer.write(String.format(format, randomRates[indexRandomRates], location.getLocationIndex(),
+                            result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
+                            Runner.getStringPerc(result.get(0), result.total(3))));
+
+                    resultForLocation = resultForLocation.add(result);
                 }
-
-                Explorer.addToFragilityList(result, result.total(3), location, locationExceptionFragile, locationAntiFragile, locationOracleFragile);
-
-                writer.write(String.format(format, location.getLocationIndex(),
-                        result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                        Runner.getStringPerc(result.get(0), result.total(3))));
+                Explorer.addToFragilityList(resultForLocation, resultForLocation.total(), location,
+                        locationExceptionFragile, locationAntiFragile, locationOracleFragile);
             }
             writer.close();
 
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_AntiFragile", false);
-            for (PerturbationLocation location : locationAntiFragile)
-                writer.write(location.getLocationIndex() + " ");
-            writer.close();
+            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
+                /* Sum PerturbationPoint */
+                writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates], false);
+                writer.write(header + Runner.oracle.header() + "aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n");
+                writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
+                for (PerturbationLocation location : Runner.locations) {
+                    Tuple result = new Tuple(5);
+                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
+                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
 
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_OracleFragile", false);
-            for (PerturbationLocation location : locationOracleFragile)
-                writer.write(location.getLocationIndex() + " ");
-            writer.close();
+                    writer.write(String.format(format, location.getLocationIndex(),
+                            result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
+                            Runner.getStringPerc(result.get(0), result.total(3))));
+                }
+                writer.close();
+            }
 
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_ExceptionFragile", false);
-            for (PerturbationLocation location : locationExceptionFragile)
-                writer.write(location.getLocationIndex() + " ");
-            writer.close();
+            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_anti_fragile",
+                    "List of ids antifragile points.", locationAntiFragile);
+            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_oracle_fragile",
+                    "list ids of oracle fragile code : >" + Explorer.TOLERANCE +"% of oracle failures", locationOracleFragile);
+            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_exception_fragile",
+                    "list ids of exception fragile code : >" + Explorer.TOLERANCE +"% of exceptions.", locationExceptionFragile);
 
 
         } catch (IOException e) {
