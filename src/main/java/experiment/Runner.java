@@ -1,18 +1,10 @@
 package experiment;
 
-import md5.MD5;
 import md5.MD5CallableImpl;
-import md5.MD5OracleImpl;
 import perturbation.location.PerturbationLocation;
-import sort.QuickSort;
 import sort.QuickSortCallableImpl;
-import sort.SortOracleImpl;
-import sudoku.Sudoku;
 import sudoku.SudokuCallableImpl;
-import sudoku.SudokuOracleImpl;
-import zip.LZW;
 import zip.ZipCallableImpl;
-import zip.ZipOracleImpl;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -131,50 +123,76 @@ public class Runner {
     public static void runAllCampaign() {
         run(new AddOneExplorerImpl());
         //getting the top-ten of the first campaign
-//        readAntifragileFile();
+        readAntifragileFile();
         run(new AddNExplorerImpl());
         run(new RndExplorerImpl());
     }
 
     public static void readAntifragileFile() {
-        List<PerturbationLocation> topTenLocations = new ArrayList<>();
+        if (locations.size() <= 15)
+            return;
+
+        BufferedReader br = null;
+        List<PerturbationLocation> topLocations = new ArrayList<>();
+        String[] pathTofileToGetIndices = new String[]{
+                "results/"+oracle.getPath()+"/AddOneExplorer_super_anti_fragile.txt",
+                "results/"+oracle.getPath()+"/AddOneExplorer_anti_fragile.txt",
+        };
         try {
-            BufferedReader br = new BufferedReader(new FileReader("results/"+oracle.getPath()+"/AddOneExplorer_AntiFragile"));
-            br.readLine(); // thrash header line
-            String [] indices = br.readLine().split(" ");
-            for (int i = 0 ; i < Math.min(indices.length, 10) ; i++) {
-                final int index = i;
-                topTenLocations.add(locations.stream().filter(location ->
-                        location.getLocationIndex() == Integer.parseInt(indices[index])
-                ).collect(Collectors.toList()).get(0));
+            for (String path : pathTofileToGetIndices) {
+                br = new BufferedReader(new FileReader(path));
+                br.readLine(); // thrash header line
+                String[] indices = br.readLine().split(" ");
+                for (int i = 0; i < indices.length && topLocations.size() < 15 ; i++) {
+                    final int index = i;
+                    topLocations.add(locations.stream().filter(location ->
+                            location.getLocationIndex() == Integer.parseInt(indices[index])
+                    ).collect(Collectors.toList()).get(0));
+                }
+                if (topLocations.size() == 15) {
+                    locations = topLocations;
+                    return;
+                }
             }
+
+            if (topLocations.size() < 15) {
+                List<Integer> blackList = new ArrayList<>();
+                br = new BufferedReader(new FileReader( "results/"+oracle.getPath()+"/AddOneExplorer_oracle_fragile.txt"));
+                br.readLine(); // thrash header line
+                String[] indices = br.readLine().split(" ");
+                for (String index : indices)
+                    blackList.add(Integer.parseInt(index));
+
+                br = new BufferedReader(new FileReader( "results/"+oracle.getPath()+"/AddOneExplorer_exception_fragile.txt"));
+                br.readLine(); // thrash header line
+                indices = br.readLine().split(" ");
+                for (String index : indices)
+                    blackList.add(Integer.parseInt(index));
+
+                topLocations.add(locations.stream().filter(location ->
+                        !blackList.contains(location.getLocationIndex())
+                ).collect(Collectors.toList()).get(0));
+
+                locations = topLocations;
+
+                return;
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        locations = topTenLocations;
     }
 
     public static void main(String[] args) {
-        long time = System.currentTimeMillis();
-        System.out.println("Run sort...");
-        setup(QuickSort.class, QuickSortCallableImpl.class, "sort", new SortOracleImpl(), List.class);
-        runAllCampaign();
-        System.out.println("Run LZW...");
-        setup(LZW.class, ZipCallableImpl.class, "run", new ZipOracleImpl(), String.class);
-        runAllCampaign();
-        System.out.println("Run md5...");
-        Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new MD5OracleImpl(), String.class);
-        Runner.runAllCampaign();
-        System.out.println("Run sudoku...");
-        Runner.setup(Sudoku.class, SudokuCallableImpl.class, "runSudoku", new SudokuOracleImpl() , int[][].class);
-        Runner.run(new AddOneExplorerImpl());
-//        readAntifragileFile();
-        Runner.run(new AddNExplorerImpl(1,2,5));
-        Runner.run(new RndExplorerImpl());
-        System.err.println(System.currentTimeMillis()-time +" ms");
+        QuickSortCallableImpl.run();
+        ZipCallableImpl.run();
+        MD5CallableImpl.run();
+        SudokuCallableImpl.run();
     }
+
+
 
 
 
