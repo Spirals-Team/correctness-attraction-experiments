@@ -17,8 +17,7 @@ public class MD5CallableImpl extends CallableImpl<String> {
         return "0x" + MD5OracleImpl.toHexString(MD5.computeMD5(super.originalValue.getBytes()));
     }
 
-    @Deprecated
-    public static void main(String[] args) {
+    public static void run() {
         System.out.println("Run md5...");
         Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new MD5OracleImpl(), String.class);
         Runner.runAllCampaign();

@@ -19,14 +19,10 @@ public class SudokuCallableImpl extends CallableImpl<int[][]> {
         return sudoku.getGrid();
     }
 
-    @Deprecated
-    public static void main(String[] args) {
-       long time = System.currentTimeMillis();
+    public static void run() {
+        System.out.println("Run sudoku...");
         Runner.setup(Sudoku.class, SudokuCallableImpl.class, "runSudoku", new SudokuOracleImpl() , int[][].class);
-        Runner.run(new AddOneExplorerImpl());
-        Runner.run(new AddNExplorerImpl(1,2,5,10,20,50));
-        Runner.run(new RndExplorerImpl(0.001f, 0.002f , 0.005f, 0.009f));
-        System.out.println(System.currentTimeMillis() - time + " ms");
+        Runner.runAllCampaign();
     }
 
 

@@ -1,6 +1,9 @@
 package zip;
 
+import experiment.AddNExplorerImpl;
+import experiment.AddOneExplorerImpl;
 import experiment.CallableImpl;
+import experiment.RndExplorerImpl;
 import experiment.Runner;
 
 /**
@@ -17,11 +20,13 @@ public class ZipCallableImpl extends CallableImpl<String> {
         return LZW.decompress(LZW.compress(super.originalValue));
     }
 
-    @Deprecated
-    public static void main(String[] args) {
+    public static void run() {
+        System.out.println("Run LZW...");
         Runner.setup(LZW.class, ZipCallableImpl.class, "run", new ZipOracleImpl(), String.class);
-        Runner.runAllCampaign();
+        Runner.run(new AddOneExplorerImpl());
+        Runner.readAntifragileFile();
+        Runner.run(new AddNExplorerImpl(2,5,10,20,50,100,1000,10000));
+        Runner.run(new RndExplorerImpl());
     }
-
 
 }

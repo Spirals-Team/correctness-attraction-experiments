@@ -19,9 +19,10 @@ public class QuickSortCallableImpl extends CallableImpl<List<Integer>> {
         return QuickSort.sort(super.originalValue);
     }
 
-    @Deprecated
-    public static void main(String[] args) {
+    public static void run() {
+        System.out.println("Run QuickSort...");
         Runner.setup(QuickSort.class, QuickSortCallableImpl.class ,"sort", new SortOracleImpl(), List.class);
         Runner.runAllCampaign();
     }
+
 }
