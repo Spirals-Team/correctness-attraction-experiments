@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by spirals on 05/04/16.
  */
-public class SortOracleImpl extends OracleImpl<List<Integer>> {
+public class QuickSortOracleImpl extends OracleImpl<List<Integer>> {
 
     @Override
     protected List<Integer> generateOneTask() {
@@ -19,7 +19,7 @@ public class SortOracleImpl extends OracleImpl<List<Integer>> {
         return newTask;
     }
 
-    public SortOracleImpl() {
+    public QuickSortOracleImpl() {
         super();
         super.path = "sort";
     }
