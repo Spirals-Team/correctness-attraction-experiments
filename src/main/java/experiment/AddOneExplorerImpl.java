@@ -96,7 +96,7 @@ public class AddOneExplorerImpl implements Explorer {
                     numberOfSuccess += result.get(0);
                     writer.write(String.format(format, indexTask, location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask] ,Runner.getStringPerc(result.get(0), result.total(3))));
+                            nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask] ,Util.getStringPerc(result.get(0), result.total(3))));
                 }
             }
             writer.close();
@@ -104,7 +104,7 @@ public class AddOneExplorerImpl implements Explorer {
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddOneExplorer.txt", false);
             writer.write("for " + Runner.oracle.getNumberOfTask() + " tasks with " + Runner.locations.size() +
                     " perturbations points = " + searchSpaceSize + " tasks done.\n");
-            writer.write("% Success : " + Runner.getStringPerc(numberOfSuccess, searchSpaceSize) + " \n");
+            writer.write("% Success : " + Util.getStringPerc(numberOfSuccess, searchSpaceSize) + " \n");
             writer.close();
 
             /* Sum PerturbationPoint */
@@ -122,7 +122,7 @@ public class AddOneExplorerImpl implements Explorer {
 
                 writer.write(String.format(format, location.getLocationIndex(),
                         result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                        Runner.getStringPerc(result.get(0), result.total(3))));
+                        Util.getStringPerc(result.get(0), result.total(3))));
 
             }
             writer.close();

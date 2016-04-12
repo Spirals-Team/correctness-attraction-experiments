@@ -16,13 +16,13 @@ public interface Explorer {
     static void addToFragilityList(Tuple result, int total, PerturbationLocation location,
                                    List<PerturbationLocation> locationExceptionFragile, List<PerturbationLocation> locationSuperAntiFragile,
                         List<PerturbationLocation> locationAntiFragile , List<PerturbationLocation> locationOracleFragile) {
-        if (result.get(0) == total)//Super - Antifragile
+        if (result.get(0) == total && result.get(0) != 0)//Super - Antifragile
             locationSuperAntiFragile.add(location);
-        else if (Runner.perc(result.get(0), total) >= TOLERANCE)//AntiFragile
+        else if (Util.perc(result.get(0), total) >= TOLERANCE)//AntiFragile
             locationAntiFragile.add(location);
-        else if (Runner.perc(result.get(1), total) >= TOLERANCE)//OracleFragile
+        else if (Util.perc(result.get(1), total) >= TOLERANCE)//OracleFragile
             locationOracleFragile.add(location);
-        else if (Runner.perc(result.get(2), total) >= TOLERANCE)//ExceptionFragile
+        else if (Util.perc(result.get(2), total) >= TOLERANCE)//ExceptionFragile
             locationExceptionFragile.add(location);
     }
 

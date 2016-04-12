@@ -93,7 +93,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
                         numberOfSuccess += result.get(0);
                         searchSpaceSize += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                         writer.write(String.format(format,indexTask, magnitudes[indexMagnitude], location.getLocationIndex(),
-                                result.get(0), result.get(1), result.get(2), result.get(3), result.get(4), Runner.getStringPerc(result.get(0), result.total(3))));
+                                result.get(0), result.get(1), result.get(2), result.get(3), result.get(4), Util.getStringPerc(result.get(0), result.total(3))));
                     }
                 }
             }
@@ -113,7 +113,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
 
                     writer.write(String.format(format, magnitudes[indexMagnitude], location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            Runner.getStringPerc(result.get(0), result.total(3))));
+                            Util.getStringPerc(result.get(0), result.total(3))));
 
                     resultForLocation = resultForLocation.add(result);
                 }
@@ -126,7 +126,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddNExplorer.txt", false);
             writer.write("for " + Runner.oracle.getNumberOfTask() + " tasks with " + Runner.locations.size() +
                     " perturbations points = " + searchSpaceSize + " tasks done.\n");
-            writer.write("% Success : " + Runner.getStringPerc(numberOfSuccess, searchSpaceSize) + " \n");
+            writer.write("% Success : " + Util.getStringPerc(numberOfSuccess, searchSpaceSize) + " \n");
             writer.close();
 
 
@@ -142,7 +142,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
 
                     writer.write(String.format(format, location.getLocationIndex(),
-                            result.get(0), result.get(1), result.get(2), result.get(3),result.get(4), Runner.getStringPerc(result.get(0), result.total(3))));
+                            result.get(0), result.get(1), result.get(2), result.get(3),result.get(4), Util.getStringPerc(result.get(0), result.total(3))));
                 }
                 writer.close();
             }

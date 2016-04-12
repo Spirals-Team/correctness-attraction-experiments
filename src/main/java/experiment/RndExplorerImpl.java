@@ -107,7 +107,7 @@ public class RndExplorerImpl implements Explorer {
                         Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
                         writer.write(String.format(format, indexTask, randomRates[indexRandomRates], location.getLocationIndex(),
                                 result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                                Runner.getStringPerc(result.get(0), result.total(3))));
+                                Util.getStringPerc(result.get(0), result.total(3))));
                     }
                 }
             }
@@ -127,7 +127,7 @@ public class RndExplorerImpl implements Explorer {
 
                     writer.write(String.format(format, randomRates[indexRandomRates], location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            Runner.getStringPerc(result.get(0), result.total(3))));
+                            Util.getStringPerc(result.get(0), result.total(3))));
 
                     resultForLocation = resultForLocation.add(result);
                 }
@@ -149,7 +149,7 @@ public class RndExplorerImpl implements Explorer {
 
                     writer.write(String.format(format, location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            Runner.getStringPerc(result.get(0), result.total(3))));
+                            Util.getStringPerc(result.get(0), result.total(3))));
                 }
                 writer.close();
             }
