@@ -110,7 +110,7 @@ def plot_nbPerturbations_percentageSuccess(path, filename, subject):
      fig.savefig(path+"/img/plot_test.pdf")
      plt.close(fig)
 
-subjects=["sort","zip","md5","sudoku"]
+subjects=["sort","zip","md5","sudoku", "sort2"]
 for subject in subjects:
     plot_nbPerturbations_percentageSuccess("results/"+subject, "RndExplorer_random_rates_analysis_graph_data.txt", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", subject)
