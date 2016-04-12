@@ -1,4 +1,4 @@
-#/bin/bash
+#!/usr/bin/env bash
 
 git clone http://github.com/Spirals-Team/jPerturb.git
 cd jPerturb
