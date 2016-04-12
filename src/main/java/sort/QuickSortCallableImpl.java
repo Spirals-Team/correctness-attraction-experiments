@@ -21,7 +21,7 @@ public class QuickSortCallableImpl extends CallableImpl<List<Integer>> {
 
     public static void run() {
         System.out.println("Run QuickSort...");
-        Runner.setup(QuickSort.class, QuickSortCallableImpl.class ,"sort", new SortOracleImpl(), List.class);
+        Runner.setup(QuickSort.class, QuickSortCallableImpl.class, new QuickSortOracleImpl(), List.class);
         Runner.runAllCampaign();
     }
 

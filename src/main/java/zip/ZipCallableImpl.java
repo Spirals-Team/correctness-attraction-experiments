@@ -5,6 +5,7 @@ import experiment.AddOneExplorerImpl;
 import experiment.CallableImpl;
 import experiment.RndExplorerImpl;
 import experiment.Runner;
+import experiment.Util;
 
 /**
  * Created by spirals on 05/04/16.
@@ -22,11 +23,15 @@ public class ZipCallableImpl extends CallableImpl<String> {
 
     public static void run() {
         System.out.println("Run LZW...");
-        Runner.setup(LZW.class, ZipCallableImpl.class, "run", new ZipOracleImpl(), String.class);
+        Runner.setup(LZW.class, ZipCallableImpl.class, new ZipOracleImpl(), String.class);
         Runner.run(new AddOneExplorerImpl());
-        Runner.readAntifragileFile();
-        Runner.run(new AddNExplorerImpl(2,5,10,20,50,100,1000,10000));
+        Util.buildNewListOfPerturbationPoint();
+        Runner.run(new AddNExplorerImpl(2,5,10,20,33,50,80,100,200));
         Runner.run(new RndExplorerImpl());
+    }
+
+    public static void main(String[] args) {
+        run();
     }
 
 }

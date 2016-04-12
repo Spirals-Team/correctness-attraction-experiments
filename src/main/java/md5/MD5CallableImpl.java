@@ -19,7 +19,7 @@ public class MD5CallableImpl extends CallableImpl<String> {
 
     public static void run() {
         System.out.println("Run md5...");
-        Runner.setup(MD5.class, MD5CallableImpl.class, "runMd5", new MD5OracleImpl(), String.class);
+        Runner.setup(MD5.class, MD5CallableImpl.class, new MD5OracleImpl(), String.class);
         Runner.runAllCampaign();
     }
 

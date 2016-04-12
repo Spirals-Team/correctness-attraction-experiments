@@ -21,7 +21,7 @@ public class SudokuCallableImpl extends CallableImpl<int[][]> {
 
     public static void run() {
         System.out.println("Run sudoku...");
-        Runner.setup(Sudoku.class, SudokuCallableImpl.class, "runSudoku", new SudokuOracleImpl() , int[][].class);
+        Runner.setup(Sudoku.class, SudokuCallableImpl.class, new SudokuOracleImpl() , int[][].class);
         Runner.runAllCampaign();
     }
 

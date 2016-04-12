@@ -66,6 +66,15 @@ public class SudokuOracleImpl extends OracleImpl<int[][]> {
                     return false;
             }
         }
+        for (int col = 0; col < perturbedValue.length; col++) {
+            List<Integer> listOfInteger = buildListOf9Integer();
+            for (int row = 0; col < perturbedValue[row].length; row++) {
+                if (!listOfInteger.remove(new Integer(perturbedValue[row][col])))
+                    return false;
+                if (originalGrid[row][col] != 0 && originalGrid[row][col] != perturbedValue[row][col])
+                    return false;
+            }
+        }
         return true;
     }
 
