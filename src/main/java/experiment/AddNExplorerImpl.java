@@ -24,14 +24,11 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
         super.header += "magnitudes value : ";
         if (magnitudes.length > 0)
             this.magnitudes = magnitudes;
-        super.results = new Tuple[Runner.locations.size()][Runner.oracle.getNumberOfTask()][this.magnitudes.length];
-        for (int i = 0 ; i < this.magnitudes.length ; i++) {
-            super.header += this.magnitudes[i] + " ";
-            for (PerturbationLocation location : Runner.locations) {
-                for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask++)
-                    super.results[Runner.locations.indexOf(location)][indexTask][i] = new Tuple(5);
-            }
-        }
+        Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(), magnitudes.length, 5);
+
+        for (int magnitude : magnitudes)
+            super.header += magnitude + " ";
+
         super.header += "\n" + Runner.locations.size() + " perturbation point\n";
         super.header += "N Excecution Enactor\n";
         super.header += "PMAG : Numerical Perturbator\n";
@@ -65,8 +62,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             result.set(3, PerturbationEngine.logger.getCalls(location));
             result.set(4, PerturbationEngine.logger.getEnactions(location));
             PerturbationEngine.logger.reset();
-            results[Runner.locations.indexOf(location)][indexOfTask][indexMagnitude] =
-                    results[Runner.locations.indexOf(location)][indexOfTask][indexMagnitude].add(result);
+            Logger.add(Runner.locations.indexOf(location), indexOfTask, indexMagnitude, result);
         }
     }
 
@@ -80,6 +76,8 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
 
         int searchSpaceSize = 0;
         int numberOfSuccess = 0;
+
+        Tuple [][][] results = Logger.getResults();
 
         try {
             FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+super.path+"_detail.txt", false);

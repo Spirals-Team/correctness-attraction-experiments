@@ -27,8 +27,6 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
     private String path;
 
-    private Tuple[][][] results;
-
     private Map<PerturbationLocation, RandomEnactorImpl>[] enactorsOfLocationPerRandomRates;
 
     public IntegerAdd1RndEnactorExplorerImpl(float... randomRates) {
@@ -38,7 +36,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
         enactorsOfLocationPerRandomRates = new Map[this.randomRates.length];
 
-        results = new Tuple[Runner.locations.size()][Runner.oracle.getNumberOfTask()][this.randomRates.length];
+        Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(), this.randomRates.length, 5);
 
         header = "SERN\n";
         header += "random Rates : ";
@@ -48,8 +46,6 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             enactorsOfLocationPerRandomRates[indexOfRandomRate] = new HashMap<>();
             for (PerturbationLocation location : Runner.locations) {
                 enactorsOfLocationPerRandomRates[indexOfRandomRate].put(location, new RandomEnactorImpl(seedOfRandomEnactor, this.randomRates[indexOfRandomRate]));
-                for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
-                    results[Runner.locations.indexOf(location)][indexTask][indexOfRandomRate] = new Tuple(5);
             }
         }
 
@@ -64,18 +60,13 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
     public void run(int indexOfTask, PerturbationLocation location) {
         location.setPerturbator(new AddNPerturbatorImpl(1));
         for (int indexOfRandomRate = 0; indexOfRandomRate < randomRates.length; indexOfRandomRate++) {
-
             PerturbationEngine.logger.logOn(location);
-
             Tuple result = runRandomRate(indexOfTask, location, indexOfRandomRate);
-
             Tuple resultWithLog = new Tuple(5);
             resultWithLog = resultWithLog.add(result);
             resultWithLog.set(3, PerturbationEngine.logger.getCalls(location));
             resultWithLog.set(4, PerturbationEngine.logger.getEnactions(location));
-
-            results[Runner.locations.indexOf(location)][indexOfTask][indexOfRandomRate] = resultWithLog;
-
+            Logger.add(Runner.locations.indexOf(location), indexOfTask, indexOfRandomRate, result);
             PerturbationEngine.logger.reset();
         }
         location.setPerturbator(new NothingPerturbatorImpl());
@@ -94,6 +85,8 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
         List<PerturbationLocation> locationOracleFragile = new ArrayList<>();
         List<PerturbationLocation> locationAntiFragile = new ArrayList<>();
         List<PerturbationLocation> locationSuperAntiFragile = new ArrayList<>();
+
+        Tuple [][][] results = Logger.getResults();
 
         try {
             /* All Log */

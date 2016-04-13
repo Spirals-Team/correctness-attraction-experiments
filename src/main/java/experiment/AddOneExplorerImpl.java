@@ -19,22 +19,15 @@ public class AddOneExplorerImpl implements Explorer {
 
     protected int[][] nbOfCallsPerLocationPerTask;
 
-    protected Tuple[][][] results;
-
     protected String header;
 
     protected String path;
 
     public AddOneExplorerImpl() {
 
-        results = new Tuple[Runner.locations.size()][Runner.oracle.getNumberOfTask()][1];
+        Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(),1, 5);
 
         nbOfCallsPerLocationPerTask = new int[Runner.locations.size()][Runner.oracle.getNumberOfTask()];
-
-        for (PerturbationLocation location : Runner.locations) {
-            for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
-                results[Runner.locations.indexOf(location)][indexTask][0] = new Tuple(5);
-        }
 
         header = "SEP1\n";
         header += Runner.locations.size() + " perturbation point\n";
@@ -61,7 +54,7 @@ public class AddOneExplorerImpl implements Explorer {
             result.set(3, PerturbationEngine.logger.getCalls(location));
             result.set(4, PerturbationEngine.logger.getEnactions(location));
             PerturbationEngine.logger.reset();
-            results[Runner.locations.indexOf(location)][indexOfTask][0] = results[Runner.locations.indexOf(location)][indexOfTask][0].add(result);
+            Logger.add(Runner.locations.indexOf(location), indexOfTask, 0, result);
         }
 
         location.setPerturbator(new NothingPerturbatorImpl());
@@ -83,6 +76,8 @@ public class AddOneExplorerImpl implements Explorer {
 
         int searchSpaceSize = 0;
         int numberOfSuccess = 0;
+
+        Tuple [][][] results = Logger.getResults();
 
         try {
             FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail.txt", false);
