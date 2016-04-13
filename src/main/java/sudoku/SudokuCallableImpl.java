@@ -18,12 +18,4 @@ public class SudokuCallableImpl extends CallableImpl<int[][]> {
         sudoku.solve();
         return sudoku.getGrid();
     }
-
-    public static void run() {
-        System.out.println("Run sudoku...");
-        Runner.setup(Sudoku.class, SudokuCallableImpl.class, new SudokuOracleImpl() , int[][].class);
-        Runner.runAllCampaign();
-    }
-
-
 }
