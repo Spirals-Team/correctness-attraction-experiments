@@ -24,7 +24,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
     i = 9
     currentLoc = 0
 
-    while currentLoc != 10:#numberOfLocation:
+    while currentLoc != 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
 
         indexOfLocation = ' '.join(lines[i].split()).split(" ")[1]
         indicesLocation.append(indexOfLocation)
@@ -34,10 +34,11 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
         for line in lines[i:i+len(n)]:
             perc.append(float(' '.join(line.split()).split(" ")[-1].replace(',','.')))
 
-        percAll.append(perc)
+        if not perc in percAll:
+            percAll.append(perc)
+            currentLoc += 1
 
         i+=len(n)
-        currentLoc += 1
 
     indexToCut = len(n)-1
     while indexToCut > 1:
@@ -66,7 +67,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
     fig.savefig(path+"/img/"+labelOfN+"_plot.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
     plt.close(fig)
 
-def plot_nbPerturbations_percentageSuccess(path, filename, subject):
+def scatterPlotSuccessNumPerturb(path, filename, subject):
      lines = [line.rstrip('\n') for line in open(path+"/"+filename)]
      title = ' '.join(lines[0].split()).split(" ")[0]
 
@@ -81,7 +82,7 @@ def plot_nbPerturbations_percentageSuccess(path, filename, subject):
      i = 9
      currentLoc = 0
 
-     while currentLoc != 10:#numberOfLocation:
+     while currentLoc != 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
         indexOfLocation = ' '.join(lines[i].split()).split(" ")[1]
         indicesLocation.append(indexOfLocation)
 
@@ -96,12 +97,16 @@ def plot_nbPerturbations_percentageSuccess(path, filename, subject):
         label.append(str(' '.join(lines[i].split()).split(" ")[0].replace(',','.')))
         label.append(str(' '.join(lines[i+len(n)-1].split()).split(" ")[0].replace(',','.')))
 
-        labelsAll.append(label)
-        nbPerturbAll.append(nbPerturb)
-        percAll.append(perc)
+        if not perc in percAll:
+
+            labelsAll.append(label)
+            nbPerturbAll.append(nbPerturb)
+            percAll.append(perc)
+
+
+            currentLoc += 1
 
         i+=len(n)
-        currentLoc += 1
 
      fig = plt.figure()
      ax = fig.add_axes((.1,.4,.8,.5))
@@ -125,12 +130,12 @@ def plot_nbPerturbations_percentageSuccess(path, filename, subject):
      ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
      lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
      ax.set_xscale('log')
-     fig.savefig(path+"/img/scattePlotSuccessNumPerturb.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
 subjects=["quicksort","zip","md5","sudoku","quicksort-visualization"]
 for subject in subjects:
-    plot_nbPerturbations_percentageSuccess("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", subject)
+    scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", subject)
 
