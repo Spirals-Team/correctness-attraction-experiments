@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by spirals on 05/04/16.
  */
-public class RndExplorerImpl implements Explorer {
+public class Add1RndEnactorExplorerImpl implements Explorer {
 
     private float[] randomRates = new float[]{0.001f, 0.002f, 0.005f, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f, 0.9f};
 
@@ -31,7 +31,7 @@ public class RndExplorerImpl implements Explorer {
 
     private Map<PerturbationLocation, RandomEnactorImpl>[] enactorsOfLocationPerRandomRates;
 
-    public RndExplorerImpl(float... randomRates) {
+    public Add1RndEnactorExplorerImpl(float... randomRates) {
 
         if (randomRates.length > 0)
             this.randomRates = randomRates;

@@ -42,7 +42,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
 
     fig, ax = plt.subplots(nrows=1, ncols=1)
     for i in range(len(percAll)):
-        plt.plot(n, percAll[i], marker='x', label="location"+str(indicesLocation[i]))
+        plt.plot(n, percAll[i], marker='x', label=str(indicesLocation[i]+ " " + str(percAll[i][0]) ))
     plt.xlabel(labelOfN)
     plt.ylabel("% success")
     plt.title(title+"_"+subject)
@@ -107,7 +107,7 @@ def plot_nbPerturbations_percentageSuccess(path, filename, subject):
      ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
      ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
      ax.set_xscale('log')
-     fig.savefig(path+"/img/plot_test.pdf")
+     fig.savefig(path+"/img/plot_number_perturbation.pdf")
      plt.close(fig)
 
 subjects=["sort","zip","md5","sudoku", "sort2"]
