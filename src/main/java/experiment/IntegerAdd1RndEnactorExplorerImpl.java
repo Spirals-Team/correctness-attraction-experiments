@@ -136,16 +136,16 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             }
             writer.close();
 
-            header = "SERN\n";
-            header += Runner.locations.size() + " perturbation point\n";
-            header += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
-            header += "PONE : Numerical Perturbator\n";
+            String title = "SERN\n";
+            title += Runner.locations.size() + " perturbation point\n";
+            title += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
+            title += "PONE : Numerical Perturbator\n";
 
             format = "%-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
             for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
                 writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates] + ".txt", false);
-                writer.write("aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n" + header + Runner.oracle.header());
+                writer.write("aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n" + title + Runner.oracle.header());
                 writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
