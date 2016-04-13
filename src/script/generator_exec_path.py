@@ -22,7 +22,7 @@ def gen_all(path, filename):
     caption += "In red, the unperturbed execution, and\n"
     caption += "in gray, 1000 perturbed execution among the 3 campaigns."
 
-    fig.text(.1,.1,caption)
+    text=fig.text(.1,.1,caption)
     plt.plot(range(0,len(unperturbed)), unperturbed, 'r-', label="unperturbed", linewidth=1.5)
 
     plt.xlabel("time (in recursive call)")
@@ -33,7 +33,7 @@ def gen_all(path, filename):
     #ax.set_xscale('log')
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
     lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    fig.savefig(path+"/img/perturbationVisualization_All.pdf")
+    fig.savefig(path+"/img/perturbationVisualization_All.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
     plt.close(fig)
 
 def gen_for_exp(path, prefixename):
@@ -61,11 +61,11 @@ def gen_for_exp(path, prefixename):
 
         plt.plot(range(0,len(unperturbed)), unperturbed, 'r-', label="unperturbed", linewidth=1.5)
 
-        caption = "Perturbation envelope of quicksort on an array of 100 integers\n"
-        caption += "In red, the unperturbed execution, and\n"
-        caption += "in gray, 5 perturbed execution on "+ file +" campaigns."
+        caption = "Perturbation on execution of quicksort on an array of 100 integers\n"
+        caption += "In red without marker, the unperturbed execution, and\n"
+        caption += "others are the 5 perturbed execution on "+ file +" campaigns."
 
-        fig.text(.1,.1,caption)
+        text=fig.text(.1,.1,caption)
 
         plt.xlabel("time (in recursive call)")
         plt.ylabel("Number of unsorted pairs")
@@ -74,7 +74,7 @@ def gen_for_exp(path, prefixename):
         box = ax.get_position()
         ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
         lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-        fig.savefig(path+"/img/perturbationVisualization_"+file+".pdf")
+        fig.savefig(path+"/img/perturbationVisualization_"+file+".pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
         plt.close(fig)
 
 

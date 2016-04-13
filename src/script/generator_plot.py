@@ -59,11 +59,11 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
     txt = ""
     for line in lines[0:7]:
         txt += line +"\n"
-    fig.text(.1,.0,txt)
+    text = fig.text(.1,.0,txt)
     plt.title(subject)
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    fig.savefig(path+"/img/"+labelOfN+"_plot.pdf")
+    lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    fig.savefig(path+"/img/"+labelOfN+"_plot.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
     plt.close(fig)
 
 def plot_nbPerturbations_percentageSuccess(path, filename, subject):
@@ -119,13 +119,13 @@ def plot_nbPerturbations_percentageSuccess(path, filename, subject):
      txt = "Annotation are the probability rate of enaction\n"
      for line in lines[0:7]:
          txt += line +"\n"
-     fig.text(.1,.0,txt)
+     text = fig.text(.1,.0,txt)
 
      box = ax.get_position()
      ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+     lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
      ax.set_xscale('log')
-     fig.savefig(path+"/img/scattePlotSuccessNumPerturb.pdf")
+     fig.savefig(path+"/img/scattePlotSuccessNumPerturb.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
 subjects=["quicksort","zip","md5","sudoku","quicksort-visualization"]
