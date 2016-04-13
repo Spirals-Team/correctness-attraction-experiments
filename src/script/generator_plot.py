@@ -39,10 +39,20 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
         i+=len(n)
         currentLoc += 1
 
+    indexToCut = len(n)-1
+    while indexToCut > 1:
+        bool = True
+        for i in range(len(percAll)):
+            bool &= percAll[i][indexToCut] == percAll[i][indexToCut-1]
+        if not bool:
+            break;
+        else:
+            indexToCut -= 1
+
     fig = plt.figure()
     ax = fig.add_axes((.1,.4,.8,.5))
     for i in range(len(percAll)):
-        plt.plot(n, percAll[i], marker='x', label=str(indicesLocation[i]+ " " + str(percAll[i][0]) + " %"))
+        plt.plot(n[:indexToCut], percAll[i][:indexToCut], marker='x', label=str(indicesLocation[i][:indexToCut]+ " " + str(percAll[i][0]) + " %"))
     plt.xlabel(labelOfN)
     plt.ylabel("% success")
     box = ax.get_position()
