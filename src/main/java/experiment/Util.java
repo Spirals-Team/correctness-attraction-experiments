@@ -59,7 +59,7 @@ public class Util {
             for (int i = 0; i < indices.length && topLocations.size() < Runner.sizeOfTopLocations ; i++) {
                 final int index = i;
                 topLocations.add(Runner.locations.stream().filter(location ->
-                        location.getLocationIndex() == Integer.parseInt(indices[index])
+                        location.getLocationIndex() == Integer.parseInt(indices[index]) && !topLocations.contains(location)
                 ).collect(Collectors.toList()).get(0));
             }
             if (topLocations.size() == Runner.sizeOfTopLocations) {
@@ -85,10 +85,9 @@ public class Util {
             for (String index :  line.split(" "))
                 blackList.add(Integer.parseInt(index));
         }
-
         //Getting others, neither anti fragile nor fragile location
         for (PerturbationLocation location : Runner.locations) {
-            if (!blackList.contains(location.getLocationIndex()))
+            if (!blackList.contains(location.getLocationIndex()) && !topLocations.contains(location))
                 topLocations.add(location);
             if (topLocations.size() == Runner.sizeOfTopLocations)
                 break;

@@ -1,10 +1,6 @@
 package experiment;
 
-import md5.MD5CallableImpl;
 import perturbation.location.PerturbationLocation;
-import sort.QuickSortCallableImpl;
-import sudoku.SudokuCallableImpl;
-import zip.ZipCallableImpl;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
@@ -102,25 +98,16 @@ public class Runner {
         oracle = oracleImpl;
     }
 
-
-
     public static void runAllCampaign() {
         run(new AddOneExplorerImpl());
-        //getting the top-ten of the first campaign
-        Util.buildNewListOfPerturbationPoint();
         run(new AddNExplorerImpl());
-        run(new RndExplorerImpl());
+        run(new IntegerAdd1RndEnactorExplorerImpl());
     }
 
     public static void main(String[] args) {
-        QuickSortCallableImpl.run();
-        ZipCallableImpl.run();
-        MD5CallableImpl.run();
-        SudokuCallableImpl.run();
+        sort.Main.main(args);
+        zip.Main.main(args);
+        md5.Main.main(args);
+        sudoku.Main.main(args);
     }
-
-
-
-
-
 }

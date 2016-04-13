@@ -99,7 +99,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             /* All Log */
             FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail.txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
-            writer.write(header + Runner.oracle.header() + "detail per task and per random rate.\n");
+            writer.write( "detail per task and per random rate.\n" + header + Runner.oracle.header());
             writer.write(String.format(format, "Task", "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
             for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
@@ -115,7 +115,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
             /* Sum Arrays */
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_random_rates_analysis_graph_data.txt", false);
-            writer.write(header + Runner.oracle.header() + "contains the data for the random rates analysis graph.\n");
+            writer.write("contains the data for the random rates analysis graph.\n"+ header + Runner.oracle.header());
             format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
             writer.write(String.format(format, "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
             for (PerturbationLocation location : Runner.locations) {
@@ -136,11 +136,16 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             }
             writer.close();
 
+            header = "SERN\n";
+            header += Runner.locations.size() + " perturbation point\n";
+            header += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
+            header += "PONE : Numerical Perturbator\n";
+
             format = "%-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
             for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
                 writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates] + ".txt", false);
-                writer.write(header + Runner.oracle.header() + "aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n");
+                writer.write("aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n" + header + Runner.oracle.header());
                 writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
