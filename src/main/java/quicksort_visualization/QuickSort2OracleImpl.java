@@ -12,12 +12,12 @@ public class QuickSort2OracleImpl extends OracleImpl<int[]> {
 
     public QuickSort2OracleImpl(int nb) {
         super(nb);
-        super.path = "sort2";
+        super.path = "quicksort-visualization";
     }
 
     public QuickSort2OracleImpl() {
         super();
-        super.path = "quicksort2";
+        super.path = "quicksort-visualization";
     }
 
     @Override

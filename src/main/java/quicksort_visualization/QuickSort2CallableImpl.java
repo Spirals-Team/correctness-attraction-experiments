@@ -87,7 +87,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
 
     public static void logAll() {
         try {
-            FileWriter writer = new FileWriter("results/sort2/exec_path_all.txt", false);
+            FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/exec_path_all.txt", false);
 
             lst = lst.stream().distinct().collect(Collectors.toList()).subList(0, 1000);
 
@@ -113,7 +113,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
         try {
 
             for (int i = 0; i < exp.length; i++) {
-                FileWriter writer = new FileWriter("results/sort2/exec_path_" + exp[i] + ".txt", false);
+                FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/exec_path_" + exp[i] + ".txt", false);
 
                 Map<String, List<Integer>> mapCallsPerLocation = map.get(exp[i]);
 
@@ -138,7 +138,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
                 writer.write(out + "\n");
 
                 for (String key : locSorted) {
-                    out = key;
+                    out = key + " ";
                     for (Integer value : mapCallsPerLocation.get(key)) {
                         out += value + " ";
                     }
