@@ -124,8 +124,10 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
 
 
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddNExplorer.txt", false);
-            writer.write("for " + Runner.oracle.getNumberOfTask() + " tasks with " + Runner.locations.size() +
-                    " perturbations points = " + searchSpaceSize + " tasks done.\n");
+            writer.write("number of Task : " + Runner.oracle.getNumberOfTask()+  "\n" );
+            writer.write("number of Locations : " + Runner.locations.size() + "\n");
+            writer.write("number of Task done : " + searchSpaceSize + "\n");
+            writer.write("number of successful task : " + numberOfSuccess + "\n");
             writer.write("% Success : " + Util.getStringPerc(numberOfSuccess, searchSpaceSize) + " \n");
             writer.close();
 
