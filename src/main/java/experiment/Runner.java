@@ -105,7 +105,7 @@ public class Runner {
     }
 
     public static void main(String[] args) {
-        sort.Main.main(args);
+        quicksort.Main.main(args);
         zip.Main.main(args);
         md5.Main.main(args);
         sudoku.Main.main(args);
