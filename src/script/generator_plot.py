@@ -14,7 +14,6 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
     '''
 
     lines = [line.rstrip('\n') for line in open(path+"/"+filename)]
-    title = ' '.join(lines[0].split()).split(" ")[0]
 
     labelOfN = ' '.join(lines[2].split()).split(" ")[0]
     n = ' '.join(lines[2].split()).split(" ")[3:]
@@ -43,7 +42,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
     fig = plt.figure()
     ax = fig.add_axes((.1,.4,.8,.5))
     for i in range(len(percAll)):
-        plt.plot(n, percAll[i], marker='x', label=str(indicesLocation[i]+ " " + str(percAll[i][0]) ))
+        plt.plot(n, percAll[i], marker='x', label=str(indicesLocation[i]+ " " + str(percAll[i][0]) + " %"))
     plt.xlabel(labelOfN)
     plt.ylabel("% success")
     box = ax.get_position()
@@ -97,14 +96,21 @@ def plot_nbPerturbations_percentageSuccess(path, filename, subject):
      fig = plt.figure()
      ax = fig.add_axes((.1,.4,.8,.5))
      for i in range(len(percAll)):
-        plt.plot(nbPerturbAll[i], percAll[i], marker='x', label=str(indicesLocation[i]+" "+ str(percAll[i][0])))
+        plt.plot(nbPerturbAll[i], percAll[i], marker='x', label=str(indicesLocation[i]+" "+ str(percAll[i][0])+ " %"))
         for z in [0,-1]:
-            plt.annotate(labelsAll[i][z], xy = (nbPerturbAll[i][z], percAll[i][z]), xytext = (-20, 20),
-                textcoords = 'offset points', ha = 'right', va = 'bottom')
+            ax.annotate(labelsAll[i][z], xy = (nbPerturbAll[i][z], percAll[i][z]),
+                        xytext=(0.5, 5), textcoords='offset points',
+                        size=5)
 
      plt.xlabel("Number of Perturbations")
      plt.ylabel("% success")
      plt.title(subject)
+
+     txt = "Annotation are the probability rate of enaction\n"
+     for line in lines[0:7]:
+         txt += line +"\n"
+     fig.text(.1,.0,txt)
+
      box = ax.get_position()
      ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
      ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
