@@ -1,4 +1,4 @@
-package sort;// default package (CtPackage.TOP_LEVEL_PACKAGE_NAME in Spoon= unnamed package)
+package quicksort_visualization;// default package (CtPackage.TOP_LEVEL_PACKAGE_NAME in Spoon= unnamed package)
 
 
 import perturbation.PerturbationEngine;
@@ -122,11 +122,13 @@ public class QuickSort2 {
                 j--;
             } 
         }
-        if (PerturbationEngine.pboolean(__L331, ((PerturbationEngine.pint(__L329, l)) < (PerturbationEngine.pint(__L330, j)))))
+        if (PerturbationEngine.pboolean(__L331, ((PerturbationEngine.pint(__L329, l)) < (PerturbationEngine.pint(__L330, j))))) {
             sort(PerturbationEngine.pint(__L332, l), PerturbationEngine.pint(__L333, j));
+        }
         
-        if (PerturbationEngine.pboolean(__L336, ((PerturbationEngine.pint(__L334, i)) < (PerturbationEngine.pint(__L335, h)))))
+        if (PerturbationEngine.pboolean(__L336, ((PerturbationEngine.pint(__L334, i)) < (PerturbationEngine.pint(__L335, h))))) {
             sort(PerturbationEngine.pint(__L337, i), PerturbationEngine.pint(__L338, h));
+        }
         
     }
 
@@ -142,7 +144,7 @@ public class QuickSort2 {
         return this.evolutionOfNumberOfPairUnsorted;
     }
 
-    private void countNbPairUnsorted() {
+    public void countNbPairUnsorted() {
         int nbPairUnsorted = 0;
         for (int i = 0 ; i < values.length -1 ; i++)
             if (this.values[i] > this.values[i+1])

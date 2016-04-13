@@ -1,4 +1,4 @@
-package sort;
+package quicksort;
 
 import experiment.CallableImpl;
 

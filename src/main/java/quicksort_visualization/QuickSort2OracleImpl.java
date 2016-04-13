@@ -1,4 +1,4 @@
-package sort;
+package quicksort_visualization;
 
 import experiment.OracleImpl;
 
@@ -17,7 +17,7 @@ public class QuickSort2OracleImpl extends OracleImpl<int[]> {
 
     public QuickSort2OracleImpl() {
         super();
-        super.path = "sort2";
+        super.path = "quicksort2";
     }
 
     @Override

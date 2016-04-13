@@ -1,4 +1,4 @@
-package sort;
+package quicksort;
 
 import experiment.OracleImpl;
 
@@ -21,7 +21,7 @@ public class QuickSortOracleImpl extends OracleImpl<List<Integer>> {
 
     public QuickSortOracleImpl() {
         super();
-        super.path = "sort";
+        super.path = "quicksort";
     }
 
     @Override
