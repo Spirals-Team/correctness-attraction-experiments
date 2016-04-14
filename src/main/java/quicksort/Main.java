@@ -1,6 +1,5 @@
 package quicksort;
 
-import experiment.IntegerAdd1RndEnactorExplorerImpl;
 import experiment.Runner;
 
 import java.util.List;
@@ -13,8 +12,7 @@ public class Main {
     public static void run() {
         System.out.println("Run QuickSort...");
         Runner.setup(QuickSort.class, QuickSortCallableImpl.class, new QuickSortOracleImpl(), List.class);
-//        Runner.runAllCampaign();
-        Runner.run(new IntegerAdd1RndEnactorExplorerImpl());
+        Runner.runAllCampaign();
     }
 
     public static void main(String[] args) {

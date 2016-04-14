@@ -1,6 +1,5 @@
 package zip;
 
-import experiment.IntegerAdd1RndEnactorExplorerImpl;
 import experiment.Runner;
 
 /**
@@ -11,8 +10,7 @@ public class Main {
     public static void run() {
         System.out.println("Run LZW...");
         Runner.setup(LZW.class, ZipCallableImpl.class, new ZipOracleImpl(), String.class);
-        Runner.run(new IntegerAdd1RndEnactorExplorerImpl());
-//        Runner.runAllCampaign();
+        Runner.runAllCampaign();
     }
 
     public static void main(String[] args) {

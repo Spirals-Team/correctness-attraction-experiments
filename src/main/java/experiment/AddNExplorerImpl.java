@@ -24,7 +24,8 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
         super.header += "magnitudes value : ";
         if (magnitudes.length > 0)
             this.magnitudes = magnitudes;
-        Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(), magnitudes.length, 5);
+
+        Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(), this.magnitudes.length, 5);
 
         for (int magnitude : magnitudes)
             super.header += magnitude + " ";
