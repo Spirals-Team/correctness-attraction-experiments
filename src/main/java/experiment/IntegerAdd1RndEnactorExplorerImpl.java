@@ -29,12 +29,16 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
     private Map<PerturbationLocation, RandomEnactorImpl>[] enactorsOfLocationPerRandomRates;
 
+    private int[][][] nbOfCallsPerLocationPerTaskPerRates;
+
     public IntegerAdd1RndEnactorExplorerImpl(float... randomRates) {
 
         if (randomRates.length > 0)
             this.randomRates = randomRates;
 
         enactorsOfLocationPerRandomRates = new Map[this.randomRates.length];
+
+        nbOfCallsPerLocationPerTaskPerRates = new int[Runner.locations.size()][Runner.oracle.getNumberOfTask()][this.randomRates.length];
 
         Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(), this.randomRates.length, 5);
 
@@ -62,6 +66,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
         for (int indexOfRandomRate = 0; indexOfRandomRate < randomRates.length; indexOfRandomRate++) {
             PerturbationEngine.logger.logOn(location);
             Tuple result = runRandomRate(indexOfTask, location, indexOfRandomRate);
+            nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexOfTask][indexOfRandomRate]++;
             Tuple resultWithLog = new Tuple(5);
             resultWithLog = resultWithLog.add(result);
             resultWithLog.set(3, PerturbationEngine.logger.getCalls(location));
@@ -91,16 +96,18 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
         try {
             /* All Log */
             FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail.txt", false);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write( "detail per task and per random rate.\n" + header + Runner.oracle.header());
-            writer.write(String.format(format, "Task", "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
+            writer.write(String.format(format, "Task", "RandomRate", "IndexLoc", "#Success", "#Failure",
+                    "#Exception", "#Call", "#Perturbation","%Success") + "\n");
             for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                         Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
+                        double avg = (double) result.get(4) / (double)nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
                         writer.write(String.format(format, indexTask, randomRates[indexRandomRates], location.getLocationIndex(),
                                 result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                                Util.getStringPerc(result.get(0), result.total(3))));
+                                Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                     }
                 }
             }
@@ -109,8 +116,9 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             /* Sum Arrays */
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_random_rates_analysis_graph_data.txt", false);
             writer.write("contains the data for the random rates analysis graph.\n"+ header + Runner.oracle.header());
-            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
-            writer.write(String.format(format, "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
+            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
+            writer.write(String.format(format, "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
+                    "#Perturbation","%Success") + "\n");
             for (PerturbationLocation location : Runner.locations) {
                 Tuple resultForLocation = new Tuple(3);
                 for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
@@ -120,7 +128,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
                     writer.write(String.format(format, randomRates[indexRandomRates], location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            Util.getStringPerc(result.get(0), result.total(3))));
+                            Util.getStringPerc(result.get(0), result.total(3))) + "\n");
 
                     resultForLocation = resultForLocation.add(result);
                 }
@@ -134,20 +142,25 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             title += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
             title += "PONE : Numerical Perturbator\n";
 
-            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            format = "%-10s %-10s %-10s %-10s %-10s %-14s %-10s %-22s %-27s";
             for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
                 writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates] + ".txt", false);
                 writer.write("aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n" + title + Runner.oracle.header());
-                writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
+                writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
+                        "#Perturbation", "#Task","AvgPerturbationPerTask","%Success") + "\n");
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
-                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
+                    int accNbOfTasks = 0;
+                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
-
+                        accNbOfTasks += nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
+                    }
+                    double avg = (double) result.get(4) / (double) accNbOfTasks;
                     writer.write(String.format(format, location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            Util.getStringPerc(result.get(0), result.total(3))));
+                            accNbOfTasks, String.format("%.2f", avg),
+                            Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 }
                 writer.close();
             }

@@ -75,25 +75,28 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
         List<PerturbationLocation> locationAntiFragile = new ArrayList<>();
         List<PerturbationLocation> locationSuperAntiFragile = new ArrayList<>();
 
-        int searchSpaceSize = 0;
-        int numberOfSuccess = 0;
+        int []searchSpaceSizePerMagnitude = new int[this.magnitudes.length];
+        int []numberOfSuccessPerMagnitude = new int[this.magnitudes.length];
 
         Tuple [][][] results = Logger.getResults();
 
         try {
             FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+super.path+"_detail.txt", false);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write("detail per task and per magnitudes.\n" + super.header + Runner.oracle.header());
-            writer.write(String.format(format,"Task", "Magnitude", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
+            writer.write(String.format(format,"Task", "Magnitude", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
+                    "#Perturbations", "%Success") + "\n");
             for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     for (int indexMagnitude = 0 ; indexMagnitude < magnitudes.length ; indexMagnitude++) {
                         Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexMagnitude];
-                        numberOfSuccess += result.get(0);
-                        searchSpaceSize += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                        searchSpaceSizePerMagnitude[indexMagnitude] += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                        numberOfSuccessPerMagnitude[indexMagnitude] += result.get(0);
                         writer.write(String.format(format,indexTask, magnitudes[indexMagnitude], location.getLocationIndex(),
-                                result.get(0), result.get(1), result.get(2), result.get(3), result.get(4), Util.getStringPerc(result.get(0), result.total(3))));
+                                result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
+                                Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                     }
+
                 }
             }
             writer.close();
@@ -101,18 +104,19 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             /* Sum Arrays */
             writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+path+"_magnitude_analysis_graph_data.txt", false);
             writer.write("contains the data for the magnitude analysis graph.\n" + super.header + Runner.oracle.header());
-            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
-            writer.write(String.format(format, "Magnitude", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
+            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
+            writer.write(String.format(format, "Magnitude", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
+                    "#Perturtions", "%Success") + "\n");
             for (PerturbationLocation location : Runner.locations) {
                 Tuple resultForLocation = new Tuple(3);
                 for (int indexMagnitude = 0; indexMagnitude < magnitudes.length ; indexMagnitude++) {
                     Tuple result = new Tuple(5);
-                    for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask++)
+                    for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask++) {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
-
+                    }
                     writer.write(String.format(format, magnitudes[indexMagnitude], location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            Util.getStringPerc(result.get(0), result.total(3))));
+                            Util.getStringPerc(result.get(0), result.total(3))) + "\n");
 
                     resultForLocation = resultForLocation.add(result);
                 }
@@ -121,14 +125,17 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             }
             writer.close();
 
-            format = "%-30s %-30s%n";
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddNExplorer.txt", false);
-            writer.write(String.format(format,"number of Task : ",  Runner.oracle.getNumberOfTask()));
-            writer.write(String.format(format,"number of Locations : " , Runner.locations.size()));
-            writer.write(String.format(format,"number of Task done : " , searchSpaceSize));
-            writer.write(String.format(format,"number of successful task : " , numberOfSuccess ));
-            writer.write(String.format(format,"% Success : " , Util.getStringPerc(numberOfSuccess, searchSpaceSize)));
-            writer.close();
+            format = "%-30s %-30s";
+            for (int indexMagnitude = 0 ; indexMagnitude < this.magnitudes.length ; indexMagnitude++) {
+                writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddNExplorer_"+this.magnitudes[indexMagnitude]+".txt", false);
+                writer.write("detail of space for AddNExplore with magnitude = " + this.magnitudes[indexMagnitude]+"\n");
+                writer.write(String.format(format, "number of Task : ", Runner.oracle.getNumberOfTask()) + "\n");
+                writer.write(String.format(format, "number of Locations : ", Runner.locations.size()) + "\n");
+                writer.write(String.format(format, "number of Task done : ", searchSpaceSizePerMagnitude[indexMagnitude]) + "\n");
+                writer.write(String.format(format, "number of successful task : ", numberOfSuccessPerMagnitude[indexMagnitude]) + "\n");
+                writer.write(String.format(format, "% Success : ", Util.getStringPerc(numberOfSuccessPerMagnitude[indexMagnitude], searchSpaceSizePerMagnitude[indexMagnitude])) + "\n");
+                writer.close();
+            }
 
             String mag_header = "SEPM\n";
             mag_header += Runner.locations.size() + " perturbation point\n";
@@ -136,18 +143,24 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             mag_header += "PMAG : Numerical Perturbator\n";
 
             /* Sum PerturbationPoint */
-            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            format = "%-10s %-10s %-10s %-10s %-10s %-14s %-10s %-22s %-27s";
             for (int indexMagnitude = 0; indexMagnitude < magnitudes.length ; indexMagnitude++) {
                 writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/"+path+"_per_location_"+magnitudes[indexMagnitude]+ ".txt", false);
                 writer.write("aggregate data per location for magnitude = " + magnitudes[indexMagnitude] + "\n" + mag_header + Runner.oracle.header());
-                writer.write(String.format(format, "IndexLoc", "#Success","#Failure", "#Exception", "#Call", "#Enaction", "%Success"));
+                writer.write(String.format(format, "IndexLoc", "#Success","#Failure", "#Exception", "#Call",
+                        "#Perturbation", "#Task", "AvgPerturbationPerTask", "%Success") + "\n");
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
-                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
+                    int accNbOfTasks = 0;
+                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
-
+                        accNbOfTasks += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                    }
+                    double avg = (double)result.get(4) / (double)accNbOfTasks;
                     writer.write(String.format(format, location.getLocationIndex(),
-                            result.get(0), result.get(1), result.get(2), result.get(3),result.get(4), Util.getStringPerc(result.get(0), result.total(3))));
+                            result.get(0), result.get(1), result.get(2), result.get(3),result.get(4),
+                            accNbOfTasks, String.format("%.2f", avg),
+                            Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 }
                 writer.close();
             }

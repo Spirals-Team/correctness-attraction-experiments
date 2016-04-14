@@ -81,45 +81,54 @@ public class AddOneExplorerImpl implements Explorer {
 
         try {
             FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail.txt", false);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write("All Result : detail per task\n" + header + Runner.oracle.header());
-            writer.write(String.format(format, "Task", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",  "#Enaction", "%Success"));
+            writer.write(String.format(format, "Task", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
+                    "#Perturbations", "%Success") + "\n");
             for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     searchSpaceSize += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                     Tuple result = results[Runner.locations.indexOf(location)][indexTask][0];
                     numberOfSuccess += result.get(0);
                     writer.write(String.format(format, indexTask, location.getLocationIndex(),
-                            result.get(0), result.get(1), result.get(2), result.get(3), result.get(4), Util.getStringPerc(result.get(0), result.total(3))));
+                            result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
+                            Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 }
             }
             writer.close();
 
-            format = "%-30s %-30s%n";
+            format = "%-30s %-30s";
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddOneExplorer.txt", false);
-            writer.write(String.format(format, "number of Task : ",  Runner.oracle.getNumberOfTask()));
-            writer.write(String.format(format,"number of Locations : " , Runner.locations.size()));
-            writer.write(String.format(format,"number of Task done : " , searchSpaceSize));
-            writer.write(String.format(format,"number of successful task : " , numberOfSuccess ));
-            writer.write(String.format(format,"% Success : " , Util.getStringPerc(numberOfSuccess, searchSpaceSize)));
+            writer.write(String.format(format, "number of Task : ",  Runner.oracle.getNumberOfTask()) + "\n");
+            writer.write(String.format(format,"number of Locations : " , Runner.locations.size()) + "\n");
+            writer.write(String.format(format,"number of Task done : " , searchSpaceSize) + "\n");
+            writer.write(String.format(format,"number of successful task : " , numberOfSuccess ) + "\n");
+            writer.write(String.format(format,"% Success : " , Util.getStringPerc(numberOfSuccess, searchSpaceSize)) + "\n");
             writer.close();
 
             /* Sum PerturbationPoint */
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_1.txt", false);
-            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-27s%n";
+            format = "%-10s %-10s %-10s %-10s %-10s %-14s %-10s %-22s %-27s";
             writer.write("Aggregate data for all tasks per location for magnitude = 1\n"  + header + Runner.oracle.header());
-            writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",  "#Call",  "#Enaction", "%Success"));
+            writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",  "#Call",
+                    "#Perturbations", "#Tasks",  "AvgPerturbationPerTask", "%Success") + "\n");
             for (PerturbationLocation location : Runner.locations) {
                 Tuple result = new Tuple(5);
-                for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
+                int accNbOfTasks = 0;
+                for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
                     result = result.add(results[Runner.locations.indexOf(location)][indexTask][0]);
+                    accNbOfTasks += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                }
 
                 Explorer.addToFragilityList(result, result.total(3), location, locationExceptionFragile,locationSuperAntiFragile,
                         locationAntiFragile, locationOracleFragile);
 
+                double avg = (double)result.get(4) / (double)accNbOfTasks;
+
                 writer.write(String.format(format, location.getLocationIndex(),
                         result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                        Util.getStringPerc(result.get(0), result.total(3))));
+                        accNbOfTasks, String.format("%.2f", avg),
+                        Util.getStringPerc(result.get(0), result.total(3))) + "\n");
 
             }
             writer.close();
