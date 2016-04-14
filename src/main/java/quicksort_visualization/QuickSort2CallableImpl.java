@@ -1,8 +1,8 @@
 package quicksort_visualization;
 
 import experiment.AddNExplorerImpl;
-import experiment.AddOneExplorerImpl;
 import experiment.CallableImpl;
+import experiment.Explorer;
 import experiment.IntegerAdd1RndEnactorExplorerImpl;
 import experiment.OracleImpl;
 import experiment.Runner;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -28,11 +29,11 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
 
     static List<Integer> unperturbed = new ArrayList<>();
 
-    static String[] exp = new String[]{"ADD1", "ADDN", "RNDE"};
+    static String[] exp;
+
+//    static Tuple[][][][] resultsPerExp = new Tuple[3][][][];
 
     static int currentExp = 0;
-
-    static boolean log = false;
 
     public QuickSort2CallableImpl(int[] originalValue) {
         super(originalValue);
@@ -41,18 +42,26 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
     @Override
     public int[] call() throws Exception {
         QuickSort2 quicksort = new QuickSort2(this.originalValue);
+
+        LoggerExecPath.init(quicksort);
+
         quicksort.sort(0, this.originalValue.length - 1);
-        if (log) {
+            PerturbationLocation currentLocation = Runner.locations.stream()
+                    .filter(location ->
+                        !(location.getEnactor() instanceof NeverEnactorImpl))
+                    .findFirst().get();
 
-            PerturbationLocation currentLocation = Runner.locations.stream().filter(location ->
-                    !(location.getEnactor() instanceof NeverEnactorImpl)
-            ).findFirst().get();
+            map.get(exp[currentExp]).put(currentLocation.getLocationIndex()+"", LoggerExecPath.execPath);
 
-            map.get(exp[currentExp]).put(currentLocation.getLocationIndex()+"", quicksort.getListOfPairUnsorted());
-
-            lst.add(quicksort.getListOfPairUnsorted());
-        }
+            lst.add(LoggerExecPath.execPath);
         return quicksort.values;
+    }
+
+    public static void runExp(Explorer explorer) {
+        map.put(exp[currentExp], new HashMap<>());
+        Runner.run(explorer);
+//        resultsPerExp[currentExp] = Logger.getResults();
+        currentExp++;
     }
 
     public static void main(String[] args) {
@@ -63,23 +72,36 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
 
         /* no Perturbation */
         QuickSort2 quicksort = new QuickSort2(oracle.get(0));
+        LoggerExecPath.init(quicksort);
         quicksort.sort(0, oracle.get(0).length - 1);
-        unperturbed = quicksort.getListOfPairUnsorted();
-        //lst.add(quicksort.getListOfPairUnsorted());
+        unperturbed = LoggerExecPath.execPath;
 
-        /* perturbation on */
-        log = true;
-        map.put(exp[currentExp], new HashMap<>());
-        Runner.run(new AddOneExplorerImpl());
+        int [] magnitudes = new int[]{1,2,5,10,20,50};
+        float[] randomRates = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
+        exp = new String[magnitudes.length + randomRates.length];
+
+        Explorer[] addNExplorers = new Explorer[magnitudes.length];
+        for (int indexMagnitude = 0 ; indexMagnitude < magnitudes.length ; indexMagnitude++) {
+            addNExplorers[indexMagnitude] = new AddNExplorerImpl(magnitudes[indexMagnitude]);
+            exp[indexMagnitude] = "ADD"+magnitudes[indexMagnitude];
+        }
+
+        Explorer[] IntegerAdd1RndEnactorExplorers = new Explorer[randomRates.length];
+        for (int indexRandomRate = 0 ; indexRandomRate  < randomRates.length ; indexRandomRate++) {
+            IntegerAdd1RndEnactorExplorers[indexRandomRate] = new IntegerAdd1RndEnactorExplorerImpl(randomRates[indexRandomRate]);
+            exp[magnitudes.length+indexRandomRate] = "RND"+randomRates[indexRandomRate];
+        }
 
 
-        currentExp++;
-        map.put(exp[currentExp], new HashMap<>());
-        Runner.run(new AddNExplorerImpl());
+        /* Run AddNExplorer */
+        for(Explorer explorer : addNExplorers) {
+            runExp(explorer);
+        }
 
-        currentExp++;
-        map.put(exp[currentExp], new HashMap<>());
-        Runner.run(new IntegerAdd1RndEnactorExplorerImpl());
+        /* Run RndExplorer */
+        for (Explorer explorer : IntegerAdd1RndEnactorExplorers) {
+            runExp(explorer);
+        }
 
         logAll();
         log();
@@ -88,8 +110,11 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
     public static void logAll() {
         try {
             FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/exec_path_all.txt", false);
+            final Random rnd = new Random(68);
 
-            lst = lst.stream().distinct().collect(Collectors.toList()).subList(0, 1000);
+            lst = lst.stream().distinct().collect(Collectors.toList());
+            final double percentageToTake = (double)1500/(double)lst.size();
+            lst = lst.stream().filter(list -> rnd.nextFloat() < percentageToTake).collect(Collectors.toList());
 
             String out = "";
 
@@ -113,6 +138,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
         try {
 
             for (int i = 0; i < exp.length; i++) {
+
                 FileWriter writer = new FileWriter("results/"+ Runner.oracle.getPath()+"/exec_path_" + exp[i] + ".txt", false);
 
                 Map<String, List<Integer>> mapCallsPerLocation = map.get(exp[i]);
@@ -128,9 +154,10 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
 
                 final List<String> locToBeSorted = new ArrayList<>(mapCallsPerLocation.keySet());
 
-                List<String> locSorted = locToBeSorted.stream().sorted((l1, l2) ->
-                        -distances.get(locToBeSorted.indexOf(l1)).compareTo(distances.get(locToBeSorted.indexOf(l2)))
-                ).collect(Collectors.toList()).subList(0, 5);
+                List<String> locSorted = locToBeSorted.stream()
+                        .distinct()
+                        .sorted((l1, l2) -> -distances.get(locToBeSorted.indexOf(l1)).compareTo(distances.get(locToBeSorted.indexOf(l2))))
+                        .collect(Collectors.toList());
 
                 String out = "Unperturbed ";
                 for (Integer value : unperturbed)

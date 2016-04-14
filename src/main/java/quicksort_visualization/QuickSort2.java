@@ -5,9 +5,6 @@ import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class QuickSort2 {
     static {
         QuickSort2.initPerturbationLocation0();
@@ -106,7 +103,7 @@ public class QuickSort2 {
     }
 
     public void sort(int l, int h) {
-        countNbPairUnsorted();
+        LoggerExecPath.log();
         int[] array = QuickSort2.this.values;
         int i = PerturbationEngine.pint(__L303, l);
         int j = PerturbationEngine.pint(__L304, h);
@@ -136,20 +133,6 @@ public class QuickSort2 {
         int x = PerturbationEngine.pint(__L340, anArrayOfInt[PerturbationEngine.pint(__L339, i)]);
         anArrayOfInt[PerturbationEngine.pint(__L341, i)] = PerturbationEngine.pint(__L343, anArrayOfInt[PerturbationEngine.pint(__L342, j)]);
         anArrayOfInt[PerturbationEngine.pint(__L344, j)] = PerturbationEngine.pint(__L345, x);
-    }
-
-    private List<Integer> evolutionOfNumberOfPairUnsorted = new ArrayList<>();
-
-    public List<Integer> getListOfPairUnsorted() {
-        return this.evolutionOfNumberOfPairUnsorted;
-    }
-
-    public void countNbPairUnsorted() {
-        int nbPairUnsorted = 0;
-        for (int i = 0 ; i < values.length -1 ; i++)
-            if (this.values[i] > this.values[i+1])
-                nbPairUnsorted++;
-        this.evolutionOfNumberOfPairUnsorted.add(nbPairUnsorted);
     }
 
     static private void initPerturbationLocation0() {
