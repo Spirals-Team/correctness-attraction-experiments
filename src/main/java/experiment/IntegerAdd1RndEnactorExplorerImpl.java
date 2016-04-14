@@ -66,7 +66,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             resultWithLog = resultWithLog.add(result);
             resultWithLog.set(3, PerturbationEngine.logger.getCalls(location));
             resultWithLog.set(4, PerturbationEngine.logger.getEnactions(location));
-            Logger.add(Runner.locations.indexOf(location), indexOfTask, indexOfRandomRate, result);
+            Logger.add(Runner.locations.indexOf(location), indexOfTask, indexOfRandomRate, resultWithLog);
             PerturbationEngine.logger.reset();
         }
         location.setPerturbator(new NothingPerturbatorImpl());

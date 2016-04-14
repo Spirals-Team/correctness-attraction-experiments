@@ -1,5 +1,7 @@
 from matplotlib import pyplot as plt
 
+import math
+
 '''
 this script is used to generate plot in results/<subject>/img/
 Method are names : plot_Xaxis_Yaxis with
@@ -32,9 +34,11 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
         perc=[]
 
         for line in lines[i:i+len(n)]:
-            perc.append(float(' '.join(line.split()).split(" ")[-1].replace(',','.')))
+            point  = float(' '.join(line.split()).split(" ")[-1].replace(',','.'))
+            if point == point:
+                perc.append(point)
 
-        if not perc in percAll:
+        if not perc in percAll and len(perc) > 0:
             percAll.append(perc)
             currentLoc += 1
 
@@ -50,10 +54,12 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject):
         else:
             indexToCut -= 1
 
+    percAll = sorted(percAll, key=lambda x: -x[0])
+
     fig = plt.figure()
     ax = fig.add_axes((.1,.4,.8,.5))
     for i in range(len(percAll)):
-        plt.plot(n[:indexToCut], percAll[i][:indexToCut], marker='x', label=str(indicesLocation[i][:indexToCut]+ " " + str(percAll[i][0]) + " %"))
+        plt.plot(n[:indexToCut], percAll[i][:indexToCut], marker='x', label=str(indicesLocation[i][:indexToCut]+ " " + str(int(percAll[i][0])) + " %"))
     plt.xlabel(labelOfN)
     plt.ylabel("% success")
     box = ax.get_position()
@@ -95,6 +101,7 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
             nbPerturb.append(int(' '.join(line.split()).split(" ")[6].replace(',','.')))
 
         label.append(str(' '.join(lines[i].split()).split(" ")[0].replace(',','.')))
+        label.append(str(' '.join(lines[i+(len(n))/2].split()).split(" ")[0].replace(',','.')))
         label.append(str(' '.join(lines[i+len(n)-1].split()).split(" ")[0].replace(',','.')))
 
         if not perc in percAll:
@@ -103,19 +110,20 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
             nbPerturbAll.append(nbPerturb)
             percAll.append(perc)
 
-
             currentLoc += 1
 
         i+=len(n)
 
+     percAll = sorted(percAll, key=lambda x: -x[0])
+
      fig = plt.figure()
      ax = fig.add_axes((.1,.4,.8,.5))
      for i in range(len(percAll)):
-        plt.plot(nbPerturbAll[i], percAll[i], marker='x', label=str(indicesLocation[i]+" "+ str(percAll[i][0])+ " %"))
-        for z in [0,-1]:
-            ax.annotate(labelsAll[i][z], xy = (nbPerturbAll[i][z], percAll[i][z]),
-                        xytext=(0.5, 5), textcoords='offset points',
-                        size=5)
+         mid = len(percAll[i]) / 2
+         plt.plot(nbPerturbAll[i], percAll[i], marker='x', label=str(indicesLocation[i]+" "+ str(int(percAll[i][0]))+ " %"))
+         for z in [0,-1,mid]:
+            ax.annotate(labelsAll[i][z if z != mid else 1], xy = (nbPerturbAll[i][z], percAll[i][z]),
+                        xytext=(0.5, 5), textcoords='offset points', size=5)
 
      plt.xlabel("Number of Perturbations")
      plt.ylabel("% success")
@@ -129,11 +137,11 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
      box = ax.get_position()
      ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
      lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-     ax.set_xscale('log')
+     ax.set_xscale('symlog')
      fig.savefig(path+"/img/scatterPlotSuccessNumPerturb.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
-subjects=["quicksort","zip","md5","sudoku","quicksort-visualization"]
+subjects=["quicksort","zip","md5","sudoku"]
 for subject in subjects:
     scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", subject)

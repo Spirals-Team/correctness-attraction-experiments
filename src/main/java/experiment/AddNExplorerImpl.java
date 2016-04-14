@@ -21,17 +21,17 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
     public AddNExplorerImpl(int... magnitudes) {
         super();
         super.header = "SEPM\n";
-        super.header += "magnitudes value : ";
+        super.header += "magnitude value : ";
         if (magnitudes.length > 0)
             this.magnitudes = magnitudes;
 
         Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(), this.magnitudes.length, 5);
 
-        for (int magnitude : magnitudes)
+        for (int magnitude : this.magnitudes)
             super.header += magnitude + " ";
 
         super.header += "\n" + Runner.locations.size() + " perturbation point\n";
-        super.header += "N Excecution Enactor\n";
+        super.header += "N Execution Enactor\n";
         super.header += "PMAG : Numerical Perturbator\n";
         super.path = "AddNExplorer";
     }
@@ -123,7 +123,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
 
             format = "%-30s %-30s%n";
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddNExplorer.txt", false);
-            writer.write(String.format(format, "number of Task : ",  Runner.oracle.getNumberOfTask()));
+            writer.write(String.format(format,"number of Task : ",  Runner.oracle.getNumberOfTask()));
             writer.write(String.format(format,"number of Locations : " , Runner.locations.size()));
             writer.write(String.format(format,"number of Task done : " , searchSpaceSize));
             writer.write(String.format(format,"number of successful task : " , numberOfSuccess ));
@@ -132,7 +132,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
 
             String mag_header = "SEPM\n";
             mag_header += Runner.locations.size() + " perturbation point\n";
-            mag_header += "N Excecution Enactor\n";
+            mag_header += "N Execution Enactor\n";
             mag_header += "PMAG : Numerical Perturbator\n";
 
             /* Sum PerturbationPoint */
