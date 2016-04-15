@@ -32,7 +32,6 @@ public class Runner {
     @Deprecated
     public static int sizeOfTopLocations = 10;
 
-
     public static void run(Explorer explorerUnderPerturbation) {
         explorer = explorerUnderPerturbation;
         for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
