@@ -18,7 +18,7 @@ public class SudokuOracleImpl extends OracleImpl<int[][]> {
     private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
 
     public SudokuOracleImpl() {
-        super(1);
+        super();
         super.path = "sudoku";
         try {
             br.close();
@@ -26,6 +26,26 @@ public class SudokuOracleImpl extends OracleImpl<int[][]> {
             e.printStackTrace();
         }
     }
+
+    public SudokuOracleImpl(int numberOfTask) {
+        super(numberOfTask);
+        super.path = "sudoku";
+        try {
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public SudokuOracleImpl(int numberOfTask, int sizeOfEachTask) {
+        super(numberOfTask,sizeOfEachTask);
+        super.path = "sudoku";
+        try {
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     protected int[][] generateOneTask() {

@@ -24,6 +24,17 @@ public class QuickSortOracleImpl extends OracleImpl<List<Integer>> {
         super.path = "quicksort";
     }
 
+    public QuickSortOracleImpl(int numberOfTask) {
+        super(numberOfTask);
+        super.path = "quicksort";
+    }
+
+
+    public QuickSortOracleImpl(int numberOfTask, int sizeOfEachTask) {
+        super(numberOfTask, sizeOfEachTask);
+        super.path = "quicksort";
+    }
+
     @Override
     public String header() {
         String header = numberOfTask + " arrays of " + sizeOfEachTask + " integers\n";

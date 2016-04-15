@@ -20,6 +20,22 @@ public class MD5OracleImpl extends OracleImpl<String> {
             hashOfTask.add("0x" + toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
     }
 
+    public MD5OracleImpl(int numberOfTask) {
+        super(numberOfTask);
+        super.path = "md5";
+        hashOfTask = new ArrayList<String>();
+        for (String stringToBeHash : scenario)
+            hashOfTask.add("0x" + toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
+    }
+
+    public MD5OracleImpl(int numberOfTask, int sizeOfEachTask) {
+        super(numberOfTask, sizeOfEachTask);
+        super.path = "md5";
+        hashOfTask = new ArrayList<String>();
+        for (String stringToBeHash : scenario)
+            hashOfTask.add("0x" + toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
+    }
+
     protected String generateOneTask() {
         String string = "";
         for (int i = 0 ; i < sizeOfEachTask ; i++) {

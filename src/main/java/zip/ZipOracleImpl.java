@@ -12,6 +12,17 @@ public class ZipOracleImpl extends OracleImpl<String> {
         super.path = "zip";
     }
 
+    public ZipOracleImpl(int numberOfTask){
+        super(numberOfTask);
+        super.path = "zip";
+    }
+
+    public ZipOracleImpl(int numberOfTask, int sizeOfEachTask){
+        super(numberOfTask, sizeOfEachTask);
+        super.path = "zip";
+    }
+
+
     @Override
     protected String generateOneTask() {
         String string = "";

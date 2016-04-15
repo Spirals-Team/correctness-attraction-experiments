@@ -23,11 +23,8 @@ public class Runner {
     public static Constructor constructorRunner;
     public static List<PerturbationLocation> locations;
     public static Explorer explorer;
-
     public static int numberOfSecondsToWait = 1;
-
     public static int sizeOfTopLocations = 10;
-
     public static boolean verbose = false;
 
     public static void run(Explorer explorerUnderPerturbation) {
