@@ -33,6 +33,7 @@ public class Util {
     public static void parseArgs(String [] args) {
         for (int i = 0 ; i < args.length ; i++) {
             if (args[i].startsWith("-")) {
+                System.out.println(args[i].substring(1));
                 switch (args[i].substring(1)) {
                     case "size":
                         Runner.sizeOfEachTask = Integer.parseInt(args[i+1]);
@@ -49,6 +50,7 @@ public class Util {
                     case "v":
                     case "verbose":
                         Runner.verbose = true;
+                        break;
                     case "help":
                     default:
                         usage();

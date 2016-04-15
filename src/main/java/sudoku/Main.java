@@ -11,12 +11,11 @@ public class Main {
     public static void run() {
         System.out.println("Run sudoku...");
         Runner.setup(Sudoku.class, SudokuCallableImpl.class, new SudokuOracleImpl() , int[][].class);
-        Runner.numberOfSecondsToWait = 30;
         Runner.runAllCampaign();
     }
 
     public static void main(String[] args) {
-        if (args.length > 1)
+        if (args.length >= 1)
             Util.parseArgs(args);
         else {
             Runner.numberOfTask = 1;
