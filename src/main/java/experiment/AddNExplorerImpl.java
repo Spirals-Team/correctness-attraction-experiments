@@ -25,7 +25,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
         if (magnitudes.length > 0)
             this.magnitudes = magnitudes;
 
-        Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(), this.magnitudes.length, 5);
+        Logger.init(Runner.locations.size(),Runner.numberOfTask, this.magnitudes.length, 5);
 
         for (int magnitude : this.magnitudes)
             super.header += magnitude + " ";
@@ -86,7 +86,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             writer.write("detail per task and per magnitudes.\n" + super.header + Runner.oracle.header());
             writer.write(String.format(format,"Task", "Magnitude", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
                     "#Perturbations", "%Success") + "\n");
-            for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
+            for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     for (int indexMagnitude = 0 ; indexMagnitude < magnitudes.length ; indexMagnitude++) {
                         Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexMagnitude];
@@ -111,7 +111,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
                 Tuple resultForLocation = new Tuple(3);
                 for (int indexMagnitude = 0; indexMagnitude < magnitudes.length ; indexMagnitude++) {
                     Tuple result = new Tuple(5);
-                    for (int indexTask = 0 ; indexTask < Runner.oracle.getNumberOfTask() ; indexTask++) {
+                    for (int indexTask = 0 ; indexTask < Runner.numberOfTask ; indexTask++) {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
                     }
                     writer.write(String.format(format, magnitudes[indexMagnitude], location.getLocationIndex(),
@@ -129,7 +129,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             for (int indexMagnitude = 0 ; indexMagnitude < this.magnitudes.length ; indexMagnitude++) {
                 writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddNExplorer_"+this.magnitudes[indexMagnitude]+".txt", false);
                 writer.write("detail of space for AddNExplore with magnitude = " + this.magnitudes[indexMagnitude]+"\n");
-                writer.write(String.format(format, "number of Task : ", Runner.oracle.getNumberOfTask()) + "\n");
+                writer.write(String.format(format, "number of Task : ", Runner.numberOfTask) + "\n");
                 writer.write(String.format(format, "number of Locations : ", Runner.locations.size()) + "\n");
                 writer.write(String.format(format, "number of Task done : ", searchSpaceSizePerMagnitude[indexMagnitude]) + "\n");
                 writer.write(String.format(format, "number of successful task : ", numberOfSuccessPerMagnitude[indexMagnitude]) + "\n");
@@ -152,7 +152,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
                     int accNbOfTasks = 0;
-                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
+                    for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
                         accNbOfTasks += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                     }

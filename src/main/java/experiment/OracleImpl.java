@@ -15,39 +15,15 @@ public abstract class OracleImpl<T> implements Oracle<T> {
 
     protected Random randomForGenTask = new Random(seedForGenTask);
 
-    protected int numberOfTask = 20;
-
-    protected int sizeOfEachTask = 100;
-
     protected String path;
 
     public OracleImpl() {
         scenario = new ArrayList<T>();
-        while (scenario.size() < numberOfTask)
-            scenario.add(generateOneTask());
-    }
-
-    public OracleImpl(int numberOfTask) {
-        this.numberOfTask = numberOfTask;
-        scenario = new ArrayList<T>();
-        while (scenario.size() <  this.numberOfTask)
-            scenario.add(generateOneTask());
-    }
-
-    public OracleImpl(int numberOfTask, int sizeOfEachTask) {
-        this.numberOfTask = numberOfTask;
-        this.sizeOfEachTask = sizeOfEachTask;
-        scenario = new ArrayList<T>();
-        while (scenario.size() <  this.numberOfTask)
+        while (scenario.size() < Runner.numberOfTask)
             scenario.add(generateOneTask());
     }
 
     protected abstract T generateOneTask();
-
-    @Override
-    public int getNumberOfTask() {
-        return numberOfTask;
-    }
 
     @Override
     public String getPath() {

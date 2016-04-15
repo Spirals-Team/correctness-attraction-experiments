@@ -11,8 +11,6 @@ public interface Oracle<T> {
 
     T get(int index);
 
-    int getNumberOfTask();
-
     String getPath();
 
 }

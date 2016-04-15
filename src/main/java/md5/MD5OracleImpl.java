@@ -1,6 +1,7 @@
 package md5;
 
 import experiment.OracleImpl;
+import experiment.Runner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,25 +21,9 @@ public class MD5OracleImpl extends OracleImpl<String> {
             hashOfTask.add("0x" + toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
     }
 
-    public MD5OracleImpl(int numberOfTask) {
-        super(numberOfTask);
-        super.path = "md5";
-        hashOfTask = new ArrayList<String>();
-        for (String stringToBeHash : scenario)
-            hashOfTask.add("0x" + toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
-    }
-
-    public MD5OracleImpl(int numberOfTask, int sizeOfEachTask) {
-        super(numberOfTask, sizeOfEachTask);
-        super.path = "md5";
-        hashOfTask = new ArrayList<String>();
-        for (String stringToBeHash : scenario)
-            hashOfTask.add("0x" + toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
-    }
-
     protected String generateOneTask() {
         String string = "";
-        for (int i = 0 ; i < sizeOfEachTask ; i++) {
+        for (int i = 0 ; i < Runner.sizeOfEachTask ; i++) {
             string += ((char)randomForGenTask.nextInt(256));
         }
         return string;
@@ -46,7 +31,7 @@ public class MD5OracleImpl extends OracleImpl<String> {
 
     @Override
     public String header() {
-        String header = numberOfTask + " string of " + sizeOfEachTask + " char\n";
+        String header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\n";
         header += "Random char generated with " + seedForGenTask + " as seed\n";
         return header;
     }

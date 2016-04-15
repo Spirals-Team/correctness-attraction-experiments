@@ -38,9 +38,9 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
         enactorsOfLocationPerRandomRates = new Map[this.randomRates.length];
 
-        nbOfCallsPerLocationPerTaskPerRates = new int[Runner.locations.size()][Runner.oracle.getNumberOfTask()][this.randomRates.length];
+        nbOfCallsPerLocationPerTaskPerRates = new int[Runner.locations.size()][Runner.numberOfTask][this.randomRates.length];
 
-        Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(), this.randomRates.length, 5);
+        Logger.init(Runner.locations.size(),Runner.numberOfTask, this.randomRates.length, 5);
 
         header = "SERN\n";
         header += "random Rates : ";
@@ -100,7 +100,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             writer.write( "detail per task and per random rate.\n" + header + Runner.oracle.header());
             writer.write(String.format(format, "Task", "RandomRate", "IndexLoc", "#Success", "#Failure",
                     "#Exception", "#Call", "#Perturbation","%Success") + "\n");
-            for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
+            for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                         Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
@@ -123,7 +123,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                 Tuple resultForLocation = new Tuple(3);
                 for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                     Tuple result = new Tuple(5);
-                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++)
+                    for (int indexTask = 0; indexTask < Runner.numberOfTask ; indexTask++)
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
 
                     writer.write(String.format(format, randomRates[indexRandomRates], location.getLocationIndex(),
@@ -152,7 +152,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
                     int accNbOfTasks = 0;
-                    for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
+                    for (int indexTask = 0; indexTask < Runner.numberOfTask ; indexTask++) {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
                         accNbOfTasks += nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
                     }

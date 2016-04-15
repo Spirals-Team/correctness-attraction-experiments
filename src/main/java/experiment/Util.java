@@ -30,6 +30,41 @@ public class Util {
         return dash;
     }
 
+    public static void parseArgs(String [] args) {
+        for (int i = 0 ; i < args.length ; i++) {
+            if (args[i].startsWith("-")) {
+                switch (args[i].substring(1)) {
+                    case "size":
+                        Runner.sizeOfEachTask = Integer.parseInt(args[i+1]);
+                        i++;
+                        break;
+                    case "nb":
+                        Runner.numberOfTask = Integer.parseInt(args[i+1]);
+                        i++;
+                        break;
+                    case "time":
+                        Runner.numberOfSecondsToWait = Integer.parseInt(args[i+1]);
+                        i++;
+                        break;
+                    case "help":
+                    default:
+                        usage();
+                }
+            } else
+                usage();
+        }
+    }
+
+    public static void usage() {
+        System.out.println("options available : ");
+        System.out.println("\t-size <integer> specify the size of each task");
+        System.out.println("\t-nb <integer> specify the number of task");
+        System.out.println("\t-time <integer> specify the number of seconds to wait until timeout");
+        System.out.println("\t-help display this help");
+        System.exit(-1);
+    }
+
+    @Deprecated
     public static void buildNewListOfPerturbationPoint() {
         if (Runner.locations.size() <= Runner.sizeOfTopLocations)
             return;
@@ -44,6 +79,7 @@ public class Util {
         }
     }
 
+    @Deprecated
     public static void addAntiFragileLocation(List<PerturbationLocation> topLocations) throws IOException {
         String[] pathTofileToGetIndices = new String[]{
                 "results/"+Runner.oracle.getPath()+"/AddOneExplorer_super_anti_fragile.txt",
@@ -69,6 +105,7 @@ public class Util {
         }
     }
 
+    @Deprecated
     public static void addNotFragileLocation(List<PerturbationLocation> topLocations) throws IOException {
         List<Integer> blackList = new ArrayList<>();
         String[] pathTofileToGetIndices = new String[]{

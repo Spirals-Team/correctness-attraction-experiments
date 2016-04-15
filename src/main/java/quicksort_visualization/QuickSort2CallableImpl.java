@@ -71,9 +71,10 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
 
     public static void main(String[] args) {
         /* only one array */
-        OracleImpl<int[]> oracle = new QuickSort2OracleImpl(1);
-        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, oracle, int[].class);
+        Runner.numberOfTask = 1;
         Runner.numberOfSecondsToWait = 30;
+        OracleImpl<int[]> oracle = new QuickSort2OracleImpl();
+        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, oracle, int[].class);
 
         /* no Perturbation */
         QuickSort2 quicksort = new QuickSort2(oracle.get(0));

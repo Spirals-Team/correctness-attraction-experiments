@@ -1,6 +1,7 @@
 package quicksort;
 
 import experiment.OracleImpl;
+import experiment.Runner;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,7 +15,7 @@ public class QuickSortOracleImpl extends OracleImpl<List<Integer>> {
     @Override
     protected List<Integer> generateOneTask() {
         List<Integer> newTask = new ArrayList<>();
-        for (int i = 0 ; i < sizeOfEachTask ; i++)
+        for (int i = 0; i < Runner.sizeOfEachTask ; i++)
             newTask.add(randomForGenTask.nextInt());
         return newTask;
     }
@@ -24,20 +25,9 @@ public class QuickSortOracleImpl extends OracleImpl<List<Integer>> {
         super.path = "quicksort";
     }
 
-    public QuickSortOracleImpl(int numberOfTask) {
-        super(numberOfTask);
-        super.path = "quicksort";
-    }
-
-
-    public QuickSortOracleImpl(int numberOfTask, int sizeOfEachTask) {
-        super(numberOfTask, sizeOfEachTask);
-        super.path = "quicksort";
-    }
-
     @Override
     public String header() {
-        String header = numberOfTask + " arrays of " + sizeOfEachTask + " integers\n";
+        String header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";
         header += "Random integer generated with " + seedForGenTask + " as seed\n";
         return header;
     }

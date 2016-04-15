@@ -25,9 +25,9 @@ public class AddOneExplorerImpl implements Explorer {
 
     public AddOneExplorerImpl() {
 
-        Logger.init(Runner.locations.size(),Runner.oracle.getNumberOfTask(),1, 5);
+        Logger.init(Runner.locations.size(),Runner.numberOfTask,1, 5);
 
-        nbOfCallsPerLocationPerTask = new int[Runner.locations.size()][Runner.oracle.getNumberOfTask()];
+        nbOfCallsPerLocationPerTask = new int[Runner.locations.size()][Runner.numberOfTask];
 
         header = "SEP1\n";
         header += Runner.locations.size() + " perturbation point\n";
@@ -85,7 +85,7 @@ public class AddOneExplorerImpl implements Explorer {
             writer.write("All Result : detail per task\n" + header + Runner.oracle.header());
             writer.write(String.format(format, "Task", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
                     "#Perturbations", "%Success") + "\n");
-            for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
+            for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     searchSpaceSize += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                     Tuple result = results[Runner.locations.indexOf(location)][indexTask][0];
@@ -99,7 +99,7 @@ public class AddOneExplorerImpl implements Explorer {
 
             format = "%-30s %-30s";
             writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddOneExplorer.txt", false);
-            writer.write(String.format(format, "number of Task : ",  Runner.oracle.getNumberOfTask()) + "\n");
+            writer.write(String.format(format, "number of Task : ",  Runner.numberOfTask) + "\n");
             writer.write(String.format(format,"number of Locations : " , Runner.locations.size()) + "\n");
             writer.write(String.format(format,"number of Task done : " , searchSpaceSize) + "\n");
             writer.write(String.format(format,"number of successful task : " , numberOfSuccess ) + "\n");
@@ -115,7 +115,7 @@ public class AddOneExplorerImpl implements Explorer {
             for (PerturbationLocation location : Runner.locations) {
                 Tuple result = new Tuple(5);
                 int accNbOfTasks = 0;
-                for (int indexTask = 0; indexTask < Runner.oracle.getNumberOfTask(); indexTask++) {
+                for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                     result = result.add(results[Runner.locations.indexOf(location)][indexTask][0]);
                     accNbOfTasks += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                 }

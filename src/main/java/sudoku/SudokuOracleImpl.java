@@ -1,6 +1,7 @@
 package sudoku;
 
 import experiment.OracleImpl;
+import experiment.Runner;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,26 +28,6 @@ public class SudokuOracleImpl extends OracleImpl<int[][]> {
         }
     }
 
-    public SudokuOracleImpl(int numberOfTask) {
-        super(numberOfTask);
-        super.path = "sudoku";
-        try {
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public SudokuOracleImpl(int numberOfTask, int sizeOfEachTask) {
-        super(numberOfTask,sizeOfEachTask);
-        super.path = "sudoku";
-        try {
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     @Override
     protected int[][] generateOneTask() {
         int[][] grid = new int[9][9];
@@ -69,7 +50,7 @@ public class SudokuOracleImpl extends OracleImpl<int[][]> {
 
     @Override
     public String header() {
-        String header = numberOfTask + " sudoku grid \n";
+        String header = Runner.numberOfTask + " sudoku grid \n";
         header += "Those grid are read from file in resources/sudoku/grid.txt\n";
         return header;
     }

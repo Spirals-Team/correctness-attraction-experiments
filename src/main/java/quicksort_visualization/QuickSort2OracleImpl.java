@@ -1,6 +1,7 @@
 package quicksort_visualization;
 
 import experiment.OracleImpl;
+import experiment.Runner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +11,6 @@ import java.util.List;
  */
 public class QuickSort2OracleImpl extends OracleImpl<int[]> {
 
-    public QuickSort2OracleImpl(int nb) {
-        super(nb);
-        super.path = "quicksort-visualization";
-    }
-
     public QuickSort2OracleImpl() {
         super();
         super.path = "quicksort-visualization";
@@ -22,7 +18,7 @@ public class QuickSort2OracleImpl extends OracleImpl<int[]> {
 
     @Override
     public String header() {
-        String header = numberOfTask + " arrays of " + sizeOfEachTask + " integers\n";
+        String header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";
         header += "Random integer generated with " + seedForGenTask + " as seed\n";
         return header;
     }
@@ -30,8 +26,8 @@ public class QuickSort2OracleImpl extends OracleImpl<int[]> {
 
     @Override
     protected int[] generateOneTask() {
-        int [] task = new int[super.sizeOfEachTask];
-        for (int i = 0 ; i < sizeOfEachTask ; i++)
+        int [] task = new int[Runner.sizeOfEachTask];
+        for (int i = 0 ; i < Runner.sizeOfEachTask ; i++)
             task[i] = (randomForGenTask.nextInt());
         return task;
     }
@@ -55,8 +51,8 @@ public class QuickSort2OracleImpl extends OracleImpl<int[]> {
 
     @Override
     public int[] get(int index) {
-        int[] clone = new int[sizeOfEachTask];
-        for (int i = 0 ; i< sizeOfEachTask ; i ++)
+        int[] clone = new int[Runner.sizeOfEachTask];
+        for (int i = 0 ; i< Runner.sizeOfEachTask ; i ++)
             clone[i] = this.scenario.get(index)[i];
         return clone;
     }

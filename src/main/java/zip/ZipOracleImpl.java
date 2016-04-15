@@ -1,6 +1,7 @@
 package zip;
 
 import experiment.OracleImpl;
+import experiment.Runner;
 
 /**
  * Created by spirals on 05/04/16.
@@ -12,21 +13,11 @@ public class ZipOracleImpl extends OracleImpl<String> {
         super.path = "zip";
     }
 
-    public ZipOracleImpl(int numberOfTask){
-        super(numberOfTask);
-        super.path = "zip";
-    }
-
-    public ZipOracleImpl(int numberOfTask, int sizeOfEachTask){
-        super(numberOfTask, sizeOfEachTask);
-        super.path = "zip";
-    }
-
 
     @Override
     protected String generateOneTask() {
         String string = "";
-        for (int i = 0 ; i < sizeOfEachTask ; i++) {
+        for (int i = 0; i < Runner.sizeOfEachTask ; i++) {
             string += ((char)randomForGenTask.nextInt(256));
         }
         return string;
@@ -35,7 +26,7 @@ public class ZipOracleImpl extends OracleImpl<String> {
 
     @Override
     public String header() {
-        String header = numberOfTask + " string of " + sizeOfEachTask + " char\n";
+        String header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\n";
         header += "Random char generated with " + seedForGenTask + " as seed\n";
         return header;
     }

@@ -24,12 +24,18 @@ public class Runner {
     public static List<PerturbationLocation> locations;
     public static Explorer explorer;
     public static int numberOfSecondsToWait = 1;
-    public static int sizeOfTopLocations = 10;
+    public static int sizeOfEachTask = 100;
+    public static int numberOfTask = 20;
+
     public static boolean verbose = false;
+
+    @Deprecated
+    public static int sizeOfTopLocations = 10;
+
 
     public static void run(Explorer explorerUnderPerturbation) {
         explorer = explorerUnderPerturbation;
-        for (int indexOfTask = 0 ; indexOfTask < oracle.getNumberOfTask() ; indexOfTask++) {
+        for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
             runLocations(indexOfTask);
         }
     }
@@ -102,9 +108,11 @@ public class Runner {
     }
 
     public static void main(String[] args) {
-        quicksort.Main.main(args);
-        zip.Main.main(args);
-        md5.Main.main(args);
-        sudoku.Main.main(args);
+        if (args.length > 1)
+            Util.parseArgs(args);
+        quicksort.Main.run();
+        zip.Main.run();
+        md5.Main.run();
+        sudoku.Main.run();
     }
 }

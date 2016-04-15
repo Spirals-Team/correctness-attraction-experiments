@@ -1,6 +1,7 @@
 package sudoku;
 
 import experiment.Runner;
+import experiment.Util;
 
 /**
  * Created by spirals on 13/04/16.
@@ -15,6 +16,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        if (args.length > 1)
+            Util.parseArgs(args);
+        else {
+            Runner.numberOfTask = 1;
+            Runner.numberOfSecondsToWait = 15;
+        }
         run();
     }
 
