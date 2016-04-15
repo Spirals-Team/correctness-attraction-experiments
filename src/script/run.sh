@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-java -cp bin quicksort.Main
-java -cp bin zip.Main
-java -cp bin md5.Main
-java -cp bin sudoku.Main
+java -cp target/classes quicksort.Main
+java -cp target/classes zip.Main
+java -cp target/classes md5.Main
+java -cp target/classes sudoku.Main
+java -cp target/classes optimizer.Main
