@@ -7,11 +7,10 @@ sudo:
     true
 
 install:
-    - chmod +x ./src/script/install.sh
+    - chmod +x ./src/script/*.sh
     - ./src/script/install.sh
 
 script:
-    - chmod +x ./src/script/run.sh
     - ./src/script/run.sh
     - git diff > diff.txt
     - curl --upload-file ./diff.txt https://transfer.sh/diff.txt
