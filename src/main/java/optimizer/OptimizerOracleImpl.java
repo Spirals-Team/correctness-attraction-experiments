@@ -64,27 +64,23 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
     private OptimizationData[] buildTask(int indexTask) {
         LinearObjectiveFunction f;
         ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
-        switch (indexTask) {
-            case 0:
-                // from http://www.math.toronto.edu/mpugh/Teaching/APM236_04/bland
-                //      maximize 10 x1 - 57 x2 - 9 x3 - 24 x4
-                //      subject to
-                //          1/2 x1 - 11/2 x2 - 5/2 x3 + 9 x4  <= 0
-                //          1/2 x1 -  3/2 x2 - 1/2 x3 +   x4  <= 0
-                //              x1                  <= 1
-                //      x1,x2,x3,x4 >= 0
-                f = new LinearObjectiveFunction(new double[] { 10, -57, -9, -24}, 0);
-                constraints.add(new LinearConstraint(new double[] {0.5, -5.5, -2.5, 9}, Relationship.LEQ, 0));
-                constraints.add(new LinearConstraint(new double[] {0.5, -1.5, -0.5, 1}, Relationship.LEQ, 0));
-                constraints.add(new LinearConstraint(new double[] {  1,    0,    0, 0}, Relationship.LEQ, 1));
-                staticListOfListOfConstraints.add(constraints);
-                return new OptimizationData[] {f, new LinearConstraintSet(constraints),
-                        GoalType.MAXIMIZE,
-                        new NonNegativeConstraint(true),
-                        PivotSelectionRule.BLAND};
-            default:
-                throw new RuntimeException();
-        }
+        // from http://www.math.toronto.edu/mpugh/Teaching/APM236_04/bland
+        //      maximize 10 x1 - 57 x2 - 9 x3 - 24 x4
+        //      subject to
+        //          1/2 x1 - 11/2 x2 - 5/2 x3 + 9 x4  <= 0
+        //          1/2 x1 -  3/2 x2 - 1/2 x3 +   x4  <= 0
+        //              x1                  <= 1
+        //      x1,x2,x3,x4 >= 0
+        f = new LinearObjectiveFunction(new double[]{10, -57, -9, -24}, 0);
+        constraints.add(new LinearConstraint(new double[]{0.5, -5.5, -2.5, 9}, Relationship.LEQ, 0));
+        constraints.add(new LinearConstraint(new double[]{0.5, -1.5, -0.5, 1}, Relationship.LEQ, 0));
+        constraints.add(new LinearConstraint(new double[]{1, 0, 0, 0}, Relationship.LEQ, 1));
+        staticListOfListOfConstraints.add(constraints);
+        return new OptimizationData[]{f, new LinearConstraintSet(constraints),
+                GoalType.MAXIMIZE,
+                new NonNegativeConstraint(true),
+                PivotSelectionRule.BLAND};
+//        return MPSParser.run(indexTask);
     }
 
     private static boolean validSolution(PointValuePair solution, List<LinearConstraint> constraints) {
@@ -92,23 +88,19 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
         for (LinearConstraint c : constraints) {
             double[] coeffs = c.getCoefficients().toArray();
             double result = 0.0d;
-            for (int i = 0; i < vals.length; i++) {
+            for (int i = 0; i < vals.length; i++)
                 result += vals[i] * coeffs[i];
-            }
-
             switch (c.getRelationship()) {
                 case EQ:
                     if (!Precision.equals(result, c.getValue(), EPSILON)) {
                         return false;
                     }
                     break;
-
                 case GEQ:
                     if (Precision.compareTo(result, c.getValue(), EPSILON) < 0) {
                         return false;
                     }
                     break;
-
                 case LEQ:
                     if (Precision.compareTo(result, c.getValue(), EPSILON) > 0) {
                         return false;
@@ -116,7 +108,6 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
                     break;
             }
         }
-
         return true;
     }
 
