@@ -5,7 +5,7 @@ import experiment.CallableImpl;
 /**
  * Created by spirals on 05/04/16.
  */
-public class ZipCallableImpl extends CallableImpl<String> {
+public class ZipCallableImpl extends CallableImpl<String,String> {
 
     public ZipCallableImpl(String originalValue) {
         super(originalValue);

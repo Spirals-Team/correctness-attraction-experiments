@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * Created by spirals on 12/04/16.
  */
-public class QuickSort2CallableImpl extends CallableImpl<int[]> {
+public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     static List<List<Integer>> lst = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[]> {
         /* only one array */
         Runner.numberOfTask = 1;
         Runner.numberOfSecondsToWait = 30;
-        OracleImpl<int[]> oracle = new QuickSort2OracleImpl();
+        OracleImpl<int[],int[]> oracle = new QuickSort2OracleImpl();
         Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, oracle, int[].class);
 
         /* no Perturbation */

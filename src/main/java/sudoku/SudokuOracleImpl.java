@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by spirals on 08/04/16.
  */
-public class SudokuOracleImpl extends OracleImpl<int[][]> {
+public class SudokuOracleImpl extends OracleImpl<int[][],Sudoku> {
 
     private BufferedReader br;
 
@@ -56,14 +56,15 @@ public class SudokuOracleImpl extends OracleImpl<int[][]> {
     }
 
     @Override
-    public boolean check(int[][] perturbedValue, int index) {
+    public boolean check(Sudoku perturbedValue, int index) {
+        int[][] perturbedGrid = perturbedValue.getGrid();
         int[][] originalGrid = get(index);
-        for (int row = 0; row < perturbedValue.length; row++) {
+        for (int row = 0; row < perturbedGrid.length; row++) {
             List<Integer> listOfInteger = buildListOf9Integer();
-            for (int col = 0; col < perturbedValue[row].length; col++) {
-                if (!listOfInteger.remove(new Integer(perturbedValue[row][col])))
+            for (int col = 0; col < perturbedGrid[row].length; col++) {
+                if (!listOfInteger.remove(new Integer(perturbedGrid[row][col])))
                     return false;
-                if (originalGrid[row][col] != 0 && originalGrid[row][col] != perturbedValue[row][col])
+                if (originalGrid[row][col] != 0 && originalGrid[row][col] != perturbedGrid[row][col])
                     return false;
             }
         }

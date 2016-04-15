@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by spirals on 05/04/16.
  */
-public class QuickSortCallableImpl extends CallableImpl<List<Integer>> {
+public class QuickSortCallableImpl extends CallableImpl<List<Integer>,List<Integer>> {
 
     public QuickSortCallableImpl(List<Integer> originalValue) {
         super(originalValue);

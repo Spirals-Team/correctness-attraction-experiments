@@ -5,7 +5,7 @@ import java.util.concurrent.Callable;
 /**
  * Created by spirals on 08/04/16.
  */
-public abstract class CallableImpl<T> implements Callable<T> {
+public abstract class CallableImpl<T,P> implements Callable<P> {
 
     protected T originalValue;
 
@@ -14,5 +14,5 @@ public abstract class CallableImpl<T> implements Callable<T> {
     }
 
     @Override
-    public abstract T call() throws Exception;
+    public abstract P call() throws Exception;
 }

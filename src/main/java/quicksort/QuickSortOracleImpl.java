@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by spirals on 05/04/16.
  */
-public class QuickSortOracleImpl extends OracleImpl<List<Integer>> {
+public class QuickSortOracleImpl extends OracleImpl<List<Integer>,List<Integer>> {
 
     @Override
     protected List<Integer> generateOneTask() {

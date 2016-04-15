@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by spirals on 12/04/16.
  */
-public class QuickSort2OracleImpl extends OracleImpl<int[]> {
+public class QuickSort2OracleImpl extends OracleImpl<int[],int[]> {
 
     public QuickSort2OracleImpl() {
         super();

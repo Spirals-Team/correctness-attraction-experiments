@@ -6,7 +6,7 @@ import experiment.Runner;
 /**
  * Created by spirals on 05/04/16.
  */
-public class ZipOracleImpl extends OracleImpl<String> {
+public class ZipOracleImpl extends OracleImpl<String,String> {
 
     public ZipOracleImpl(){
        super();

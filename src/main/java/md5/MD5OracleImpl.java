@@ -4,21 +4,22 @@ import experiment.OracleImpl;
 import experiment.Runner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by spirals on 07/04/16.
  */
-public class MD5OracleImpl extends OracleImpl<String> {
+public class MD5OracleImpl extends OracleImpl<String,byte[]> {
 
-    private List<String> hashOfTask;
+    private List<byte[]> hashOfTask;
 
     public MD5OracleImpl() {
         super();
         super.path = "md5";
-        hashOfTask = new ArrayList<String>();
+        hashOfTask = new ArrayList<>();
         for (String stringToBeHash : scenario)
-            hashOfTask.add("0x" + toHexString(MD5.computeMD5(stringToBeHash.getBytes())));
+            hashOfTask.add(MD5.computeMD5(stringToBeHash.getBytes()));
     }
 
     protected String generateOneTask() {
@@ -37,22 +38,13 @@ public class MD5OracleImpl extends OracleImpl<String> {
     }
 
     @Override
-    public boolean check(String perturbedValue, int index) {
-        return perturbedValue.equals(hashOfTask.get(index));
+    public boolean check(byte[] perturbedValue, int index) {
+        return Arrays.equals(perturbedValue, hashOfTask.get(index));
     }
 
     @Override
     public String get(int index) {
         return new String(super.scenario.get(index));
-    }
-
-    public static String toHexString(byte[] b) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < b.length; i++)
-        {
-            sb.append(String.format("%02X", b[i] & 0xFF));
-        }
-        return sb.toString();
     }
 
 }
