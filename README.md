@@ -8,6 +8,7 @@ This project contains experiments for jPerturb
 * zip : Perturbation on LZW compression.
 * md5 : Perturbation on MD5 hash function.
 * sudoku : Perturbation on a Sudoku solver.
+* solver : Solver of linear program with the Simplex algorithm.
 
 ## Experiments
 
