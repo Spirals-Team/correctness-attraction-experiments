@@ -46,6 +46,9 @@ public class Util {
                         Runner.numberOfSecondsToWait = Integer.parseInt(args[i+1]);
                         i++;
                         break;
+                    case "v":
+                    case "verbose":
+                        Runner.verbose = true;
                     case "help":
                     default:
                         usage();
@@ -60,6 +63,7 @@ public class Util {
         System.out.println("\t-size <integer> specify the size of each task");
         System.out.println("\t-nb <integer> specify the number of task");
         System.out.println("\t-time <integer> specify the number of seconds to wait until timeout");
+        System.out.println("\t-v or -verbose to active Runner verbose mode");
         System.out.println("\t-help display this help");
         System.exit(-1);
     }
