@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointValuePair> {
 
-    private static List<List<LinearConstraint>> staticListOfListOfConstraints = new ArrayList<>();
+    private List<List<LinearConstraint>> staticListOfListOfConstraints = new ArrayList<>();
 
     private List<Double> valuesOfOptimization;
 
@@ -36,11 +36,13 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
             SimplexSolver solver = new SimplexSolver();
             this.valuesOfOptimization.add(solver.optimize(datas).getValue());
         }
+        staticListOfListOfConstraints = MPSParser.listOfListOfConstraints;
+        System.out.println(this.valuesOfOptimization);
     }
 
     @Override
     protected OptimizationData[] generateOneTask() {
-        return buildTask(super.scenario.size());
+        return MPSParser.run("resources/optimizer/lp");
     }
 
     @Override
@@ -59,28 +61,6 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
     @Override
     public OptimizationData[] get(int index) {
         return super.scenario.get(index);
-    }
-
-    private OptimizationData[] buildTask(int indexTask) {
-        LinearObjectiveFunction f;
-        ArrayList<LinearConstraint> constraints = new ArrayList<LinearConstraint>();
-        // from http://www.math.toronto.edu/mpugh/Teaching/APM236_04/bland
-        //      maximize 10 x1 - 57 x2 - 9 x3 - 24 x4
-        //      subject to
-        //          1/2 x1 - 11/2 x2 - 5/2 x3 + 9 x4  <= 0
-        //          1/2 x1 -  3/2 x2 - 1/2 x3 +   x4  <= 0
-        //              x1                  <= 1
-        //      x1,x2,x3,x4 >= 0
-        f = new LinearObjectiveFunction(new double[]{10, -57, -9, -24}, 0);
-        constraints.add(new LinearConstraint(new double[]{0.5, -5.5, -2.5, 9}, Relationship.LEQ, 0));
-        constraints.add(new LinearConstraint(new double[]{0.5, -1.5, -0.5, 1}, Relationship.LEQ, 0));
-        constraints.add(new LinearConstraint(new double[]{1, 0, 0, 0}, Relationship.LEQ, 1));
-        staticListOfListOfConstraints.add(constraints);
-        return new OptimizationData[]{f, new LinearConstraintSet(constraints),
-                GoalType.MAXIMIZE,
-                new NonNegativeConstraint(true),
-                PivotSelectionRule.BLAND};
-//        return MPSParser.run(indexTask);
     }
 
     private static boolean validSolution(PointValuePair solution, List<LinearConstraint> constraints) {

@@ -1,6 +1,8 @@
 package optimizer;
 
 import experiment.CallableImpl;
+import experiment.Oracle;
+import experiment.Runner;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.SimplexSolver;

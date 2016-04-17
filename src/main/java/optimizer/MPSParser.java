@@ -13,28 +13,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by spirals on 15/04/16.
  */
 public class MPSParser {
 
-    private static String[] namesOfFiles;
-
-    private static String PATH = "resources/optimizer";
-
-    static {
-        File folder = new File(PATH);
-        File[] listOfFiles = folder.listFiles();
-        namesOfFiles = new String[listOfFiles.length];
-        for (int i = 0 ; i < listOfFiles.length ; i++) {
-            namesOfFiles[i] = listOfFiles[i].getName();
-        }
-    }
+    public static List<List<LinearConstraint>> listOfListOfConstraints = new ArrayList<>();
 
     private static class Tuple {
         String row;
@@ -49,9 +35,9 @@ public class MPSParser {
     }
 
 
-    public static OptimizationData[] run(int indexTask) {
+    public static OptimizationData[] run(String path) {
         try {
-            BufferedReader br = new BufferedReader(new FileReader(PATH+"/afiro_uc"));
+            BufferedReader br = new BufferedReader(new FileReader(path));
             String name = br.readLine().trim().replaceAll(" +", " ").split(" ")[1];
             Map<String, Character> rows = readRows(br);
             Map<String, List<Tuple>> col = readColumns(br);
@@ -63,10 +49,22 @@ public class MPSParser {
             LinearObjectiveFunction f = new LinearObjectiveFunction(buildLinearObjectiveFunction(obj, col), 0);
             List<LinearConstraint> constraints = buildLinearConstraints(rows, col, RHS, obj);
 
-            return new OptimizationData[] {f, new LinearConstraintSet(constraints),
+            listOfListOfConstraints.add(constraints);
+
+            //we will select lp to not have any ranges clause
+            String bounds = br.readLine();
+            if (bounds == null)
+                return new OptimizationData[] {f, new LinearConstraintSet(constraints),
+                            GoalType.MAXIMIZE,
+                            new NonNegativeConstraint(true),
+                            PivotSelectionRule.BLAND};
+            else {
+                //@TODO
+                return new OptimizationData[] {f, new LinearConstraintSet(constraints),
                         GoalType.MAXIMIZE,
                         new NonNegativeConstraint(true),
                         PivotSelectionRule.BLAND};
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -88,13 +86,10 @@ public class MPSParser {
                 }
             }
         }
-
         for (String row : rows.keySet())
             constraints.add(new LinearConstraint(linearConstraints.get(row), getRelation(rows.get(row)), RHS.getOrDefault(row, 0.0d)));
-
         return constraints;
     }
-
 
     private static Relationship getRelation(Character relation) {
         switch (relation) {
@@ -116,8 +111,6 @@ public class MPSParser {
             for (Tuple t : col.get(key)) {
                 if (t.row.equals(obj))
                     function[keys.indexOf(key)] = t.rate;
-                else
-                    function[keys.indexOf(key)] = 0;
             }
         }
         return function;
@@ -132,7 +125,7 @@ public class MPSParser {
     }
 
     private static Map<String, Double> readRHS(BufferedReader br) throws IOException {
-        Map<String, Double> rhs = new HashMap<>();
+        Map<String, Double> rhs = new LinkedHashMap<>();
         String s;
         while (!isHeader(s = br.readLine())) {
             String[] sAsArray = s.trim().replaceAll(" +", " ").split(" ");
@@ -143,7 +136,7 @@ public class MPSParser {
     }
 
     private static Map<String, List<Tuple>> readColumns(BufferedReader br) throws IOException {
-        Map<String, List<Tuple>> columns = new HashMap<>();
+        Map<String, List<Tuple>> columns = new LinkedHashMap<>();
         String s;
         while (!isHeader(s = br.readLine())) {
             String[] sAsArray = s.trim().replaceAll(" +", " ").split(" ");
@@ -167,7 +160,7 @@ public class MPSParser {
     }
 
     private static Map<String, Character> readRows(BufferedReader br) throws IOException {
-        Map<String, Character> rows = new HashMap<>();
+        Map<String, Character> rows = new LinkedHashMap<>();
         br.readLine();//trash ROWS
         String s;
         while ( ! isHeader(s = br.readLine())) {
@@ -177,10 +170,12 @@ public class MPSParser {
         return rows;
     }
 
-
     private static boolean isHeader(String line) {
         return ! (line.charAt(0) == ' ');
     }
 
+    public static void main(String[] args) {
+        run("resources/optimizer/lp");
+    }
 
 }
