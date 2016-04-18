@@ -5,15 +5,10 @@ import experiment.Runner;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.LinearConstraint;
-import org.apache.commons.math3.optim.linear.LinearConstraintSet;
-import org.apache.commons.math3.optim.linear.LinearObjectiveFunction;
-import org.apache.commons.math3.optim.linear.NonNegativeConstraint;
-import org.apache.commons.math3.optim.linear.PivotSelectionRule;
-import org.apache.commons.math3.optim.linear.Relationship;
 import org.apache.commons.math3.optim.linear.SimplexSolver;
-import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.util.Precision;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +16,19 @@ import java.util.List;
  * Created by spirals on 15/04/16.
  */
 public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointValuePair> {
+
+    private static List<String> pathToFileOfLinearProgram = new ArrayList<>();
+
+    private static String PATH_DIRECTORY_DATASET = "resources/optimizer/";
+
+    static {
+        File directory = new File(PATH_DIRECTORY_DATASET);
+        for (File data : directory.listFiles()) {
+            pathToFileOfLinearProgram.add(data.getName());
+        }
+    }
+
+    public static int numberOfFile = pathToFileOfLinearProgram.size();
 
     private List<List<LinearConstraint>> staticListOfListOfConstraints = new ArrayList<>();
 
@@ -37,12 +45,11 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
             this.valuesOfOptimization.add(solver.optimize(datas).getValue());
         }
         staticListOfListOfConstraints = MPSParser.listOfListOfConstraints;
-        System.out.println(this.valuesOfOptimization);
     }
 
     @Override
     protected OptimizationData[] generateOneTask() {
-        return MPSParser.run("resources/optimizer/lp");
+        return MPSParser.run(PATH_DIRECTORY_DATASET+pathToFileOfLinearProgram.get(scenario.size()));
     }
 
     @Override

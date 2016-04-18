@@ -10,10 +10,13 @@ import org.apache.commons.math3.optim.linear.Relationship;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by spirals on 15/04/16.
@@ -59,7 +62,7 @@ public class MPSParser {
                             new NonNegativeConstraint(true),
                             PivotSelectionRule.BLAND};
             else {
-                //@TODO
+                //@TODO or not, there is no BOUNDS clause in dataset
                 return new OptimizationData[] {f, new LinearConstraintSet(constraints),
                         GoalType.MAXIMIZE,
                         new NonNegativeConstraint(true),
@@ -86,6 +89,7 @@ public class MPSParser {
                 }
             }
         }
+
         for (String row : rows.keySet())
             constraints.add(new LinearConstraint(linearConstraints.get(row), getRelation(rows.get(row)), RHS.getOrDefault(row, 0.0d)));
         return constraints;
@@ -172,10 +176,6 @@ public class MPSParser {
 
     private static boolean isHeader(String line) {
         return ! (line.charAt(0) == ' ');
-    }
-
-    public static void main(String[] args) {
-        run("resources/optimizer/lp");
     }
 
 }
