@@ -3,6 +3,7 @@ package experiment;
 import perturbation.location.PerturbationLocation;
 
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -26,6 +27,8 @@ public class Runner {
     public static int numberOfSecondsToWait = 1;
     public static int sizeOfEachTask = 100;
     public static int numberOfTask = 20;
+
+    public static List<String> explorers = new ArrayList<>();
 
     public static boolean verbose = false;
 
@@ -104,6 +107,25 @@ public class Runner {
         run(new AddOneExplorerImpl());
         run(new AddNExplorerImpl());
         run(new IntegerAdd1RndEnactorExplorerImpl());
+    }
+
+    public static void runExplorers() {
+        for (String explorer : explorers) {
+            switch (explorer) {
+                case "addOne":
+                    run(new AddOneExplorerImpl());
+                    break;
+                case "addN":
+                    run(new AddNExplorerImpl());
+                    break;
+                case "Rnd":
+                    run(new IntegerAdd1RndEnactorExplorerImpl());
+                    break;
+                default:
+                    Util.usage();
+            }
+
+        }
     }
 
     public static void main(String[] args) {

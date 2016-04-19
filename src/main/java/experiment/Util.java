@@ -15,41 +15,51 @@ import java.util.stream.Collectors;
 public class Util {
 
     public static String getStringPerc(int nb, int total) {
-        double perc = perc(nb,total);
+        double perc = perc(nb, total);
         String ret = dash(perc);
         return ret + " " + String.format("%.2f", perc);
     }
 
     public static double perc(int nb, int total) {
-        return (double)nb / (double) total * 100;
+        return (double) nb / (double) total * 100;
     }
 
     public static String dash(double perc) {
         String dash = "";
-        for (int d = 0 ; d < perc / 5 ; d++) dash += "-";
+        for (int d = 0; d < perc / 5; d++) dash += "-";
         return dash;
     }
 
-    public static void parseArgs(String [] args) {
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i].startsWith("-")) {
-                System.out.println(args[i].substring(1));
+    public static void parseArgs(String[] args) {
+        boolean expFound = false;
+        for (int i = 0; i < args.length; i++) {
+            if (expFound) {
+                if (args[i].startsWith("-")) {
+                    expFound = false;
+                    i--;
+                    break;
+                }
+                Runner.explorers.add(args[i]);
+            } else if (args[i].startsWith("-")) {
                 switch (args[i].substring(1)) {
                     case "size":
-                        Runner.sizeOfEachTask = Integer.parseInt(args[i+1]);
+                        Runner.sizeOfEachTask = Integer.parseInt(args[i + 1]);
                         i++;
                         break;
                     case "nb":
-                        Runner.numberOfTask = Integer.parseInt(args[i+1]);
+                        Runner.numberOfTask = Integer.parseInt(args[i + 1]);
                         i++;
                         break;
                     case "time":
-                        Runner.numberOfSecondsToWait = Integer.parseInt(args[i+1]);
+                        Runner.numberOfSecondsToWait = Integer.parseInt(args[i + 1]);
                         i++;
                         break;
                     case "v":
                     case "verbose":
                         Runner.verbose = true;
+                        break;
+                    case "exp":
+                        expFound = true;
                         break;
                     case "help":
                     default:
@@ -88,8 +98,8 @@ public class Util {
     @Deprecated
     public static void addAntiFragileLocation(List<PerturbationLocation> topLocations) throws IOException {
         String[] pathTofileToGetIndices = new String[]{
-                "results/"+Runner.oracle.getPath()+"/AddOneExplorer_super_anti_fragile.txt",
-                "results/"+Runner.oracle.getPath()+"/AddOneExplorer_anti_fragile.txt",
+                "results/" + Runner.oracle.getPath() + "/AddOneExplorer_super_anti_fragile.txt",
+                "results/" + Runner.oracle.getPath() + "/AddOneExplorer_anti_fragile.txt",
         };
         for (String path : pathTofileToGetIndices) {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -98,7 +108,7 @@ public class Util {
             if (line == null)
                 return;
             String[] indices = line.split(" ");
-            for (int i = 0; i < indices.length && topLocations.size() < Runner.sizeOfTopLocations ; i++) {
+            for (int i = 0; i < indices.length && topLocations.size() < Runner.sizeOfTopLocations; i++) {
                 final int index = i;
                 topLocations.add(Runner.locations.stream().filter(location ->
                         location.getLocationIndex() == Integer.parseInt(indices[index]) && !topLocations.contains(location)
@@ -115,8 +125,8 @@ public class Util {
     public static void addNotFragileLocation(List<PerturbationLocation> topLocations) throws IOException {
         List<Integer> blackList = new ArrayList<>();
         String[] pathTofileToGetIndices = new String[]{
-                "results/"+Runner.oracle.getPath()+"/AddOneExplorer_oracle_fragile.txt",
-                "results/"+Runner.oracle.getPath()+"/AddOneExplorer_exception_fragile.txt",
+                "results/" + Runner.oracle.getPath() + "/AddOneExplorer_oracle_fragile.txt",
+                "results/" + Runner.oracle.getPath() + "/AddOneExplorer_exception_fragile.txt",
         };
         //Init blackList, we don't want fragile location anymore
         for (String pathToFile : pathTofileToGetIndices) {
@@ -125,7 +135,7 @@ public class Util {
             String line = br.readLine();
             if (line == null)
                 continue;
-            for (String index :  line.split(" "))
+            for (String index : line.split(" "))
                 blackList.add(Integer.parseInt(index));
         }
         //Getting others, neither anti fragile nor fragile location

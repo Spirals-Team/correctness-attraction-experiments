@@ -26,8 +26,8 @@ public interface Oracle<T,P> {
 
     /**
      *
-     * @param index of the task to be execution
-     * @return the task
+     * @param index of the task to be executed
+     * @return a clone of the task to be executed
      */
     T get(int index);
 
