@@ -13,7 +13,7 @@ public class Main {
     public static void run() {
         System.out.println("Run QuickSort...");
         Runner.setup(QuickSort.class, QuickSortCallableImpl.class, new QuickSortOracleImpl(), List.class);
-        Runner.runAllCampaign();
+        Runner.runExplorers();
     }
 
     public static void main(String[] args) {

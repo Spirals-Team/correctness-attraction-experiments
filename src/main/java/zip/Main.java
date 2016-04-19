@@ -11,7 +11,7 @@ public class Main {
     public static void run() {
         System.out.println("Run LZW...");
         Runner.setup(LZW.class, ZipCallableImpl.class, new ZipOracleImpl(), String.class);
-        Runner.runAllCampaign();
+        Runner.runExplorers();
     }
 
     public static void main(String[] args) {

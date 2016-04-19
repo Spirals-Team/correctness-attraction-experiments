@@ -1,16 +1,16 @@
-package md5;
+package mersenne;
 
 import experiment.Runner;
 import experiment.Util;
 
 /**
- * Created by spirals on 13/04/16.
+ * Created by spirals on 19/04/16.
  */
 public class Main {
 
     public static void run() {
-        System.out.println("Run md5...");
-        Runner.setup(MD5.class, MD5CallableImpl.class, new MD5OracleImpl(), String.class);
+        System.out.println("Run Mersenne...");
+        Runner.setup(MersenneTwister.class, MersenneCallableImpl.class, new MersenneOracleImpl(), Long.class);
         Runner.runExplorers();
     }
 
@@ -19,4 +19,5 @@ public class Main {
             Util.parseArgs(args);
         run();
     }
+
 }

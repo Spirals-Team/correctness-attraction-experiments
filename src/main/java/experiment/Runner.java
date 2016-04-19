@@ -110,21 +110,24 @@ public class Runner {
     }
 
     public static void runExplorers() {
-        for (String explorer : explorers) {
-            switch (explorer) {
-                case "addOne":
-                    run(new AddOneExplorerImpl());
-                    break;
-                case "addN":
-                    run(new AddNExplorerImpl());
-                    break;
-                case "Rnd":
-                    run(new IntegerAdd1RndEnactorExplorerImpl());
-                    break;
-                default:
-                    Util.usage();
+        if (explorers.isEmpty())
+            runAllCampaign();
+        else {
+            for (String explorer : explorers) {
+                switch (explorer) {
+                    case "addOne":
+                        run(new AddOneExplorerImpl());
+                        break;
+                    case "addN":
+                        run(new AddNExplorerImpl());
+                        break;
+                    case "Rnd":
+                        run(new IntegerAdd1RndEnactorExplorerImpl());
+                        break;
+                    default:
+                        Util.usage();
+                }
             }
-
         }
     }
 

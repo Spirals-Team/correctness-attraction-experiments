@@ -10,18 +10,18 @@ import org.apache.commons.math3.optim.linear.SimplexSolver;
  */
 public class Main {
 
+    public static void run() {
+        System.out.println("Run optimizer...");
+        Runner.setup(SimplexSolver.class, OptimizerCallableImpl.class, new OptimizerOracleImpl(), OptimizationData[].class);
+        Runner.runExplorers();
+    }
+
     public static void main(String[] args) {
         if (args.length >= 1)
             Util.parseArgs(args);
         if (Runner.numberOfTask  > OptimizerOracleImpl.numberOfFile)
             Runner.numberOfTask = OptimizerOracleImpl.numberOfFile;
         run();
-    }
-
-    public static void run() {
-        System.out.println("Run optimizer...");
-        Runner.setup(SimplexSolver.class, OptimizerCallableImpl.class, new OptimizerOracleImpl(), OptimizationData[].class);
-        Runner.runAllCampaign();
     }
 
 }
