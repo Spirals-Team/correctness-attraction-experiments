@@ -9,22 +9,27 @@ def gen_all(path,file):
     for line in lines[4:]:
         p.append(' '.join(line.split()).split(" "))
 
+    cptGreen = 0
+    cptRed = 0
+
     fig = plt.figure()
     ax = fig.add_axes((.1,.4,.8,.5))
     for i in range(len(p)):
         if p[i][-1] == '0':
             plt.plot(range(0,len(p[i])), p[i], color=(0.4,1,0.4), alpha=0.55,  linewidth=0.6)
+            cptGreen += 1
         else:
             plt.plot(range(0,len(p[i])), p[i], color=(1,0.6,0.6), alpha=0.55,  linewidth=0.6)
+            cptRed += 1
 
     caption = "Perturbation envelope of quicksort on an array of 100 integers\n"
-    caption += "In red, the unperturbed execution,\n"
-    caption += "in green, perturbed execution that end with a success, and\n"
-    caption += "in light red, perturbed execution that end with a success with \n failure or exception among the 3 campaigns.\n"
-    caption += "This is a sample of 30% of all execution of the 3 campaigns."
+    caption += "In blue, the unperturbed execution,\n"
+    caption += "in green, the "+ str(cptGreen)  +" perturbed execution that end with a success, and\n"
+    caption += "in light red, the "+ str(cptRed)  +" perturbed execution that end with a success with \n failure or exception among the 3 campaigns.\n"
+    caption += "This is a sample of 30% (" + str((cptGreen+1+cptRed)) + " execs) of all execution of the 3 campaigns."
 
     text=fig.text(.1,.1,caption)
-    plt.plot(range(0,len(unperturbed)), unperturbed, 'r-', label="unperturbed", linewidth=1.5)
+    plt.plot(range(0,len(unperturbed)), unperturbed, 'b-', label="unperturbed", linewidth=1.5)
 
     plt.xlabel("time (in recursive call)")
     plt.ylabel("Number of unsorted pairs")
@@ -33,13 +38,13 @@ def gen_all(path,file):
     box = ax.get_position()
     #ax.set_xscale('symlog')
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    fig.savefig(path+"/img/perturbationVisualization_All.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+    #lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    fig.savefig(path+"/img/perturbationVisualization_All.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     plt.close(fig)
 
 def gen_all_per_xp(path, prefixe):
 
-    files = ["RND"]#"ADD1","ADD2","ADD5", "ADD5", "ADD20","ADD10", "ADD50", "RND0.001", "RND0.01","RND0.1","RND0.005","RND0.05","RND0.5","RND0.9"]
+    files = ["ADD1","ADD2","ADD5", "ADD5", "ADD20","ADD10", "ADD50", "RND0.001", "RND0.01","RND0.1","RND0.005","RND0.05","RND0.5","RND0.9"]
 
     for file in files:
 
@@ -51,21 +56,27 @@ def gen_all_per_xp(path, prefixe):
         for line in lines[1:]:
             p.append(' '.join(line.split()).split(" ")[1:])
 
+        cptGreen = 0
+        cptRed = 0
+
         fig = plt.figure()
         ax = fig.add_axes((.1,.4,.8,.5))
         for i in range(len(p)):
             if p[i][-1] == '0':
                 plt.plot(range(0,len(p[i])), p[i], color=(0.4,1,0.4), alpha=0.55,  linewidth=0.6)
+                cptGreen += 1
             else:
                 plt.plot(range(0,len(p[i])), p[i], color=(1,0.6,0.6), alpha=0.55,  linewidth=0.6)
+                cptRed += 1
 
         caption = "Perturbation envelope of quicksort on an array of 100 integers\n"
-        caption += "In red, the unperturbed execution,\n"
-        caption += "in green, perturbed execution that end with a success, and\n"
-        caption += "in light red, perturbed execution that end with a success with \n failure or exception for the " +file + "exp."
+        caption += "In blue, the unperturbed execution,\n"
+        caption += "in green, the "+ str(cptGreen) +" perturbed execution that end with a success, and\n"
+        caption += "in light red, the "+ str(cptRed) +" perturbed execution that end with a success with \n  failure or exception for the " +file + "exp.\n"
+        caption += "in total, there is " + str((cptGreen+1+cptRed)) + " executions."
 
         text=fig.text(.1,.1,caption)
-        plt.plot(range(0,len(unperturbed)), unperturbed, 'r-', label="unperturbed", linewidth=1.5)
+        plt.plot(range(0,len(unperturbed)), unperturbed, 'b-', label="unperturbed", linewidth=1.5)
 
         plt.xlabel("time (in recursive call)")
         plt.ylabel("Number of unsorted pairs")
@@ -74,8 +85,8 @@ def gen_all_per_xp(path, prefixe):
         box = ax.get_position()
         #ax.set_xscale('symlog')
         ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-        lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-        fig.savefig(path+"/img/perturbationVisualization_"+file+"_All.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+        #lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+        fig.savefig(path+"/img/perturbationVisualization_"+file+"_All.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
         plt.close(fig)
 
 def gen_sample_per_exp(path, prefixename):
@@ -101,10 +112,10 @@ def gen_sample_per_exp(path, prefixename):
         for i in range(len(p)):
             plt.plot(range(0,len(p[i])), p[i], label=labels[i], linewidth=1)
 
-        plt.plot(range(0,len(unperturbed)), unperturbed, 'r-', label="unperturbed", linewidth=1.5)
+        plt.plot(range(0,len(unperturbed)), unperturbed, 'b-', label="unperturbed", linewidth=1.5)
 
         caption = "Perturbation on execution of quicksort on an array of 100 integers\n"
-        caption += "In red without marker, the unperturbed execution, and\n"
+        caption += "In blue without marker, the unperturbed execution, and\n"
         caption += "others are 5 perturbed execution on "+ file +" campaigns."
 
         text=fig.text(.1,.1,caption)
@@ -142,10 +153,10 @@ def gen_sample_for_all_exp(path, prefixename):
         for i in range(len(p)):
             plt.plot(range(0,len(p[i])), p[i], label=labels[i], linewidth=1)
 
-        plt.plot(range(0,len(unperturbed)), unperturbed, 'r-', label="unperturbed", linewidth=1.5)
+        plt.plot(range(0,len(unperturbed)), unperturbed, 'b-', label="unperturbed", linewidth=1.5)
 
         caption = "Perturbation on execution of quicksort on an array of 100 integers\n"
-        caption += "In red without marker, the unperturbed execution, and\n"
+        caption += "In blue without marker, the unperturbed execution, and\n"
         caption += "others are 5 perturbed execution on "+ file +" campaigns."
 
         text=fig.text(.1,.1,caption)
