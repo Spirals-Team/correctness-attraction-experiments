@@ -1,14 +1,14 @@
 package zip;
 
-import experiment.OracleImpl;
+import experiment.OracleManager;
 import experiment.Runner;
 
 /**
  * Created by spirals on 05/04/16.
  */
-public class ZipOracleImpl extends OracleImpl<String,String> {
+public class ZipOracle extends OracleManager<String,String> {
 
-    public ZipOracleImpl(){
+    public ZipOracle(){
        super();
         super.path = "zip";
     }
@@ -32,8 +32,8 @@ public class ZipOracleImpl extends OracleImpl<String,String> {
     }
 
     @Override
-    public boolean check(String perturbedValue, int index) {
-        return perturbedValue.equals(scenario.get(index));
+    public boolean check(String output, int index) {
+        return output.equals(scenario.get(index));
     }
 
     @Override

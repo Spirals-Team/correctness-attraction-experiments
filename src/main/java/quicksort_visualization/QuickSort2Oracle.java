@@ -1,6 +1,6 @@
 package quicksort_visualization;
 
-import experiment.OracleImpl;
+import experiment.OracleManager;
 import experiment.Runner;
 
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * Created by spirals on 12/04/16.
  */
-public class QuickSort2OracleImpl extends OracleImpl<int[],int[]> {
+public class QuickSort2Oracle extends OracleManager<int[],int[]> {
 
-    public QuickSort2OracleImpl() {
+    public QuickSort2Oracle() {
         super();
         super.path = "quicksort-visualization";
     }
@@ -33,17 +33,17 @@ public class QuickSort2OracleImpl extends OracleImpl<int[],int[]> {
     }
 
     @Override
-    public boolean check(int[] perturbedValue, int index) {
+    public boolean check(int[] output, int index) {
 
         List<Integer> task = new ArrayList<>();
 
         for (int value : get(index))
             task.add(value);
 
-        for (int i = 0 ; i < perturbedValue.length - 1 ; i++) {
-            if (perturbedValue[i] > perturbedValue[i+1])
+        for (int i = 0; i < output.length - 1 ; i++) {
+            if (output[i] > output[i+1])
                 return false;
-            if(!task.remove(new Integer(perturbedValue[i])))
+            if(!task.remove(new Integer(output[i])))
                 return false;
         }
         return true;

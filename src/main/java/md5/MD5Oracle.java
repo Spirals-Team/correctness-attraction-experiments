@@ -1,6 +1,6 @@
 package md5;
 
-import experiment.OracleImpl;
+import experiment.OracleManager;
 import experiment.Runner;
 
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.List;
 /**
  * Created by spirals on 07/04/16.
  */
-public class MD5OracleImpl extends OracleImpl<String,byte[]> {
+public class MD5Oracle extends OracleManager<String,byte[]> {
 
     private List<byte[]> hashOfTask;
 
-    public MD5OracleImpl() {
+    public MD5Oracle() {
         super();
         super.path = "md5";
         hashOfTask = new ArrayList<>();
@@ -38,8 +38,8 @@ public class MD5OracleImpl extends OracleImpl<String,byte[]> {
     }
 
     @Override
-    public boolean check(byte[] perturbedValue, int index) {
-        return Arrays.equals(perturbedValue, hashOfTask.get(index));
+    public boolean check(byte[] output, int index) {
+        return Arrays.equals(output, hashOfTask.get(index));
     }
 
     @Override

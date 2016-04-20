@@ -1,6 +1,7 @@
 package optimizer;
 
-import experiment.OracleImpl;
+import experiment.Oracle;
+import experiment.OracleManager;
 import experiment.Runner;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by spirals on 15/04/16.
  */
-public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointValuePair> {
+public class OptimizerOracle implements Oracle<OptimizationData[], PointValuePair> {
 
     private static List<String> pathToFileOfLinearProgram = new ArrayList<>();
 
@@ -36,7 +37,7 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
 
     private static final double EPSILON = 1e-6;
 
-    public OptimizerOracleImpl() {
+    public OptimizerOracle() {
         super();
         super.path = "optimizer";
         this.valuesOfOptimization = new ArrayList<>();
@@ -60,14 +61,14 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
     }
 
     @Override
-    public boolean check(PointValuePair perturbedValue, int index) {
-        return Math.abs(perturbedValue.getValue() - this.valuesOfOptimization.get(index)) < EPSILON &&
-                validSolution(perturbedValue, staticListOfListOfConstraints.get(index));
+    public boolean check(PointValuePair output, int index) {
+        return Math.abs(output.getValue() - this.valuesOfOptimization.get(index)) < EPSILON &&
+                validSolution(output, staticListOfListOfConstraints.get(index));
     }
 
     @Override
     public OptimizationData[] get(int index) {
-        return super.scenario.get(index);
+
     }
 
     private static boolean validSolution(PointValuePair solution, List<LinearConstraint> constraints) {
@@ -99,4 +100,17 @@ public class OptimizerOracleImpl extends OracleImpl<OptimizationData[], PointVal
     }
 
 
+    @Override
+    public boolean assertPerturbation(OptimizationData[] input, PointValuePair output) {
+        SimplexSolver solver = new SimplexSolver();
+        double inputValue = solver.optimize(input).getValue();
+
+        List<LinearConstraint> constraints = new ArrayList<>();
+        for (OptimizationData data : input)
+            if(data instanceof LinearConstraint)
+                constraints.add((LinearConstraint)data);
+
+        return Math.abs(output.getValue() - inputValue) < EPSILON &&
+                validSolution(output, constraints);
+    }
 }

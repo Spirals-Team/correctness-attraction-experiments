@@ -1,6 +1,7 @@
 package quicksort;
 
-import experiment.OracleImpl;
+import experiment.Oracle;
+import experiment.OracleManager;
 import experiment.Runner;
 
 import java.util.ArrayList;
@@ -10,7 +11,10 @@ import java.util.List;
 /**
  * Created by spirals on 05/04/16.
  */
-public class QuickSortOracleImpl extends OracleImpl<List<Integer>,List<Integer>> {
+public class QuickSortOracle implements Oracle<List<Integer>, List<Integer>> {
+
+
+
 
     @Override
     protected List<Integer> generateOneTask() {
@@ -33,10 +37,10 @@ public class QuickSortOracleImpl extends OracleImpl<List<Integer>,List<Integer>>
     }
 
     @Override
-    public boolean check(List<Integer> perturbedValue, int index) {
+    public boolean check(List<Integer> output, int index) {
         List<Integer> clone = new ArrayList<Integer>(scenario.get(index));
 
-        Iterator<Integer> it = perturbedValue.iterator();
+        Iterator<Integer> it = output.iterator();
 
         int previousValue = it.next();
 
@@ -64,4 +68,28 @@ public class QuickSortOracleImpl extends OracleImpl<List<Integer>,List<Integer>>
         return new ArrayList(scenario.get(index));
     }
 
+    @Override
+    public boolean assertPerturbation(List<Integer> input, List<Integer> output) {
+        Iterator<Integer> it = output.iterator();
+
+        int previousValue = it.next();
+
+        if (!input.contains(previousValue))
+            return false;
+        else
+            input.remove(input.indexOf(previousValue));
+
+        while (it.hasNext()) {
+            int current = it.next();
+            if (current < previousValue)
+                return false;
+            else if (!input.contains(current))
+                return false;
+            else
+                input.remove(input.indexOf(current));
+
+            previousValue = current;
+        }
+        return input.isEmpty();
+    }
 }

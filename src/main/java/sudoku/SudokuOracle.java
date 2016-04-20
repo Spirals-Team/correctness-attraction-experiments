@@ -1,6 +1,6 @@
 package sudoku;
 
-import experiment.OracleImpl;
+import experiment.OracleManager;
 import experiment.Runner;
 
 import java.io.BufferedReader;
@@ -12,13 +12,13 @@ import java.util.List;
 /**
  * Created by spirals on 08/04/16.
  */
-public class SudokuOracleImpl extends OracleImpl<int[][],Sudoku> {
+public class SudokuOracle extends OracleManager<int[][],Sudoku> {
 
     private BufferedReader br;
 
     private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
 
-    public SudokuOracleImpl() {
+    public SudokuOracle() {
         super();
         super.path = "sudoku";
         try {
@@ -49,15 +49,8 @@ public class SudokuOracleImpl extends OracleImpl<int[][],Sudoku> {
     }
 
     @Override
-    public String header() {
-        String header = Runner.numberOfTask + " sudoku grid \n";
-        header += "Those grid are read from file in resources/sudoku/grid.txt\n";
-        return header;
-    }
-
-    @Override
-    public boolean check(Sudoku perturbedValue, int index) {
-        int[][] perturbedGrid = perturbedValue.getGrid();
+    public boolean check(Sudoku output, int index) {
+        int[][] perturbedGrid = output.getGrid();
         int[][] originalGrid = get(index);
         for (int row = 0; row < perturbedGrid.length; row++) {
             List<Integer> listOfInteger = buildListOf9Integer();
@@ -87,15 +80,4 @@ public class SudokuOracleImpl extends OracleImpl<int[][],Sudoku> {
         return lst;
     }
 
-    @Override
-    public int[][] get(int index) {
-        int [][] clone = new int[9][9];
-        int [][] originalValue = scenario.get(index);
-        for (int row = 0 ; row <originalValue.length ; row++) {
-            for (int col = 0 ; col < originalValue[row].length ; col++) {
-                clone[row][col] =originalValue[row][col];
-            }
-        }
-        return clone;
-    }
 }

@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Created by spirals on 05/04/16.
  */
-public abstract class OracleImpl<T,P> implements Oracle<T,P> {
+public abstract class OracleManager<T,P> implements Oracle<T,P> {
 
     protected List<T> scenario;
 
@@ -17,7 +17,7 @@ public abstract class OracleImpl<T,P> implements Oracle<T,P> {
 
     protected String path;
 
-    public OracleImpl() {
+    public OracleManager() {
         scenario = new ArrayList<>();
         while (scenario.size() < Runner.numberOfTask)
             scenario.add(generateOneTask());
