@@ -80,9 +80,9 @@ public class AddOneExplorerImpl implements Explorer {
         Tuple [][][] results = Logger.getResults();
 
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail.txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_detail.txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
-            writer.write("All Result : detail per task\n" + header + Runner.oracle.header());
+            writer.write("All Result : detail per task\n" + header + Runner.manager.getHeader());
             writer.write(String.format(format, "Task", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
                     "#Perturbations", "%Success") + "\n");
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
@@ -98,7 +98,7 @@ public class AddOneExplorerImpl implements Explorer {
             writer.close();
 
             format = "%-30s %-30s";
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/search_space_size_AddOneExplorer.txt", false);
+            writer = new FileWriter("results/" + Runner.manager.getPath() + "/search_space_size_AddOneExplorer.txt", false);
             writer.write(String.format(format, "number of Task : ",  Runner.numberOfTask) + "\n");
             writer.write(String.format(format,"number of Locations : " , Runner.locations.size()) + "\n");
             writer.write(String.format(format,"number of Task done : " , searchSpaceSize) + "\n");
@@ -107,9 +107,9 @@ public class AddOneExplorerImpl implements Explorer {
             writer.close();
 
             /* Sum PerturbationPoint */
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_1.txt", false);
+            writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_per_location_1.txt", false);
             format = "%-10s %-10s %-10s %-10s %-10s %-14s %-10s %-22s %-27s";
-            writer.write("Aggregate data for all tasks per location for magnitude = 1\n"  + header + Runner.oracle.header());
+            writer.write("Aggregate data for all tasks per location for magnitude = 1\n"  + header + Runner.manager.getHeader());
             writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",  "#Call",
                     "#Perturbations", "#Tasks",  "AvgPerturbationPerTask", "%Success") + "\n");
             for (PerturbationLocation location : Runner.locations) {
@@ -133,13 +133,13 @@ public class AddOneExplorerImpl implements Explorer {
             }
             writer.close();
 
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_anti_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_anti_fragile.txt",
                     "List of ids antifragile points.", locationAntiFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_super_anti_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_super_anti_fragile.txt",
                     "List of ids antifragile points.", locationSuperAntiFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_oracle_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_oracle_fragile.txt",
                     "list ids of oracle fragile code : >" + Explorer.TOLERANCE +"% of oracle failures", locationOracleFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_exception_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_exception_fragile.txt",
                     "list ids of exception fragile code : >" + Explorer.TOLERANCE +"% of exceptions.", locationExceptionFragile);
 
         } catch (IOException e) {

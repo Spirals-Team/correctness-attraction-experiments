@@ -1,5 +1,6 @@
 package sudoku;
 
+import experiment.Oracle;
 import experiment.OracleManager;
 import experiment.Runner;
 
@@ -12,66 +13,7 @@ import java.util.List;
 /**
  * Created by spirals on 08/04/16.
  */
-public class SudokuOracle extends OracleManager<int[][],Sudoku> {
-
-    private BufferedReader br;
-
-    private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
-
-    public SudokuOracle() {
-        super();
-        super.path = "sudoku";
-        try {
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected int[][] generateOneTask() {
-        int[][] grid = new int[9][9];
-        try {
-            if (br == null)
-                br = new BufferedReader(new FileReader(PATH_TO_GRID_FILE));
-            //Trash Header
-            br.readLine();
-            for (int row = 0; row < 9; row++) {
-                String rowAsStr = br.readLine();
-                for (int col = 0; col < rowAsStr.length(); col++) {
-                    grid[row][col] = Integer.parseInt(rowAsStr.charAt(col) + "");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return grid;
-    }
-
-    @Override
-    public boolean check(Sudoku output, int index) {
-        int[][] perturbedGrid = output.getGrid();
-        int[][] originalGrid = get(index);
-        for (int row = 0; row < perturbedGrid.length; row++) {
-            List<Integer> listOfInteger = buildListOf9Integer();
-            for (int col = 0; col < perturbedGrid[row].length; col++) {
-                if (!listOfInteger.remove(new Integer(perturbedGrid[row][col])))
-                    return false;
-                if (originalGrid[row][col] != 0 && originalGrid[row][col] != perturbedGrid[row][col])
-                    return false;
-            }
-        }
-//        for (int col = 0; col < perturbedValue.length; col++) {
-//            List<Integer> listOfInteger = buildListOf9Integer();
-//            for (int row = 0; row < perturbedValue[row].length; row++) {
-//                if (!listOfInteger.remove(new Integer(perturbedValue[row][col])))
-//                    return false;
-//                if (originalGrid[row][col] != 0 && originalGrid[row][col] != perturbedValue[row][col])
-//                    return false;
-//            }
-//        }
-        return true;
-    }
+public class SudokuOracle implements Oracle<int[][],int[][]> {
 
     private List<Integer> buildListOf9Integer() {
         List<Integer> lst = new ArrayList<Integer>();
@@ -80,4 +22,26 @@ public class SudokuOracle extends OracleManager<int[][],Sudoku> {
         return lst;
     }
 
+    @Override
+    public boolean assertPerturbation(int[][] input, int[][] output) {
+        for (int row = 0; row < output.length; row++) {
+            List<Integer> listOfInteger = buildListOf9Integer();
+            for (int col = 0; col < output[row].length; col++) {
+                if (!listOfInteger.remove(new Integer(output[row][col])))
+                    return false;
+                if (input[row][col] != 0 && input[row][col] != output[row][col])
+                    return false;
+            }
+        }
+//        for (int col = 0; col < output.length; col++) {
+//            List<Integer> listOfInteger = buildListOf9Integer();
+//            for (int row = 0; row < output[row].length; row++) {
+//                if (!listOfInteger.remove(new Integer(output[row][col])))
+//                    return false;
+//                if (input[row][col] != 0 && input[row][col] != output[row][col])
+//                    return false;
+//            }
+//        }
+        return true;
+    }
 }

@@ -7,15 +7,22 @@ import java.util.Random;
 /**
  * Created by spirals on 05/04/16.
  */
-public abstract class OracleManager<T,P> implements Oracle<T,P> {
 
-    protected List<T> scenario;
+/**
+ * OracleManager
+ * @param <T>
+ */
+public abstract class OracleManager<T> {
+
+    protected String path;
+
+    protected String header;
 
     protected int seedForGenTask = 23;
 
-    protected Random randomForGenTask = new Random(seedForGenTask);
+    protected List<T> scenario;
 
-    protected String path;
+    protected Random randomForGenTask = new Random(seedForGenTask);
 
     public OracleManager() {
         scenario = new ArrayList<>();
@@ -25,9 +32,16 @@ public abstract class OracleManager<T,P> implements Oracle<T,P> {
 
     protected abstract T generateOneTask();
 
-    @Override
+    public abstract T get(int index);
+
+    public abstract Oracle<T, ?> getOracle();
+
     public String getPath() {
         return path;
+    }
+
+    public String getHeader() {
+        return this.header;
     }
 
 

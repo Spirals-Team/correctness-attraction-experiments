@@ -141,7 +141,7 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
      fig.savefig(path+"/img/scatterPlotSuccessNumPerturb.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
-subjects=["quicksort","zip","md5","sudoku","optimizer"]
+subjects=["quicksort","zip","md5","sudoku","optimizer", "mersenne"]
 for subject in subjects:
     scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", subject)

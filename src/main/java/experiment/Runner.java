@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 public class Runner {
 
     public static Oracle oracle;
+    public static OracleManager manager;
     public static Class<?> CUP;// Class Under Perturbation
     public static Class<?> classCallable;// Class to run exp have to be static
     public static Constructor constructorRunner;
@@ -55,12 +56,12 @@ public class Runner {
         Tuple result = new Tuple(3);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
-            Callable instanceRunner = (Callable)constructorRunner.newInstance(oracle.get(indexOfTask));
+            Callable instanceRunner = (Callable)constructorRunner.newInstance(manager.get(indexOfTask));
             Future future = executor.submit(instanceRunner);
             try {
-                Object perturbedValue = (future.get(numberOfSecondsToWait, TimeUnit.SECONDS));
-                boolean checked = oracle.check(perturbedValue, indexOfTask);
-                if (checked)
+                Object output = (future.get(numberOfSecondsToWait, TimeUnit.SECONDS));
+                boolean assertion = oracle.assertPerturbation(manager.get(indexOfTask), output);
+                if (assertion)
                     result.set(0, 1); // success
                 else
                     result.set(1, 1); // failures
@@ -85,22 +86,23 @@ public class Runner {
     /**
      * Method for setting up the class under Perturbation (CUP)
      * @param classUnderPerturbation
-     * @param classCallable Class which contains the entry method nameOfEntryMethod
-     * @param oracleImpl
-     * @param argsOfMethods
+     * @param classCallable
+     * @param manager
+     * @param inputTypes
      */
-    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, Oracle oracleImpl, Class<?>... argsOfMethods) {
+    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManager manager, Class<?>... inputTypes) {
         CUP = classUnderPerturbation;
         Runner.classCallable = classCallable;
+        Runner.manager = manager;
         try {
-            Runner.constructorRunner = classCallable.getConstructor(argsOfMethods);
+            Runner.constructorRunner = classCallable.getConstructor(inputTypes);
         } catch (Exception e) {
             e.printStackTrace();
         }
         locations = PerturbationLocation.getLocationFromClass(classUnderPerturbation).stream().filter(location ->
                 location.getType().equals("Numerical")).collect(Collectors.toList()
         );
-        oracle = oracleImpl;
+        oracle = Runner.manager.getOracle();
     }
 
     public static void runAllCampaign() {
@@ -135,8 +137,5 @@ public class Runner {
         if (args.length > 1)
             Util.parseArgs(args);
         quicksort.Main.run();
-        zip.Main.run();
-        md5.Main.run();
-        sudoku.Main.run();
     }
 }

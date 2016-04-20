@@ -6,6 +6,7 @@ import experiment.Runner;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.SimplexSolver;
+import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
 
 /**
  * Created by spirals on 15/04/16.
@@ -18,7 +19,7 @@ public class OptimizerCallableImpl extends CallableImpl<OptimizationData[], Poin
 
     @Override
     public PointValuePair call() throws Exception {
-        SimplexSolver solver = new SimplexSolver();
+        SimplexSolverInstr solver = new SimplexSolverInstr();
         return solver.optimize(originalValue);
     }
 }

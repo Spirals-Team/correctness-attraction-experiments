@@ -5,7 +5,7 @@ import experiment.CallableImpl;
 import experiment.Explorer;
 import experiment.IntegerAdd1RndEnactorExplorerImpl;
 import experiment.Logger;
-import experiment.OracleImpl;
+import experiment.OracleManager;
 import experiment.Runner;
 import experiment.Tuple;
 import perturbation.enactor.NeverEnactorImpl;
@@ -73,7 +73,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
         /* only one array */
         Runner.numberOfTask = 1;
         Runner.numberOfSecondsToWait = 30;
-        OracleImpl<int[],int[]> oracle = new QuickSort2OracleImpl();
+        OracleManager<int[]> oracle = new QuickSort2Manager();
         Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, oracle, int[].class);
 
         /* no Perturbation */
@@ -116,7 +116,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     public static void logAll() {
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/exec_path_all.txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/exec_path_all.txt", false);
             final Random rnd = new Random(68);
 
             lst = lst.stream().distinct().collect(Collectors.toList());
@@ -156,7 +156,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     public static void logCampaign(List<List<PerturbationLocation>> listOfListofLocations, String cmp, int offset) {
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/exec_path_"+cmp+".txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/exec_path_"+cmp+".txt", false);
             String out = "Unperturbed ";
             for (Integer value : unperturbed)
                 out += value + " ";
@@ -185,7 +185,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
     public static List<PerturbationLocation> log(int i) {
         List<PerturbationLocation> locSorted = null;
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/exec_path_" + exp[i] + ".txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/exec_path_" + exp[i] + ".txt", false);
             Map<PerturbationLocation, List<Integer>> mapCallsPerLocation = map.get(exp[i]);
             List<Integer> distances = new ArrayList<>();
             for (List<Integer> list : mapCallsPerLocation.values()) {

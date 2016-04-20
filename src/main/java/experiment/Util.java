@@ -100,8 +100,8 @@ public class Util {
     @Deprecated
     public static void addAntiFragileLocation(List<PerturbationLocation> topLocations) throws IOException {
         String[] pathTofileToGetIndices = new String[]{
-                "results/" + Runner.oracle.getPath() + "/AddOneExplorer_super_anti_fragile.txt",
-                "results/" + Runner.oracle.getPath() + "/AddOneExplorer_anti_fragile.txt",
+                "results/" + Runner.manager.getPath() + "/AddOneExplorer_super_anti_fragile.txt",
+                "results/" + Runner.manager.getPath() + "/AddOneExplorer_anti_fragile.txt",
         };
         for (String path : pathTofileToGetIndices) {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -127,8 +127,8 @@ public class Util {
     public static void addNotFragileLocation(List<PerturbationLocation> topLocations) throws IOException {
         List<Integer> blackList = new ArrayList<>();
         String[] pathTofileToGetIndices = new String[]{
-                "results/" + Runner.oracle.getPath() + "/AddOneExplorer_oracle_fragile.txt",
-                "results/" + Runner.oracle.getPath() + "/AddOneExplorer_exception_fragile.txt",
+                "results/" + Runner.manager.getPath() + "/AddOneExplorer_oracle_fragile.txt",
+                "results/" + Runner.manager.getPath() + "/AddOneExplorer_exception_fragile.txt",
         };
         //Init blackList, we don't want fragile location anymore
         for (String pathToFile : pathTofileToGetIndices) {

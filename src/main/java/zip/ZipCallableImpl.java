@@ -13,6 +13,6 @@ public class ZipCallableImpl extends CallableImpl<String,String> {
 
     @Override
     public String call() throws Exception {
-        return LZW.decompress(LZW.compress(super.originalValue));
+        return LZWInstr.decompress(LZWInstr.compress(super.originalValue));
     }
 }

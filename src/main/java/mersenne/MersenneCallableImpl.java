@@ -17,7 +17,7 @@ public class MersenneCallableImpl extends CallableImpl<Long, List<Long>> {
 
     @Override
     public List<Long> call() throws Exception {
-        MersenneTwister mersenneTwister = new MersenneTwister(originalValue);
+        MersenneTwisterInstr mersenneTwister = new MersenneTwisterInstr(originalValue);
         List<Long> rndList = new ArrayList<>();
         for(int i = 0; i < Runner.sizeOfEachTask ; i++)
             rndList.add(mersenneTwister.genrand());

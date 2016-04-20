@@ -15,6 +15,6 @@ public class QuickSortCallableImpl extends CallableImpl<List<Integer>,List<Integ
 
     @Override
     public List<Integer> call() throws Exception {
-        return QuickSort.sort(super.originalValue);
+        return QuickSortInstr.sort(super.originalValue);
     }
 }

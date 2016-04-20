@@ -95,9 +95,9 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
         try {
             /* All Log */
-            FileWriter writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_detail.txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_detail.txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
-            writer.write( "detail per task and per random rate.\n" + header + Runner.oracle.header());
+            writer.write( "detail per task and per random rate.\n" + header + Runner.manager.getHeader());
             writer.write(String.format(format, "Task", "RandomRate", "IndexLoc", "#Success", "#Failure",
                     "#Exception", "#Call", "#Perturbation","%Success") + "\n");
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
@@ -114,8 +114,8 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             writer.close();
 
             /* Sum Arrays */
-            writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_random_rates_analysis_graph_data.txt", false);
-            writer.write("contains the data for the random rates analysis graph.\n"+ header + Runner.oracle.header());
+            writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_random_rates_analysis_graph_data.txt", false);
+            writer.write("contains the data for the random rates analysis graph.\n"+ header + Runner.manager.getHeader());
             format = "%-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write(String.format(format, "RandomRate", "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
                     "#Perturbation","%Success") + "\n");
@@ -145,8 +145,8 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             format = "%-10s %-10s %-10s %-10s %-10s %-14s %-10s %-22s %-27s";
             for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
-                writer = new FileWriter("results/" + Runner.oracle.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates] + ".txt", false);
-                writer.write("aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n" + title + Runner.oracle.header());
+                writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates] + ".txt", false);
+                writer.write("aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n" + title + Runner.manager.getHeader());
                 writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
                         "#Perturbation", "#Task","AvgPerturbationPerTask","%Success") + "\n");
                 for (PerturbationLocation location : Runner.locations) {
@@ -165,13 +165,13 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                 writer.close();
             }
 
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_anti_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_anti_fragile.txt",
                     "List of ids antifragile points.", locationAntiFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_super_anti_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_super_anti_fragile.txt",
                     "List of ids antifragile points.", locationSuperAntiFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_oracle_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_oracle_fragile.txt",
                     "list ids of oracle fragile code : >" + Explorer.TOLERANCE +"% of oracle failures", locationOracleFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.oracle.getPath() + "/" + path + "_exception_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_exception_fragile.txt",
                     "list ids of exception fragile code : >" + Explorer.TOLERANCE +"% of exceptions.", locationExceptionFragile);
 
 

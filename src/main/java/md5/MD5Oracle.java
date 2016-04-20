@@ -1,5 +1,6 @@
 package md5;
 
+import experiment.Oracle;
 import experiment.OracleManager;
 import experiment.Runner;
 
@@ -10,41 +11,10 @@ import java.util.List;
 /**
  * Created by spirals on 07/04/16.
  */
-public class MD5Oracle extends OracleManager<String,byte[]> {
-
-    private List<byte[]> hashOfTask;
-
-    public MD5Oracle() {
-        super();
-        super.path = "md5";
-        hashOfTask = new ArrayList<>();
-        for (String stringToBeHash : scenario)
-            hashOfTask.add(MD5.computeMD5(stringToBeHash.getBytes()));
-    }
-
-    protected String generateOneTask() {
-        String string = "";
-        for (int i = 0 ; i < Runner.sizeOfEachTask ; i++) {
-            string += ((char)randomForGenTask.nextInt(256));
-        }
-        return string;
-    }
+public class MD5Oracle implements Oracle<String,byte[]> {
 
     @Override
-    public String header() {
-        String header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\n";
-        header += "Random char generated with " + seedForGenTask + " as seed\n";
-        return header;
+    public boolean assertPerturbation(String input, byte[] output) {
+        return Arrays.equals(MD5.computeMD5(input.getBytes()), output);
     }
-
-    @Override
-    public boolean check(byte[] output, int index) {
-        return Arrays.equals(output, hashOfTask.get(index));
-    }
-
-    @Override
-    public String get(int index) {
-        return new String(super.scenario.get(index));
-    }
-
 }

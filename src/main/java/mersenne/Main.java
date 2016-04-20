@@ -10,7 +10,7 @@ public class Main {
 
     public static void run() {
         System.out.println("Run Mersenne...");
-        Runner.setup(MersenneTwister.class, MersenneCallableImpl.class, new MersenneOracleImpl(), Long.class);
+        Runner.setup(MersenneTwisterInstr.class, MersenneCallableImpl.class, new MersenneManager(), Long.class);
         Runner.runExplorers();
     }
 

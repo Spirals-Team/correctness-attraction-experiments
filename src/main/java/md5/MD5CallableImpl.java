@@ -13,6 +13,6 @@ public class MD5CallableImpl extends CallableImpl<String,byte[]> {
 
     @Override
     public byte[] call() throws Exception {
-        return MD5.computeMD5(super.originalValue.getBytes());
+        return MD5Instr.computeMD5(super.originalValue.getBytes());
     }
 }
