@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+spoon=spoon-core-5.1.0-jar-with-dependencies.jar
+jPerturb=jPerturb/target/jPerturb-0.0.1-SNAPSHOT.jar
+perturbation=jPerturb/src/main/java/perturbation/
+processors=processor.AssignmentProcessor:processor.VariableCaster:processor.RenameProcessor:processor.PerturbationProcessor
+
 path=src/main/java/
 
 git clone http://github.com/Spirals-Team/jPerturb.git
@@ -20,7 +25,7 @@ files=(md5/MD5.java quicksort/QuickSort.java mersenne/MersenneTwister.java org/a
 for i in "${files[@]}"
 do
     echo $i
-    java -classpath spoon-core-5.1.0-jar-with-dependencies.jar:jPerturb/target/jPerturb-0.0.1-SNAPSHOT.jar spoon.Launcher -i $path/$i:jPerturb/src/main/java/perturbation/ -o src/main/java -x --with-imports -p processor.AssignmentProcessor:processor.VariableCaster:processor.RenameProcessor:processor.PerturbationProcessor
+    java -classpath $spoon:$jPerturb spoon.Launcher -i $path/$i:$perturbation -o src/main/java -x --with-imports -p $processors
 done
 
 mvn compile
