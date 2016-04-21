@@ -7,9 +7,12 @@ This project contains experiments for jPerturb
 * quicksort : Perturbation on Quicksort.
 * zip : Perturbation on LZW compression.
 * md5 : Perturbation on MD5 hash function.
-* sudoku : Perturbation on a Sudoku solver.
-* optimizer : Solver of linear program with the Simplex algorithm.
-* mersenne : an implementation of the Mersenne-Twister PNRG.
+* sudoku : Perturbation on a Sudoku solver ([RosettaCode](http://rosettacode.org/)).
+* optimizer : Solver of linear program with the Simplex algorithm from commons.math of Apache lib.
+* mersenne : an implementation of the Mersenne-Twister PRNG ([link](http://www.java2s.com/Code/Java/Development-Class/MersenneTwisterRandom.htm))
+* torrent : implementation of bittorent protocol retrieve [here](https://github.com/mpetazzoni/ttorrent)
+
+If the source is not specified, sources come from [RosettaCode](http://rosettacode.org/)
 
 about quicksort-visualization :
 This package is out of the experiments because it is used to draw perturbation envelop of quicksort algorithm.
