@@ -8,7 +8,7 @@ mvn install
 cd ..
 
 wget https://gforge.inria.fr/frs/download.php/latestzip/86/Spoon-latest.zip
-unzip Spoon-latest.zip
+unzip Spoon-latest.zip 2>/dev/null 1>/dev/null
 
 wget http://mirror.trisect.eu/Apache//commons/math/source/commons-math3-3.6.1-src.zip
 unzip commons-math3-3.6.1-src.zip 2>/dev/null 1>/dev/null
