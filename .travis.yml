@@ -9,10 +9,9 @@ sudo:
 install:
     - chmod +x ./src/script/*.sh
     - ./src/script/install.sh
+    - ./src/script/installTorrent.sh
+    - mvn compile
 
 script:
-    - ./src/script/run.sh
-    - git diff > diff.txt
-    - curl --upload-file ./diff.txt https://transfer.sh/diff.txt
-    - echo `git diff | wc -l`
+    - mvn exec:java -Dexec.mainClass="torrent.Main" -Dexec.args="-v -nb 1 -time 60 -exp addOne"
 

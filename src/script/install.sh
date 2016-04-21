@@ -28,4 +28,4 @@ do
     java -classpath $spoon:$jPerturb spoon.Launcher -i $path/$i:$perturbation -o src/main/java -x --with-imports -p $processors
 done
 
-mvn compile
+#mvn compile
