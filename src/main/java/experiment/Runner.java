@@ -106,8 +106,11 @@ public class Runner {
     }
 
     public static void runAllCampaign() {
+        System.out.println("Run AddOne Campaign...");
         run(new AddOneExplorerImpl());
+        System.out.println("Run AddN Campaign...");
         run(new AddNExplorerImpl());
+        System.out.println("Run IntegerAdd1RndEnactor Campaign...");
         run(new IntegerAdd1RndEnactorExplorerImpl());
     }
 
