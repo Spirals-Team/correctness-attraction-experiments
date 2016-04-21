@@ -20,9 +20,9 @@ import java.security.NoSuchAlgorithmException;
  */
 public class TorrentManager extends OracleManager<String> {
 
-    public static final String PATH_TO_TORRENT_FILE = "resources/torrent/input_torrent/";
+    public static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
 
-    public static final String PATH_TO_SENT_FILE = "resources/torrent/output_torrent/";
+    public static final String PATH_TO_SENT_FILE = "resources/output_torrent/";
 
     private final String URL_ANNOUCE = "http://0.0.0.0:6969/announce";
 
@@ -59,11 +59,11 @@ public class TorrentManager extends OracleManager<String> {
     }
 
     public void reinit() {
-        deletesOutputFiles();
+        cleanDirectory();
         initTracker();
     }
 
-    public static void deletesOutputFiles() {
+    public static void cleanDirectory() {
         try {
             File dire = new File(PATH_TO_SENT_FILE);
             for (File f : dire.listFiles()) {
@@ -76,22 +76,31 @@ public class TorrentManager extends OracleManager<String> {
 
     @Override
     protected String generateOneTask() {
-        String pathOfTheNewTask = PREFIX_FILE+(super.scenario.size());
+        if (super.scenario.isEmpty())
+            createDirectories();
+        String pathOfTheNewTask = PREFIX_FILE + (super.scenario.size());
         /* Create the file */
-        File task = createFile(PATH_TO_TORRENT_FILE+pathOfTheNewTask);
+        File task = createFile(PATH_TO_TORRENT_FILE + pathOfTheNewTask);
         /* Create the torrent of the file */
         createTorrent(pathOfTheNewTask, task);
         /* return the path to the couple file/torrent */
         return pathOfTheNewTask;
     }
 
+    private void createDirectories() {
+        File directory = new File(PATH_TO_SENT_FILE);
+        directory.mkdir();
+        directory = new File(PATH_TO_TORRENT_FILE);
+        directory.mkdir();
+    }
+
     private File createFile(String pathOfTheNewTask) {
-        File task = new File(pathOfTheNewTask+".txt");
+        File task = new File(pathOfTheNewTask + ".txt");
         try {
             task.createNewFile();
-            FileWriter writer = new FileWriter(pathOfTheNewTask+".txt");
-            for (int i = 0; i < Runner.sizeOfEachTask ; i++) {
-                writer.write((char)randomForGenTask.nextInt(256));
+            FileWriter writer = new FileWriter(pathOfTheNewTask + ".txt");
+            for (int i = 0; i < Runner.sizeOfEachTask; i++) {
+                writer.write((char) randomForGenTask.nextInt(256));
             }
             writer.close();
         } catch (IOException e) {
@@ -103,7 +112,7 @@ public class TorrentManager extends OracleManager<String> {
     private void createTorrent(String pathOfTheNewTask, File task) {
         try {
             Torrent torrent = Torrent.create(task, new URI(URL_ANNOUCE), CREATOR);
-            torrent.save(new FileOutputStream(PATH_TO_TORRENT_FILE+pathOfTheNewTask+".torrent"));
+            torrent.save(new FileOutputStream(PATH_TO_TORRENT_FILE + pathOfTheNewTask + ".torrent"));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
