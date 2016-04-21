@@ -34,7 +34,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
     private int repeat;
 
     public IntegerAdd1RndEnactorExplorerImpl(float... randomRates) {
-        this(10, randomRates);
+        this(5, randomRates);
     }
 
     public IntegerAdd1RndEnactorExplorerImpl(int repeat, float... randomRates) {
@@ -117,7 +117,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                         double avg = (double) result.get(4) / (double)nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
                         writer.write(String.format(format, indexTask, randomRates[indexRandomRates], location.getLocationIndex(),
                                 result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                                Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+                                result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                     }
                 }
             }
@@ -138,7 +138,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
                     writer.write(String.format(format, randomRates[indexRandomRates], location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+                            result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
 
                     resultForLocation = resultForLocation.add(result);
                 }
@@ -152,13 +152,13 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             title += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
             title += "PONE : Numerical Perturbator\n";
 
-            format = "%-10s %-10s %-10s %-10s %-10s %-14s %-10s %-22s %-27s";
+            format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
                 writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates] + ".txt", false);
                 writer.write("aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n" + title + Runner.manager.getHeader());
-                writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception", "#Call",
-                        "#Perturbation", "#Task","AvgPerturbationPerTask","%Success") + "\n");
+                writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",  "#call_all_execs", "avg_call_per_execs",
+                        "#Perturbations", "AvgPerturbationPerExecs", "#Execs", "#Tasks", "%Success") + "\n");
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
                     int accNbOfTasks = 0;
@@ -167,10 +167,11 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                         accNbOfTasks += nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
                     }
                     double avg = (double) result.get(4) / (double) accNbOfTasks;
+
                     writer.write(String.format(format, location.getLocationIndex(),
-                            result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                            accNbOfTasks, String.format("%.2f", avg),
-                            Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+                            result.get(0), result.get(1), result.get(2), accNbOfTasks, (accNbOfTasks / Runner.numberOfTask) ,
+                            result.get(4), String.format("%.2f", avg), result.get(3) , Runner.numberOfTask,
+                            result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 }
                 writer.close();
             }

@@ -106,7 +106,6 @@ public class Runner {
     }
 
     public static void runAllCampaign() {
-        System.out.println("Run All Campaigns...");
         run(new AddOneExplorerImpl());
         run(new AddNExplorerImpl());
         run(new IntegerAdd1RndEnactorExplorerImpl());
@@ -138,5 +137,10 @@ public class Runner {
         if (args.length > 1)
             Util.parseArgs(args);
         quicksort.Main.run();
+        md5.Main.run();
+        mersenne.Main.run();
+        optimizer.Main.run();
+        sudoku.Main.run();
+        zip.Main.run();
     }
 }
