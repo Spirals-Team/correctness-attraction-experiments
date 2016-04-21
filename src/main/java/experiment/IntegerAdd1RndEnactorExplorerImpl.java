@@ -31,10 +31,18 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
     private int[][][] nbOfCallsPerLocationPerTaskPerRates;
 
+    private int repeat;
+
     public IntegerAdd1RndEnactorExplorerImpl(float... randomRates) {
+        this(10, randomRates);
+    }
+
+    public IntegerAdd1RndEnactorExplorerImpl(int repeat, float... randomRates) {
 
         if (randomRates.length > 0)
             this.randomRates = randomRates;
+
+        this.repeat = repeat;
 
         enactorsOfLocationPerRandomRates = new Map[this.randomRates.length];
 
@@ -52,10 +60,9 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                 enactorsOfLocationPerRandomRates[indexOfRandomRate].put(location, new RandomEnactorImpl(seedOfRandomEnactor, this.randomRates[indexOfRandomRate]));
             }
         }
-
         header += "\n" + Runner.locations.size() + " perturbation point\n";
-        header += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
-        header += "PONE : Numerical Perturbator\n";
+        header += repeat + " repetition of each point of each task\n";
+        header += "PONE : Numerical Perturbator, Random Enactor, seed :" + seedOfRandomEnactor + "\n";
 
         path = "IntegerAdd1RndEnactorExplorer";
     }
@@ -80,7 +87,10 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
     private Tuple runRandomRate(int indexOfTask, PerturbationLocation location, int indexOfrandomRate) {
         location.setEnactor(enactorsOfLocationPerRandomRates[indexOfrandomRate].get(location));
-        return Runner.runPerturbation(indexOfTask);
+        Tuple result = new Tuple(3);
+        for (int i = 0 ; i < repeat ; i++)
+            result = result.add(Runner.runPerturbation(indexOfTask));
+        return result;
     }
 
     @Override

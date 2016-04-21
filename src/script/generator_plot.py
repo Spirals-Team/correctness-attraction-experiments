@@ -80,6 +80,8 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
      labelOfN = ' '.join(lines[1].split()).split(" ")[0]
      n = ' '.join(lines[2].split()).split(" ")[3:]
      numberOfLocation = int(' '.join(lines[3].split()).split(" ")[0])
+     nbTask = int(' '.join(lines[6].split()).split(" ")[0])
+     nbRepeat = int(' '.join(lines[4].split()).split(" ")[0])
 
      percAll=[]
      nbPerturbAll=[]
@@ -98,7 +100,7 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
 
         for line in lines[i:i+len(n)]:
             perc.append(float(' '.join(line.split()).split(" ")[-1].replace(',','.')))
-            nbPerturb.append(int(' '.join(line.split()).split(" ")[6].replace(',','.')))
+            nbPerturb.append(int(' '.join(line.split()).split(" ")[6].replace(',','.')) / (nbTask*nbRepeat))
 
         label.append(str(' '.join(lines[i].split()).split(" ")[0].replace(',','.')))
         label.append(str(' '.join(lines[i+(len(n))/2].split()).split(" ")[0].replace(',','.')))
@@ -125,7 +127,7 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
             ax.annotate(labelsAll[i][z if z != mid else 1], xy = (nbPerturbAll[i][z], percAll[i][z]),
                         xytext=(0.5, 5), textcoords='offset points', size=5)
 
-     plt.xlabel("Number of Perturbations")
+     plt.xlabel("Avg Perturbation Per Tasks")
      plt.ylabel("% success")
      plt.title(subject)
 
@@ -141,7 +143,7 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
      fig.savefig(path+"/img/scatterPlotSuccessNumPerturb.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
-subjects=["quicksort","zip","md5","sudoku","optimizer", "mersenne"]
+subjects=["quicksort" ,"zip","md5","sudoku","optimizer", "mersenne"]
 for subject in subjects:
     scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", subject)

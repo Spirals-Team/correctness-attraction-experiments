@@ -41,6 +41,7 @@ public class Runner {
         for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
             runLocations(indexOfTask);
         }
+        explorer.log();
     }
 
     public static void runLocations(int indexOfTask) {
@@ -49,7 +50,6 @@ public class Runner {
                 System.out.println(location.getLocationIndex()+" \t "+Util.getStringPerc(locations.indexOf(location) , locations.size()));
             explorer.run(indexOfTask, location);
         }
-        explorer.log();
     }
 
     public static Tuple runPerturbation(int indexOfTask) {
@@ -106,6 +106,7 @@ public class Runner {
     }
 
     public static void runAllCampaign() {
+        System.out.println("Run All Campaigns...");
         run(new AddOneExplorerImpl());
         run(new AddNExplorerImpl());
         run(new IntegerAdd1RndEnactorExplorerImpl());
