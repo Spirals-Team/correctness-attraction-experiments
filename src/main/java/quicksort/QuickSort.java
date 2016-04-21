@@ -1,7 +1,5 @@
 package quicksort;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ public class QuickSort {
             List<Integer> more = new LinkedList<Integer>();
 
             // Partition
-            for (Integer i: arr) {
+            for (Integer i : arr) {
                 if (i.compareTo(pivot) < 0)
                     less.add(i);
                 else if (i.compareTo(pivot) > 0)
@@ -40,7 +38,6 @@ public class QuickSort {
         return arr;
 
     }
-
 
 
 }

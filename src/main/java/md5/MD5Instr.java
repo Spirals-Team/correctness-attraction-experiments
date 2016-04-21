@@ -442,7 +442,7 @@ public class MD5Instr {
         return md5;
     }
 
-    private static void initPerturbationLocation0() {
+    static private void initPerturbationLocation0() {
         __L0 = new PerturbationLocationImpl("MD5.java:25" , 0 , "Numerical");
         __L1 = new PerturbationLocationImpl("MD5.java:26" , 1 , "Numerical");
         __L2 = new PerturbationLocationImpl("MD5.java:26" , 2 , "Numerical");

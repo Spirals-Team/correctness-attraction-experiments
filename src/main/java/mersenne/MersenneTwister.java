@@ -5,28 +5,21 @@ import java.util.Random;
 /**
  A C-program for MT19937, with initialization improved 2002/1/26.
  Coded by Takuji Nishimura and Makoto Matsumoto.
-
  Before using, initialize the state by using init_genrand(seed)
  or init_by_array(init_key, key_length).
-
  Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
  All rights reserved.
-
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions
  are met:
-
  1. Redistributions of source code must retain the above copyright
  notice, this list of conditions and the following disclaimer.
-
  2. Redistributions in binary form must reproduce the above copyright
  notice, this list of conditions and the following disclaimer in the
  documentation and/or other materials provided with the distribution.
-
  3. The names of its contributors may not be used to endorse or promote
  products derived from this software without specific prior written
  permission.
-
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -38,12 +31,10 @@ import java.util.Random;
  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
  <br><br><br>
  Any feedback is very welcome.<br>
  http://www.math.keio.ac.jp/matumoto/emt.html<br>
  email: matumoto@math.keio.ac.jp<br>
-
  @author Makoto Matsumoto (matumoto@math.keio.ac.jp)
  @author Takuji Nishimura
  */
