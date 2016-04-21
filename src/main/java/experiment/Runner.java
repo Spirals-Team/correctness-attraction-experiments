@@ -1,6 +1,7 @@
 package experiment;
 
 import perturbation.location.PerturbationLocation;
+import perturbation.location.PerturbationLocationImpl;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -99,7 +100,7 @@ public class Runner {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        locations = PerturbationLocation.getLocationFromClass(classUnderPerturbation).stream().filter(location ->
+        locations = PerturbationLocationImpl.getLocationFromClass(classUnderPerturbation).stream().filter(location ->
                 location.getType().equals("Numerical")).collect(Collectors.toList()
         );
         oracle = Runner.manager.getOracle();
