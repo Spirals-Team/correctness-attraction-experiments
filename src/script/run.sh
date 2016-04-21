@@ -3,5 +3,6 @@
 java -cp target/classes quicksort.Main
 java -cp target/classes zip.Main
 java -cp target/classes md5.Main
-java -cp target/classes sudoku.Main
-java -cp target/classes optimizer.Main -nb 1
+java -cp target/classes sudoku.Main -nb 1 -time 30
+java -cp target/classes optimizer.Main -nb 1 -time 30
+java -cp target/classes mersenne.Main
