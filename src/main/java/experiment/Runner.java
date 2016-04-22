@@ -22,7 +22,7 @@ public class Runner {
     public static Oracle oracle;
     public static OracleManager manager;
     public static Class<?> CUP;// Class Under Perturbation
-    public static Class<?> classCallable;// Class to run exp have to be static
+    public static Class<?> classCallable;
     public static Constructor constructorRunner;
     public static List<PerturbationLocation> locations;
     public static Explorer explorer;
@@ -33,9 +33,6 @@ public class Runner {
     public static List<String> explorers = new ArrayList<>();
 
     public static boolean verbose = false;
-
-    @Deprecated
-    public static int sizeOfTopLocations = 10;
 
     public static void run(Explorer explorerUnderPerturbation) {
         explorer = explorerUnderPerturbation;
