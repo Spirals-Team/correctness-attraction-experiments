@@ -7,12 +7,16 @@ jdk:
 - oraclejdk8
 cache:
   directories:
+  - .autoconf
   - $HOME/.m2
 sudo: true
+branches:
+  except:
+  - auto-push
 install:
 - chmod +x ./src/script/*.sh
 - ./src/script/install.sh
 script:
-- java -cp target/classes quicksort.Main -nb 1 -exp Rnd
-after_success:
-- ./src/script/commit.sh
+- ./src/script/run.sh
+#after_success:
+#- ./src/script/commit.sh
