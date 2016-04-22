@@ -7,5 +7,4 @@ git config --global user.name "bdanglot"
 
 git add results/
 git commit -m "Commit new results"
-git push "https://${GH_TOKEN}@${GH_REF}" auto-push-torrent:auto-push-torrent
 git push "https://${GH_TOKEN}@${GH_REF}" $CURRENT_BRANCH:branch-results
