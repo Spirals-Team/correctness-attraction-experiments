@@ -25,6 +25,8 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
         if (magnitudes.length > 0)
             this.magnitudes = magnitudes;
 
+        super.nbExecsPerLocationsPerTask = new int[Runner.locations.size()][Runner.numberOfTask][this.magnitudes.length];
+
         Logger.init(Runner.locations.size(),Runner.numberOfTask, this.magnitudes.length, 5);
 
         for (int magnitude : this.magnitudes)
@@ -64,6 +66,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             result.set(4, PerturbationEngine.logger.getEnactions(location));
             PerturbationEngine.logger.reset();
             Logger.add(Runner.locations.indexOf(location), indexOfTask, indexMagnitude, result);
+            super.nbExecsPerLocationsPerTask[Runner.locations.indexOf(location)][indexOfTask][indexMagnitude]++;
         }
     }
 
@@ -143,23 +146,33 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             mag_header += "PMAG : Numerical Perturbator\n";
 
             /* Sum PerturbationPoint */
-            format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
+            format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-10s %-27s";
             for (int indexMagnitude = 0; indexMagnitude < magnitudes.length ; indexMagnitude++) {
                 writer = new FileWriter("results/"+ Runner.manager.getPath()+"/"+path+"_per_location_"+magnitudes[indexMagnitude]+ ".txt", false);
                 writer.write("aggregate data per location for magnitude = " + magnitudes[indexMagnitude] + "\n" + mag_header + Runner.manager.getHeader());
-                writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",  "#call_all_execs", "avg_call_per_execs",
-                        "#Perturbations", "AvgPerturbationPerExecs", "#Execs", "#Tasks", "%Success") + "\n");
+                writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",
+                        "#CallAllExecs", "AvgCallPerExec",
+                        "#Perturbations", "AvgPerturbationPerExec",
+                        "#Execs", "#ExecsRef", "#Tasks", "%Success") + "\n");
+
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
                     int accNbOfTasks = 0;
+                    int accNbExecAllTask = 0;
                     for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
                         accNbOfTasks += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                        accNbExecAllTask += nbExecsPerLocationsPerTask[Runner.locations.indexOf(location)][indexTask][indexMagnitude];
                     }
-                    double avg = (double)result.get(4) / (double)accNbOfTasks;
+
+                    double avgCall = (double)result.get(3) / (double)accNbOfTasks;
+                    double avgPerturbation = (double)result.get(4) / (double)accNbOfTasks;
+
                     writer.write(String.format(format, location.getLocationIndex(),
-                            result.get(0), result.get(1), result.get(2), accNbOfTasks, (accNbOfTasks / Runner.numberOfTask) ,
-                            result.get(4), String.format("%.2f", avg), result.get(3) , Runner.numberOfTask,
+                            result.get(0), result.get(1), result.get(2),
+                            result.get(3), String.format("%.2f", avgCall),
+                            result.get(4), String.format("%.2f", avgPerturbation),
+                            accNbExecAllTask, accNbOfTasks, Runner.numberOfTask,
                             result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 }
                 writer.close();
