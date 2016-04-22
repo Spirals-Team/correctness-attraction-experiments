@@ -12,7 +12,7 @@ cache:
 sudo: true
 branches:
   except:
-  - auto-push-torrent
+  - branch-results
 install:
     - chmod +x ./src/script/*.sh
     - ./src/script/install.sh
