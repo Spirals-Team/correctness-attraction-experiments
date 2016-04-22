@@ -1,25 +1,18 @@
 language: java
-
 env:
   global:
-    - GH_REF=github.com/Spirals-Team/jPerturb-experiments.git
-    - secure: T+JnExqpIYKJNPSblXKxoGwyBuSTYa5RsGM90g8WBMpTFdhpK9/R+5EVoGxSiEjdkgKf1fDBNzb+9ZJix2sCiJw1+48kvVuW5QwPeO99VNVXHucoLuo+A4evoLubMYu+hUqsOYHw6vck1E+rElGgdxshOtkrQu8sUyNYC9QdXHB9ii4ooaUatryYh9WAID2gOlDscwUqbUIk0kXbdgEHwvfyJnFzuZZuZz1ipgoqP8aWl6fsFkLCmLJkuFjeuMFnl0KFVzJyfS578dhbI4J90YtszpbPEs101Qk33RvFpIwEx3uo93bTUohx4SJ7tOesdQxGVQsYj+mMOXLGaToVlBGfPM/Bw32REw26NWA03w5yJcTiwpZXHU58oLY5VTyBu4RV9P2h3a13+M22A5mgALCVCBSyL7FN7R4doqR71/aNvmOVCsEUCRLGFl8uEgpsqzcGnqxfpSL8HdWVpe52mKug0BFXzttDSMyMRQJCsHbR7Md3bSBnJTPLEIrdm3r2bzYKdqcp4WxHZ3LEHv3dknVfjX4H16N0P1jidGIPtKABDmUOmc3kNfEG+rvaGQJbEJ2FdrjONZaOCMuTKa74YxYgp/7fo5H+Q/BiWouLjNsg6EwnvHvwDc+d+X3jlLa5J3lw5F1ZWy+NdaQIe9Q2rHgfq6WJ81/H8FFluHa1/vc=
+  - GH_REF=github.com/Spirals-Team/jPerturb-experiments.git
+  - secure: dbZkfwh4HR0adxZC5WpKzBRltdxlSi1ZJgBH7M8QP5jyJWEp5IqoeQA+VOrHx57cT6Xmy0fJAyOIc5AxWoGYU4qWlaRT2LzoUB3n1z3FUOjUClzqhDvyUDSVzWOAAfY6e7OdJdMDr2CSH3ahnf3GNz0hX7v2pZbWcVG0+pcnGJHwzL6VGVnigbAOV0W/GgyXJQok24WKIydizq2iinyKS+cWrNnf2i9U9DmXbgLFGaIgPk5OftfZ9vvzrH1LFFDwIaYQK6LL2nfO5i2Hjgz1Z3gj+rIksrqFOx6M5JuUtFGA8ULNDagFm6QldxwvuJA0rTVU88FcaZjpvLPH2Hi2HBJcUr5CNe5tIu7ABzZ6Sc7VdLgXZCx+wRhMgEsgsR4xMMNwzBc+qORE3l+a0Zv4cGnHpR6JEi/NxJSMTkMmW5iR8e++hS2NyGuCFBnlc6hJ7OmEMdaUkZaf8oIi7UaMTxkSpDE8O4aQ0aL2r1JGNPxs3EVFXYgB5k+jR/7ojfCd/zy8ly3f6pnEu47HfWjMbTtA0zQVRHbM4+VH3PWzomROQXvnL+NeXS26PdtxvfYlZ3B8zSBwAmvBUr32XfreiXRXgTFd4y+PvGBSUgHeW35yZEen+n6ICJ1hqMpQjNCw4E4gYJ9aRoLNM2UOjBT1YtVLZZGzmQHbnXj/mSbgPtQ=
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 cache:
   directories:
   - $HOME/.m2
-
-sudo:
-    true
-
+sudo: true
 install:
-    - chmod +x ./src/script/*.sh
-    - ./src/script/install.sh
-
+- chmod +x ./src/script/*.sh
+- ./src/script/install.sh
 script:
-    - java -cp target/classes quicksort.Main -nb 1 -exp Rnd
+- java -cp target/classes quicksort.Main -nb 1 -exp Rnd
 after_success:
-    - ./src/script/commit.sh
-
+- ./src/script/commit.sh
