@@ -13,7 +13,7 @@ cd ..
 mv ttorrent/core/target/ttorrent-core-1.6-SNAPSHOT.jar ./
 
 path=ttorrent/core/src/main/java/
-files=(com/turn/ttorrent/)
+files=(com/turn/ttorrent/bcodec/BDecoder.java)
 
 for i in "${files[@]}"
 do
