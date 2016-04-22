@@ -1,8 +1,7 @@
 package torrent;
 
 import com.turn.ttorrent.bcodec.BDecoder;
-import com.turn.ttorrent.client.Client;
-import experiment.AddOneExplorerImpl;
+import com.turn.ttorrent.common.Utils;
 import experiment.Runner;
 import experiment.Util;
 
@@ -13,7 +12,7 @@ public class Main {
 
     public static void run() {
         System.out.println("Run Torrent...");
-        Runner.setup(BDecoder.class, TorrentCallable.class, new TorrentManager(), 0.3f, String.class);
+        Runner.setup(Utils.class, TorrentCallable.class, new TorrentManager(), String.class);
         Runner.runExplorers();
         ((TorrentManager)Runner.manager).stop();
         System.exit(0);//need to force exit because sometimes the torrent doesn't stop itself
