@@ -1,6 +1,5 @@
 package torrent;
 
-import com.turn.ttorrent.bcodec.BDecoder;
 import com.turn.ttorrent.common.Utils;
 import experiment.Runner;
 import experiment.Util;
