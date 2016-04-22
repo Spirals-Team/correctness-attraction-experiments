@@ -13,7 +13,7 @@ cd ..
 mv ttorrent/core/target/ttorrent-core-1.6-SNAPSHOT.jar ./
 
 path=ttorrent/core/src/main/java/
-files=(com/turn/ttorrent/client/Client.java)
+files=(com/turn/ttorrent/)
 
 for i in "${files[@]}"
 do
@@ -22,3 +22,4 @@ do
 done
 
 cp -R ttorrent/core/src/main/java/com/ src/main/java/
+#rm -Rf ttorrent

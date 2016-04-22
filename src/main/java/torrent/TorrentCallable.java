@@ -56,6 +56,10 @@ public class TorrentCallable extends CallableImpl<String,String> {
             ((TorrentManager) Runner.manager).reinit();
             throw new TimeoutException();
         }
+
+        leecher.stop();
+        seeder.stop();
+
         return TorrentManager.PATH_TO_SENT_FILE+originalValue+".txt";
     }
 

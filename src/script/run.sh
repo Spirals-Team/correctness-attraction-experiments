@@ -5,4 +5,4 @@ java -cp target/classes zip.Main
 java -cp target/classes md5.Main
 java -cp target/classes sudoku.Main -nb 1 -time 45
 java -cp target/classes optimizer.Main -nb 1 -time 45
-java -cp target/classes mersenne.Main -v
+java -cp target/classes mersenne.Main -nb 5 -v

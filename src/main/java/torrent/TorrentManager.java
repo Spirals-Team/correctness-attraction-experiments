@@ -60,6 +60,7 @@ public class TorrentManager extends OracleManager<String> {
 
     public void reinit() {
         cleanDirectory();
+        stop();
         initTracker();
     }
 
@@ -107,6 +108,10 @@ public class TorrentManager extends OracleManager<String> {
             e.printStackTrace();
         }
         return task;
+    }
+
+    public void stop() {
+        this.tracker.stop();
     }
 
     private void createTorrent(String pathOfTheNewTask, File task) {
