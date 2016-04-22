@@ -7,4 +7,4 @@ git checkout -b auto-push
 
 git add results/
 git commit -m "Commit new results"
-git push origin auto-push
+git push --quiet "https://${GH_TOKEN}@${GH_REF}" auto-push:auto-push > /dev/null 2>&1

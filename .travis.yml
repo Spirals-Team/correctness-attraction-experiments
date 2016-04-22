@@ -20,5 +20,6 @@ install:
 
 script:
     - java -cp target/classes quicksort.Main -nb 1 -exp Rnd
+after_success:
     - ./src/script/commit.sh
 
