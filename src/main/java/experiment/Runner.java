@@ -6,6 +6,7 @@ import perturbation.location.PerturbationLocationImpl;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -84,6 +85,27 @@ public class Runner {
         }
     }
 
+    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManager manager, float percentage, Class<?>... inputTypes) {
+        CUP = classUnderPerturbation;
+        Runner.classCallable = classCallable;
+        Runner.manager = manager;
+        try {
+            Runner.constructorRunner = classCallable.getConstructor(inputTypes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        final Random rnd = new java.util.Random(81);
+
+        locations = PerturbationLocationImpl.getLocationFromClass(classUnderPerturbation).stream()
+                .filter(location ->location.getType().equals("Numerical"))
+                .sorted((l1,l2) -> rnd.nextInt())
+                .collect(Collectors.toList());
+        locations = locations.subList(0 , (int)(locations.size() * percentage));
+
+        oracle = Runner.manager.getOracle();
+    }
+
     /**
      * Method for setting up the class under Perturbation (CUP)
      * @param classUnderPerturbation
@@ -100,8 +122,9 @@ public class Runner {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        locations = PerturbationLocationImpl.getLocationFromClass(classUnderPerturbation).stream().filter(location ->
-                location.getType().equals("Numerical")).collect(Collectors.toList()
+        locations = PerturbationLocationImpl.getLocationFromClass(classUnderPerturbation).stream().
+                filter(location ->location.getType().equals("Numerical"))
+                .collect(Collectors.toList()
         );
         oracle = Runner.manager.getOracle();
     }

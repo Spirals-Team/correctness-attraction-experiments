@@ -13,7 +13,7 @@ public class Main {
 
     public static void run() {
         System.out.println("Run Torrent...");
-        Runner.setup(BDecoder.class, TorrentCallable.class, new TorrentManager(), String.class);
+        Runner.setup(BDecoder.class, TorrentCallable.class, new TorrentManager(), 0.3f, String.class);
         Runner.runExplorers();
         ((TorrentManager)Runner.manager).stop();
         System.exit(0);//need to force exit because sometimes the torrent doesn't stop itself
