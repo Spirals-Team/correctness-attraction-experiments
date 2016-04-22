@@ -17,24 +17,29 @@ import java.util.List;
  */
 public class AddOneExplorerImpl implements Explorer {
 
-    protected int[][] nbOfCallsPerLocationPerTask;
+    protected int[][] nbCallReferencePerLocationPerTask;
 
-    protected String header;
+    protected int[][][] nbExecsPerLocationPerTaskPerMagnitude;
 
-    protected String path;
+    protected  String header;
+
+    protected  String name;
+
+    protected int [] magnitudes = new int[]{1};
 
     public AddOneExplorerImpl() {
 
-        Logger.init(Runner.locations.size(),Runner.numberOfTask,1, 5);
+        Logger.init(Runner.locations.size(), Runner.numberOfTask, this.magnitudes.length, 5);
 
-        nbOfCallsPerLocationPerTask = new int[Runner.locations.size()][Runner.numberOfTask];
+        nbCallReferencePerLocationPerTask = new int[Runner.locations.size()][Runner.numberOfTask];
+        nbExecsPerLocationPerTaskPerMagnitude = new int[Runner.locations.size()][Runner.numberOfTask][this.magnitudes.length];
 
         header = "SEP1\n";
         header += Runner.locations.size() + " perturbation point\n";
         header += "N Excecution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
 
-        path = "AddOneExplorer";
+        name = "AddOneExplorer";
     }
 
     @Override
@@ -43,25 +48,35 @@ public class AddOneExplorerImpl implements Explorer {
         PerturbationEngine.logger.logOn(location);
         Runner.runPerturbation(indexOfTask);
         int currentNbCall = PerturbationEngine.logger.getCalls(location);
-        nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexOfTask] = currentNbCall;
+        nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexOfTask] = currentNbCall;
         PerturbationEngine.logger.reset();
 
-        //perturbation
-        location.setPerturbator(new AddNPerturbatorImpl(1));
-        for (int indexOfCall = 1 ; indexOfCall <= currentNbCall ; indexOfCall++) {
-            Tuple result = new Tuple(5);
-            PerturbationEngine.logger.logOn(location);
-            result = result.add(runAtTheIndexOfCall(indexOfCall, indexOfTask, location));
-            result.set(3, PerturbationEngine.logger.getCalls(location));
-            result.set(4, PerturbationEngine.logger.getEnactions(location));
-            PerturbationEngine.logger.reset();
-            Logger.add(Runner.locations.indexOf(location), indexOfTask, 0, result);
-        }
+        for (int indexMagnitude = 0 ; indexMagnitude < magnitudes.length ; indexMagnitude++)
+            runOneMagnitude(indexOfTask, location, indexMagnitude);
+
         location.setPerturbator(new NothingPerturbatorImpl());
         location.setEnactor(new NeverEnactorImpl());
     }
 
-    protected Tuple runAtTheIndexOfCall(int indexOfCall, int indexOfTask, PerturbationLocation location) {
+    private void runOneMagnitude(int indexOfTask, PerturbationLocation location, int indexMagnitude) {
+        int currentNbCall = nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexOfTask];
+        location.setPerturbator(new AddNPerturbatorImpl(magnitudes[indexMagnitude]));
+        for (int indexOfCall = 1 ; indexOfCall < currentNbCall + 1; indexOfCall++ ){
+            Tuple result = new Tuple(5);
+            PerturbationEngine.logger.logOn(location);
+
+            result = result.add(runAtTheIndexOfCall(indexOfCall, indexOfTask, location));
+            result.set(3, PerturbationEngine.logger.getCalls(location));
+            result.set(4, PerturbationEngine.logger.getEnactions(location));
+
+            PerturbationEngine.logger.reset();
+
+            Logger.add(Runner.locations.indexOf(location), indexOfTask, indexMagnitude, result);
+            nbExecsPerLocationPerTaskPerMagnitude[Runner.locations.indexOf(location)][indexOfTask][indexMagnitude]++;
+        }
+    }
+
+    private Tuple runAtTheIndexOfCall(int indexOfCall, int indexOfTask, PerturbationLocation location) {
         location.setEnactor(new NCallEnactorImpl(indexOfCall, location));
         return Runner.runPerturbation(indexOfTask);
     }
@@ -80,22 +95,24 @@ public class AddOneExplorerImpl implements Explorer {
         Tuple [][][] results = Logger.getResults();
 
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_detail.txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + name + "_detail.txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write("All Result : detail per task\n" + header + Runner.manager.getHeader());
-            writer.write(String.format(format, "Task", "IndexLoc", "#Success", "#Failure", "#Exception", "TotalCall", "AvgCall", "#Call_Ref",
+            writer.write(String.format(format, "Task", "IndexLoc",
+                    "#Success", "#Failure", "#Exception",
+                    "TotalCall", "AvgCall", "#Call_Ref",
                     "#Perturbations", "%Success") + "\n");
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
-                    if (nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask] == 0)
+                    if (nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask] == 0)
                         continue;
-                    searchSpaceSize += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                    searchSpaceSize += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                     Tuple result = results[Runner.locations.indexOf(location)][indexTask][0];
                     numberOfSuccess += result.get(0);
                     writer.write(String.format(format, indexTask, location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3),
-                            result.get(3) / nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask] , result.get(4),
-                            nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask],
+                            result.get(3) / nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask] , result.get(4),
+                            nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask],
                             result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 }
             }
@@ -111,39 +128,46 @@ public class AddOneExplorerImpl implements Explorer {
             writer.close();
 
             /* Sum PerturbationPoint */
-            writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_per_location_1.txt", false);
-            format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
+            writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + name + "_per_location_1.txt", false);
+            format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-10s %-27s";
             writer.write("Aggregate data for all tasks per location for magnitude = 1\n"  + header + Runner.manager.getHeader());
-            writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",  "#call_all_execs", "avg_call_per_execs",
-                    "#Perturbations", "AvgPerturbationPerExecs", "#Execs", "#Tasks", "%Success") + "\n");
+            writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",
+                    "#CallAllExecs", "AvgCallPerExec",
+                    "#Perturbations", "AvgPerturbationPerExec",
+                    "#Execs", "#ExecsRef", "#Tasks", "%Success") + "\n");
             for (PerturbationLocation location : Runner.locations) {
                 Tuple result = new Tuple(5);
                 int accNbOfTasks = 0;
+                int accNbExecAllTask = 0;
                 for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                     result = result.add(results[Runner.locations.indexOf(location)][indexTask][0]);
-                    accNbOfTasks += nbOfCallsPerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                    accNbOfTasks += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                    accNbExecAllTask += nbExecsPerLocationPerTaskPerMagnitude[Runner.locations.indexOf(location)][indexTask][0];
                 }
 
                 Explorer.addToFragilityList(result, result.total(3), location, locationExceptionFragile,locationSuperAntiFragile,
                         locationAntiFragile, locationOracleFragile);
 
-                double avg = (double)result.get(4) / (double)accNbOfTasks;
+                double avgCall = (double)result.get(3) / (double)accNbOfTasks;
+                double avgPerturbation = (double)result.get(4) / (double)accNbOfTasks;
 
                 writer.write(String.format(format, location.getLocationIndex(),
-                        result.get(0), result.get(1), result.get(2), accNbOfTasks, (accNbOfTasks / Runner.numberOfTask) ,
-                        result.get(4), String.format("%.2f", avg), result.get(3) , Runner.numberOfTask,
+                        result.get(0), result.get(1), result.get(2),
+                        result.get(3), String.format("%.2f", avgCall),
+                        result.get(4), String.format("%.2f", avgPerturbation),
+                        accNbExecAllTask, accNbOfTasks, Runner.numberOfTask,
                         result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
 
             }
             writer.close();
 
-            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_anti_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + name + "_anti_fragile.txt",
                     "List of ids antifragile points.", locationAntiFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_super_anti_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + name + "_super_anti_fragile.txt",
                     "List of ids antifragile points.", locationSuperAntiFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_oracle_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + name + "_oracle_fragile.txt",
                     "list ids of oracle fragile code : >" + Explorer.TOLERANCE +"% of oracle failures", locationOracleFragile);
-            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + path + "_exception_fragile.txt",
+            Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + name + "_exception_fragile.txt",
                     "list ids of exception fragile code : >" + Explorer.TOLERANCE +"% of exceptions.", locationExceptionFragile);
 
         } catch (IOException e) {
