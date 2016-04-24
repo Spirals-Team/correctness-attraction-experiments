@@ -13,7 +13,8 @@ cd ..
 mv ttorrent/core/target/ttorrent-core-1.6-SNAPSHOT.jar ./
 
 path=ttorrent/core/src/main/java/
-java -classpath $lib:ttorrent-core-1.6-SNAPSHOT.jar:$spoon:$jPerturb spoon.Launcher -i $path:$perturbation -o $path -p $processors
+file=com/turn/torrent/client/Client.java
+java -classpath $lib:ttorrent-core-1.6-SNAPSHOT.jar:$spoon:$jPerturb spoon.Launcher -i $path/$file:$perturbation -o $path -p $processors
 
 cp -R ttorrent/core/src/main/java/com/ src/main/java/
 #rm -Rf ttorrent
