@@ -1,6 +1,6 @@
 package torrent;
 
-import com.turn.ttorrent.*;
+import com.turn.ttorrent.client.Client;
 import experiment.Runner;
 import experiment.Util;
 
