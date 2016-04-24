@@ -17,6 +17,6 @@ install:
 - chmod +x ./src/script/*.sh
 - ./src/script/install.sh
 script:
-- java -cp target/classes quicksort.Main -v -nb 250 -size 500 -exp addOne
+- java -cp target/classes quicksort.Main -v -nb 100 -size 200 -exp addOne
 after_success:
 - ./src/script/commit.sh
