@@ -13,12 +13,7 @@ cd ..
 mv ttorrent/core/target/ttorrent-core-1.6-SNAPSHOT.jar ./
 
 path=ttorrent/core/src/main/java/
-files=(com/turn/ttorrent/bcodec/BDecoder.java)
-
-for i in "${files[@]}"
-do
-   echo $i
-   java -classpath $lib:ttorrent-core-1.6-SNAPSHOT.jar:$spoon:$jPerturb spoon.Launcher -i $path/$i:$perturbation -o $path -p $processors
+java -classpath $lib:ttorrent-core-1.6-SNAPSHOT.jar:$spoon:$jPerturb spoon.Launcher -i $path:$perturbation -o $path -p $processors
 done
 
 cp -R ttorrent/core/src/main/java/com/ src/main/java/
