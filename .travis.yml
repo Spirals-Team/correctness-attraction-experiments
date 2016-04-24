@@ -17,6 +17,6 @@ install:
 - chmod +x ./src/script/*.sh
 - ./src/script/install.sh
 script:
-- java -cp target/classes zip.Main -v -nb 100 -size 200 -exp addOne
+- java -cp target/classes zip.Main -v -nb 100 -size 200 -exp addN Rnd
 after_success:
 - ./src/script/commit.sh
