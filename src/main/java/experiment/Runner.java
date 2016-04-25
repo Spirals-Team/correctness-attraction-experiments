@@ -99,10 +99,15 @@ public class Runner {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        locations = PerturbationLocationImpl.getLocationFromClass(classUnderPerturbation).stream().filter(location ->
-                location.getType().equals(locationType)).collect(Collectors.toList()
-        );
+        getLocation(locationType);
         oracle = Runner.manager.getOracle();
+    }
+
+    public static void getLocation(String locationType) {
+        locations = PerturbationLocationImpl.getLocationFromClass(CUP).stream()
+                .filter(location -> location.getType().equals(locationType))
+                .collect(Collectors.toList()
+        );
     }
 
     public static void runAllCampaign() {
@@ -112,6 +117,9 @@ public class Runner {
         run(new AddNExplorerImpl());
         System.out.println("Run IntegerAdd1RndEnactor Campaign...");
         run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
+        System.out.println("Run BooleanInvRndEnactor Campaign...");
+        getLocation("Boolean");
+        run(new BooleanInvRndEnactorExplorerImpl());
     }
 
     public static void runExplorers() {
@@ -126,8 +134,12 @@ public class Runner {
                     case "addN":
                         run(new AddNExplorerImpl());
                         break;
-                    case "Rnd":
+                    case "IntRnd":
                         run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
+                        break;
+                    case "BoolRnd":
+                        getLocation("Boolean");
+                        run(new BooleanInvRndEnactorExplorerImpl());
                         break;
                     default:
                         Util.usage();
