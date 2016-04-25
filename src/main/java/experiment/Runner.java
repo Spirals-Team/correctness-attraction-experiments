@@ -82,7 +82,8 @@ public class Runner {
         }
     }
 
-    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManager manager, float percentage, Class<?>... inputTypes) {
+    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable,
+                             OracleManager manager, float percentage, int indexPercentage, Class<?>... inputTypes) {
         CUP = classUnderPerturbation;
         Runner.classCallable = classCallable;
         Runner.manager = manager;
@@ -92,13 +93,11 @@ public class Runner {
             e.printStackTrace();
         }
 
-        final Random rnd = new java.util.Random(81);
-
         locations = PerturbationLocationImpl.getLocationFromClass(classUnderPerturbation).stream()
                 .filter(location ->location.getType().equals("Numerical"))
-                .sorted((l1,l2) -> rnd.nextInt())
                 .collect(Collectors.toList());
-        locations = locations.subList(0 , (int)(locations.size() * percentage));
+        int sizeOfSlice = (int)(locations.size() * percentage);
+        locations = locations.subList(indexPercentage * sizeOfSlice, (indexPercentage+1) * sizeOfSlice);
 
         oracle = Runner.manager.getOracle();
     }

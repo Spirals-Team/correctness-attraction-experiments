@@ -1,6 +1,5 @@
 package torrent;
 
-import com.turn.ttorrent.common.Peer;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
@@ -11,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by spirals on 22/04/16.
