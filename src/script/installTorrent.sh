@@ -7,7 +7,7 @@ processors=processor.AssignmentProcessor:processor.VariableCaster:processor.Pert
 
 git clone https://github.com/mpetazzoni/ttorrent.git
 cd ttorrent
-mvn package -Dmaven.javadoc.skip=true
+mvn package -Dmaven.javadoc.skip=true -q
 lib=($(mvn dependency:build-classpath | grep -v '\[INFO\]'))
 echo $lib
 cd ..
@@ -17,11 +17,16 @@ path=ttorrent/core/src/main/java/
 files=(com/turn/ttorrent/)
 output=src/main/java/
 
-echo $lib:$ttorrentjar:$spoon:$jPerturb
+echo classpath is
+echo $lib
+echo $jPerturb
+echo $spoon
+echo $ttorrentjar
 
 for i in "${files[@]}"
 do
    echo spooning $i
+   echo java -classpath $lib:$ttorrentjar:$spoon:$jPerturb spoon.Launcher -i $path/$i:$perturbation -o $output -p $processors
    java -classpath $lib:$ttorrentjar:$spoon:$jPerturb spoon.Launcher -i $path/$i:$perturbation -o $output -p $processors
 done
 
