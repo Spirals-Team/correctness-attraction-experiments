@@ -42,8 +42,7 @@ public class BitcoinManager extends OracleManager<Tuple> {
     private void initWallets() {
 
         for (int i = 0 ; i < Runner.sizeOfEachTask ; i++) {
-            String current = ((char) (65 + i)) + "";
-            kits.put(i, new WalletAppKit(networkParameters, new File(PATH_WALLET + current), current));
+            kits.put(i, new WalletAppKit(networkParameters, new File(PATH_WALLET + "wallet_" + i), "wallet_" + i));
         }
 
         for (Integer key : kits.keySet()) {
@@ -64,10 +63,11 @@ public class BitcoinManager extends OracleManager<Tuple> {
             amountOfWalletBeforeTask[i] = btcStringToBtcInt(kits.get(i).wallet().getBalance().toFriendlyString());
         }
 
+        BitcoinToolbox.initWallets();
+
         for (Integer key : kits.keySet()) {
             System.out.println(key + " " + kits.get(key).wallet().toString(false, false, false, null));
         }
-//        BitcoinToolbox.initWallets();
 
     }
 

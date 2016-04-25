@@ -18,7 +18,7 @@ public class Main {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         BitcoinManager manager = new BitcoinManager();
-//        BitcoinOracle oracle = (BitcoinOracle) manager.getOracle();
+//        Oracle oracle = manager.getOracle();
 
 //        BitcoinCallable callable = new BitcoinCallable(manager.get(0));
 //
@@ -30,6 +30,8 @@ public class Main {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
+
+
 
     }
 

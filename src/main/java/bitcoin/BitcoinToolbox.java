@@ -1,6 +1,10 @@
 package bitcoin;
 
+import experiment.Runner;
+
 import java.io.BufferedReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
@@ -24,12 +28,30 @@ public class BitcoinToolbox {
             while ((line = reader.readLine()) != null) {
                 output.append(line + "\n");
             }
+
+            System.out.println(output);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void initWallets() {
+        try {
+            FileWriter writer = new FileWriter("resources/bitcoin/adr_bitcoin", false);
+            for (int i = 0 ; i < Runner.sizeOfEachTask ; i++)
+                writer.write(BitcoinManager.getWalletAppKit(i).wallet().currentReceiveAddress() + "\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         launchShellCmd(CMD_INIT);
     }
 
