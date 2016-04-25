@@ -19,8 +19,8 @@ public class BooleanInvRndEnactorExplorerImpl extends IntegerAdd1RndEnactorExplo
         header = "SERN\n";
         header += "random Rates : ";
 
-        for (int indexOfRandomRate = 0; indexOfRandomRate < randomRates.length; indexOfRandomRate++) {
-            header += randomRates[indexOfRandomRate] + " ";
+        for (int indexOfRandomRate = 0; indexOfRandomRate < super.randomRates.length; indexOfRandomRate++) {
+            header += super.randomRates[indexOfRandomRate] + " ";
         }
         header += "\n" + Runner.locations.size() + " perturbation point\n";
         header += repeat + " repetition of each point of each task\n";
