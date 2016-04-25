@@ -12,7 +12,7 @@ public class Main {
 
     public static void run() {
         System.out.println("Run optimizer...");
-        Runner.setup(SimplexSolverInstr.class, OptimizerCallableImpl.class, new OptimizerManager(), OptimizationData[].class);
+        Runner.setup(SimplexSolverInstr.class, OptimizerCallableImpl.class, new OptimizerManager(),"Numerical", OptimizationData[].class);
         Runner.runExplorers();
     }
 

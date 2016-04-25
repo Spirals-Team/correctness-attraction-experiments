@@ -68,7 +68,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
         Runner.numberOfTask = 1;
         Runner.numberOfSecondsToWait = 30;
         OracleManager<int[]> oracle = new QuickSort2Manager();
-        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, oracle, int[].class);
+        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, oracle,"Numerical", int[].class);
 
         /* no Perturbation */
         QuickSort2 quicksort = new QuickSort2(oracle.get(0));

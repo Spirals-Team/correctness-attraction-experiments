@@ -10,7 +10,7 @@ public class Main {
 
     public static void run() {
         System.out.println("Run LZW...");
-        Runner.setup(LZWInstr.class, ZipCallableImpl.class, new ZipManager(), String.class);
+        Runner.setup(LZWInstr.class, ZipCallableImpl.class, new ZipManager(),"Numerical", String.class);
         Runner.runExplorers();
     }
 

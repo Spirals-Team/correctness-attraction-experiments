@@ -10,7 +10,7 @@ public class Main {
 
     public static void run() {
         System.out.println("Run md5...");
-        Runner.setup(MD5Instr.class, MD5CallableImpl.class, new MD5Manager(), String.class);
+        Runner.setup(MD5Instr.class, MD5CallableImpl.class, new MD5Manager(), "Numerical", String.class);
         Runner.runExplorers();
     }
 

@@ -10,7 +10,7 @@ public class Main {
 
     public static void run() {
         System.out.println("Run sudoku...");
-        Runner.setup(SudokuInstr.class, SudokuCallableImpl.class, new SudokuManager() , int[][].class);
+        Runner.setup(SudokuInstr.class, SudokuCallableImpl.class, new SudokuManager(),"Numerical" , int[][].class);
         Runner.runExplorers();
     }
 

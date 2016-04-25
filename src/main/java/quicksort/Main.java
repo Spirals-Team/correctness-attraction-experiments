@@ -12,7 +12,7 @@ public class Main {
 
     public static void run() {
         System.out.println("Run QuickSort...");
-        Runner.setup(QuickSortInstr.class, QuickSortCallableImpl.class, new QuickSortManager(), List.class);
+        Runner.setup(QuickSortInstr.class, QuickSortCallableImpl.class, new QuickSortManager(),"Numerical", List.class);
         Runner.runExplorers();
     }
 

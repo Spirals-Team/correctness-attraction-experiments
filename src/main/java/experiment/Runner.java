@@ -90,7 +90,7 @@ public class Runner {
      * @param manager
      * @param inputTypes
      */
-    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManager manager, Class<?>... inputTypes) {
+    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManager manager, String locationType, Class<?>... inputTypes) {
         CUP = classUnderPerturbation;
         Runner.classCallable = classCallable;
         Runner.manager = manager;
@@ -100,7 +100,7 @@ public class Runner {
             e.printStackTrace();
         }
         locations = PerturbationLocationImpl.getLocationFromClass(classUnderPerturbation).stream().filter(location ->
-                location.getType().equals("Numerical")).collect(Collectors.toList()
+                location.getType().equals(locationType)).collect(Collectors.toList()
         );
         oracle = Runner.manager.getOracle();
     }
