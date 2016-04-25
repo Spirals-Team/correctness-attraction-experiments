@@ -19,6 +19,6 @@ install:
     - ./src/script/installTorrent.sh
     - mvn compile
 script:
-   - mvn exec:java -Dexec.mainClass="torrent.Main" -Dexec.args="-v -nb 1 -time 60 -exp addOne"
+   - mvn exec:java -Dexec.mainClass="torrent.Main" -Dexec.args="-v -nb 1 -time 60 -exp Rnd"
 after_success:
 - ./src/script/commit.sh
