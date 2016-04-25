@@ -4,11 +4,13 @@ spoon=spoon-core-5.1.0-jar-with-dependencies.jar
 jPerturb=jPerturb/target/jPerturb-0.0.1-SNAPSHOT.jar
 perturbation=jPerturb/src/main/java/perturbation/
 processors=processor.AssignmentProcessor:processor.VariableCaster:processor.PerturbationProcessor
+m2_repo=$HOME/.m2/repository
 
 git clone https://github.com/mpetazzoni/ttorrent.git
 cd ttorrent
 mvn package -Dmaven.javadoc.skip=true -q
-lib=($(mvn dependency:build-classpath | grep -v '\[INFO\]'))
+
+lib=$m2_repo/com/beust/jcommander/1.12/jcommander-1.12.jar:$m2_repo/commons-io/commons-io/2.4/commons-io-2.4.jar:$m2_repo/junit/junit/3.8.1/junit-3.8.1.jar:$m2_repo/org/beanshell/bsh/2.0b4/bsh-2.0b4.jar:$m2_repo/org/simpleframework/simple/4.1.21/simple-4.1.21.jar:$m2_repo/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:$m2_repo/org/testng/testng/6.1.1/testng-6.1.1.jar:$m2_repo/org/yaml/snakeyaml/1.6/snakeyaml-1.6.jar
 echo $lib
 cd ..
 
