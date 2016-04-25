@@ -2,6 +2,8 @@ package experiment;
 
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
+import perturbation.perturbator.AddNPerturbatorImpl;
+import perturbation.perturbator.AddOnePerturbatorImpl;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -109,7 +111,7 @@ public class Runner {
         System.out.println("Run AddN Campaign...");
         run(new AddNExplorerImpl());
         System.out.println("Run IntegerAdd1RndEnactor Campaign...");
-        run(new IntegerAdd1RndEnactorExplorerImpl());
+        run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
     }
 
     public static void runExplorers() {
@@ -125,7 +127,7 @@ public class Runner {
                         run(new AddNExplorerImpl());
                         break;
                     case "Rnd":
-                        run(new IntegerAdd1RndEnactorExplorerImpl());
+                        run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
                         break;
                     default:
                         Util.usage();

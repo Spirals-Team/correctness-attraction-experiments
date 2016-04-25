@@ -3,6 +3,7 @@ package quicksort_visualization;
 import experiment.*;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
+import perturbation.perturbator.AddNPerturbatorImpl;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -88,7 +89,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
         Explorer[] IntegerAdd1RndEnactorExplorers = new Explorer[randomRates.length];
         for (int indexRandomRate = 0; indexRandomRate < randomRates.length; indexRandomRate++) {
-            IntegerAdd1RndEnactorExplorers[indexRandomRate] = new IntegerAdd1RndEnactorExplorerImpl(randomRates[indexRandomRate]);
+            IntegerAdd1RndEnactorExplorers[indexRandomRate] = new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1), randomRates[indexRandomRate]);
             exp[magnitudes.length + indexRandomRate] = "RND" + randomRates[indexRandomRate];
         }
 

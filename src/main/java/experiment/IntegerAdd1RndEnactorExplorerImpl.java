@@ -6,6 +6,7 @@ import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.AddNPerturbatorImpl;
 import perturbation.perturbator.NothingPerturbatorImpl;
+import perturbation.perturbator.Perturbator;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,14 +34,18 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
     private int repeat;
 
-    public IntegerAdd1RndEnactorExplorerImpl(float... randomRates) {
-        this(5, randomRates);
+    private Perturbator perturbator;
+
+    public IntegerAdd1RndEnactorExplorerImpl(Perturbator perturbatorTobeUsed, float... randomRates) {
+        this(perturbatorTobeUsed, 5, randomRates);
     }
 
-    public IntegerAdd1RndEnactorExplorerImpl(int repeat, float... randomRates) {
+    public IntegerAdd1RndEnactorExplorerImpl(Perturbator perturbatorTobeUsed, int repeat, float... randomRates) {
 
         if (randomRates.length > 0)
             this.randomRates = randomRates;
+
+        this.perturbator = perturbatorTobeUsed;
 
         this.repeat = repeat;
 
@@ -69,11 +74,10 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
     @Override
     public void run(int indexOfTask, PerturbationLocation location) {
-        location.setPerturbator(new AddNPerturbatorImpl(1));
+        location.setPerturbator(this.perturbator);
         for (int indexOfRandomRate = 0; indexOfRandomRate < randomRates.length; indexOfRandomRate++) {
             PerturbationEngine.logger.logOn(location);
             Tuple result = runRandomRate(indexOfTask, location, indexOfRandomRate);
-//            nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexOfTask][indexOfRandomRate]++;
             Tuple resultWithLog = new Tuple(5);
             resultWithLog = resultWithLog.add(result);
             resultWithLog.set(3, PerturbationEngine.logger.getCalls(location));
