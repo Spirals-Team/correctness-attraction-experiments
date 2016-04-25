@@ -117,9 +117,9 @@ public class Runner {
         run(new AddNExplorerImpl());
         System.out.println("Run IntegerAdd1RndEnactor Campaign...");
         run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
-        System.out.println("Run BooleanInvRndEnactor Campaign...");
-        getLocation("Boolean");
-        run(new BooleanInvRndEnactorExplorerImpl());
+//        System.out.println("Run BooleanInvRndEnactor Campaign...");
+//        getLocation("Boolean");
+//        run(new BooleanInvRndEnactorExplorerImpl());
     }
 
     public static void runExplorers() {
