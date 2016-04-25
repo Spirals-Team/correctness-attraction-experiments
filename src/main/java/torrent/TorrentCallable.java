@@ -60,7 +60,7 @@ public class TorrentCallable extends CallableImpl<String,String> {
         leecher.stop();
         seeder.stop();
 
-        return TorrentManager.PATH_TO_SENT_FILE+originalValue+".txt";
+        return originalValue;
     }
 
 }
