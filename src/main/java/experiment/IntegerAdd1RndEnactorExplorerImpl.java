@@ -20,19 +20,21 @@ import java.util.Map;
  */
 public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
-    private float[] randomRates = new float[]{0.001f, 0.002f, 0.005f, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f, 0.9f};
+    protected float[] randomRates = new float[]{0.001f, 0.002f, 0.005f, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f, 0.9f};
 
-    private int seedOfRandomEnactor = 32;
+    protected int seedOfRandomEnactor = 32;
 
-    private String header;
+    protected String header;
 
-    private String path;
+    protected String path;
 
     private Map<PerturbationLocation, RandomEnactorImpl>[] enactorsOfLocationPerRandomRates;
 
+    protected String perturbatorName;
+
     private int[][][] nbOfCallsPerLocationPerTaskPerRates;
 
-    private int repeat;
+    protected int repeat;
 
     private Perturbator perturbator;
 
@@ -65,9 +67,12 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                 enactorsOfLocationPerRandomRates[indexOfRandomRate].put(location, new RandomEnactorImpl(seedOfRandomEnactor, this.randomRates[indexOfRandomRate]));
             }
         }
+        perturbatorName = "PONE : Numerical Perturbator";
+
         header += "\n" + Runner.locations.size() + " perturbation point\n";
         header += repeat + " repetition of each point of each task\n";
-        header += "PONE : Numerical Perturbator, Random Enactor, seed :" + seedOfRandomEnactor + "\n";
+        header +=  perturbatorName + ", Random Enactor, seed :" + seedOfRandomEnactor + "\n";
+
 
         path = "IntegerAdd1RndEnactorExplorer";
     }
@@ -160,7 +165,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             String title = "SERN\n";
             title += Runner.locations.size() + " perturbation point\n";
             title += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
-            title += "PONE : Numerical Perturbator\n";
+            title += perturbatorName;
             title += this.repeat + " repetition for each location for each task\n";
 
             format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
