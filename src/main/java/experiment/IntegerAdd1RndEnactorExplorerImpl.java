@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
-    private float[] randomRates = new float[]{0.001f, 0.002f, 0.005f};//, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f, 0.9f};
+    private float[] randomRates = new float[]{0.001f, 0.002f, 0.005f, 0.009f, 0.01f, 0.02f, 0.05f, 0.09f, 0.1f, 0.2f, 0.5f, 0.9f};
 
     private int seedOfRandomEnactor = 32;
 
