@@ -12,7 +12,7 @@ import java.io.InputStreamReader;
  */
 public class BitcoinToolbox {
 
-    private static final String CMD_MINING = "$HOME/bitcoin-0.12.1/bin/bitcoin-cli -regtest generate 1";
+    private static final String CMD_MINING = "src/script/bitcoin/mine.sh";
 
     private static final String CMD_INIT = "src/script/bitcoin/init_bitcoin.sh";
 
@@ -30,8 +30,6 @@ public class BitcoinToolbox {
             while ((line = reader.readLine()) != null) {
                 output.append(line + "\n");
             }
-
-//            System.out.println(output);
 
         } catch (Exception e) {
             e.printStackTrace();

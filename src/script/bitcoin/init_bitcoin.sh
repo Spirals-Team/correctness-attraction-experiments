@@ -8,10 +8,9 @@ sleep 1
 
 adr_bitcoin="./resources/bitcoin/adr_bitcoin"
 
-
 while read adr; do
   	$path_bin_bitcoin/bitcoin-cli -regtest sendtoaddress $adr 500.0
-	#echo $adr
+	echo $adr
 	sleep 1
 done <$adr_bitcoin
 
