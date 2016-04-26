@@ -1,5 +1,6 @@
 package bitcoin;
 
+import experiment.Oracle;
 import experiment.Runner;
 
 import java.util.concurrent.*;
@@ -18,18 +19,18 @@ public class Main {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         BitcoinManager manager = new BitcoinManager();
-//        Oracle oracle = manager.getOracle();
+        Oracle oracle = manager.getOracle();
 
-//        BitcoinCallable callable = new BitcoinCallable(manager.get(0));
-//
-//        Future future = executor.submit(callable);
-//        try {
-//            Object output = (future.get(Runner.numberOfSecondsToWait, TimeUnit.SECONDS));
-//            boolean assertion = oracle.assertPerturbation(manager.get(0), (Integer)output);
-//            System.out.println(assertion);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        BitcoinCallable callable = new BitcoinCallable(manager.get(0));
+
+        Future future = executor.submit(callable);
+        try {
+            Object output = (future.get(Runner.numberOfSecondsToWait, TimeUnit.SECONDS));
+            boolean assertion = oracle.assertPerturbation(manager.get(0), output);
+            System.out.println(assertion);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 

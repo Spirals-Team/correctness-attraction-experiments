@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+path_bin_bitcoin=./bitcoin-0.12.1/bin/
 
-bitcoin-cli -regtest stop 2>/dev/null
+$path_bin_bitcoin/bitcoin-cli -regtest stop 2>/dev/null
 
 sleep 1
 
@@ -14,5 +15,5 @@ mkdir resources/bitcoin/wallets/
 
 sleep 1
 
-bitcoind -regtest -daemon
+$path_bin_bitcoin/bitcoind -regtest -daemon
 

@@ -12,9 +12,11 @@ import java.io.InputStreamReader;
  */
 public class BitcoinToolbox {
 
-    private static final String CMD_MINING = "/home/spirals/Téléchargements/bitcoin-0.12.0/bin/bitcoin-cli -regtest generate 1";
+    private static final String CMD_MINING = "$HOME/bitcoin-0.12.1/bin/bitcoin-cli -regtest generate 1";
 
     private static final String CMD_INIT = "src/script/bitcoin/init_bitcoin.sh";
+
+    private static final String CMD_CLEAN = "src/script/bitcoin/clean_bitcoin.sh";
 
     private static void launchShellCmd(String command) {
         StringBuffer output = new StringBuffer();
@@ -29,11 +31,15 @@ public class BitcoinToolbox {
                 output.append(line + "\n");
             }
 
-            System.out.println(output);
+//            System.out.println(output);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void clean() {
+        launchShellCmd(CMD_CLEAN);
     }
 
     public static void initWallets() {
@@ -47,12 +53,19 @@ public class BitcoinToolbox {
         }
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         launchShellCmd(CMD_INIT);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

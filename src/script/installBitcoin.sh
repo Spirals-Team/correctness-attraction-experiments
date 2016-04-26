@@ -33,3 +33,6 @@ do
 done
 
 cp -R bitcoinj/core/ ./core/
+
+wget https://bitcoin.org/bin/bitcoin-core-0.12.1/bitcoin-0.12.1-linux64.tar.gz
+tar -xf bitcoin-0.12.1-linux64.tar.gz
