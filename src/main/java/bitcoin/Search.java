@@ -59,26 +59,23 @@ public class Search {
             Runner.numberOfTask = 2;
             Runner.verbose = true;
 
-            String type = "Numerical";
-//            String type = "Boolean";
+//            String type = "Numerical";
+            String type = "Boolean";
 
             getAllClasses("./core/src/main/java/org/", "org");
 
             final List<PerturbationLocation> locations = new ArrayList<>();
 
-            System.out.println(classes.size());
-
             classes.stream().forEach(clazz ->
                     locations.addAll(PerturbationLocationImpl.getLocationFromClass(clazz))
             );
 
-            locations.stream()
-                    .filter(location -> location.getType().equals(type))
-                    .forEach(location -> PerturbationEngine.logger.logOn(location));
-
             BitcoinManager manager = new BitcoinManager();
             BitcoinCallable callable = new BitcoinCallable(manager.get(0));
             ExecutorService executor = Executors.newSingleThreadExecutor();
+            locations.stream()
+                    .filter(location -> location.getType().equals(type))
+                    .forEach(location -> PerturbationEngine.logger.logOn(location));
             Future future = executor.submit(callable);
             long time = System.currentTimeMillis();
             future.get(Runner.numberOfSecondsToWait, TimeUnit.SECONDS);
