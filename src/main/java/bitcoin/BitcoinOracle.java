@@ -10,6 +10,7 @@ public class BitcoinOracle implements Oracle<Tuple,Integer> {
 
     @Override
     public boolean assertPerturbation(Tuple input, Integer output) {
+        System.out.println(output);
         if (output == -1)
             return false;
 

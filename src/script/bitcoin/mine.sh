@@ -1,3 +1,11 @@
 #!/usr/bin/env bash
 
-$HOME/bitcoin-0.12.1/bin/bitcoin-cli -regtest generate 1
+echo mining.....
+
+bitcoinpath=./bitcoin-0.12.1/bin
+
+#ls $bitcoinpath
+
+$bitcoinpath/bitcoin-cli -regtest generate 1 2>/dev/null
+
+sleep 1

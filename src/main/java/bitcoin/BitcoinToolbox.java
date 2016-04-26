@@ -31,16 +31,18 @@ public class BitcoinToolbox {
                 output.append(line + "\n");
             }
 
+            System.out.println(output);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void clean() {
+    public synchronized static void clean() {
         launchShellCmd(CMD_CLEAN);
     }
 
-    public static void initWallets() {
+    public synchronized static void initWallets() {
         try {
             FileWriter writer = new FileWriter("resources/bitcoin/adr_bitcoin", false);
             for (int i = 0 ; i < Runner.sizeOfEachTask ; i++)
@@ -49,25 +51,11 @@ public class BitcoinToolbox {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         launchShellCmd(CMD_INIT);
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
     }
 
 
-    public static void mine() {
+    public synchronized static void mine() {
         launchShellCmd(CMD_MINING);
     }
 

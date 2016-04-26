@@ -1,6 +1,7 @@
 package bitcoin;
 
 import experiment.CallableImpl;
+import experiment.Runner;
 import experiment.Tuple;
 import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.InsufficientMoneyException;
@@ -31,6 +32,7 @@ public class BitcoinCallable extends CallableImpl<Tuple, Integer> {
         } catch (InsufficientMoneyException e) {
             return -1;
         } catch (Error | Exception e) {
+            ((BitcoinManager) Runner.manager).initWallets();
             throw e;
         }
     }

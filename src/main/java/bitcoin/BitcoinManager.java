@@ -7,6 +7,7 @@ import experiment.Tuple;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.RegTestParams;
+import org.bitcoinj.utils.BriefLogFormatter;
 
 import java.io.File;
 import java.util.HashMap;
@@ -39,9 +40,11 @@ public class BitcoinManager extends OracleManager<Tuple> {
         initWallets();
     }
 
-    private void initWallets() {
+    public void initWallets() {
 
-//        BitcoinToolbox.clean();
+        BriefLogFormatter.initWithSilentBitcoinJ();
+
+        BitcoinToolbox.clean();
 
         for (int i = 0 ; i < Runner.sizeOfEachTask ; i++) {
             kits.put(i, new WalletAppKit(networkParameters, new File(PATH_WALLET + "wallet_" + i), "wallet_" + i));
@@ -59,27 +62,18 @@ public class BitcoinManager extends OracleManager<Tuple> {
             kits.get(key).awaitRunning();
         }
 
+        BitcoinToolbox.initWallets();
+
+        BitcoinToolbox.mine();
+
         amountOfWalletBeforeTask = new int[Runner.sizeOfEachTask];
 
         for (int i = 0; i < Runner.sizeOfEachTask; i++) {
             amountOfWalletBeforeTask[i] = btcStringToBtcInt(kits.get(i).wallet().getBalance().toFriendlyString());
         }
 
-//        BitcoinToolbox.initWallets();
+//        print();
 
-        try {
-            Thread.sleep(2500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        BitcoinToolbox.mine();
-
-        try {
-            Thread.sleep(2500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public static int btcStringToBtcInt(String amount) {
@@ -112,4 +106,12 @@ public class BitcoinManager extends OracleManager<Tuple> {
     public Oracle<Tuple, ?> getOracle() {
         return new BitcoinOracle();
     }
+
+
+    public void print() {
+        for (int key : kits.keySet()) {
+            System.out.println(key + " " + kits.get(key).wallet().toString(false, false, false, null));
+        }
+    }
+
 }
