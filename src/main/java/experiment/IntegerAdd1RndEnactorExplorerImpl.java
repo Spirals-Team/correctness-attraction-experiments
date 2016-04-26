@@ -165,14 +165,14 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             String title = "SERN\n";
             title += Runner.locations.size() + " perturbation point\n";
             title += "Random Enactor, seed :" + seedOfRandomEnactor + "\n";
-            title += perturbatorName;
+            title += perturbatorName + "\n";
             title += this.repeat + " repetition for each location for each task\n";
 
             format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
                 writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + path + "_per_location_" + randomRates[indexRandomRates] + ".txt", false);
-                writer.write("aggregate data per location for magnitude = " + randomRates[indexRandomRates] + "\n" + title + Runner.manager.getHeader());
+                writer.write("aggregate data per location for random rate = " + randomRates[indexRandomRates] + "\n" + title + Runner.manager.getHeader());
                 writer.write(String.format(format,
                         "IndexLoc", "#Success", "#Failure", "#Exception",
                         "#CallAllExecs", "AvgCallPerExec",

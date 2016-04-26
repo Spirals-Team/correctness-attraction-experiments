@@ -4,7 +4,7 @@ this script is used to generate plot in results/<subject>/img/
 '''
 
 
-def plot_increasingPerturbation_percentageSuccess(path, filename, subject, logscale=False):
+def plot_increasingPerturbation_percentageSuccess(path, filename, output, subject, logscale=False):
 
     '''
     this function is used to generate the plot of the increasing magnitudes and random rates.
@@ -72,13 +72,13 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, subject, logsc
     plt.title(subject)
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
     lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-    fig.savefig(path+"/img/"+labelOfN+"_plot.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+    fig.savefig(path+"/img/"+output+"_plot.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
     if logscale:
         ax.set_xscale('log')
-        fig.savefig(path+"/img/"+labelOfN+"_plot_logscale.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+        fig.savefig(path+"/img/"+output+"_plot_logscale.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
     plt.close(fig)
 
-def scatterPlotSuccessNumPerturb(path, filename, subject):
+def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      lines = [line.rstrip('\n') for line in open(path+"/"+filename)]
      title = ' '.join(lines[0].split()).split(" ")[0]
 
@@ -105,7 +105,7 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
             point = float(' '.join(line.split()).split(" ")[-1].replace(',','.'))
             if point == point:
                 perc.append(point)
-                nbPerturb.append(int(' '.join(line.split()).split(" ")[6].replace(',','.')) / (nbTask*nbRepeat))
+                nbPerturb.append(int(' '.join(line.split()).split(" ")[6].replace(',','.')))
 
         label.append(str(' '.join(lines[i].split()).split(" ")[0].replace(',','.')))
         label.append(str(' '.join(lines[i+(len(n))/2].split()).split(" ")[0].replace(',','.')))
@@ -149,12 +149,14 @@ def scatterPlotSuccessNumPerturb(path, filename, subject):
      ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
      lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
      ax.set_xscale('symlog')
-     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+".pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
 subjects=["quicksort","zip","md5","sudoku","optimizer","mersenne"]
 for subject in subjects:
-    scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", subject)
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", subject)
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", subject, logscale=True)
+    scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", "intadd1_rnd" ,subject)
+    scatterPlotSuccessNumPerturb("results/"+subject, "BooleanInvRndEnactorExplorer_random_rates_analysis_graph_data.txt", "boolinv_rnd", subject)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", "magnitude_call" ,subject)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", "intadd1_rnd",subject, logscale=True)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "BooleanInvRndEnactorExplorer_random_rates_analysis_graph_data.txt", "boolinv_rnd", subject, logscale=True)
 

@@ -19,5 +19,5 @@ install:
 - ./src/script/install.sh
 script:
 - ./src/script/run.sh
-#after_success:
-#- ./src/script/commit.sh
+after_success:
+- ./src/script/commit.sh

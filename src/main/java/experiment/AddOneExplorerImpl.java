@@ -100,7 +100,7 @@ public class AddOneExplorerImpl implements Explorer {
             writer.write("All Result : detail per task\n" + header + Runner.manager.getHeader());
             writer.write(String.format(format, "Task", "IndexLoc",
                     "#Success", "#Failure", "#Exception",
-                    "TotalCall", "AvgCall", "#Call_Ref",
+                    "TotalCall", "AvgCall", "#CallRef",
                     "#Perturbations", "%Success") + "\n");
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
@@ -134,7 +134,7 @@ public class AddOneExplorerImpl implements Explorer {
             writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",
                     "#CallAllExecs", "AvgCallPerExec",
                     "#Perturbations", "AvgPerturbationPerExec",
-                    "#Execs", "#ExecsRef", "#Tasks", "%Success") + "\n");
+                    "#Execs", "#CallRef", "#Tasks", "%Success") + "\n");
             for (PerturbationLocation location : Runner.locations) {
                 Tuple result = new Tuple(5);
                 int accNbOfTasks = 0;
