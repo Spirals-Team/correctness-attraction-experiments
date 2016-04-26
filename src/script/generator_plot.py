@@ -105,7 +105,7 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
             point = float(' '.join(line.split()).split(" ")[-1].replace(',','.'))
             if point == point:
                 perc.append(point)
-                nbPerturb.append(int(' '.join(line.split()).split(" ")[6].replace(',','.')) / (nbTask*nbRepeat))
+                nbPerturb.append(int(' '.join(line.split()).split(" ")[6].replace(',','.')))
 
         label.append(str(' '.join(lines[i].split()).split(" ")[0].replace(',','.')))
         label.append(str(' '.join(lines[i+(len(n))/2].split()).split(" ")[0].replace(',','.')))
