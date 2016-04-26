@@ -76,6 +76,11 @@ public class BitcoinManager extends OracleManager<Tuple> {
 
     }
 
+    public void stop() {
+        for (int key : kits.keySet())
+            kits.get(key).stopAsync();
+    }
+
     public static int btcStringToBtcInt(String amount) {
         return (int) Float.parseFloat(amount.substring(0, amount.length() - 4));
     }
