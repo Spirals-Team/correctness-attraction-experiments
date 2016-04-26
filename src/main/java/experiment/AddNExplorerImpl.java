@@ -127,7 +127,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
                 writer.write(String.format(format, "IndexLoc", "#Success", "#Failure", "#Exception",
                         "#CallAllExecs", "AvgCallPerExec",
                         "#Perturbations", "AvgPerturbationPerExec",
-                        "#Execs", "#ExecsRef", "#Tasks", "%Success") + "\n");
+                        "#Execs", "#CallRef", "#Tasks", "%Success") + "\n");
 
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(5);
