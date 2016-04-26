@@ -4,6 +4,7 @@ import experiment.Oracle;
 import experiment.OracleManager;
 import experiment.Runner;
 import experiment.Tuple;
+import org.bitcoinj.core.Context;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.RegTestParams;
@@ -98,7 +99,6 @@ public class BitcoinManager extends OracleManager<Tuple> {
             indexReceiver = super.randomForGenTask.nextInt(Runner.sizeOfEachTask);
         task.set(1, indexReceiver);
         task.set(2, super.randomForGenTask.nextInt(4) + 1);
-        System.out.println(task);
         return task;
     }
 
