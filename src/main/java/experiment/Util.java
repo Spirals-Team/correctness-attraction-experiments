@@ -77,7 +77,7 @@ public class Util {
         System.out.println("\t-time <integer> specify the number of seconds to wait until timeout");
         System.out.println("\t-v or -verbose to active Runner verbose mode");
         System.out.println("\t-exp <exp> specify the exp. If no exp is specified, the program will run all of it.");
-        System.out.println("\tvalues available for <exp> are : addOne addN IntRnd, BoolRnd");
+        System.out.println("\tvalues available for <exp> are : addOne addN, BoolCall, IntRnd, BoolRnd");
         System.out.println("\t-help display this help");
         System.exit(-1);
     }

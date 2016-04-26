@@ -4,6 +4,7 @@ import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
 import perturbation.perturbator.AddNPerturbatorImpl;
 import perturbation.perturbator.AddOnePerturbatorImpl;
+import perturbation.perturbator.InvPerturbatorImpl;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -133,6 +134,10 @@ public class Runner {
                         break;
                     case "addN":
                         run(new AddNExplorerImpl());
+                        break;
+                    case "BoolCall":
+                        getLocation("Boolean");
+                        run(new BoolInvCallExplorerImpl(new InvPerturbatorImpl()));
                         break;
                     case "IntRnd":
                         run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
