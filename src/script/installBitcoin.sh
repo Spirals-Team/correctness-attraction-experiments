@@ -33,6 +33,9 @@ do
 done
 
 cp -R bitcoinj/core/ ./core/
+cd ./core
+mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+mvn install:install-file -Dfile=target/bitcoinj-core-0.13.6-bundled.jar -DpomFile=pom.xml
 
 wget https://bitcoin.org/bin/bitcoin-core-0.12.1/bitcoin-0.12.1-linux64.tar.gz
 tar -xf bitcoin-0.12.1-linux64.tar.gz
