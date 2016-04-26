@@ -27,7 +27,7 @@ public class BitcoinCallable extends CallableImpl<Tuple, Integer> {
         try {
             BitcoinManager.getWalletAppKit(originalValue.get(0)).wallet().sendCoins(request);
             BitcoinToolbox.mine();
-            Thread.sleep(2500);
+//            Thread.sleep(2500);
             return 1;
         } catch (InsufficientMoneyException e) {
             return -1;

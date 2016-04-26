@@ -93,6 +93,7 @@ public class BitcoinManager extends OracleManager<Tuple> {
             indexReceiver = super.randomForGenTask.nextInt(Runner.sizeOfEachTask);
         task.set(1, indexReceiver);
         task.set(2, super.randomForGenTask.nextInt(4) + 1);
+        System.out.println(task);
         return task;
     }
 

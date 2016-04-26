@@ -62,6 +62,8 @@ public class Main {
     public static void main(String[] args) {
         if (args.length > 1)
             Util.parseArgs(args);
+
+        Runner.numberOfSecondsToWait = 60;
         Runner.sizeOfEachTask = 3;
         Runner.numberOfTask = 2;
         Runner.verbose = true;
