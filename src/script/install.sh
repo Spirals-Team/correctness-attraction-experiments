@@ -9,7 +9,7 @@ path=src/main/java/
 
 git clone http://github.com/Spirals-Team/jPerturb.git
 cd jPerturb
-mvn install
+mvn install -Dmaven.test.skip=true -q
 cd ..
 
 wget https://gforge.inria.fr/frs/download.php/latestzip/86/Spoon-latest.zip
@@ -28,5 +28,3 @@ do
     echo $i
     java -classpath $spoon:$jPerturb spoon.Launcher -i $path/$i:$perturbation -o src/main/java -x --with-imports -p $processors
 done
-
-mvn compile

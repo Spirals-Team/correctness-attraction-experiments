@@ -18,4 +18,14 @@
             </plugin>
         </plugins>
     </build>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>nz.ac.waikato.cms.weka</groupId>
+            <artifactId>weka-stable</artifactId>
+            <version>3.8.0-SNAPSHOT</version><!-- weka-version -->
+        </dependency>
+    </dependencies>
+
 </project>
