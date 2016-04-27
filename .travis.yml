@@ -16,7 +16,8 @@ branches:
 install:
 - chmod +x ./src/script/*.sh
 - ./src/script/install.sh
+- mvn compile
 script:
 - ./src/script/run.sh
-after_success:
-- ./src/script/commit.sh
+#after_success:
+#- ./src/script/commit.sh
