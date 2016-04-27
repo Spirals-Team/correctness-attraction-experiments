@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 spoon=../../spoon-core-5.2.0-SNAPSHOT-jar-with-dependencies.jar
-jPerturb=../../jPerturb/target/jPerturb-0.0.1-SNAPSHOT.jar
+jPerturb=../../jPerturb/target/jPerturb-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 perturbation=../../jPerturb/src/main/java/perturbation/
 processors=processor.AssignmentProcessor:processor.VariableCaster:processor.PerturbationProcessor
 
@@ -28,7 +28,7 @@ lib=$(echo $lib | tr " " :)
 for i in "${files[@]}"
 do
     echo $path/$i
-    java -classpath $wekajar:$mvn_dependencies:$lib:$spoon:$jPerturb spoon.Launcher -i $path/$i:$perturbation -o $path --with-imports -p $processors --level ALL
+    java -classpath $wekajar:$mvn_dependencies:$lib:$jPerturb spoon.Launcher -i $path/$i:$perturbation -o $path --with-imports -p $processors
 done
 
 mvn package -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -q
