@@ -11,11 +11,14 @@ path=src/main/java/
 
 git clone https://github.com/INRIA/spoon.git
 cd spoon
-mvn install -q -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+mvn install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+
+cd ..
 
 git clone http://github.com/Spirals-Team/jPerturb.git
 cd jPerturb
-mvn package -Dmaven.test.skip=true -q
+mvn package -Dmaven.test.skip=true
+
 cd ..
 
 #wget https://gforge.inria.fr/frs/download.php/latestzip/86/Spoon-latest.zip
