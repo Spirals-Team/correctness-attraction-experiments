@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-spoon=spoon-core-5.1.0-jar-with-dependencies.jar
+#spoon=spoon-core-5.1.0-jar-with-dependencies.jar
+
+
 jPerturb=jPerturb/target/jPerturb-0.0.1-SNAPSHOT.jar
 perturbation=jPerturb/src/main/java/perturbation/
 processors=processor.AssignmentProcessor:processor.VariableCaster:processor.RenameProcessor:processor.PerturbationProcessor
@@ -12,8 +14,15 @@ cd jPerturb
 mvn install -Dmaven.test.skip=true -q
 cd ..
 
-wget https://gforge.inria.fr/frs/download.php/latestzip/86/Spoon-latest.zip
-unzip Spoon-latest.zip 2>/dev/null 1>/dev/null
+git clone https://github.com/INRIA/spoon.git
+cd spoon
+mvn package -q -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+mv target/spoon-core-5.2.0-SNAPSHOT-jar-with-dependencies.jar ../
+cd ..
+spoon=spoon-core-5.2.0-SNAPSHOT-jar-with-dependencies.jar
+
+#wget https://gforge.inria.fr/frs/download.php/latestzip/86/Spoon-latest.zip
+#unzip Spoon-latest.zip 2>/dev/null 1>/dev/null
 
 wget http://mirror.trisect.eu/Apache//commons/math/source/commons-math3-3.6.1-src.zip
 unzip commons-math3-3.6.1-src.zip 2>/dev/null 1>/dev/null

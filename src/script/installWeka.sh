@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-spoon=../../spoon-core-5.1.0-jar-with-dependencies.jar
+spoon=../../spoon-core-5.2.0-SNAPSHOT-jar-with-dependencies.jar
 jPerturb=../../jPerturb/target/jPerturb-0.0.1-SNAPSHOT.jar
 perturbation=../../jPerturb/src/main/java/perturbation/
 processors=processor.AssignmentProcessor:processor.VariableCaster:processor.PerturbationProcessor
