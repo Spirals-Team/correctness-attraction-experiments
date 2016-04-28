@@ -1,3 +1,5 @@
+
+
 package sudoku;
 
 import perturbation.PerturbationEngine;
@@ -254,19 +256,19 @@ public class SudokuInstr {
     public SudokuInstr(int[][] board) {
         mBoard = board;
         mBoardSize = mBoard.length;
-        mBoxSize = ((int)(Math.sqrt(mBoardSize)));
+        mBoxSize = ((int) (Math.sqrt(mBoardSize)));
     }
 
     public int[][] getGrid() {
-        return sudoku.SudokuInstr.this.mBoard;
+        return SudokuInstr.this.mBoard;
     }
 
     public void initSubsets() {
         mRowSubset = new boolean[PerturbationEngine.pint(__L74, mBoardSize)][PerturbationEngine.pint(__L75, mBoardSize)];
         mColSubset = new boolean[PerturbationEngine.pint(__L76, mBoardSize)][PerturbationEngine.pint(__L77, mBoardSize)];
         mBoxSubset = new boolean[PerturbationEngine.pint(__L78, mBoardSize)][PerturbationEngine.pint(__L79, mBoardSize)];
-        for (int i = PerturbationEngine.pint(__L80, 0) ; PerturbationEngine.pboolean(__L83, ((PerturbationEngine.pint(__L81, i)) < (PerturbationEngine.pint(__L82, mBoard.length)))) ; i++) {
-            for (int j = PerturbationEngine.pint(__L84, 0) ; PerturbationEngine.pboolean(__L87, ((PerturbationEngine.pint(__L85, j)) < (PerturbationEngine.pint(__L86, mBoard.length)))) ; j++) {
+        for (int i = PerturbationEngine.pint(__L80, 0); PerturbationEngine.pboolean(__L83, ((PerturbationEngine.pint(__L81, i)) < (PerturbationEngine.pint(__L82, mBoard.length)))); i++) {
+            for (int j = PerturbationEngine.pint(__L84, 0); PerturbationEngine.pboolean(__L87, ((PerturbationEngine.pint(__L85, j)) < (PerturbationEngine.pint(__L86, mBoard.length)))); j++) {
                 int value = PerturbationEngine.pint(__L90, mBoard[PerturbationEngine.pint(__L88, i)][PerturbationEngine.pint(__L89, j)]);
                 if (PerturbationEngine.pboolean(__L93, ((PerturbationEngine.pint(__L91, value)) != (PerturbationEngine.pint(__L92, 0))))) {
                     setSubsetValue(PerturbationEngine.pint(__L94, i), PerturbationEngine.pint(__L95, j), PerturbationEngine.pint(__L96, value), PerturbationEngine.pboolean(__L97, true));
@@ -295,7 +297,7 @@ public class SudokuInstr {
         if (PerturbationEngine.pboolean(__L28, ((PerturbationEngine.pint(__L26, mBoard[PerturbationEngine.pint(__L24, i)][PerturbationEngine.pint(__L25, j)])) != (PerturbationEngine.pint(__L27, 0))))) {
             return PerturbationEngine.pboolean(__L33, solve(PerturbationEngine.pint(__L31, ((PerturbationEngine.pint(__L29, i)) + (PerturbationEngine.pint(__L30, 1)))), PerturbationEngine.pint(__L32, j)));
         } 
-        for (int value = PerturbationEngine.pint(__L34, 1) ; PerturbationEngine.pboolean(__L37, ((PerturbationEngine.pint(__L35, value)) <= (PerturbationEngine.pint(__L36, mBoardSize)))) ; value++) {
+        for (int value = PerturbationEngine.pint(__L34, 1); PerturbationEngine.pboolean(__L37, ((PerturbationEngine.pint(__L35, value)) <= (PerturbationEngine.pint(__L36, mBoardSize)))); value++) {
             if (PerturbationEngine.pboolean(__L41, isValid(PerturbationEngine.pint(__L38, i), PerturbationEngine.pint(__L39, j), PerturbationEngine.pint(__L40, value)))) {
                 mBoard[PerturbationEngine.pint(__L42, i)][PerturbationEngine.pint(__L43, j)] = PerturbationEngine.pint(__L44, value);
                 setSubsetValue(PerturbationEngine.pint(__L45, i), PerturbationEngine.pint(__L46, j), PerturbationEngine.pint(__L47, value), PerturbationEngine.pboolean(__L48, true));
@@ -322,121 +324,121 @@ public class SudokuInstr {
     }
 
     private static void initPerturbationLocation0() {
-        __L0 = new PerturbationLocationImpl("Sudoku.java:77" , 0 , "Numerical");
-        __L1 = new PerturbationLocationImpl("Sudoku.java:77" , 1 , "Numerical");
-        __L2 = new PerturbationLocationImpl("Sudoku.java:77" , 2 , "Boolean");
-        __L3 = new PerturbationLocationImpl("Sudoku.java:77" , 3 , "Numerical");
-        __L4 = new PerturbationLocationImpl("Sudoku.java:77" , 4 , "Numerical");
-        __L5 = new PerturbationLocationImpl("Sudoku.java:77" , 5 , "Boolean");
-        __L6 = new PerturbationLocationImpl("Sudoku.java:77" , 6 , "Boolean");
-        __L7 = new PerturbationLocationImpl("Sudoku.java:77" , 7 , "Numerical");
-        __L8 = new PerturbationLocationImpl("Sudoku.java:77" , 8 , "Numerical");
-        __L9 = new PerturbationLocationImpl("Sudoku.java:77" , 9 , "Numerical");
-        __L10 = new PerturbationLocationImpl("Sudoku.java:77" , 10 , "Numerical");
-        __L11 = new PerturbationLocationImpl("Sudoku.java:77" , 11 , "Boolean");
-        __L12 = new PerturbationLocationImpl("Sudoku.java:77" , 12 , "Boolean");
-        __L13 = new PerturbationLocationImpl("Sudoku.java:78" , 13 , "Boolean");
-        __L14 = new PerturbationLocationImpl("Sudoku.java:47" , 14 , "Numerical");
-        __L15 = new PerturbationLocationImpl("Sudoku.java:47" , 15 , "Numerical");
-        __L16 = new PerturbationLocationImpl("Sudoku.java:47" , 16 , "Boolean");
-        __L17 = new PerturbationLocationImpl("Sudoku.java:51" , 17 , "Numerical");
-        __L18 = new PerturbationLocationImpl("Sudoku.java:51" , 18 , "Numerical");
-        __L19 = new PerturbationLocationImpl("Sudoku.java:51" , 19 , "Boolean");
-        __L20 = new PerturbationLocationImpl("Sudoku.java:52" , 20 , "Numerical");
-        __L21 = new PerturbationLocationImpl("Sudoku.java:53" , 21 , "Numerical");
-        __L22 = new PerturbationLocationImpl("Sudoku.java:53" , 22 , "Boolean");
-        __L23 = new PerturbationLocationImpl("Sudoku.java:54" , 23 , "Boolean");
-        __L24 = new PerturbationLocationImpl("Sudoku.java:57" , 24 , "Numerical");
-        __L25 = new PerturbationLocationImpl("Sudoku.java:57" , 25 , "Numerical");
-        __L26 = new PerturbationLocationImpl("Sudoku.java:57" , 26 , "Numerical");
-        __L27 = new PerturbationLocationImpl("Sudoku.java:57" , 27 , "Numerical");
-        __L28 = new PerturbationLocationImpl("Sudoku.java:57" , 28 , "Boolean");
-        __L29 = new PerturbationLocationImpl("Sudoku.java:58" , 29 , "Numerical");
-        __L30 = new PerturbationLocationImpl("Sudoku.java:58" , 30 , "Numerical");
-        __L31 = new PerturbationLocationImpl("Sudoku.java:58" , 31 , "Numerical");
-        __L32 = new PerturbationLocationImpl("Sudoku.java:58" , 32 , "Numerical");
-        __L33 = new PerturbationLocationImpl("Sudoku.java:58" , 33 , "Boolean");
-        __L34 = new PerturbationLocationImpl("Sudoku.java:60" , 34 , "Numerical");
-        __L35 = new PerturbationLocationImpl("Sudoku.java:60" , 35 , "Numerical");
-        __L36 = new PerturbationLocationImpl("Sudoku.java:60" , 36 , "Numerical");
-        __L37 = new PerturbationLocationImpl("Sudoku.java:60" , 37 , "Boolean");
-        __L38 = new PerturbationLocationImpl("Sudoku.java:61" , 38 , "Numerical");
-        __L39 = new PerturbationLocationImpl("Sudoku.java:61" , 39 , "Numerical");
-        __L40 = new PerturbationLocationImpl("Sudoku.java:61" , 40 , "Numerical");
-        __L41 = new PerturbationLocationImpl("Sudoku.java:61" , 41 , "Boolean");
-        __L42 = new PerturbationLocationImpl("Sudoku.java:62" , 42 , "Numerical");
-        __L43 = new PerturbationLocationImpl("Sudoku.java:62" , 43 , "Numerical");
-        __L44 = new PerturbationLocationImpl("Sudoku.java:62" , 44 , "Numerical");
-        __L45 = new PerturbationLocationImpl("Sudoku.java:63" , 45 , "Numerical");
-        __L46 = new PerturbationLocationImpl("Sudoku.java:63" , 46 , "Numerical");
-        __L47 = new PerturbationLocationImpl("Sudoku.java:63" , 47 , "Numerical");
-        __L48 = new PerturbationLocationImpl("Sudoku.java:63" , 48 , "Boolean");
-        __L49 = new PerturbationLocationImpl("Sudoku.java:64" , 49 , "Numerical");
-        __L50 = new PerturbationLocationImpl("Sudoku.java:64" , 50 , "Numerical");
-        __L51 = new PerturbationLocationImpl("Sudoku.java:64" , 51 , "Numerical");
-        __L52 = new PerturbationLocationImpl("Sudoku.java:64" , 52 , "Numerical");
-        __L53 = new PerturbationLocationImpl("Sudoku.java:64" , 53 , "Boolean");
-        __L54 = new PerturbationLocationImpl("Sudoku.java:65" , 54 , "Boolean");
-        __L55 = new PerturbationLocationImpl("Sudoku.java:67" , 55 , "Numerical");
-        __L56 = new PerturbationLocationImpl("Sudoku.java:67" , 56 , "Numerical");
-        __L57 = new PerturbationLocationImpl("Sudoku.java:67" , 57 , "Numerical");
-        __L58 = new PerturbationLocationImpl("Sudoku.java:67" , 58 , "Boolean");
-        __L59 = new PerturbationLocationImpl("Sudoku.java:71" , 59 , "Numerical");
-        __L60 = new PerturbationLocationImpl("Sudoku.java:71" , 60 , "Numerical");
-        __L61 = new PerturbationLocationImpl("Sudoku.java:71" , 61 , "Numerical");
-        __L62 = new PerturbationLocationImpl("Sudoku.java:72" , 62 , "Boolean");
-        __L63 = new PerturbationLocationImpl("Sudoku.java:82" , 63 , "Numerical");
-        __L64 = new PerturbationLocationImpl("Sudoku.java:82" , 64 , "Numerical");
-        __L65 = new PerturbationLocationImpl("Sudoku.java:82" , 65 , "Numerical");
-        __L66 = new PerturbationLocationImpl("Sudoku.java:83" , 66 , "Numerical");
-        __L67 = new PerturbationLocationImpl("Sudoku.java:83" , 67 , "Numerical");
-        __L68 = new PerturbationLocationImpl("Sudoku.java:83" , 68 , "Numerical");
-        __L69 = new PerturbationLocationImpl("Sudoku.java:84" , 69 , "Numerical");
-        __L70 = new PerturbationLocationImpl("Sudoku.java:84" , 70 , "Numerical");
-        __L71 = new PerturbationLocationImpl("Sudoku.java:84" , 71 , "Numerical");
-        __L72 = new PerturbationLocationImpl("Sudoku.java:84" , 72 , "Numerical");
-        __L73 = new PerturbationLocationImpl("Sudoku.java:84" , 73 , "Numerical");
-        __L74 = new PerturbationLocationImpl("Sudoku.java:27" , 74 , "Numerical");
-        __L75 = new PerturbationLocationImpl("Sudoku.java:27" , 75 , "Numerical");
-        __L76 = new PerturbationLocationImpl("Sudoku.java:28" , 76 , "Numerical");
-        __L77 = new PerturbationLocationImpl("Sudoku.java:28" , 77 , "Numerical");
-        __L78 = new PerturbationLocationImpl("Sudoku.java:29" , 78 , "Numerical");
-        __L79 = new PerturbationLocationImpl("Sudoku.java:29" , 79 , "Numerical");
-        __L80 = new PerturbationLocationImpl("Sudoku.java:30" , 80 , "Numerical");
-        __L81 = new PerturbationLocationImpl("Sudoku.java:30" , 81 , "Numerical");
-        __L82 = new PerturbationLocationImpl("Sudoku.java:30" , 82 , "Numerical");
-        __L83 = new PerturbationLocationImpl("Sudoku.java:30" , 83 , "Boolean");
-        __L84 = new PerturbationLocationImpl("Sudoku.java:31" , 84 , "Numerical");
-        __L85 = new PerturbationLocationImpl("Sudoku.java:31" , 85 , "Numerical");
-        __L86 = new PerturbationLocationImpl("Sudoku.java:31" , 86 , "Numerical");
-        __L87 = new PerturbationLocationImpl("Sudoku.java:31" , 87 , "Boolean");
-        __L88 = new PerturbationLocationImpl("Sudoku.java:32" , 88 , "Numerical");
-        __L89 = new PerturbationLocationImpl("Sudoku.java:32" , 89 , "Numerical");
-        __L90 = new PerturbationLocationImpl("Sudoku.java:32" , 90 , "Numerical");
-        __L91 = new PerturbationLocationImpl("Sudoku.java:33" , 91 , "Numerical");
-        __L92 = new PerturbationLocationImpl("Sudoku.java:33" , 92 , "Numerical");
-        __L93 = new PerturbationLocationImpl("Sudoku.java:33" , 93 , "Boolean");
-        __L94 = new PerturbationLocationImpl("Sudoku.java:34" , 94 , "Numerical");
-        __L95 = new PerturbationLocationImpl("Sudoku.java:34" , 95 , "Numerical");
-        __L96 = new PerturbationLocationImpl("Sudoku.java:34" , 96 , "Numerical");
-        __L97 = new PerturbationLocationImpl("Sudoku.java:34" , 97 , "Boolean");
-        __L98 = new PerturbationLocationImpl("Sudoku.java:41" , 98 , "Numerical");
-        __L99 = new PerturbationLocationImpl("Sudoku.java:41" , 99 , "Numerical");
-        __L100 = new PerturbationLocationImpl("Sudoku.java:41" , 100 , "Numerical");
-        __L101 = new PerturbationLocationImpl("Sudoku.java:41" , 101 , "Numerical");
-        __L102 = new PerturbationLocationImpl("Sudoku.java:41" , 102 , "Boolean");
-        __L103 = new PerturbationLocationImpl("Sudoku.java:42" , 103 , "Numerical");
-        __L104 = new PerturbationLocationImpl("Sudoku.java:42" , 104 , "Numerical");
-        __L105 = new PerturbationLocationImpl("Sudoku.java:42" , 105 , "Numerical");
-        __L106 = new PerturbationLocationImpl("Sudoku.java:42" , 106 , "Numerical");
-        __L107 = new PerturbationLocationImpl("Sudoku.java:42" , 107 , "Boolean");
-        __L108 = new PerturbationLocationImpl("Sudoku.java:43" , 108 , "Numerical");
-        __L109 = new PerturbationLocationImpl("Sudoku.java:43" , 109 , "Numerical");
-        __L110 = new PerturbationLocationImpl("Sudoku.java:43" , 110 , "Numerical");
-        __L111 = new PerturbationLocationImpl("Sudoku.java:43" , 111 , "Numerical");
-        __L112 = new PerturbationLocationImpl("Sudoku.java:43" , 112 , "Numerical");
-        __L113 = new PerturbationLocationImpl("Sudoku.java:43" , 113 , "Numerical");
-        __L114 = new PerturbationLocationImpl("Sudoku.java:43" , 114 , "Boolean");
+        __L0 = new PerturbationLocationImpl("Sudoku.java:77", 0, "Numerical");
+        __L1 = new PerturbationLocationImpl("Sudoku.java:77", 1, "Numerical");
+        __L2 = new PerturbationLocationImpl("Sudoku.java:77", 2, "Boolean");
+        __L3 = new PerturbationLocationImpl("Sudoku.java:77", 3, "Numerical");
+        __L4 = new PerturbationLocationImpl("Sudoku.java:77", 4, "Numerical");
+        __L5 = new PerturbationLocationImpl("Sudoku.java:77", 5, "Boolean");
+        __L6 = new PerturbationLocationImpl("Sudoku.java:77", 6, "Boolean");
+        __L7 = new PerturbationLocationImpl("Sudoku.java:77", 7, "Numerical");
+        __L8 = new PerturbationLocationImpl("Sudoku.java:77", 8, "Numerical");
+        __L9 = new PerturbationLocationImpl("Sudoku.java:77", 9, "Numerical");
+        __L10 = new PerturbationLocationImpl("Sudoku.java:77", 10, "Numerical");
+        __L11 = new PerturbationLocationImpl("Sudoku.java:77", 11, "Boolean");
+        __L12 = new PerturbationLocationImpl("Sudoku.java:77", 12, "Boolean");
+        __L13 = new PerturbationLocationImpl("Sudoku.java:78", 13, "Boolean");
+        __L14 = new PerturbationLocationImpl("Sudoku.java:47", 14, "Numerical");
+        __L15 = new PerturbationLocationImpl("Sudoku.java:47", 15, "Numerical");
+        __L16 = new PerturbationLocationImpl("Sudoku.java:47", 16, "Boolean");
+        __L17 = new PerturbationLocationImpl("Sudoku.java:51", 17, "Numerical");
+        __L18 = new PerturbationLocationImpl("Sudoku.java:51", 18, "Numerical");
+        __L19 = new PerturbationLocationImpl("Sudoku.java:51", 19, "Boolean");
+        __L20 = new PerturbationLocationImpl("Sudoku.java:52", 20, "Numerical");
+        __L21 = new PerturbationLocationImpl("Sudoku.java:53", 21, "Numerical");
+        __L22 = new PerturbationLocationImpl("Sudoku.java:53", 22, "Boolean");
+        __L23 = new PerturbationLocationImpl("Sudoku.java:54", 23, "Boolean");
+        __L24 = new PerturbationLocationImpl("Sudoku.java:57", 24, "Numerical");
+        __L25 = new PerturbationLocationImpl("Sudoku.java:57", 25, "Numerical");
+        __L26 = new PerturbationLocationImpl("Sudoku.java:57", 26, "Numerical");
+        __L27 = new PerturbationLocationImpl("Sudoku.java:57", 27, "Numerical");
+        __L28 = new PerturbationLocationImpl("Sudoku.java:57", 28, "Boolean");
+        __L29 = new PerturbationLocationImpl("Sudoku.java:58", 29, "Numerical");
+        __L30 = new PerturbationLocationImpl("Sudoku.java:58", 30, "Numerical");
+        __L31 = new PerturbationLocationImpl("Sudoku.java:58", 31, "Numerical");
+        __L32 = new PerturbationLocationImpl("Sudoku.java:58", 32, "Numerical");
+        __L33 = new PerturbationLocationImpl("Sudoku.java:58", 33, "Boolean");
+        __L34 = new PerturbationLocationImpl("Sudoku.java:60", 34, "Numerical");
+        __L35 = new PerturbationLocationImpl("Sudoku.java:60", 35, "Numerical");
+        __L36 = new PerturbationLocationImpl("Sudoku.java:60", 36, "Numerical");
+        __L37 = new PerturbationLocationImpl("Sudoku.java:60", 37, "Boolean");
+        __L38 = new PerturbationLocationImpl("Sudoku.java:61", 38, "Numerical");
+        __L39 = new PerturbationLocationImpl("Sudoku.java:61", 39, "Numerical");
+        __L40 = new PerturbationLocationImpl("Sudoku.java:61", 40, "Numerical");
+        __L41 = new PerturbationLocationImpl("Sudoku.java:61", 41, "Boolean");
+        __L42 = new PerturbationLocationImpl("Sudoku.java:62", 42, "Numerical");
+        __L43 = new PerturbationLocationImpl("Sudoku.java:62", 43, "Numerical");
+        __L44 = new PerturbationLocationImpl("Sudoku.java:62", 44, "Numerical");
+        __L45 = new PerturbationLocationImpl("Sudoku.java:63", 45, "Numerical");
+        __L46 = new PerturbationLocationImpl("Sudoku.java:63", 46, "Numerical");
+        __L47 = new PerturbationLocationImpl("Sudoku.java:63", 47, "Numerical");
+        __L48 = new PerturbationLocationImpl("Sudoku.java:63", 48, "Boolean");
+        __L49 = new PerturbationLocationImpl("Sudoku.java:64", 49, "Numerical");
+        __L50 = new PerturbationLocationImpl("Sudoku.java:64", 50, "Numerical");
+        __L51 = new PerturbationLocationImpl("Sudoku.java:64", 51, "Numerical");
+        __L52 = new PerturbationLocationImpl("Sudoku.java:64", 52, "Numerical");
+        __L53 = new PerturbationLocationImpl("Sudoku.java:64", 53, "Boolean");
+        __L54 = new PerturbationLocationImpl("Sudoku.java:65", 54, "Boolean");
+        __L55 = new PerturbationLocationImpl("Sudoku.java:67", 55, "Numerical");
+        __L56 = new PerturbationLocationImpl("Sudoku.java:67", 56, "Numerical");
+        __L57 = new PerturbationLocationImpl("Sudoku.java:67", 57, "Numerical");
+        __L58 = new PerturbationLocationImpl("Sudoku.java:67", 58, "Boolean");
+        __L59 = new PerturbationLocationImpl("Sudoku.java:71", 59, "Numerical");
+        __L60 = new PerturbationLocationImpl("Sudoku.java:71", 60, "Numerical");
+        __L61 = new PerturbationLocationImpl("Sudoku.java:71", 61, "Numerical");
+        __L62 = new PerturbationLocationImpl("Sudoku.java:72", 62, "Boolean");
+        __L63 = new PerturbationLocationImpl("Sudoku.java:82", 63, "Numerical");
+        __L64 = new PerturbationLocationImpl("Sudoku.java:82", 64, "Numerical");
+        __L65 = new PerturbationLocationImpl("Sudoku.java:82", 65, "Numerical");
+        __L66 = new PerturbationLocationImpl("Sudoku.java:83", 66, "Numerical");
+        __L67 = new PerturbationLocationImpl("Sudoku.java:83", 67, "Numerical");
+        __L68 = new PerturbationLocationImpl("Sudoku.java:83", 68, "Numerical");
+        __L69 = new PerturbationLocationImpl("Sudoku.java:84", 69, "Numerical");
+        __L70 = new PerturbationLocationImpl("Sudoku.java:84", 70, "Numerical");
+        __L71 = new PerturbationLocationImpl("Sudoku.java:84", 71, "Numerical");
+        __L72 = new PerturbationLocationImpl("Sudoku.java:84", 72, "Numerical");
+        __L73 = new PerturbationLocationImpl("Sudoku.java:84", 73, "Numerical");
+        __L74 = new PerturbationLocationImpl("Sudoku.java:27", 74, "Numerical");
+        __L75 = new PerturbationLocationImpl("Sudoku.java:27", 75, "Numerical");
+        __L76 = new PerturbationLocationImpl("Sudoku.java:28", 76, "Numerical");
+        __L77 = new PerturbationLocationImpl("Sudoku.java:28", 77, "Numerical");
+        __L78 = new PerturbationLocationImpl("Sudoku.java:29", 78, "Numerical");
+        __L79 = new PerturbationLocationImpl("Sudoku.java:29", 79, "Numerical");
+        __L80 = new PerturbationLocationImpl("Sudoku.java:30", 80, "Numerical");
+        __L81 = new PerturbationLocationImpl("Sudoku.java:30", 81, "Numerical");
+        __L82 = new PerturbationLocationImpl("Sudoku.java:30", 82, "Numerical");
+        __L83 = new PerturbationLocationImpl("Sudoku.java:30", 83, "Boolean");
+        __L84 = new PerturbationLocationImpl("Sudoku.java:31", 84, "Numerical");
+        __L85 = new PerturbationLocationImpl("Sudoku.java:31", 85, "Numerical");
+        __L86 = new PerturbationLocationImpl("Sudoku.java:31", 86, "Numerical");
+        __L87 = new PerturbationLocationImpl("Sudoku.java:31", 87, "Boolean");
+        __L88 = new PerturbationLocationImpl("Sudoku.java:32", 88, "Numerical");
+        __L89 = new PerturbationLocationImpl("Sudoku.java:32", 89, "Numerical");
+        __L90 = new PerturbationLocationImpl("Sudoku.java:32", 90, "Numerical");
+        __L91 = new PerturbationLocationImpl("Sudoku.java:33", 91, "Numerical");
+        __L92 = new PerturbationLocationImpl("Sudoku.java:33", 92, "Numerical");
+        __L93 = new PerturbationLocationImpl("Sudoku.java:33", 93, "Boolean");
+        __L94 = new PerturbationLocationImpl("Sudoku.java:34", 94, "Numerical");
+        __L95 = new PerturbationLocationImpl("Sudoku.java:34", 95, "Numerical");
+        __L96 = new PerturbationLocationImpl("Sudoku.java:34", 96, "Numerical");
+        __L97 = new PerturbationLocationImpl("Sudoku.java:34", 97, "Boolean");
+        __L98 = new PerturbationLocationImpl("Sudoku.java:41", 98, "Numerical");
+        __L99 = new PerturbationLocationImpl("Sudoku.java:41", 99, "Numerical");
+        __L100 = new PerturbationLocationImpl("Sudoku.java:41", 100, "Numerical");
+        __L101 = new PerturbationLocationImpl("Sudoku.java:41", 101, "Numerical");
+        __L102 = new PerturbationLocationImpl("Sudoku.java:41", 102, "Boolean");
+        __L103 = new PerturbationLocationImpl("Sudoku.java:42", 103, "Numerical");
+        __L104 = new PerturbationLocationImpl("Sudoku.java:42", 104, "Numerical");
+        __L105 = new PerturbationLocationImpl("Sudoku.java:42", 105, "Numerical");
+        __L106 = new PerturbationLocationImpl("Sudoku.java:42", 106, "Numerical");
+        __L107 = new PerturbationLocationImpl("Sudoku.java:42", 107, "Boolean");
+        __L108 = new PerturbationLocationImpl("Sudoku.java:43", 108, "Numerical");
+        __L109 = new PerturbationLocationImpl("Sudoku.java:43", 109, "Numerical");
+        __L110 = new PerturbationLocationImpl("Sudoku.java:43", 110, "Numerical");
+        __L111 = new PerturbationLocationImpl("Sudoku.java:43", 111, "Numerical");
+        __L112 = new PerturbationLocationImpl("Sudoku.java:43", 112, "Numerical");
+        __L113 = new PerturbationLocationImpl("Sudoku.java:43", 113, "Numerical");
+        __L114 = new PerturbationLocationImpl("Sudoku.java:43", 114, "Boolean");
     }
 }
 
