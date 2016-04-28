@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         if (args.length > 1)
             Util.parseArgs(args);
-        System.err.close();
+//        System.err.close();
         run();
     }
 
