@@ -19,6 +19,14 @@ mvn package -Dmaven.test.skip=true
 
 cd ..
 
+#Spoon little exp
+i=(md5/MD5.java quicksort/QuickSort.java mersenne/MersenneTwister.java sudoku/Sudoku.java zip/LZW.java)
+for file in "${i[@]}"
+do
+    echo "java -jar $jPerturb -i src/main/java/$file:$perturbation -o src/main/java --with-imports -p $processors"
+    java -jar $jPerturb -i src/main/java/$file:$perturbation -o src/main/java --with-imports -p processor.RenameProcessor:$processors
+done
+
 #Install Commons Math
 wget http://mirror.trisect.eu/Apache/commons/math/source/commons-math3-3.6.1-src.zip
 unzip commons-math3-3.6.1-src.zip 2>/dev/null 1>/dev/null
