@@ -21,9 +21,12 @@ public class LoggerExecPath {
 
     public static void log() {
         int nbPairUnsorted = 0;
+
         for (int i = 0; i < quickSort2.values.length - 1; i++)
-            if (quickSort2.values[i] > quickSort2.values[i + 1])
-                nbPairUnsorted++;
+            for (int j = i+1; j < quickSort2.values.length ; j++)
+                if (quickSort2.values[i] > quickSort2.values[j])
+                    nbPairUnsorted++;
+
         execPath.add(nbPairUnsorted);
     }
 

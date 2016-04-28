@@ -67,13 +67,14 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
         /* only one array */
         Runner.numberOfTask = 1;
         Runner.numberOfSecondsToWait = 30;
-        OracleManager<int[]> oracle = new QuickSort2Manager();
-        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, oracle,"Numerical", int[].class);
+        OracleManager<int[]> manager = new QuickSort2Manager();
+        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, manager,"Numerical", int[].class);
+        Runner.verbose = true;
 
         /* no Perturbation */
-        QuickSort2 quicksort = new QuickSort2(oracle.get(0));
+        QuickSort2 quicksort = new QuickSort2(manager.get(0));
         LoggerExecPath.init(quicksort);
-        quicksort.sort(0, oracle.get(0).length - 1);
+        quicksort.sort(0, manager.get(0).length - 1);
         unperturbed = LoggerExecPath.execPath;
 
         magnitudes = new int[]{1, 2, 5, 10, 20, 50};
