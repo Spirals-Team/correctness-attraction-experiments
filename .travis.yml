@@ -11,9 +11,6 @@ cache:
   - .autoconf
   - $HOME/.m2
 sudo: true
-branches:
-  except:
-  - branch-results
 install:
 - chmod +x ./src/script/*.sh
 - ./src/script/install.sh
