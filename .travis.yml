@@ -1,7 +1,7 @@
 language: java
 env:
   global:
-  - BRANCH=master
+  - BRANCH=bitcoin
   - GH_REF=github.com/Spirals-Team/jPerturb-experiments.git
   - secure: dbZkfwh4HR0adxZC5WpKzBRltdxlSi1ZJgBH7M8QP5jyJWEp5IqoeQA+VOrHx57cT6Xmy0fJAyOIc5AxWoGYU4qWlaRT2LzoUB3n1z3FUOjUClzqhDvyUDSVzWOAAfY6e7OdJdMDr2CSH3ahnf3GNz0hX7v2pZbWcVG0+pcnGJHwzL6VGVnigbAOV0W/GgyXJQok24WKIydizq2iinyKS+cWrNnf2i9U9DmXbgLFGaIgPk5OftfZ9vvzrH1LFFDwIaYQK6LL2nfO5i2Hjgz1Z3gj+rIksrqFOx6M5JuUtFGA8ULNDagFm6QldxwvuJA0rTVU88FcaZjpvLPH2Hi2HBJcUr5CNe5tIu7ABzZ6Sc7VdLgXZCx+wRhMgEsgsR4xMMNwzBc+qORE3l+a0Zv4cGnHpR6JEi/NxJSMTkMmW5iR8e++hS2NyGuCFBnlc6hJ7OmEMdaUkZaf8oIi7UaMTxkSpDE8O4aQ0aL2r1JGNPxs3EVFXYgB5k+jR/7ojfCd/zy8ly3f6pnEu47HfWjMbTtA0zQVRHbM4+VH3PWzomROQXvnL+NeXS26PdtxvfYlZ3B8zSBwAmvBUr32XfreiXRXgTFd4y+PvGBSUgHeW35yZEen+n6ICJ1hqMpQjNCw4E4gYJ9aRoLNM2UOjBT1YtVLZZGzmQHbnXj/mSbgPtQ=
 jdk:
@@ -13,13 +13,13 @@ cache:
 sudo: true
 branches:
   except:
-  - bitcoin
   - branch-results
 install:
 - chmod +x ./src/script/*.sh
 - ./src/script/install.sh
+- ./src/script/installBitcoin.sh
 - mvn compile
 script:
-- ./src/script/run.sh
+- mvn exec:java -Dexec.mainClass="bitcoin.Main" -Dexec.args="-v -nb 1 -time 60 -exp IntRnd"
 #after_success:
 #- ./src/script/commit.sh

@@ -130,19 +130,24 @@ public class Runner {
             for (String explorer : explorers) {
                 switch (explorer) {
                     case "addOne":
+                        System.out.println("run " + explorer+"...");
                         run(new AddOneExplorerImpl());
                         break;
                     case "addN":
+                        System.out.println("run " + explorer+"...");
                         run(new AddNExplorerImpl());
                         break;
                     case "BoolCall":
+                        System.out.println("run " + explorer+"...");
                         getLocation("Boolean");
                         run(new BoolInvCallExplorerImpl(new InvPerturbatorImpl()));
                         break;
                     case "IntRnd":
+                        System.out.println("run " + explorer+"...");
                         run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
                         break;
                     case "BoolRnd":
+                        System.out.println("run " + explorer+"...");
                         getLocation("Boolean");
                         run(new BooleanInvRndEnactorExplorerImpl());
                         break;

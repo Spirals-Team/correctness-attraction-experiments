@@ -73,15 +73,17 @@ public class Search {
             BitcoinManager manager = new BitcoinManager();
             BitcoinCallable callable = new BitcoinCallable(manager.get(0));
             ExecutorService executor = Executors.newSingleThreadExecutor();
+
             locations.stream()
                     .filter(location -> location.getType().equals(type))
                     .forEach(location -> PerturbationEngine.logger.logOn(location));
+
             Future future = executor.submit(callable);
             long time = System.currentTimeMillis();
             future.get(Runner.numberOfSecondsToWait, TimeUnit.SECONDS);
             System.out.println(System.currentTimeMillis() - time + " ms");
 
-            final FileWriter writer = new FileWriter("output_search_bitcoin_"+type+".txt", false);
+            final FileWriter writer = new FileWriter("results/bitcoin/output_search_bitcoin_"+type+".txt", false);
 
             locations.stream()
                     .filter(location -> location.getType().equals(type))
