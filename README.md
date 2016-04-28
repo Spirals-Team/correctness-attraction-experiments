@@ -39,7 +39,7 @@ In order to install, just launch the following script :
 ./src/script/install.sh
 ```
 
-It will install everything you will need, and install all dependencies to run experiments (nearly 7 minutes).
+It will install everything you will need to run experiments (nearly 7 minutes).
 
 In order to try, run :
 
