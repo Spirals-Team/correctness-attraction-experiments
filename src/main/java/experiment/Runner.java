@@ -9,6 +9,7 @@ import perturbation.perturbator.InvPerturbatorImpl;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -82,6 +83,24 @@ public class Runner {
             executor.shutdownNow();
             return result;
         }
+    }
+
+    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable,
+                             OracleManager manager, float percentage, int indexPercentage,String locationType, Class<?>... inputTypes) {
+        CUP = classUnderPerturbation;
+        Runner.classCallable = classCallable;
+        Runner.manager = manager;
+        try {
+            Runner.constructorRunner = classCallable.getConstructor(inputTypes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        getLocation(locationType);
+        int sizeOfSlice = (int)(locations.size() * percentage);
+        locations = locations.subList(indexPercentage * sizeOfSlice, (indexPercentage+1) * sizeOfSlice);
+
+        oracle = Runner.manager.getOracle();
     }
 
     /**
