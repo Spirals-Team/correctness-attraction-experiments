@@ -13,4 +13,4 @@ git commit -m "rename travis file"
 git add results/
 git commit -m "Commit new results"
 
-git push "https://${GH_TOKEN}@${GH_REF}" $CURRENT_BRANCH:$BRANCHURRENT_BRANCH:branch-results
+git push "https://${GH_TOKEN}@${GH_REF}" $CURRENT_BRANCH:$BRANCH
