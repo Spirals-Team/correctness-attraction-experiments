@@ -18,7 +18,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
 
     public AddNExplorerImpl(int... ArrayOfMagnitudes) {
         super();
-        super.header = "SEPM\n";
+        super.header = "Systematical Exploration Plus Magnitudes\n";
         super.header += "magnitude value : ";
         if (ArrayOfMagnitudes.length > 0)
             super.magnitudes = ArrayOfMagnitudes;

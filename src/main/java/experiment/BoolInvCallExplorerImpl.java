@@ -39,7 +39,7 @@ public class BoolInvCallExplorerImpl implements Explorer{
         nbCallReferencePerLocationPerTask = new int[Runner.locations.size()][Runner.numberOfTask];
         nbExecsPerLocationPerTaskPerMagnitude = new int[Runner.locations.size()][Runner.numberOfTask][1];
 
-        header = "SEInvB\n";
+        header = "Systematical Exploration Boolean Negation\n";
         header += Runner.locations.size() + " perturbation point\n";
         header += "N Excecution Enactor\n";
         header += perturbatorName + "\n";

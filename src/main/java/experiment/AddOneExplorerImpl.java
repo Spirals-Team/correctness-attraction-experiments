@@ -34,7 +34,7 @@ public class AddOneExplorerImpl implements Explorer {
         nbCallReferencePerLocationPerTask = new int[Runner.locations.size()][Runner.numberOfTask];
         nbExecsPerLocationPerTaskPerMagnitude = new int[Runner.locations.size()][Runner.numberOfTask][this.magnitudes.length];
 
-        header = "SEP1\n";
+        header = "Systematical Exploration Plus One\n";
         header += Runner.locations.size() + " perturbation point\n";
         header += "N Excecution Enactor\n";
         header += "PONE : Numerical Perturbator\n";

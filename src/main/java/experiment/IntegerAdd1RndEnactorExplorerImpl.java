@@ -57,7 +57,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
         Logger.init(Runner.locations.size(),Runner.numberOfTask, this.randomRates.length, 5);
 
-        header = "SERN\n";
+        header = "Exploration Random\n";
         header += "random Rates : ";
 
         for (int indexOfRandomRate = 0; indexOfRandomRate < this.randomRates.length; indexOfRandomRate++) {

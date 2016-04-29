@@ -16,7 +16,7 @@ public class BooleanInvRndEnactorExplorerImpl extends IntegerAdd1RndEnactorExplo
 
         perturbatorName = "INV : Boolean Perturbator";
 
-        header = "SERN\n";
+        header = "Exploration Random\n";
         header += "random Rates : ";
 
         for (int indexOfRandomRate = 0; indexOfRandomRate < super.randomRates.length; indexOfRandomRate++) {
