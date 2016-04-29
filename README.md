@@ -59,3 +59,19 @@ Several options are available :
 * -time <integer> specify the number of seconds to wait until timeout
 * -v or -verbose to active Runner verbose mode
 * -exp <exp> specify the exp. If no exp is specified, the program will run all of it. values available for <exp> are : addOne addN BoolCall IntRnd BoolRnd
+
+## Running commands
+
+You can run "little" exp (quicksort,zip,md5,sudoku and mersenne) as you ran quicksort :
+
+```
+java -cp target/classes <package_exp>.Main <list of options>
+```
+
+For the "large" exp (optimizer, torrent, bitcoin, classifier and cipher (comming soon)), you must run them with all dependencies. The easiest way to do so is to use the maven command exec :
+
+```
+mvn exec:java -Dexec.mainClass="<package_exp>.Main" -Dexec.args="<list of options"
+```
+
+or you can try to add dependencies manually.
