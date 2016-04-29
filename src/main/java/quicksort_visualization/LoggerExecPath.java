@@ -23,7 +23,7 @@ public class LoggerExecPath {
         int nbPairUnsorted = 0;
 
         for (int i = 0; i < quickSort2.values.length - 1; i++)
-            for (int j = i+1; j < quickSort2.values.length ; j++)
+            for (int j = i + 1; j < quickSort2.values.length; j++)
                 if (quickSort2.values[i] > quickSort2.values[j])
                     nbPairUnsorted++;
 
