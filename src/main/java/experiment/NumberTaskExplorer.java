@@ -10,8 +10,6 @@ import perturbation.location.PerturbationLocation;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
 import quicksort.QuickSortManager;
-import sudoku.SudokuCallableImpl;
-import sudoku.SudokuInstr;
 import zip.LZWInstr;
 import zip.ZipCallableImpl;
 import zip.ZipManager;
@@ -157,7 +155,7 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
         System.out.println("MT");
         NumberTaskExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
         System.out.println("LZW");
-        NumberTaskExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", List.class);
+        NumberTaskExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
     }
 
 }
