@@ -9,12 +9,12 @@ import java.util.List;
  */
 public class QuickSortCallableImpl extends CallableImpl<List<Integer>,List<Integer>> {
 
-    public QuickSortCallableImpl(List<Integer> originalValue) {
-        super(originalValue);
+    public QuickSortCallableImpl(List<Integer> input) {
+        super(input);
     }
 
     @Override
     public List<Integer> call() throws Exception {
-        return QuickSortInstr.sort(super.originalValue);
+        return QuickSortInstr.sort(super.input);
     }
 }

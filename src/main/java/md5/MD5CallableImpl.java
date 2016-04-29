@@ -7,12 +7,12 @@ import experiment.CallableImpl;
  */
 public class MD5CallableImpl extends CallableImpl<String,byte[]> {
 
-    public MD5CallableImpl(String originalValue) {
-        super(originalValue);
+    public MD5CallableImpl(String input) {
+        super(input);
     }
 
     @Override
     public byte[] call() throws Exception {
-        return MD5Instr.computeMD5(super.originalValue.getBytes());
+        return MD5Instr.computeMD5(super.input.getBytes());
     }
 }

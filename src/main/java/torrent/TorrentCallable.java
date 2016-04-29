@@ -28,7 +28,7 @@ public class TorrentCallable extends CallableImpl<String,String> {
             seeder = new Client(
                     InetAddress.getLocalHost(),
                     new SharedTorrent(
-                            Torrent.load(new File(TorrentManager.PATH_TO_TORRENT_FILE+originalValue+".torrent")),
+                            Torrent.load(new File(TorrentManager.PATH_TO_TORRENT_FILE+ input +".torrent")),
                             new File(TorrentManager.PATH_TO_TORRENT_FILE), true));
             seeder.share(-1);
 
@@ -36,7 +36,7 @@ public class TorrentCallable extends CallableImpl<String,String> {
             leecher = new Client(
                     InetAddress.getLocalHost(),
                     SharedTorrent.fromFile(
-                            new File(TorrentManager.PATH_TO_TORRENT_FILE+originalValue+".torrent"),
+                            new File(TorrentManager.PATH_TO_TORRENT_FILE+ input +".torrent"),
                             new File(TorrentManager.PATH_TO_SENT_FILE)));
             Runtime.getRuntime().addShutdownHook(
                     new Thread(new Client.ClientShutdown(leecher, null)));
@@ -60,7 +60,7 @@ public class TorrentCallable extends CallableImpl<String,String> {
         leecher.stop();
         seeder.stop();
 
-        return originalValue;
+        return input;
     }
 
 }

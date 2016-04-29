@@ -11,19 +11,19 @@ import org.bitcoinj.core.Wallet;
  */
 public class BitcoinCallable extends CallableImpl<Tuple, Integer> {
 
-    public BitcoinCallable(Tuple originalValue) {
-        super(originalValue);
+    public BitcoinCallable(Tuple input) {
+        super(input);
     }
 
     @Override
     public Integer call() throws Exception {
-        Coin value = Coin.valueOf(originalValue.get(2), 0);
-        Wallet.SendRequest request = Wallet.SendRequest.to(BitcoinManager.getWalletAppKit(originalValue.get(1))
+        Coin value = Coin.valueOf(input.get(2), 0);
+        Wallet.SendRequest request = Wallet.SendRequest.to(BitcoinManager.getWalletAppKit(input.get(1))
                 .wallet().currentReceiveKey().toAddress(BitcoinManager.networkParameters), value);
         request.fee = Coin.valueOf(BitcoinManager.FEE_AMOUNT, 0);
         request.feePerKb = Coin.ZERO;
         try {
-            BitcoinManager.getWalletAppKit(originalValue.get(0)).wallet().sendCoins(request);
+            BitcoinManager.getWalletAppKit(input.get(0)).wallet().sendCoins(request);
             BitcoinToolbox.mine();
 //            Thread.sleep(2500);
             return 1;

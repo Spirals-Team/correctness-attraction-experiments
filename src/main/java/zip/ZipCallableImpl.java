@@ -7,12 +7,12 @@ import experiment.CallableImpl;
  */
 public class ZipCallableImpl extends CallableImpl<String,String> {
 
-    public ZipCallableImpl(String originalValue) {
-        super(originalValue);
+    public ZipCallableImpl(String input) {
+        super(input);
     }
 
     @Override
     public String call() throws Exception {
-        return LZWInstr.decompress(LZWInstr.compress(super.originalValue));
+        return LZWInstr.decompress(LZWInstr.compress(super.input));
     }
 }

@@ -11,13 +11,13 @@ import java.util.List;
  */
 public class MersenneCallableImpl extends CallableImpl<Long, List<Long>> {
 
-    public MersenneCallableImpl(Long originalValue) {
-        super(originalValue);
+    public MersenneCallableImpl(Long input) {
+        super(input);
     }
 
     @Override
     public List<Long> call() throws Exception {
-        MersenneTwisterInstr mersenneTwister = new MersenneTwisterInstr(originalValue);
+        MersenneTwisterInstr mersenneTwister = new MersenneTwisterInstr(input);
         List<Long> rndList = new ArrayList<>();
         for(int i = 0; i < Runner.sizeOfEachTask ; i++)
             rndList.add(mersenneTwister.genrand());

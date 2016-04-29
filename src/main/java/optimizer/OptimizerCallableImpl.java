@@ -1,11 +1,8 @@
 package optimizer;
 
 import experiment.CallableImpl;
-import experiment.Oracle;
-import experiment.Runner;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
-import org.apache.commons.math3.optim.linear.SimplexSolver;
 import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
 
 /**
@@ -13,13 +10,13 @@ import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
  */
 public class OptimizerCallableImpl extends CallableImpl<OptimizationData[], PointValuePair> {
 
-    public OptimizerCallableImpl(OptimizationData[] originalValue) {
-        super(originalValue);
+    public OptimizerCallableImpl(OptimizationData[] input) {
+        super(input);
     }
 
     @Override
     public PointValuePair call() throws Exception {
         SimplexSolverInstr solver = new SimplexSolverInstr();
-        return solver.optimize(originalValue);
+        return solver.optimize(input);
     }
 }

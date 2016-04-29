@@ -6,8 +6,11 @@ def gen_all(path,file):
     unperturbed = ' '.join(lines[0].split()).split(" ")
     p = []
 
-    for line in lines[4:]:
-        p.append(' '.join(line.split()).split(" "))
+    for line in lines[1:]:
+        l = ' '.join(line.split()).split(" ")
+        print(len(l), len(unperturbed)+60)
+        if len(l) < len(unperturbed)+60:
+            p.append(l)
 
     cptGreen = 0
     cptRed = 0
@@ -36,10 +39,10 @@ def gen_all(path,file):
     plt.title("Executions of Quicksort")
 
     box = ax.get_position()
-    #ax.set_xscale('symlog')
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    #lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     fig.savefig(path+"/img/perturbationVisualization_All.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
+    ax.set_xscale('symlog')
+    fig.savefig(path+"/img/perturbationVisualization_All_log.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     plt.close(fig)
 
 def gen_all_per_xp(path, prefixe):
@@ -83,9 +86,7 @@ def gen_all_per_xp(path, prefixe):
         plt.title("Executions of Quicksort")
 
         box = ax.get_position()
-        #ax.set_xscale('symlog')
         ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-        #lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
         fig.savefig(path+"/img/perturbationVisualization_"+file+"_All.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
         plt.close(fig)
 

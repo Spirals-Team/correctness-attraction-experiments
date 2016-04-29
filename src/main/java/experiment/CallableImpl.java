@@ -7,10 +7,10 @@ import java.util.concurrent.Callable;
  */
 public abstract class CallableImpl<T,P> implements Callable<P> {
 
-    protected T originalValue;
+    protected T input;
 
-    public CallableImpl(T originalValue) {
-        this.originalValue = originalValue;
+    public CallableImpl(T input) {
+        this.input = input;
     }
 
     @Override

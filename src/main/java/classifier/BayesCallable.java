@@ -9,15 +9,15 @@ import weka.experiment.InstancesResultListener;
  */
 public class BayesCallable extends CallableImpl<Experiment, InstancesResultListener> {
 
-    public BayesCallable(Experiment originalValue) {
-        super(originalValue);
+    public BayesCallable(Experiment input) {
+        super(input);
     }
 
     @Override
     public InstancesResultListener call() throws Exception {
-        originalValue.initialize();
-        originalValue.runExperiment();
-        originalValue.postProcess();
-        return (InstancesResultListener)originalValue.getResultListener();
+        input.initialize();
+        input.runExperiment();
+        input.postProcess();
+        return (InstancesResultListener) input.getResultListener();
     }
 }

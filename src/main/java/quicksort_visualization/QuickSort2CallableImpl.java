@@ -34,17 +34,17 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     static int currentExp = 0;
 
-    public QuickSort2CallableImpl(int[] originalValue) {
-        super(originalValue);
+    public QuickSort2CallableImpl(int[] input) {
+        super(input);
     }
 
     @Override
     public int[] call() throws Exception {
-        QuickSort2 quicksort = new QuickSort2(this.originalValue);
+        QuickSort2 quicksort = new QuickSort2(this.input);
 
         LoggerExecPath.init(quicksort);
 
-        quicksort.sort(0, this.originalValue.length - 1);
+        quicksort.sort(0, this.input.length - 1);
         PerturbationLocation currentLocation = Runner.locations.stream()
                 .filter(location ->
                         !(location.getEnactor() instanceof NeverEnactorImpl))

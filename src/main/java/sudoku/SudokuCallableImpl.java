@@ -7,13 +7,13 @@ import experiment.*;
  */
 public class SudokuCallableImpl extends CallableImpl<int[][],int[][]> {
 
-    public SudokuCallableImpl(int[][] originalValue) {
-        super(originalValue);
+    public SudokuCallableImpl(int[][] input) {
+        super(input);
     }
 
     @Override
     public int[][] call() throws Exception {
-        SudokuInstr sudoku = new SudokuInstr(super.originalValue);
+        SudokuInstr sudoku = new SudokuInstr(super.input);
         sudoku.initSubsets();
         sudoku.solve();
         return sudoku.getGrid();
