@@ -1,0 +1,19 @@
+#Compiled class
+*.class
+target/
+
+#Config file
+.idea/
+*.iml
+
+#Perturbation files needed
+jPerturb/
+spoon/
+src/main/java/perturbation/
+
+#Experiment files needed
+bitcoin-0.12.1/
+bitcoinj/
+commons-math3-3.6.1-src/
+ttorrent/
+weka-3-8-0/
