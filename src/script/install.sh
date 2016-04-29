@@ -112,3 +112,30 @@ cd ..
 #Install bitcoinD
 wget https://bitcoin.org/bin/bitcoin-core-0.12.1/bitcoin-0.12.1-linux64.tar.gz
 tar -xf bitcoin-0.12.1-linux64.tar.gz
+
+#Install Bouncy Castle
+git clone https://github.com/bcgit/bc-java.git
+cd bc-java
+gradle core:jar
+cd ..
+
+
+#Install Bouncy Castle
+git clone https://github.com/bcgit/bc-java.git
+cd bc-java
+gradle core:jar
+cd ..
+
+#Spooning Bouncy Castle
+mvn_dep_bitcoin=$m2_repo/junit/junit/4.12/junit-4.12.jar:$m2_repo/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:$m2_repo/org/easymock/easymock/3.2/easymock-3.2.jar:$m2_repo/cglib/cglib-nodep/2.2.2/cglib-nodep-2.2.2.jar:$m2_repo/org/objenesis/objenesis/1.3/objenesis-1.3.jar:$m2_repo/org/slf4j/slf4j-jdk14/1.7.7/slf4j-jdk14-1.7.7.jar:$m2_repo/com/fasterxml/jackson/core/jackson-databind/2.5.2/jackson-databind-2.5.2.jar:$m2_repo/com/fasterxml/jackson/core/jackson-annotations/2.5.0/jackson-annotations-2.5.0.jar:$m2_repo/com/fasterxml/jackson/core/jackson-core/2.5.1/jackson-core-2.5.1.jar:$m2_repo/com/h2database/h2/1.3.167/h2-1.3.167.jar:$m2_repo/com/madgag/spongycastle/core/1.51.0.0/core-1.51.0.0.jar:$m2_repo/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0.jar:$m2_repo/com/google/guava/guava/16.0.1/guava-16.0.1.jar:$m2_repo/com/google/code/findbugs/jsr305/2.0.1/jsr305-2.0.1.jar:$m2_repo/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar:$m2_repo/com/lambdaworks/scrypt/1.4.0/scrypt-1.4.0.jar:$m2_repo/postgresql/postgresql/9.1-901.jdbc4/postgresql-9.1-901.jdbc4.jar:$m2_repo/mysql/mysql-connector-java/5.1.33/mysql-connector-java-5.1.33.jar:$m2_repo/org/fusesource/leveldbjni/leveldbjni-all/1.8/leveldbjni-all-1.8.jar:$m2_repo/org/bitcoinj/orchid/1.1.1/orchid-1.1.1.jar:$m2_repo/com/squareup/okhttp/okhttp/2.2.0/okhttp-2.2.0.jar:$m2_repo/com/squareup/okio/okio/1.2.0/okio-1.2.0.jar:$m2_repo/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar
+jar_bc=bc-java/core/build/libs/core-1.52.jar
+path_bc=bc-java/core/src/main/java/
+i=org/bouncycastle/crypto/engines/RSACoreEngine.java
+echo "java -classpath $jar_bc:$jPerturb spoon.Launcher --with-imports -i $path_bc/$i:$perturbation -o $path_bc -p $processors"
+java -classpath $jar_bc:$jPerturb spoon.Launcher --with-imports -i $path_bc/$i:$perturbation -o $path_bc -p $processors
+
+cd bc-java
+gradle core:clean
+gradle core:jar
+cd ..
+mvn install:install-file -Dfile=$jar_bc -DgroupId=org.bouncycastle -DartifactId=core -Dversion=1.52 -Dpackaging=jar

@@ -44,6 +44,12 @@
             <version>0.13.6</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>core</artifactId>
+            <version>1.52</version>
+        </dependency>
+
         <!--Maybe we will need the two next dependencies to debug bitcoinj experiments-->
         <!--<dependency>-->
             <!--<groupId>org.slf4j</groupId>-->
