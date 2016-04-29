@@ -29,11 +29,15 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
 
         for line in lines[i:i+len(n)]:
             point = float(' '.join(line.split()).split(" ")[-1].replace(',','.'))
+
             if point == point:
                 perc.append(point)
-                my_n.append(n[lines[i:i+len(n)].index(line)])
+            else:
+                perc.append(float(100.0))
 
-        if not perc in percAll and len(perc) > 0:
+            my_n.append(n[lines[i:i+len(n)].index(line)])
+
+        if not perc in percAll and len(perc) > 0 and [p == p for p in perc]:
             indexOfLocation = ' '.join(lines[i].split()).split(" ")[1]
             indicesLocation.append(indexOfLocation)
             percAll.append(perc)
@@ -60,6 +64,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     fig = plt.figure()
     ax = fig.add_axes((.1,.4,.8,.5))
     for i in range(len(percAll)):
+        #cut = len(percAll[i])
         cut = min(indexToCut, len(percAll[i]))
         plt.plot(nAll[i][:cut], percAll[i][:cut], marker='x', label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"))
     plt.xlabel(labelOfN)
