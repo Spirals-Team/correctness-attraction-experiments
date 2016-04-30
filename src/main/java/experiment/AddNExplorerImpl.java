@@ -1,10 +1,6 @@
 package experiment;
 
-import perturbation.PerturbationEngine;
-import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
-import perturbation.perturbator.AddNPerturbatorImpl;
-import perturbation.perturbator.NothingPerturbatorImpl;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,6 +10,7 @@ import java.util.List;
 /**
  * Created by spirals on 05/04/16.
  */
+@Deprecated
 public class AddNExplorerImpl extends AddOneExplorerImpl {
 
     public AddNExplorerImpl(int... ArrayOfMagnitudes) {

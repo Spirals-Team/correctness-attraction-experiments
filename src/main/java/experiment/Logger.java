@@ -3,6 +3,7 @@ package experiment;
 /**
  * Created by spirals on 13/04/16.
  */
+@Deprecated
 public class Logger {
 
     private static Tuple[][][] results;

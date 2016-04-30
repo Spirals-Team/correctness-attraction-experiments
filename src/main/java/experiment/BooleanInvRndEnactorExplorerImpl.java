@@ -1,14 +1,11 @@
 package experiment;
 
-import perturbation.enactor.RandomEnactorImpl;
-import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.InvPerturbatorImpl;
-
-import java.util.HashMap;
 
 /**
  * Created by spirals on 25/04/16.
  */
+@Deprecated
 public class BooleanInvRndEnactorExplorerImpl extends IntegerAdd1RndEnactorExplorerImpl {
 
     public BooleanInvRndEnactorExplorerImpl(float... randomRates) {

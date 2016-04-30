@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * Created by spirals on 05/04/16.
  */
+@Deprecated
 public class AddOneExplorerImpl implements Explorer {
 
     protected int[][] nbCallReferencePerLocationPerTask;

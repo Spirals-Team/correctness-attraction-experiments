@@ -4,7 +4,6 @@ import perturbation.PerturbationEngine;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
-import perturbation.perturbator.AddNPerturbatorImpl;
 import perturbation.perturbator.NothingPerturbatorImpl;
 import perturbation.perturbator.Perturbator;
 
@@ -18,6 +17,7 @@ import java.util.Map;
 /**
  * Created by spirals on 05/04/16.
  */
+@Deprecated
 public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
     protected float[] randomRates = new float[]{0.001f, 0.005f, 0.009f, 0.01f, 0.05f, 0.09f, 0.1f, 0.5f, 0.9f};

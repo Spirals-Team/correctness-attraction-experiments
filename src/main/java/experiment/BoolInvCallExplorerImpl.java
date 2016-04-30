@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * Created by spirals on 26/04/16.
  */
+@Deprecated
 public class BoolInvCallExplorerImpl implements Explorer{
 
 
