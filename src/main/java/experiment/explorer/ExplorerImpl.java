@@ -1,5 +1,6 @@
-package experiment;
+package experiment.explorer;
 
+import experiment.campaign.Campaign;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.NothingPerturbatorImpl;
@@ -11,10 +12,14 @@ import java.util.List;
  * Created by beyni on 30/04/16.
  */
 public abstract class ExplorerImpl implements Explorer {
-    private List<Perturbator> perturbators;
 
-    public ExplorerImpl(List<Perturbator> perturbatorToBeRun) {
-        this.perturbators = perturbatorToBeRun;
+    protected List<Perturbator> perturbators;
+
+    protected Campaign campaign;
+
+    public ExplorerImpl(Campaign campaign) {
+        this.campaign = campaign;
+        this.perturbators = campaign.getPerturbators();
     }
 
     @Override

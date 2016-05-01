@@ -1,11 +1,14 @@
-package experiment;
+package experiment.explorer;
 
+import experiment.Logger;
+import experiment.Runner;
+import experiment.Tuple;
+import experiment.campaign.Campaign;
+import perturbation.PerturbationEngine;
 import perturbation.enactor.Enactor;
 import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.Perturbator;
-
-import java.util.List;
 
 /**
  * Created by beyni on 30/04/16.
@@ -20,20 +23,20 @@ public class RandomExplorer extends ExplorerImpl {
 
     private int numberOfRepeat;
 
-    public RandomExplorer(List<Perturbator> perturbatorToBeRun) {
-        this(perturbatorToBeRun, new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f,0.5f ,0.9f}, 5);
+    public RandomExplorer(Campaign campaign) {
+        this(campaign, new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f,0.5f ,0.9f}, 5);
     }
 
-    public RandomExplorer(List<Perturbator> perturbatorToBeRun, float [] randomRates) {
-        this(perturbatorToBeRun, randomRates, 5);
+    public RandomExplorer(Campaign campaign, float [] randomRates) {
+        this(campaign, randomRates, 5);
     }
 
-    public RandomExplorer(List<Perturbator> perturbatorToBeRun, int numberOfRepeat) {
-        this(perturbatorToBeRun, new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f,0.5f ,0.9f}, numberOfRepeat);
+    public RandomExplorer(Campaign campaign, int numberOfRepeat) {
+        this(campaign, new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f,0.5f ,0.9f}, numberOfRepeat);
     }
 
-    public RandomExplorer(List<Perturbator> perturbatorToBeRun, float [] randomRates, int repeat) {
-        super(perturbatorToBeRun);
+    public RandomExplorer(Campaign campaign, float [] randomRates, int repeat) {
+        super(campaign);
         if (randomRates.length > 1)
             this.randomRates = randomRates;
         else
@@ -62,7 +65,11 @@ public class RandomExplorer extends ExplorerImpl {
     private void runOneRandomRate(int indexOfTask, PerturbationLocation location, int randomRate) {
         int indexLocation = Runner.locations.indexOf(location);
         location.setEnactor(enactorsOfLocationPerRandomRates[indexLocation][randomRate]);
-        for (int i = 0 ; i < numberOfRepeat ; i++)
-            Runner.runPerturbation(indexOfTask);
+        for (int i = 0 ; i < numberOfRepeat ; i++) {
+            PerturbationEngine.logger.logOn(location);
+            Tuple result = Runner.runPerturbation(indexOfTask);
+            Logger.log(Runner.locations.indexOf(location), indexOfTask, randomRate, result);
+            PerturbationEngine.logger.reset();
+        }
     }
 }

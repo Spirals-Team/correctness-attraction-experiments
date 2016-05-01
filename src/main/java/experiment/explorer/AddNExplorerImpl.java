@@ -1,5 +1,9 @@
-package experiment;
+package experiment.explorer;
 
+import experiment.Logger;
+import experiment.Runner;
+import experiment.Tuple;
+import experiment.Util;
 import perturbation.location.PerturbationLocation;
 
 import java.io.FileWriter;
@@ -51,7 +55,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
         int []searchSpaceSizePerMagnitude = new int[super.magnitudes.length];
         int []numberOfSuccessPerMagnitude = new int[super.magnitudes.length];
 
-        Tuple [][][] results = Logger.getResults();
+        Tuple[][][] results = Logger.getResults();
 
         try {
             FileWriter writer = new FileWriter("results/"+ Runner.manager.getPath()+"/"+super.name+"_detail.txt", false);
@@ -67,7 +71,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
                         numberOfSuccessPerMagnitude[indexMagnitude] += result.get(0);
                         writer.write(String.format(format,indexTask, magnitudes[indexMagnitude], location.getLocationIndex(),
                                 result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                                result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+                                result.get(4)==0?"NaN": Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                     }
 
                 }
@@ -153,9 +157,9 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + super.name + "_super_anti_fragile.txt",
                     "List of ids antifragile points.", locationSuperAntiFragile);
             Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + super.name + "_oracle_fragile.txt",
-                    "list ids of oracle fragile code : >" + Explorer.TOLERANCE +"% of oracle failures", locationOracleFragile);
+                    "list ids of oracle fragile code : >" + TOLERANCE +"% of oracle failures", locationOracleFragile);
             Explorer.writeListOnGivenFile("results/" + Runner.manager.getPath() + "/" + super.name + "_exception_fragile.txt",
-                    "list ids of exception fragile code : >" + Explorer.TOLERANCE +"% of exceptions.", locationExceptionFragile);
+                    "list ids of exception fragile code : >" + TOLERANCE +"% of exceptions.", locationExceptionFragile);
 
         } catch (IOException e) {
             e.printStackTrace();

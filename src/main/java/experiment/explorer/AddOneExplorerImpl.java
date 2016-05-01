@@ -1,5 +1,9 @@
-package experiment;
+package experiment.explorer;
 
+import experiment.Logger;
+import experiment.Runner;
+import experiment.Tuple;
+import experiment.Util;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
 import perturbation.enactor.NeverEnactorImpl;
@@ -114,7 +118,7 @@ public class AddOneExplorerImpl implements Explorer {
                             result.get(0), result.get(1), result.get(2), result.get(3),
                             result.get(3) / nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask] , result.get(4),
                             nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask],
-                            result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+                            result.get(4)==0?"NaN": Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 }
             }
             writer.close();

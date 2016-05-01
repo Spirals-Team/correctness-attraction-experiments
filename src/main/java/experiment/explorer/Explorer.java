@@ -1,5 +1,7 @@
-package experiment;
+package experiment.explorer;
 
+import experiment.Tuple;
+import experiment.Util;
 import perturbation.location.PerturbationLocation;
 
 import java.io.FileWriter;
@@ -15,7 +17,7 @@ public interface Explorer {
 
     static void addToFragilityList(Tuple result, int total, PerturbationLocation location,
                                    List<PerturbationLocation> locationExceptionFragile, List<PerturbationLocation> locationSuperAntiFragile,
-                        List<PerturbationLocation> locationAntiFragile , List<PerturbationLocation> locationOracleFragile) {
+                                   List<PerturbationLocation> locationAntiFragile , List<PerturbationLocation> locationOracleFragile) {
         if (result.get(0) == total && result.get(0) != 0)//Super - Antifragile
             locationSuperAntiFragile.add(location);
         else if (Util.perc(result.get(0), total) >= TOLERANCE)//AntiFragile
@@ -41,6 +43,7 @@ public interface Explorer {
 
     void run(int indexOfTask, PerturbationLocation location);
 
+    @Deprecated
     void log();
 
 }

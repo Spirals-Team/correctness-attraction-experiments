@@ -1,4 +1,4 @@
-package experiment;
+package experiment.explorer;
 
 /**
  * Created by beyni on 30/04/16.

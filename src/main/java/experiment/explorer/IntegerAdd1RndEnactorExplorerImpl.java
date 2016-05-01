@@ -1,5 +1,9 @@
-package experiment;
+package experiment.explorer;
 
+import experiment.Logger;
+import experiment.Runner;
+import experiment.Tuple;
+import experiment.Util;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.enactor.RandomEnactorImpl;
@@ -20,7 +24,7 @@ import java.util.Map;
 @Deprecated
 public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
 
-    protected float[] randomRates = new float[]{0.001f, 0.005f, 0.009f, 0.01f, 0.05f, 0.09f, 0.1f, 0.5f, 0.9f};
+    protected float[] randomRates = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f ,0.9f};
 
     protected int seedOfRandomEnactor = 32;
 
@@ -128,7 +132,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                         double avg = (double) result.get(4) / (double)nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
                         writer.write(String.format(format, indexTask, randomRates[indexRandomRates], location.getLocationIndex(),
                                 result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
-                                result.get(4)==0?"NaN":Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+                                result.get(4)==0?"NaN": Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                     }
                 }
             }

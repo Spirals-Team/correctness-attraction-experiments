@@ -1,5 +1,6 @@
-package experiment;
+package experiment.explorer;
 
+import experiment.*;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
 import md5.MD5Manager;

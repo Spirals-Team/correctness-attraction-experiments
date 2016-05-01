@@ -1,6 +1,9 @@
 package quicksort_visualization;
 
 import experiment.*;
+import experiment.explorer.AddNExplorerImpl;
+import experiment.explorer.Explorer;
+import experiment.explorer.IntegerAdd1RndEnactorExplorerImpl;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.AddNPerturbatorImpl;

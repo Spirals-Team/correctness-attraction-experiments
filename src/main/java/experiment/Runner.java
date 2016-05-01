@@ -1,5 +1,6 @@
 package experiment;
 
+import experiment.explorer.*;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
 import perturbation.perturbator.AddNPerturbatorImpl;
@@ -27,6 +28,7 @@ public class Runner {
     public static int sizeOfEachTask = 100;
     public static int numberOfTask = 20;
 
+    @Deprecated
     public static List<String> explorers = new ArrayList<>();
 
     public static boolean verbose = false;
@@ -48,7 +50,6 @@ public class Runner {
     }
 
 
-    //@TODO Add location to the signature And logger
     public static Tuple runPerturbation(int indexOfTask) {
         Tuple result = new Tuple(3);
         ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -91,7 +92,7 @@ public class Runner {
             e.printStackTrace();
         }
 
-        getLocation(locationType);
+        filterLocation(locationType);
         int sizeOfSlice = (int)(locations.size() * percentage);
         locations = locations.subList(indexPercentage * sizeOfSlice, (indexPercentage+1) * sizeOfSlice);
 
@@ -114,11 +115,11 @@ public class Runner {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getLocation(locationType);
+        filterLocation(locationType);
         oracle = Runner.manager.getOracle();
     }
 
-    public static void getLocation(String locationType) {
+    public static void filterLocation(String locationType) {
         locations = PerturbationLocationImpl.getLocationFromClass(CUP).stream()
                 .filter(location -> location.getType().equals(locationType))
                 .collect(Collectors.toList()
@@ -133,10 +134,11 @@ public class Runner {
         System.out.println("Run IntegerAdd1RndEnactor Campaign...");
         run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
         System.out.println("Run BooleanInvRndEnactor Campaign...");
-        getLocation("Boolean");
+        filterLocation("Boolean");
         run(new BooleanInvRndEnactorExplorerImpl());
     }
 
+    @Deprecated
     public static void runExplorers() {
         if (explorers.isEmpty())
             runAllCampaign();
@@ -153,7 +155,7 @@ public class Runner {
                         break;
                     case "BoolCall":
                         System.out.println("run " + explorer+"...");
-                        getLocation("Boolean");
+                        filterLocation("Boolean");
                         run(new BoolInvCallExplorerImpl(new InvPerturbatorImpl()));
                         break;
                     case "IntRnd":
@@ -162,7 +164,7 @@ public class Runner {
                         break;
                     case "BoolRnd":
                         System.out.println("run " + explorer+"...");
-                        getLocation("Boolean");
+                        filterLocation("Boolean");
                         run(new BooleanInvRndEnactorExplorerImpl());
                         break;
                     default:

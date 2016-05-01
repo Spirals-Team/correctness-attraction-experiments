@@ -14,11 +14,11 @@ import java.util.Random;
  */
 public abstract class OracleManager<T> {
 
+    public int seedForGenTask = 23;
+
     protected String path;
 
     protected String header;
-
-    protected int seedForGenTask = 23;
 
     protected List<T> scenario;
 
