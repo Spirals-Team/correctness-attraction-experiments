@@ -23,7 +23,7 @@ public class IntegerExplorationPlusMagnitude extends ExplorationImpl {
 
         super.columnName = "Magnitude";
 
-        super.name = "AddM";
+        super.name = "IntegerAddM";
         super.header = "Exploration Plus Magnitude\n";
         super.header += "magnitude value : ";
 

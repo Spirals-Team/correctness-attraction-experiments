@@ -37,7 +37,7 @@ public class SizeExplorer extends CallExplorer {
     public SizeExplorer(boolean init, int[] arrayOfTask) {
         super(new IntegerExplorationPlusOne());
         //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
-        Logger.init(Runner.locations.size(), Runner.numberOfTask, super.perturbators.size(), 6);
+        Logger.init(Runner.locations.size(), Runner.numberOfTask, super.perturbators.size());
         PerturbationEngine.loggers.put(super.name, new LoggerImpl());
 
         header = "Contains data to explore the size of task required for saturation\n";
@@ -83,9 +83,9 @@ public class SizeExplorer extends CallExplorer {
     private void log(PerturbationLocation location) {
         Tuple[][][][] results = Logger.getResults();
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + name + "_" + (location.getLocationIndex()) + ".txt", true);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", true);
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
-            Tuple result = new Tuple(5);
+            Tuple result = new Tuple(6);
             int accNbOfTasks = 0;
             int accNbExecAllTask = 0;
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
@@ -122,7 +122,6 @@ public class SizeExplorer extends CallExplorer {
 
         String name = "SizeTaskExploration";
 
-
         try {
             FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/"+name+".txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
@@ -147,7 +146,7 @@ public class SizeExplorer extends CallExplorer {
 
     public static void run(Class<?> classUnderPerturbation, Class<?> classCallable, Class<?> classManager, String locationType, Class<?>... inputTypes) {
         System.out.println("Explore the saturation by the size of tasks...");
-        int[] sizeOfTask = new int[]{5,10,20,50,100};
+        int[] sizeOfTask = new int[]{5,10,20,50,100,250,500};
         for (int i = 0 ; i < sizeOfTask.length ; i++) {
             int size = sizeOfTask[i];
             System.out.println("Size of task : \t" + size + "\t" +Util.getStringPerc(i, sizeOfTask.length));
@@ -159,7 +158,7 @@ public class SizeExplorer extends CallExplorer {
                 e.printStackTrace();
             }
             Runner.setup(classUnderPerturbation, classCallable, manager, locationType, inputTypes);
-            Runner.run(new SizeTaskExplorer(i == 0, sizeOfTask));
+            Runner.run(new SizeExplorer(i == 0, sizeOfTask));
         }
         mergeFile(sizeOfTask);
     }
@@ -167,12 +166,12 @@ public class SizeExplorer extends CallExplorer {
     public static void main(String[] args) {
         System.out.println("Quicksort");
         run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
-        System.out.println("MD5");
-        run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
-        System.out.println("MT");
-        run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
-        System.out.println("LZW");
-        run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
+//        System.out.println("MD5");
+//        run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
+//        System.out.println("MT");
+//        run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
+//        System.out.println("LZW");
+//        run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
     }
 
 

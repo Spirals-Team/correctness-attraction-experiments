@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public abstract class OracleManager<T> {
 
-    public int seedForGenTask = 23;
+    public int seedForGenTask;
 
     protected String path;
 
@@ -22,12 +22,18 @@ public abstract class OracleManager<T> {
 
     protected List<T> scenario;
 
-    protected Random randomForGenTask = new Random(seedForGenTask);
+    protected Random randomForGenTask;
 
-    public OracleManager() {
+    public OracleManager(int seed) {
+        this.seedForGenTask = seed;
+        this.randomForGenTask = new Random(seedForGenTask);
         scenario = new ArrayList<>();
         while (scenario.size() < Runner.numberOfTask)
             scenario.add(generateOneTask());
+    }
+
+    public OracleManager() {
+        this(23);
     }
 
     protected abstract T generateOneTask();

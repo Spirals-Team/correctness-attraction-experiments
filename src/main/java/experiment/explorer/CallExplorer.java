@@ -47,7 +47,7 @@ public class CallExplorer extends ExplorerImpl {
     public void runOnePerturbator(int indexOfTask, PerturbationLocation location, Perturbator perturbator) {
         int currentNbCall = nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexOfTask];
         location.setPerturbator(perturbator);
-        for (int indexOfCall = 1; indexOfCall < currentNbCall + 1; indexOfCall++) {
+        for (int indexOfCall = 0 ; indexOfCall < currentNbCall ; indexOfCall++) {
             PerturbationEngine.loggers.get(super.name).logOn(location);
             Tuple result = runAtTheIndexOfCall(indexOfCall, indexOfTask, location);
             Logger.log(Runner.locations.indexOf(location), indexOfTask, super.perturbators.indexOf(perturbator), 0, result, super.name);
@@ -74,7 +74,7 @@ public class CallExplorer extends ExplorerImpl {
         String campaignName = exploration.getName();
 
         String pathToOutPutFile = "results/" + Runner.manager.getPath() + "/" +
-                this.name + "_" + campaignName;
+                campaignName + "_" + this.name;
 
         int[] searchSpaceSizePerMagnitude = new int[numberOfPerturbor];
         int[] numberOfSuccessPerMagnitude = new int[numberOfPerturbor];
@@ -110,7 +110,7 @@ public class CallExplorer extends ExplorerImpl {
             writer = new FileWriter(pathToOutPutFile + "_analysis_graph_data.txt", false);
             writer.write("contains the data for build a graph for analysis.\n" +
                     exploration.getHeader() + Runner.manager.getHeader());
-            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
+            format = "%-11s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write(String.format(format, exploration.getColumnName(), "IndexLoc",
                     "#Success", "#Failure", "#Exception",
                     "#Call", "#Perturtions",

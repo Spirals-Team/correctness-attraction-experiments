@@ -96,7 +96,7 @@ public class RandomExplorer extends ExplorerImpl {
         String campaignName = exploration.getName();
 
         String pathToOutPutFile = "results/" + Runner.manager.getPath() + "/" +
-                this.name + "_" + campaignName;
+                campaignName + "_" + this.name;
 
         try {
             /* All Log */
@@ -128,10 +128,10 @@ public class RandomExplorer extends ExplorerImpl {
             writer.close();
 
              /* Sum Arrays */
-            writer = new FileWriter(pathToOutPutFile+"analysis_graph_data.txt", false);
+            writer = new FileWriter(pathToOutPutFile+"_analysis_graph_data.txt", false);
             writer.write("contains the data for the random rates analysis graph with " + exploration.getColumnName() + " as perturbator.\n");
                     writer.write(exploration.getHeader() + Runner.manager.getHeader());
-            format = "%-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
+            format = "%-10s %-"+exploration.getColumnName().length()+"s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write(String.format(format,
                     "RandomRate", exploration.getColumnName(), "IndexLoc",
                     "#Success", "#Failure", "#Exception",
@@ -164,8 +164,9 @@ public class RandomExplorer extends ExplorerImpl {
             for (int indexPerturbator = 0 ; indexPerturbator < numberOfPerturbor ; indexPerturbator++) {
                 for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
-                    writer = new FileWriter(pathToOutPutFile + randomRates[indexRandomRates] + ".txt", false);
+                    writer = new FileWriter(pathToOutPutFile + "_per_location_" +  randomRates[indexRandomRates] + "_" + perturbatorsName[indexPerturbator] + ".txt", false);
                     writer.write("aggregate data per location for random rate = " + randomRates[indexRandomRates] + " and with " + exploration.getColumnName()+" = " + perturbatorsName[indexPerturbator] + "\n");
+                    writer.write(exploration.getHeader() + Runner.manager.getHeader());
                     writer.write(String.format(format,
                             "IndexLoc", "#Success", "#Failure", "#Exception",
                             "#CallAllExecs", "AvgCallPerExec",

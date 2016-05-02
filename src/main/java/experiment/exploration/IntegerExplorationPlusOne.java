@@ -12,13 +12,13 @@ public class IntegerExplorationPlusOne extends ExplorationImpl {
 
     public IntegerExplorationPlusOne() {
         super.names = new String[1];
-        super.names[0] = "PONE";
+        super.names[0] = "1";
         perturbators = new ArrayList<>();
         perturbators.add(new AddNPerturbatorImpl(1));
 
         super.columnName = "Perturbator";
 
-        super.name = "Plus One";
+        super.name = "IntegerAddOne";
         super.header = "Exploration Plus One\n";
 
         super.header += Runner.locations.size() + " perturbation point\n";

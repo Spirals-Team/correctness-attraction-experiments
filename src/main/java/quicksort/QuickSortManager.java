@@ -12,6 +12,12 @@ import java.util.List;
  */
 public class QuickSortManager extends OracleManager<List<Integer>> {
 
+    public QuickSortManager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
+        super.path = "quicksort";
+    }
+
     public QuickSortManager() {
         super();
         super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\nRandom integer generated with " + super.seedForGenTask + " as seed\n";

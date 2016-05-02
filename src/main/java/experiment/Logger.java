@@ -50,7 +50,7 @@ public class Logger {
             for (int indexTask = 0 ; indexTask < numberOfTask ; indexTask++) {
                 for (int indexPerturbator = 0 ; indexPerturbator < numberOfPerturbator ; indexPerturbator++) {
                     for (int indexEnactor = 0 ; indexEnactor < numberOfEnactor ; indexEnactor++)
-                    results[indexLocation][indexTask][indexPerturbator][numberOfEnactor] = new Tuple(sizeOfTuple);
+                    results[indexLocation][indexTask][indexPerturbator][indexEnactor] = new Tuple(sizeOfTuple);
                 }
             }
         }
