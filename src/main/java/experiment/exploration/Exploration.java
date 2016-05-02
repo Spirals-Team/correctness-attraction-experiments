@@ -1,4 +1,4 @@
-package experiment.campaign;
+package experiment.exploration;
 
 import perturbation.perturbator.Perturbator;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by beyni on 01/05/16.
  */
-public interface Campaign {
+public interface Exploration {
 
     String getName();
 

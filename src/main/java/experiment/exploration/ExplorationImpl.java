@@ -1,4 +1,4 @@
-package experiment.campaign;
+package experiment.exploration;
 
 import perturbation.perturbator.Perturbator;
 
@@ -7,9 +7,7 @@ import java.util.List;
 /**
  * Created by beyni on 01/05/16.
  */
-public abstract class CampaignImpl implements Campaign {
-
-    protected int[] magnitudes;
+public abstract class ExplorationImpl implements Exploration {
 
     protected String[] names;
 
@@ -43,6 +41,7 @@ public abstract class CampaignImpl implements Campaign {
 
     @Override
     public List<Perturbator> getPerturbators() {
-        return perturbators;
+        return this.perturbators;
     }
+
 }
