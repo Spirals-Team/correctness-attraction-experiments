@@ -1,6 +1,7 @@
 package experiment.explorer;
 
 import experiment.*;
+import experiment.exploration.IntegerExplorationPlusOne;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
 import md5.MD5Manager;
@@ -10,6 +11,7 @@ import mersenne.MersenneTwisterInstr;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
+import perturbation.perturbator.Perturbator;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
 import quicksort.QuickSortManager;
@@ -24,25 +26,33 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by bdanglot on 29/04/16.
+ * Created by bdanglot on 02/05/16.
  */
-@Deprecated
-public class NumberTaskExplorer extends AddOneExplorerImpl {
+public class SizeExplorer extends CallExplorer {
 
-    public NumberTaskExplorer(boolean init, int[] arrayOfTask) {
-        super.header = "Contains data to explore the number of task required for saturation\n";
-        super.header += "Task Number Exploration (TNE)\n";
-        super.header += "Number Task :";
+    private String header;
+
+    private String nameOfSpecificExploration;
+
+    public SizeExplorer(boolean init, int[] arrayOfTask) {
+        super(new IntegerExplorationPlusOne());
+        //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
+        Logger.init(Runner.locations.size(), Runner.numberOfTask, super.perturbators.size(), 6);
+        PerturbationEngine.loggers.put(super.name, new LoggerImpl());
+
+        header = "Contains data to explore the size of task required for saturation\n";
+        header += "Size Task Exploration (STE)\n";
+        header += "Size Task : ";
         for (int nTask : arrayOfTask)
-            super.header += nTask + " ";
-        super.header += "\n" + Runner.locations.size() + " perturbation point\n";
-        super.header += "N Execution Enactor\n";
-        super.header += "PONE : Numerical Perturbator\n";
-        super.header += "Each task is an arrays of " + Runner.sizeOfEachTask + "\n";
-        super.header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
+            header += nTask + " ";
+        header += "\n" + Runner.locations.size() + " perturbation point\n";
+        header += "N Execution Enactor\n";
+        header += "PONE : Numerical Perturbator\n";
+        header += "One task of different size\n";
+        header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
 
         PerturbationEngine.loggers.remove(super.name);
-        super.name = "NumberTaskExplorer";
+        nameOfSpecificExploration = "SizeTaskExploration";
         PerturbationEngine.loggers.put(super.name, new LoggerImpl());
 
         if (init)
@@ -51,10 +61,10 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
 
     private void init(PerturbationLocation location) {
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + name + "_" + (location.getLocationIndex()) + ".txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             writer.write(header);
-            writer.write(String.format(format, "#Tasks", "IndexLoc",
+            writer.write(String.format(format, "Size", "IndexLoc",
                     "#Success", "#Failure", "#Exception",
                     "#CallAllExecs", "AvgCallPerExec",
                     "#Perturbations", "AvgPerturbationPerExec",
@@ -80,18 +90,17 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
             int accNbExecAllTask = 0;
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 result = result.add(results[Runner.locations.indexOf(location)][indexTask][0][0]);
-                accNbOfTasks += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
-                accNbExecAllTask += nbExecsPerLocationPerTaskPerMagnitude[Runner.locations.indexOf(location)][indexTask][0];
+                accNbOfTasks += super.nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
             }
 
             double avgCall = (double) result.get(3) / (double) accNbOfTasks;
             double avgPerturbation = (double) result.get(4) / (double) accNbOfTasks;
 
-            writer.write(String.format(format, Runner.numberOfTask, location.getLocationIndex(),
+            writer.write(String.format(format, Runner.sizeOfEachTask, location.getLocationIndex(),
                     result.get(0), result.get(1), result.get(2),
                     result.get(3), String.format("%.2f", avgCall),
                     result.get(4), String.format("%.2f", avgPerturbation),
-                    accNbExecAllTask, accNbOfTasks,
+                    accNbExecAllTask, result.get(5),
                     result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
             writer.close();
         } catch (IOException e) {
@@ -99,20 +108,23 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
         }
     }
 
-    private static void mergeFile(int[] arrayOfTask) {
-        String header = "Contains data to explore the number of task required for saturation\n";
-        header += "Task Number Exploration (TNE)\n";
-        header += "Number Task : ";
-        for (int nTask : arrayOfTask)
-            header += nTask + " ";
+    private static void mergeFile(int[] sizeOfTask) {
+        String  header = "Contains data to explore the size of task required for saturation\n";
+        header += "Size Task Exploration (STE)\n";
+        header += "Size Task : ";
+        for (int size : sizeOfTask)
+            header += size + " ";
         header += "\n" + Runner.locations.size() + " perturbation point\n";
         header += "N Execution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
-        header += "Each task is an arrays of " + Runner.sizeOfEachTask + "\n";
+        header += "One task of different size\n";
         header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
 
+        String name = "SizeTaskExploration";
+
+
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/NumberTaskExplorer.txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/"+name+".txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             writer.write(header);
             writer.write(String.format(format, "#Tasks", "IndexLoc",
@@ -122,7 +134,7 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
                     "#Execs", "#CallRef", "%Success") + "\n");
 
             for (PerturbationLocation location : Runner.locations) {
-                BufferedReader buffer = new BufferedReader(new FileReader("results/" + Runner.manager.getPath() + "/NumberTaskExplorer_" + (location.getLocationIndex()) + ".txt"));
+                BufferedReader buffer = new BufferedReader(new FileReader("results/" + Runner.manager.getPath() + "/"+name+"_" + (location.getLocationIndex()) + ".txt"));
                 for (int i = 0 ; i < 9 ; i++) buffer.readLine();
                 String line;
                 while ((line = buffer.readLine()) != null)
@@ -134,12 +146,12 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
     }
 
     public static void run(Class<?> classUnderPerturbation, Class<?> classCallable, Class<?> classManager, String locationType, Class<?>... inputTypes) {
-        System.out.println("Explore the saturation by the number of tasks...");
-        int[] numberOfTask = new int[]{1,2,5,10,25,50,100,200};
-        for (int i = 0 ; i < numberOfTask.length ; i++) {
-            int nbTask = numberOfTask[i];
-            System.out.println("Number of task : \t" + nbTask + "\t" +Util.getStringPerc(i, numberOfTask.length));
-            Runner.numberOfTask = nbTask;
+        System.out.println("Explore the saturation by the size of tasks...");
+        int[] sizeOfTask = new int[]{5,10,20,50,100};
+        for (int i = 0 ; i < sizeOfTask.length ; i++) {
+            int size = sizeOfTask[i];
+            System.out.println("Size of task : \t" + size + "\t" +Util.getStringPerc(i, sizeOfTask.length));
+            Runner.sizeOfEachTask = size;
             OracleManager manager = null;
             try {
                 manager = (OracleManager) classManager.getConstructor().newInstance();
@@ -147,20 +159,21 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
                 e.printStackTrace();
             }
             Runner.setup(classUnderPerturbation, classCallable, manager, locationType, inputTypes);
-            Runner.run(new NumberTaskExplorer(i == 0, numberOfTask));
+            Runner.run(new SizeTaskExplorer(i == 0, sizeOfTask));
         }
-        mergeFile(numberOfTask);
+        mergeFile(sizeOfTask);
     }
 
     public static void main(String[] args) {
         System.out.println("Quicksort");
-        NumberTaskExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
+        run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
         System.out.println("MD5");
-        NumberTaskExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
+        run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
         System.out.println("MT");
-        NumberTaskExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
+        run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
         System.out.println("LZW");
-        NumberTaskExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
+        run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
     }
+
 
 }

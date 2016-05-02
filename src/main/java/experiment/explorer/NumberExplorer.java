@@ -1,6 +1,8 @@
 package experiment.explorer;
 
 import experiment.*;
+import experiment.exploration.Exploration;
+import experiment.exploration.IntegerExplorationPlusOne;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
 import md5.MD5Manager;
@@ -24,26 +26,29 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by bdanglot on 29/04/16.
+ * Created by bdanglot on 02/05/16.
  */
-@Deprecated
-public class NumberTaskExplorer extends AddOneExplorerImpl {
+public class NumberExplorer extends CallExplorer {
 
-    public NumberTaskExplorer(boolean init, int[] arrayOfTask) {
-        super.header = "Contains data to explore the number of task required for saturation\n";
-        super.header += "Task Number Exploration (TNE)\n";
-        super.header += "Number Task :";
+    private String header;
+
+    private String nameOfSpecificExploration;
+
+    public NumberExplorer(boolean init, int[] arrayOfTask) {
+        super(new IntegerExplorationPlusOne());
+        this.header = "Contains data to explore the number of task required for saturation\n";
+        this.header += "Task Number Exploration (TNE)\n";
+        this.header += "Number Task :";
         for (int nTask : arrayOfTask)
-            super.header += nTask + " ";
-        super.header += "\n" + Runner.locations.size() + " perturbation point\n";
-        super.header += "N Execution Enactor\n";
-        super.header += "PONE : Numerical Perturbator\n";
-        super.header += "Each task is an arrays of " + Runner.sizeOfEachTask + "\n";
-        super.header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
+            this.header += nTask + " ";
+        this.header += "\n" + Runner.locations.size() + " perturbation point\n";
+        this.header += "N Execution Enactor\n";
+        this.header += "PONE : Numerical Perturbator\n";
+        this.header += "Each task is an arrays of " + Runner.sizeOfEachTask + "\n";
+        this.header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
 
-        PerturbationEngine.loggers.remove(super.name);
-        super.name = "NumberTaskExplorer";
-        PerturbationEngine.loggers.put(super.name, new LoggerImpl());
+        this.nameOfSpecificExploration = "NumberTaskExplorer";
+        PerturbationEngine.loggers.put(this.nameOfSpecificExploration, new LoggerImpl());
 
         if (init)
             Runner.locations.stream().forEach(this::init);
@@ -77,11 +82,9 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             Tuple result = new Tuple(5);
             int accNbOfTasks = 0;
-            int accNbExecAllTask = 0;
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 result = result.add(results[Runner.locations.indexOf(location)][indexTask][0][0]);
                 accNbOfTasks += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
-                accNbExecAllTask += nbExecsPerLocationPerTaskPerMagnitude[Runner.locations.indexOf(location)][indexTask][0];
             }
 
             double avgCall = (double) result.get(3) / (double) accNbOfTasks;
@@ -91,7 +94,7 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
                     result.get(0), result.get(1), result.get(2),
                     result.get(3), String.format("%.2f", avgCall),
                     result.get(4), String.format("%.2f", avgPerturbation),
-                    accNbExecAllTask, accNbOfTasks,
+                    result.get(5), accNbOfTasks,
                     result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
             writer.close();
         } catch (IOException e) {
@@ -162,5 +165,4 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
         System.out.println("LZW");
         NumberTaskExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
     }
-
 }

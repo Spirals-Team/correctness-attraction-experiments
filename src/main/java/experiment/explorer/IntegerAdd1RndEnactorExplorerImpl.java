@@ -93,7 +93,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             resultWithLog = resultWithLog.add(result);
             resultWithLog.set(3, PerturbationEngine.loggers.get(path).getCalls(location));
             resultWithLog.set(4, PerturbationEngine.loggers.get(path).getEnactions(location));
-            Logger.add(Runner.locations.indexOf(location), indexOfTask, indexOfRandomRate, resultWithLog);
+            Logger.add(Runner.locations.indexOf(location), indexOfTask, 0, indexOfRandomRate, resultWithLog);
             PerturbationEngine.loggers.get(path).reset();
         }
         location.setPerturbator(new NothingPerturbatorImpl());
@@ -118,7 +118,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
         List<PerturbationLocation> locationAntiFragile = new ArrayList<>();
         List<PerturbationLocation> locationSuperAntiFragile = new ArrayList<>();
 
-        Tuple [][][] results = Logger.getResults();
+        Tuple [][][][] results = Logger.getResults();
 
         try {
             /* All Log */
@@ -130,7 +130,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
-                        Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
+                        Tuple result = results[Runner.locations.indexOf(location)][indexTask][0][indexRandomRates];
                         double avg = (double) result.get(4) / (double)nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
                         writer.write(String.format(format, indexTask, randomRates[indexRandomRates], location.getLocationIndex(),
                                 result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
@@ -153,7 +153,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                 for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                     Tuple result = new Tuple(5);
                     for (int indexTask = 0; indexTask < Runner.numberOfTask ; indexTask++)
-                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
+                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][0][indexRandomRates]);
 
                     writer.write(String.format(format,
                             randomRates[indexRandomRates], location.getLocationIndex(),
@@ -189,7 +189,7 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
                     Tuple result = new Tuple(5);
                     int accNbOfTasks = 0;
                     for (int indexTask = 0; indexTask < Runner.numberOfTask ; indexTask++) {
-                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexRandomRates]);
+                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][0][indexRandomRates]);
                         accNbOfTasks += nbOfCallsPerLocationPerTaskPerRates[Runner.locations.indexOf(location)][indexTask][indexRandomRates];
                     }
                     double avgCalls = ((double)result.get(3) / (double) accNbOfTasks);

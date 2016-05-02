@@ -55,7 +55,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
         int []searchSpaceSizePerMagnitude = new int[super.magnitudes.length];
         int []numberOfSuccessPerMagnitude = new int[super.magnitudes.length];
 
-        Tuple[][][] results = Logger.getResults();
+        Tuple[][][][] results = Logger.getResults();
 
         try {
             FileWriter writer = new FileWriter("results/"+ Runner.manager.getPath()+"/"+super.name+"_detail.txt", false);
@@ -66,7 +66,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
                     for (int indexMagnitude = 0 ; indexMagnitude < magnitudes.length ; indexMagnitude++) {
-                        Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexMagnitude];
+                        Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexMagnitude][0];
                         searchSpaceSizePerMagnitude[indexMagnitude] += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                         numberOfSuccessPerMagnitude[indexMagnitude] += result.get(0);
                         writer.write(String.format(format,indexTask, magnitudes[indexMagnitude], location.getLocationIndex(),
@@ -89,7 +89,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
                 for (int indexMagnitude = 0; indexMagnitude < magnitudes.length ; indexMagnitude++) {
                     Tuple result = new Tuple(5);
                     for (int indexTask = 0 ; indexTask < Runner.numberOfTask ; indexTask++) {
-                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
+                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude][0]);
                     }
                     writer.write(String.format(format, magnitudes[indexMagnitude], location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3), result.get(4),
@@ -135,7 +135,7 @@ public class AddNExplorerImpl extends AddOneExplorerImpl {
                     int accNbOfTasks = 0;
                     int accNbExecAllTask = 0;
                     for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
-                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude]);
+                        result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexMagnitude][0]);
                         accNbOfTasks += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                         accNbExecAllTask += nbExecsPerLocationPerTaskPerMagnitude[Runner.locations.indexOf(location)][indexTask][indexMagnitude];
                     }

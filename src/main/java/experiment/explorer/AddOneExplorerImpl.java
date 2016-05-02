@@ -52,7 +52,7 @@ public class AddOneExplorerImpl implements Explorer {
     @Override
     public void run(int indexOfTask, PerturbationLocation location) {
         //run w/o perturbation
-        PerturbationEngine.loggers.get(name).logOn(location);
+        PerturbationEngine.loggers.get(this.name).logOn(location);
 
         Runner.runPerturbation(indexOfTask);
         int currentNbCall = PerturbationEngine.loggers.get(name).getCalls(location);
@@ -79,7 +79,7 @@ public class AddOneExplorerImpl implements Explorer {
 
             PerturbationEngine.loggers.get(name).reset();
 
-            Logger.add(Runner.locations.indexOf(location), indexOfTask, indexMagnitude, result);
+            Logger.add(Runner.locations.indexOf(location), indexOfTask, indexMagnitude, 0, result);
             nbExecsPerLocationPerTaskPerMagnitude[Runner.locations.indexOf(location)][indexOfTask][indexMagnitude]++;
         }
     }
@@ -100,7 +100,7 @@ public class AddOneExplorerImpl implements Explorer {
         int searchSpaceSize = 0;
         int numberOfSuccess = 0;
 
-        Tuple [][][] results = Logger.getResults();
+        Tuple [][][][] results = Logger.getResults();
 
         try {
             FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + name + "_detail.txt", false);
@@ -115,7 +115,7 @@ public class AddOneExplorerImpl implements Explorer {
                     if (nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask] == 0)
                         continue;
                     searchSpaceSize += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
-                    Tuple result = results[Runner.locations.indexOf(location)][indexTask][0];
+                    Tuple result = results[Runner.locations.indexOf(location)][indexTask][0][0];
                     numberOfSuccess += result.get(0);
                     writer.write(String.format(format, indexTask, location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2), result.get(3),
@@ -148,7 +148,7 @@ public class AddOneExplorerImpl implements Explorer {
                 int accNbOfTasks = 0;
                 int accNbExecAllTask = 0;
                 for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
-                    result = result.add(results[Runner.locations.indexOf(location)][indexTask][0]);
+                    result = result.add(results[Runner.locations.indexOf(location)][indexTask][0][0]);
                     accNbOfTasks += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
                     accNbExecAllTask += nbExecsPerLocationPerTaskPerMagnitude[Runner.locations.indexOf(location)][indexTask][0];
                 }
