@@ -17,9 +17,12 @@ public abstract class ExplorerImpl implements Explorer {
 
     protected Campaign campaign;
 
-    public ExplorerImpl(Campaign campaign) {
+    public final String name;
+
+    public ExplorerImpl(Campaign campaign, String name) {
         this.campaign = campaign;
         this.perturbators = campaign.getPerturbators();
+        this.name = name;
     }
 
     @Override

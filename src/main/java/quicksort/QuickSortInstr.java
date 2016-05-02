@@ -65,7 +65,7 @@ public class QuickSortInstr {
         return arr;
     }
 
-    private static void initPerturbationLocation0() {
+    static private void initPerturbationLocation0() {
         __L0 = new PerturbationLocationImpl("QuickSort.java:12", 0, "Boolean");
         __L1 = new PerturbationLocationImpl("QuickSort.java:13", 1, "Numerical");
         __L2 = new PerturbationLocationImpl("QuickSort.java:13", 2, "Numerical");

@@ -126,7 +126,6 @@ public class NumberTaskExplorer extends AddOneExplorerImpl {
             }
             writer.close();
         } catch (IOException e){}
-
     }
 
     public static void run(Class<?> classUnderPerturbation, Class<?> classCallable, Class<?> classManager, String locationType, Class<?>... inputTypes) {

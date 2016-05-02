@@ -5,6 +5,7 @@ import org.bitcoinj.crypto.PBKDF2SHA512;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
+import perturbation.log.LoggerImpl;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -59,6 +60,8 @@ public class Search {
             Runner.numberOfTask = 2;
             Runner.verbose = true;
 
+            PerturbationEngine.loggers.put("Bitcoin", new LoggerImpl());
+
 //            String type = "Numerical";
             String type = "Boolean";
 
@@ -76,7 +79,7 @@ public class Search {
 
             locations.stream()
                     .filter(location -> location.getType().equals(type))
-                    .forEach(location -> PerturbationEngine.logger.logOn(location));
+                    .forEach(location -> PerturbationEngine.loggers.get("Bitcoin").logOn(location));
 
             Future future = executor.submit(callable);
             long time = System.currentTimeMillis();
@@ -87,10 +90,10 @@ public class Search {
 
             locations.stream()
                     .filter(location -> location.getType().equals(type))
-                    .sorted((l1, l2) -> - (PerturbationEngine.logger.getCalls(l1) - PerturbationEngine.logger.getCalls(l2)))
+                    .sorted((l1, l2) -> - (PerturbationEngine.loggers.get("Bitcoin").getCalls(l1) - PerturbationEngine.loggers.get("Bitcoin").getCalls(l2)))
                     .forEach(location -> {
                         try {
-                            writer.write(location + "\t" + PerturbationEngine.logger.getCalls(location) + "\n");
+                            writer.write(location + "\t" + PerturbationEngine.loggers.get("Bitcoin").getCalls(location) + "\n");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

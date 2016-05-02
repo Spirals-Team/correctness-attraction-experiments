@@ -8,6 +8,7 @@ import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
+import perturbation.log.LoggerImpl;
 import perturbation.perturbator.NothingPerturbatorImpl;
 import perturbation.perturbator.Perturbator;
 
@@ -50,17 +51,20 @@ public class BoolInvCallExplorerImpl implements Explorer{
         header += perturbatorName + "\n";
 
         name = "BooleanInvCallExplorer";
+
+        PerturbationEngine.loggers.put(name, new LoggerImpl());
+
     }
 
 
     @Override
     public void run(int indexOfTask, PerturbationLocation location) {
         //run w/o perturbation
-        PerturbationEngine.logger.logOn(location);
+        PerturbationEngine.loggers.get(name).logOn(location);
         Runner.runPerturbation(indexOfTask);
-        int currentNbCall = PerturbationEngine.logger.getCalls(location);
+        int currentNbCall = PerturbationEngine.loggers.get(name).getCalls(location);
         nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexOfTask] = currentNbCall;
-        PerturbationEngine.logger.reset();
+        PerturbationEngine.loggers.get(name).reset();
 
         runAllCall(indexOfTask, location);
 
@@ -73,13 +77,13 @@ public class BoolInvCallExplorerImpl implements Explorer{
         location.setPerturbator(this.perturbator);
         for (int indexOfCall = 1 ; indexOfCall < currentNbCall + 1; indexOfCall++ ){
             Tuple result = new Tuple(5);
-            PerturbationEngine.logger.logOn(location);
+            PerturbationEngine.loggers.get(name).logOn(location);
 
             result = result.add(runAtTheIndexOfCall(indexOfCall, indexOfTask, location));
-            result.set(3, PerturbationEngine.logger.getCalls(location));
-            result.set(4, PerturbationEngine.logger.getEnactions(location));
+            result.set(3, PerturbationEngine.loggers.get(name).getCalls(location));
+            result.set(4, PerturbationEngine.loggers.get(name).getEnactions(location));
 
-            PerturbationEngine.logger.reset();
+            PerturbationEngine.loggers.get(name).reset();
 
             Logger.add(Runner.locations.indexOf(location), indexOfTask, 0, result);
             nbExecsPerLocationPerTaskPerMagnitude[Runner.locations.indexOf(location)][indexOfTask][0]++;

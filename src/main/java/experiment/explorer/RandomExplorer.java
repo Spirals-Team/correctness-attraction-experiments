@@ -8,6 +8,7 @@ import perturbation.PerturbationEngine;
 import perturbation.enactor.Enactor;
 import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
+import perturbation.log.LoggerImpl;
 import perturbation.perturbator.Perturbator;
 
 /**
@@ -36,7 +37,7 @@ public class RandomExplorer extends ExplorerImpl {
     }
 
     public RandomExplorer(Campaign campaign, float [] randomRates, int repeat) {
-        super(campaign);
+        super(campaign,  "RandomExplorer");
         if (randomRates.length > 1)
             this.randomRates = randomRates;
         else
@@ -53,6 +54,8 @@ public class RandomExplorer extends ExplorerImpl {
             }
         }
 
+        PerturbationEngine.loggers.put(super.name, new LoggerImpl());
+
     }
 
     @Override
@@ -66,10 +69,10 @@ public class RandomExplorer extends ExplorerImpl {
         int indexLocation = Runner.locations.indexOf(location);
         location.setEnactor(enactorsOfLocationPerRandomRates[indexLocation][randomRate]);
         for (int i = 0 ; i < numberOfRepeat ; i++) {
-            PerturbationEngine.logger.logOn(location);
+            PerturbationEngine.loggers.get(super.name).logOn(location);
             Tuple result = Runner.runPerturbation(indexOfTask);
-            Logger.log(Runner.locations.indexOf(location), indexOfTask, randomRate, result);
-            PerturbationEngine.logger.reset();
+            Logger.log(Runner.locations.indexOf(location), indexOfTask, randomRate, result, super.name);
+            PerturbationEngine.loggers.get(super.name).reset();
         }
     }
 }

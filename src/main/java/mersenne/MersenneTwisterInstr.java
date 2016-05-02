@@ -377,7 +377,7 @@ public class MersenneTwisterInstr extends Random {
         return PerturbationEngine.pint(__L3, ((int) (genrand())));
     }
 
-    private static void initPerturbationLocation0() {
+    static private void initPerturbationLocation0() {
         __L0 = new PerturbationLocationImpl("MersenneTwister.java:49", 0, "Numerical");
         __L1 = new PerturbationLocationImpl("MersenneTwister.java:49", 1, "Numerical");
         __L2 = new PerturbationLocationImpl("MersenneTwister.java:49", 2, "Numerical");

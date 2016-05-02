@@ -8,6 +8,7 @@ import perturbation.PerturbationEngine;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
+import perturbation.log.LoggerImpl;
 import perturbation.perturbator.NothingPerturbatorImpl;
 import perturbation.perturbator.Perturbator;
 
@@ -77,22 +78,23 @@ public class IntegerAdd1RndEnactorExplorerImpl implements Explorer {
         header += repeat + " repetition of each point of each task\n";
         header +=  perturbatorName + ", Random Enactor, seed :" + seedOfRandomEnactor + "\n";
 
-
         path = "IntegerAdd1RndEnactorExplorer";
+
+        PerturbationEngine.loggers.put(path, new LoggerImpl());
     }
 
     @Override
     public void run(int indexOfTask, PerturbationLocation location) {
         location.setPerturbator(this.perturbator);
         for (int indexOfRandomRate = 0; indexOfRandomRate < randomRates.length; indexOfRandomRate++) {
-            PerturbationEngine.logger.logOn(location);
+            PerturbationEngine.loggers.get(path).logOn(location);
             Tuple result = runRandomRate(indexOfTask, location, indexOfRandomRate);
             Tuple resultWithLog = new Tuple(5);
             resultWithLog = resultWithLog.add(result);
-            resultWithLog.set(3, PerturbationEngine.logger.getCalls(location));
-            resultWithLog.set(4, PerturbationEngine.logger.getEnactions(location));
+            resultWithLog.set(3, PerturbationEngine.loggers.get(path).getCalls(location));
+            resultWithLog.set(4, PerturbationEngine.loggers.get(path).getEnactions(location));
             Logger.add(Runner.locations.indexOf(location), indexOfTask, indexOfRandomRate, resultWithLog);
-            PerturbationEngine.logger.reset();
+            PerturbationEngine.loggers.get(path).reset();
         }
         location.setPerturbator(new NothingPerturbatorImpl());
         location.setEnactor(new NeverEnactorImpl());

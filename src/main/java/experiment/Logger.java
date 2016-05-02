@@ -40,10 +40,10 @@ public class Logger {
         results[indexLocation][indexTask][indexParameters] = results[indexLocation][indexTask][indexParameters].add(result);
     }
 
-    public static void log(int indexLocation, int indexTask, int indexParameters, Tuple result) {
+    public static void log(int indexLocation, int indexTask, int indexParameters, Tuple result, String name) {
         Tuple tuple = (new Tuple(sizeOfTuple)).add(result);
-        tuple.set(3, PerturbationEngine.logger.getCalls(Runner.locations.get(indexLocation)));
-        tuple.set(4, PerturbationEngine.logger.getEnactions(Runner.locations.get(indexLocation)));
+        tuple.set(3, PerturbationEngine.loggers.get(name).getCalls(Runner.locations.get(indexLocation)));
+        tuple.set(4, PerturbationEngine.loggers.get(name).getEnactions(Runner.locations.get(indexLocation)));
         tuple.set(5, 1);
         results[indexLocation][indexTask][indexParameters] = results[indexLocation][indexTask][indexParameters].add(tuple);
     }

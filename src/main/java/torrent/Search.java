@@ -3,6 +3,7 @@ package torrent;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
+import perturbation.log.LoggerImpl;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -53,9 +54,11 @@ public class Search {
                     locations.addAll(PerturbationLocationImpl.getLocationFromClass(clazz))
             );
 
+            PerturbationEngine.loggers.put("Torrent", new LoggerImpl());
+
             locations.stream()
                     .filter(location -> location.getType().equals("Numerical"))
-                    .forEach(location -> PerturbationEngine.logger.logOn(location));
+                    .forEach(location -> PerturbationEngine.loggers.get("Torrent").logOn(location));
 
             TorrentManager manager = new TorrentManager();
             TorrentCallable callable = new TorrentCallable(manager.get(0));
@@ -67,10 +70,10 @@ public class Search {
 
             locations.stream()
                     .filter(location -> location.getType().equals("Numerical"))
-                    .sorted((l1, l2) -> - (PerturbationEngine.logger.getCalls(l1) - PerturbationEngine.logger.getCalls(l2)))
+                    .sorted((l1, l2) -> - (PerturbationEngine.loggers.get("Torrent").getCalls(l1) - PerturbationEngine.loggers.get("Torrent").getCalls(l2)))
                     .forEach(location -> {
                         try {
-                            writer.write(location + "\t" + PerturbationEngine.logger.getCalls(location) + "\n");
+                            writer.write(location + "\t" + PerturbationEngine.loggers.get("Torrent").getCalls(location) + "\n");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
