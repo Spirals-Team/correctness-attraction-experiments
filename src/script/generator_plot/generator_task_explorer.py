@@ -1,19 +1,11 @@
 from matplotlib import pyplot as plt
-'''
-this script is used to generate plot in results/<subject>/img/
-'''
 
-def plot_increasingPerturbation_percentageSuccess(path, filename, output, subject, logscale=False):
-
-    '''
-    this function is used to generate the plot of the increasing magnitudes and random rates.
-    '''
+def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, logscale=False):
 
     lines = [line.rstrip('\n') for line in open(path+"/"+filename)]
 
     labelOfN = ' '.join(lines[2].split()).split(" ")[0]
     n = ' '.join(lines[2].split()).split(" ")[3:]
-    print(n)
     numberOfLocation = int(' '.join(lines[3].split()).split(" ")[0])
 
     percAll=[]
@@ -37,7 +29,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
 
             my_n.append(n[lines[i:i+len(n)].index(line)])
 
-        if not perc in percAll and len(perc) > 0 and [p == p for p in perc] and not perc[1:] == perc[:-1]:
+        if not perc in percAll and len(perc) > 0 and [p == p for p in perc]:#and not perc[1:] == perc[:-1]:
             indexOfLocation = ' '.join(lines[i].split()).split(" ")[1]
             indicesLocation.append(indexOfLocation)
             percAll.append(perc)
@@ -50,7 +42,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     for i in range(len(percAll)):
         indexToCut = len(percAll[i])-1
         while indexToCut > 1:
-            if abs(percAll[i][indexToCut] - percAll[i][indexToCut-1]) < 0.5:
+            if abs(percAll[i][indexToCut] - percAll[i][indexToCut-1]) < 0:
                 indexToCut -= 1
             else:
                 break;
@@ -76,12 +68,13 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     text = fig.text(.1,-.10,txt)
     plt.title(subject)
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    #lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))    fig.savefig(path+"/img/"+output+"_plot.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
+    lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+    fig.savefig(path+"/img/"+output+"_plot.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     ax.set_xscale('log')
     fig.savefig(path+"/img/"+output+"_plot_logscale.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     plt.close(fig)
 
 subjects=["quicksort","md5","mersenne","zip"]
 for subject in subjects:
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "NumberTaskExplorer.txt", "taskexplorer", subject)
+    plot_increasingNbTask_percentageSuccess("results/"+subject, "NumberTaskExplorer.txt", "taskexplorer", subject)
 
