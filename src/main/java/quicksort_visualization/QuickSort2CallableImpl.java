@@ -30,7 +30,8 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     static String[] exp;
 
-    static Tuple[][][][] resultsPerExp;
+    //@TODO refactor
+    static Tuple[][][][][] resultsPerExp;
 
     static int [] magnitudes;
     static float [] randomRates;
@@ -83,7 +84,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
         magnitudes = new int[]{1, 2, 5, 10, 20, 50};
         randomRates = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
         exp = new String[magnitudes.length + randomRates.length];
-        resultsPerExp = new Tuple[magnitudes.length + randomRates.length][][][];
+        resultsPerExp = new Tuple[magnitudes.length + randomRates.length][][][][];
 
         Explorer[] addNExplorers = new Explorer[magnitudes.length];
         for (int indexMagnitude = 0; indexMagnitude < magnitudes.length; indexMagnitude++) {
@@ -165,7 +166,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
                 Map<PerturbationLocation, List<Integer>> mapCallsPerLocation = map.get(exp[indexParameters]);
                 for (PerturbationLocation location : locations) {
                     int indexLoc = Runner.locations.indexOf(location);
-                    Tuple result = resultsPerExp[indexParameters][indexLoc][0][0];
+                    Tuple result = resultsPerExp[indexParameters][indexLoc][0][0][0];
                     writer.write(exp[indexParameters]+"@"+location.getLocationIndex());
                     writer.write("#" + result.get(4));
                     for (Integer value : mapCallsPerLocation.get(location)) {
