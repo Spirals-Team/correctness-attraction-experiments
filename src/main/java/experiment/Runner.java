@@ -127,13 +127,13 @@ public class Runner {
     }
 
     public static void runAllCampaign() {
-        System.out.println("Run AddOne Campaign...");
+        System.out.println("Run AddOne Exploration...");
         run(new AddOneExplorerImpl());
-        System.out.println("Run AddN Campaign...");
+        System.out.println("Run AddN Exploration...");
         run(new AddNExplorerImpl());
-        System.out.println("Run IntegerAdd1RndEnactor Campaign...");
+        System.out.println("Run IntegerAdd1RndEnactor Exploration...");
         run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
-        System.out.println("Run BooleanInvRndEnactor Campaign...");
+        System.out.println("Run BooleanInvRndEnactor Exploration...");
         filterLocation("Boolean");
         run(new BooleanInvRndEnactorExplorerImpl());
     }
