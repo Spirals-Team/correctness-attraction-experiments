@@ -62,7 +62,6 @@ public class MPSParser {
                             new NonNegativeConstraint(true),
                             PivotSelectionRule.BLAND};
             else {
-                //@TODO or not, there is no BOUNDS clause in dataset
                 return new OptimizationData[] {f, new LinearConstraintSet(constraints),
                         GoalType.MAXIMIZE,
                         new NonNegativeConstraint(true),
