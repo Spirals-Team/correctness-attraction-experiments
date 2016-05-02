@@ -70,8 +70,10 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
     lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     fig.savefig(path+"/img/"+output+"_plot.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
+    fig.savefig(path+"/img/"+output+"_plot.jpeg", bbox_extra_artists=(text,), bbox_inches='tight')
     ax.set_xscale('log')
     fig.savefig(path+"/img/"+output+"_plot_logscale.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
+    fig.savefig(path+"/img/"+output+"_plot_logscale.jpeg", bbox_extra_artists=(text,), bbox_inches='tight')
     plt.close(fig)
 
 subjects=["quicksort","md5","mersenne","zip"]
