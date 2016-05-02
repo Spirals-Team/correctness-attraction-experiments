@@ -22,7 +22,7 @@ public class RSACallable extends CallableImpl<String, String> {
     @Override
     public String call() throws Exception {
         RSAKeyPairGenerator kpg = new RSAKeyPairGenerator();
-        kpg.init(new RSAKeyGenerationParameters(new BigInteger("11", 16), new SecureRandom(), 1024, 25));
+        kpg.init(new RSAKeyGenerationParameters(new BigInteger("11", 16), new SecureRandom(new byte[]{23,32,42}), 1024, 25));
 //      kpg.init(new RSAKeyGenerationParameters(new BigInteger("11", 16), new SecureRandom(), 1024, 5));
 //      kpg.init(new RSAKeyGenerationParameters(new BigInteger("11", 16), new SecureRandom(), 768, 25));
         AsymmetricCipherKeyPair pair = kpg.generateKeyPair();
