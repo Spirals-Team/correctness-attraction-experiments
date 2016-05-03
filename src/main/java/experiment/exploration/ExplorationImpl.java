@@ -19,6 +19,8 @@ public abstract class ExplorationImpl implements Exploration {
 
     protected String columnName;
 
+    protected String type;
+
     @Override
     public String getName() {
         return this.name;
@@ -42,6 +44,11 @@ public abstract class ExplorationImpl implements Exploration {
     @Override
     public List<Perturbator> getPerturbators() {
         return this.perturbators;
+    }
+
+    @Override
+    public String getType() {
+        return this.type;
     }
 
 }

@@ -150,19 +150,19 @@ public class NumberExplorer extends CallExplorer {
                 e.printStackTrace();
             }
             Runner.setup(classUnderPerturbation, classCallable, manager, locationType, inputTypes);
-            Runner.run(new NumberTaskExplorer(i == 0, numberOfTask));
+            Runner.run(new NumberExplorer(i == 0, numberOfTask));
         }
         mergeFile(numberOfTask);
     }
 
     public static void main(String[] args) {
         System.out.println("Quicksort");
-        NumberTaskExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
+        NumberExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
         System.out.println("MD5");
-        NumberTaskExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
+        NumberExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
         System.out.println("MT");
-        NumberTaskExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
+        NumberExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
         System.out.println("LZW");
-        NumberTaskExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
+        NumberExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
     }
 }

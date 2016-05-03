@@ -32,8 +32,6 @@ public abstract class ExplorerImpl implements Explorer {
         Logger.init(Runner.locations.size(), Runner.numberOfTask, this.perturbators.size(), numberOfEnactor);
     }
 
-
-
     @Override
     public void run(int indexOfTask, PerturbationLocation location) {
         for (Perturbator perturbator : this.perturbators)
@@ -41,6 +39,11 @@ public abstract class ExplorerImpl implements Explorer {
 
         location.setPerturbator(new NothingPerturbatorImpl());
         location.setEnactor(new NeverEnactorImpl());
+    }
+
+    @Override
+    public String getTypeOfExploration() {
+        return exploration.getType();
     }
 
     public abstract void runOnePerturbator(int indexOfTask, PerturbationLocation location, Perturbator perturbator);

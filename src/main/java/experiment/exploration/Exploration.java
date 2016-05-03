@@ -19,4 +19,6 @@ public interface Exploration {
 
     List<Perturbator> getPerturbators();
 
+    String getType();
+
 }

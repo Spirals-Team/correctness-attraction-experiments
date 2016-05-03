@@ -13,8 +13,10 @@ public class BooleanExplorationNegation extends ExplorationImpl {
     public BooleanExplorationNegation() {
         super.names = new String[1];
         super.names[0] = "!";
-        perturbators = new ArrayList<>();
-        perturbators.add(new InvPerturbatorImpl());
+        super.perturbators = new ArrayList<>();
+        super.perturbators.add(new InvPerturbatorImpl());
+
+        super.type = "Boolean";
 
         super.columnName = "Perturbator";
 

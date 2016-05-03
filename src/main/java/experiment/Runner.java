@@ -23,18 +23,18 @@ public class Runner {
     public static Class<?> classCallable;
     public static Constructor constructorRunner;
     public static List<PerturbationLocation> locations;
+    public static List<Explorer> explorers = new ArrayList<>();
     public static Explorer explorer;
     public static int numberOfSecondsToWait = 1;
     public static int sizeOfEachTask = 100;
     public static int numberOfTask = 20;
-
-    @Deprecated
-    public static List<String> explorers = new ArrayList<>();
+    public static Class [] inputType;
 
     public static boolean verbose = false;
 
     public static void run(Explorer explorerUnderPerturbation) {
         explorer = explorerUnderPerturbation;
+        filterLocation(explorer.getTypeOfExploration());
         for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
             runLocations(indexOfTask);
         }
@@ -95,7 +95,7 @@ public class Runner {
         filterLocation(locationType);
         int sizeOfSlice = (int)(locations.size() * percentage);
         locations = locations.subList(indexPercentage * sizeOfSlice, (indexPercentage+1) * sizeOfSlice);
-
+        inputType = inputTypes;
         oracle = Runner.manager.getOracle();
     }
 
@@ -116,6 +116,7 @@ public class Runner {
             e.printStackTrace();
         }
         filterLocation(locationType);
+        inputType = inputTypes;
         oracle = Runner.manager.getOracle();
     }
 
@@ -126,62 +127,13 @@ public class Runner {
         );
     }
 
-    public static void runAllCampaign() {
-        System.out.println("Run AddOne Exploration...");
-        run(new AddOneExplorerImpl());
-        System.out.println("Run AddN Exploration...");
-        run(new AddNExplorerImpl());
-        System.out.println("Run IntegerAdd1RndEnactor Exploration...");
-        run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
-        System.out.println("Run BooleanInvRndEnactor Exploration...");
-        filterLocation("Boolean");
-        run(new BooleanInvRndEnactorExplorerImpl());
-    }
-
-    @Deprecated
     public static void runExplorers() {
-        if (explorers.isEmpty())
-            runAllCampaign();
-        else {
-            for (String explorer : explorers) {
-                switch (explorer) {
-                    case "addOne":
-                        System.out.println("run " + explorer+"...");
-                        run(new AddOneExplorerImpl());
-                        break;
-                    case "addN":
-                        System.out.println("run " + explorer+"...");
-                        run(new AddNExplorerImpl());
-                        break;
-                    case "BoolCall":
-                        System.out.println("run " + explorer+"...");
-                        filterLocation("Boolean");
-                        run(new BoolInvCallExplorerImpl(new InvPerturbatorImpl()));
-                        break;
-                    case "IntRnd":
-                        System.out.println("run " + explorer+"...");
-                        run(new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1)));
-                        break;
-                    case "BoolRnd":
-                        System.out.println("run " + explorer+"...");
-                        filterLocation("Boolean");
-                        run(new BooleanInvRndEnactorExplorerImpl());
-                        break;
-                    default:
-                        Util.usage();
-                }
-            }
-        }
+        explorers.forEach(Runner::run);
     }
 
     public static void main(String[] args) {
-        if (args.length > 1)
-            Util.parseArgs(args);
-        quicksort.Main.run();
-        md5.Main.run();
-        mersenne.Main.run();
-        optimizer.Main.run();
-        sudoku.Main.run();
-        zip.Main.run();
+        if (args.length >= 1)
+            ParserArgs.parseArgs(args);
+        runExplorers();
     }
 }

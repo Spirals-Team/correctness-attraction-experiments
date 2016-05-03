@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class RandomExplorer extends ExplorerImpl {
 
-    private float[] randomRates;
+    protected float[] randomRates;
 
     private int seedOfRandomEnactor = 32;
 
@@ -144,7 +144,7 @@ public class RandomExplorer extends ExplorerImpl {
                     Tuple result = new Tuple(5);
                     for (int indexPerturbator = 0; indexPerturbator < numberOfPerturbor; indexPerturbator++) {
                         for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++)
-                            result = result.add(results[Runner.locations.indexOf(location)][indexTask][0][indexRandomRates]);
+                            result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][indexRandomRates]);
 
                         writer.write(String.format(format,
                                 randomRates[indexRandomRates], perturbatorsName[indexPerturbator], location.getLocationIndex(),

@@ -19,7 +19,9 @@ public class IntegerExplorationPlusMagnitude extends ExplorationImpl {
             this.magnitudes = new int[]{1,2,5,10,20,50};
 
         super.names = new String[this.magnitudes.length];
-        perturbators = new ArrayList<>();
+        super.perturbators = new ArrayList<>();
+
+        super.type = "Numerical";
 
         super.columnName = "Magnitude";
 

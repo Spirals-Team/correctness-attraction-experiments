@@ -13,8 +13,10 @@ public class IntegerExplorationPlusOne extends ExplorationImpl {
     public IntegerExplorationPlusOne() {
         super.names = new String[1];
         super.names[0] = "1";
-        perturbators = new ArrayList<>();
-        perturbators.add(new AddNPerturbatorImpl(1));
+        super.perturbators = new ArrayList<>();
+        super.perturbators.add(new AddNPerturbatorImpl(1));
+
+        super.type = "Numerical";
 
         super.columnName = "Perturbator";
 

@@ -13,8 +13,10 @@ import java.util.List;
  */
 public interface Explorer {
 
+    @Deprecated
     double TOLERANCE = 70.0f;
 
+    @Deprecated
     static void addToFragilityList(Tuple result, int total, PerturbationLocation location,
                                    List<PerturbationLocation> locationExceptionFragile, List<PerturbationLocation> locationSuperAntiFragile,
                                    List<PerturbationLocation> locationAntiFragile , List<PerturbationLocation> locationOracleFragile) {
@@ -28,6 +30,7 @@ public interface Explorer {
             locationExceptionFragile.add(location);
     }
 
+    @Deprecated
     static void writeListOnGivenFile(String pathToFile, String header, List<PerturbationLocation> locations) {
         FileWriter writer = null;
         try {
@@ -43,7 +46,8 @@ public interface Explorer {
 
     void run(int indexOfTask, PerturbationLocation location);
 
-    @Deprecated
     void log();
+
+    String getTypeOfExploration();
 
 }
