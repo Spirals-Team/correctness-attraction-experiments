@@ -243,7 +243,7 @@ public class ParserArgs {
             case "rsa":
                 Class rsaCoreEngine = null;
                 try {
-                    rsaCoreEngine = ClassLoader.getSystemClassLoader().loadClass("org.bouncycastle.crypto.engines.RSACoreEngine");
+                    rsaCoreEngine = ParserArgs.class.getClassLoader().loadClass("org.bouncycastle.crypto.engines.RSACoreEngine");
                     Runner.setup(rsaCoreEngine, RSACallable.class, new RSAManager(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
