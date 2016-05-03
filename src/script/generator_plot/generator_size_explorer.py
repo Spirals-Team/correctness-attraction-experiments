@@ -13,9 +13,12 @@ def plot_increasingSize_percentageSuccess(path, filename, output, subject, logsc
     nAll=[]
     indicesLocation=[]
     i = 9
-    currentLoc = 0
 
-    while currentLoc != 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
+    percSave = []
+    nSave = []
+    indiceSave = []
+
+    while len(percAll) < 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
 
         perc=[]
         my_n = []
@@ -35,9 +38,22 @@ def plot_increasingSize_percentageSuccess(path, filename, output, subject, logsc
             indicesLocation.append(indexOfLocation)
             percAll.append(perc)
             nAll.append(my_n)
-            currentLoc += 1
+        else:
+            percSave.append(perc)
+            nSave.append(my_n)
+            indexOfLocation = ' '.join(lines[i].split()).split(" ")[1]
+            indiceSave.append(indexOfLocation)
 
         i+=len(n)
+
+    while len(percAll) < 10:
+        headPerc, percSave = percSave[0], percSave[1:]
+        headN, nSave = nSave[0], nSave[1:]
+        headIndice, indiceSave = indiceSave[0], indiceSave[1:]
+        percAll.append(headPerc)
+        nAll.append(headN)
+        indicesLocation.append(headIndice)
+
 
     indexToCutAll = []
     for i in range(len(percAll)):

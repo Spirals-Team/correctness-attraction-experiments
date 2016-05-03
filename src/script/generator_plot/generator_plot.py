@@ -84,11 +84,11 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     for line in lines[0:7]:
         txt += line +"\n"
     width = 8
-    txt+= '{0:{width}} {1:{width}} {2:{width}}'.format("Loc","#Execs", "#Perturbation", width=width)
-    txt+='\n'
-    for i in range(len(callAll)):
-        txt+='{0:{width}} {1:{width}} {2:{width}}'.format(indicesLocation[i],str(callAll[i]),str(perturbAll[i]), width=width)
-        txt+='\n'
+    #txt+= '{0:{width}} {1:{width}} {2:{width}}'.format("Loc","#Execs", "#Perturbation", width=width)
+    #txt+='\n'
+    #for i in range(len(callAll)):
+    #    txt+='{0:{width}} {1:{width}} {2:{width}}'.format(indicesLocation[i],str(callAll[i]),str(perturbAll[i]), width=width)
+    #    txt+='\n'
 
     text = fig.text(.1,-.3,txt)
     plt.title(subject)
@@ -173,7 +173,7 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+".pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
-subjects=["quicksort"]#,"zip","md5","sudoku","optimizer","mersenne"]
+subjects=["quicksort","zip","md5","sudoku","optimizer","mersenne"]
 for subject in subjects:
     #scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", "intadd1_rnd" ,subject)
     #scatterPlotSuccessNumPerturb("results/"+subject, "BooleanInvRndEnactorExplorer_random_rates_analysis_graph_data.txt", "boolinv_rnd", subject)

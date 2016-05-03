@@ -31,7 +31,7 @@ def gen_all(path,file):
     caption += "in light red, the "+ str(cptRed)  +" perturbed execution that end with a success with \n failure or exception among the 3 campaigns.\n"
     caption += "This is a sample of 30% (" + str((cptGreen+1+cptRed)) + " execs) of all execution of the 3 campaigns."
 
-    text=fig.text(.1,.1,caption)
+    text=fig.text(.1,-.1,caption)
     plt.plot(range(0,len(unperturbed)), unperturbed, 'b-', label="unperturbed", linewidth=1.5)
 
     plt.xlabel("time (in recursive call)")
@@ -173,6 +173,6 @@ def gen_sample_for_all_exp(path, prefixename):
         plt.close(fig)
 
 gen_all("results/quicksort-visualization", "exec_path_all")
-gen_all_per_xp("results/quicksort-visualization", "exec_path_")
-gen_sample_per_exp("results/quicksort-visualization", "exec_path_")
-gen_sample_for_all_exp("results/quicksort-visualization", "exec_path_")
+#gen_all_per_xp("results/quicksort-visualization", "exec_path_")
+#gen_sample_per_exp("results/quicksort-visualization", "exec_path_")
+#gen_sample_for_all_exp("results/quicksort-visualization", "exec_path_")
