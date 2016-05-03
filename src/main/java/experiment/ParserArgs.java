@@ -9,9 +9,7 @@ import experiment.exploration.BooleanExplorationNegation;
 import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusMagnitude;
 import experiment.exploration.IntegerExplorationPlusOne;
-import experiment.explorer.CallExplorer;
-import experiment.explorer.TaskNumberExplorer;
-import experiment.explorer.RandomExplorer;
+import experiment.explorer.*;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
 import md5.MD5Manager;
@@ -41,6 +39,8 @@ import zip.ZipManager;
 
 import java.util.InputMismatchException;
 import java.util.List;
+
+import static experiment.ParserArgs.buildHeatMap;
 
 /**
  * Created by bdanglot on 02/05/16.
@@ -105,6 +105,26 @@ public class ParserArgs {
             Runner.explorers.add(new CallExplorer(new BooleanExplorationNegation()));
             Runner.explorers.add(new RandomExplorer(new BooleanExplorationNegation()));
         }
+
+        if ((currentIndex = getIndexOfOption("-run", args)) != -1) {
+
+        }
+
+    }
+
+    private static void run(int index, String[] args) {
+        int currentIndex = index;
+        while (!args[currentIndex].startsWith("-") || currentIndex < args.length) {
+            switch (args[currentIndex]) {
+                case "tasknumber":
+                    runNumberTask();
+                    break;
+                case "tasksize":
+                    runSizeTask();
+                    break;
+            }
+            currentIndex++;
+        }
     }
 
     private static void buildExp(int index, String[] args) {
@@ -121,11 +141,7 @@ public class ParserArgs {
                     break;
                 case "heatmap":
                 case "hm":
-                    runHeatMap();
-                case "sizetask":
-                    runSizeTask();
-                case "nbtask":
-                    runNumberTask();
+                    buildHeatMap();
                 default:
                     usage();
             }
@@ -135,19 +151,15 @@ public class ParserArgs {
     private static void runNumberTask() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
         TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
-        System.exit(0);
     }
 
     private static void runSizeTask() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
-        System.exit(0);
+        TaskSizeExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
     }
 
-    private static void runHeatMap() {
-        assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
-        System.exit(0);
+    private static void buildHeatMap() {
+        Runner.explorers.add(new HeatMapExplorer(new IntegerExplorationPlusMagnitude()));
     }
 
     private static int buildCall(int i, String[] args) {
@@ -270,15 +282,16 @@ public class ParserArgs {
         System.out.println("\tvalue for <subject> : qs zip torrent rsa sudoku bayes simplex mt md5 bc");
         System.out.println("\tquicksort is used if you don't specify it");
         System.out.println("\t-exp <exp> specify the exp");
-        System.out.println("\tvalue for <exp> call rnd heatmap sizetask nbtask");
+        System.out.println("\tvalue for <exp> call rnd heatmap");
         System.out.println("\tfor call and rnd exp you can specify which <exploration> just after it.");
         System.out.println("\tvalue for <exploration> : one magnitude boolean");
         System.out.println("\tyou can specify an array of magnitude to be used just after the key-word magnitude");
         System.out.println("\ta list of integer separated with \":\" (1:2:3 for example)");
         System.out.println("\tafter the exploration, you can specify the random rates list used by rnd explorer just as for the magnitude (but with float)");
         System.out.println("\tyou can run as many as you want exp call and rnd");
-        System.out.println("\tbut you can run only one at the time exp heatmap sizetask nbtask");
         System.out.println("\tif no exp is specified, <call one> <call magnitude> <rnd one> <call boolean> <rnd boolean> will be run");
+        System.out.println("\t-run <tasksize> or <tasknumber> to run the exploration of the impact of the size or the number of task");
+        System.out.println("\truns will be executed before everything else, you must specify a subject (with -s) before");
         System.out.println("\t-help display this help");
         System.exit(-1);
     }
