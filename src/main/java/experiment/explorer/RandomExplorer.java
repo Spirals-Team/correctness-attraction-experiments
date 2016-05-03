@@ -43,7 +43,7 @@ public class RandomExplorer extends ExplorerImpl {
     }
 
     public RandomExplorer(Exploration exploration, int repeat, float... randomRates) {
-        super(exploration, "RandomExplorer", randomRates.length >= 1 ? randomRates.length : 7);
+        super(exploration, "RandomExplorer");
         if (randomRates.length >= 1)
             this.randomRates = randomRates;
         else
@@ -61,6 +61,13 @@ public class RandomExplorer extends ExplorerImpl {
         }
 
         PerturbationEngine.loggers.put(super.name, new LoggerImpl());
+    }
+
+    @Override
+    public void init() {
+        //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
+        Logger.init(Runner.locations.size(), Runner.numberOfTask, perturbators.size(), this.randomRates.length);
+        PerturbationEngine.loggers.put(name, new LoggerImpl());
     }
 
     @Override

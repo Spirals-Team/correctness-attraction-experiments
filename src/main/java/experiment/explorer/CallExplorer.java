@@ -26,9 +26,13 @@ public class CallExplorer extends ExplorerImpl {
     public CallExplorer(Exploration exploration) {
         super(exploration, "CallExplorer");
         nbCallReferencePerLocationPerTask = new int[Runner.locations.size()][Runner.numberOfTask];
+    }
+
+    @Override
+    public void init() {
         //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
-        Logger.init(Runner.locations.size(), Runner.numberOfTask, super.perturbators.size());
-        PerturbationEngine.loggers.put(super.name, new LoggerImpl());
+        Logger.init(Runner.locations.size(), Runner.numberOfTask, perturbators.size());
+        PerturbationEngine.loggers.put(name, new LoggerImpl());
     }
 
     @Override

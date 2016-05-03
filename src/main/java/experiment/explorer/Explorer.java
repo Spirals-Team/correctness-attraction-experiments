@@ -44,6 +44,8 @@ public interface Explorer {
         }
     }
 
+    void init();
+
     void run(int indexOfTask, PerturbationLocation location);
 
     void log();

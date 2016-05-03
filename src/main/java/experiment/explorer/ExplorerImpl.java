@@ -3,8 +3,10 @@ package experiment.explorer;
 import experiment.Logger;
 import experiment.Runner;
 import experiment.exploration.Exploration;
+import perturbation.PerturbationEngine;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
+import perturbation.log.LoggerImpl;
 import perturbation.perturbator.NothingPerturbatorImpl;
 import perturbation.perturbator.Perturbator;
 
@@ -22,14 +24,9 @@ public abstract class ExplorerImpl implements Explorer {
     public final String name;
 
     public ExplorerImpl(Exploration exploration, String name) {
-        this(exploration, name, 1);
-    }
-
-    public ExplorerImpl(Exploration exploration, String name, int numberOfEnactor) {
         this.exploration = exploration;
         this.perturbators = exploration.getPerturbators();
         this.name = name;
-        Logger.init(Runner.locations.size(), Runner.numberOfTask, this.perturbators.size(), numberOfEnactor);
     }
 
     @Override
