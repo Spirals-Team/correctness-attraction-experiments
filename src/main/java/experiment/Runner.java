@@ -132,8 +132,7 @@ public class Runner {
     }
 
     public static void main(String[] args) {
-        if (args.length >= 1)
-            ParserArgs.parseArgs(args);
+        ParserArgs.parseArgs(args);
         runExplorers();
     }
 }

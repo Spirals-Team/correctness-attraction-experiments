@@ -51,7 +51,7 @@ public class ParserArgs {
 
     public static void parseArgs(String[] args) {
 
-        if (getIndexOfOption("-help", args) != -1)
+        if (getIndexOfOption("-help", args) != -1 || getIndexOfOption("-h", args) != -1)
             usage();
 
         if (getIndexOfOption("-v", args) != -1)
