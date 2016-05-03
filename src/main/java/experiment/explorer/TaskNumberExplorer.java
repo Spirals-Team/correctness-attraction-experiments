@@ -1,7 +1,6 @@
 package experiment.explorer;
 
 import experiment.*;
-import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusOne;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
@@ -28,23 +27,23 @@ import java.util.List;
 /**
  * Created by bdanglot on 02/05/16.
  */
-public class NumberExplorer extends CallExplorer {
+public class TaskNumberExplorer extends CallExplorer {
 
     private String header;
 
     private String nameOfSpecificExploration;
 
-    public NumberExplorer(boolean init, int[] arrayOfTask) {
+    public TaskNumberExplorer(boolean init, int[] arrayOfTask) {
         super(new IntegerExplorationPlusOne());
         this.header = "Contains data to explore the number of task required for saturation\n";
         this.header += "Task Number Exploration (TNE)\n";
-        this.header += "Number Task :";
+        this.header += "Task Number :";
         for (int nTask : arrayOfTask)
             this.header += nTask + " ";
         this.header += "\n" + Runner.locations.size() + " perturbation point\n";
         this.header += "N Execution Enactor\n";
         this.header += "PONE : Numerical Perturbator\n";
-        this.header += "Each task is an arrays of " + Runner.sizeOfEachTask + "\n";
+        this.header += "Size of each task : " + Runner.sizeOfEachTask + "\n";
         this.header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
 
         this.nameOfSpecificExploration = "NumberTaskExplorer";
@@ -150,19 +149,19 @@ public class NumberExplorer extends CallExplorer {
                 e.printStackTrace();
             }
             Runner.setup(classUnderPerturbation, classCallable, manager, locationType, inputTypes);
-            Runner.run(new NumberExplorer(i == 0, numberOfTask));
+            Runner.run(new TaskNumberExplorer(i == 0, numberOfTask));
         }
         mergeFile(numberOfTask);
     }
 
     public static void main(String[] args) {
         System.out.println("Quicksort");
-        NumberExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
+        TaskNumberExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
         System.out.println("MD5");
-        NumberExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
+        TaskNumberExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
         System.out.println("MT");
-        NumberExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
+        TaskNumberExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
         System.out.println("LZW");
-        NumberExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
+        TaskNumberExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
     }
 }

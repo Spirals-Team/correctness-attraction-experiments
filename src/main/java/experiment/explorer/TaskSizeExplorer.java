@@ -2,22 +2,12 @@ package experiment.explorer;
 
 import experiment.*;
 import experiment.exploration.IntegerExplorationPlusOne;
-import md5.MD5CallableImpl;
-import md5.MD5Instr;
-import md5.MD5Manager;
-import mersenne.MersenneCallableImpl;
-import mersenne.MersenneManager;
-import mersenne.MersenneTwisterInstr;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
-import perturbation.perturbator.Perturbator;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
 import quicksort.QuickSortManager;
-import zip.LZWInstr;
-import zip.ZipCallableImpl;
-import zip.ZipManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -28,21 +18,21 @@ import java.util.List;
 /**
  * Created by bdanglot on 02/05/16.
  */
-public class SizeExplorer extends CallExplorer {
+public class TaskSizeExplorer extends CallExplorer {
 
     private String header;
 
     private String nameOfSpecificExploration;
 
-    public SizeExplorer(boolean init, int[] arrayOfTask) {
+    public TaskSizeExplorer(boolean init, int[] arrayOfTask) {
         super(new IntegerExplorationPlusOne());
         //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
         Logger.init(Runner.locations.size(), Runner.numberOfTask, super.perturbators.size());
         PerturbationEngine.loggers.put(super.name, new LoggerImpl());
 
         header = "Contains data to explore the size of task required for saturation\n";
-        header += "Size Task Exploration (STE)\n";
-        header += "Size Task : ";
+        header += "Task Size Exploration (TSE)\n";
+        header += "Task Size : ";
         for (int nTask : arrayOfTask)
             header += nTask + " ";
         header += "\n" + Runner.locations.size() + " perturbation point\n";
@@ -158,7 +148,7 @@ public class SizeExplorer extends CallExplorer {
                 e.printStackTrace();
             }
             Runner.setup(classUnderPerturbation, classCallable, manager, locationType, inputTypes);
-            Runner.run(new SizeExplorer(i == 0, sizeOfTask));
+            Runner.run(new TaskSizeExplorer(i == 0, sizeOfTask));
         }
         mergeFile(sizeOfTask);
     }

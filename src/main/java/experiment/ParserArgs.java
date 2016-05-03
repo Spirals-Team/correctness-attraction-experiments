@@ -10,7 +10,7 @@ import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusMagnitude;
 import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.CallExplorer;
-import experiment.explorer.NumberExplorer;
+import experiment.explorer.TaskNumberExplorer;
 import experiment.explorer.RandomExplorer;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
@@ -134,19 +134,19 @@ public class ParserArgs {
 
     private static void runNumberTask() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        NumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
+        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
         System.exit(0);
     }
 
     private static void runSizeTask() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        NumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
+        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
         System.exit(0);
     }
 
     private static void runHeatMap() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        NumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
+        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
         System.exit(0);
     }
 
