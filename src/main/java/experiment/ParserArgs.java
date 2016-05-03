@@ -40,8 +40,6 @@ import zip.ZipManager;
 import java.util.InputMismatchException;
 import java.util.List;
 
-import static experiment.ParserArgs.buildHeatMap;
-
 /**
  * Created by bdanglot on 02/05/16.
  */
@@ -78,7 +76,7 @@ public class ParserArgs {
 
         if ((currentIndex = getIndexOfOption("-nb", args)) != -1) {
             try {
-                Runner.sizeOfEachTask = Integer.parseInt(args[currentIndex + 1]);
+                Runner.numberOfTask = Integer.parseInt(args[currentIndex + 1]);
             } catch (InputMismatchException e) {
                 System.err.println("Number of Task specified must be an integer.");
                 usage();
@@ -106,8 +104,8 @@ public class ParserArgs {
             Runner.explorers.add(new RandomExplorer(new BooleanExplorationNegation()));
         }
 
-        if ((currentIndex = getIndexOfOption("-run", args)) != -1) {
-
+        if ((currentIndex = getIndexOfOption("-run", args)) !=  -1) {
+            run(currentIndex + 1, args);
         }
 
     }
