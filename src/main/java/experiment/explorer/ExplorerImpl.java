@@ -46,6 +46,11 @@ public abstract class ExplorerImpl implements Explorer {
         return exploration.getType();
     }
 
+    @Override
+    public String toString() {
+        return this.exploration.getName()+"_"+this.name;
+    }
+
     public abstract void runOnePerturbator(int indexOfTask, PerturbationLocation location, Perturbator perturbator);
 
 }

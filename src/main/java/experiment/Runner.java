@@ -34,6 +34,7 @@ public class Runner {
 
     public static void run(Explorer explorerUnderPerturbation) {
         explorer = explorerUnderPerturbation;
+        System.out.println("Run " + explorer + " on " + CUP.getSimpleName() + " ...");
         filterLocation(explorer.getTypeOfExploration());
         for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
             runLocations(indexOfTask);

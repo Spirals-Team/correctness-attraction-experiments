@@ -92,6 +92,10 @@ public class ParserArgs {
                 usage();
         }
 
+        if ((currentIndex = getIndexOfOption("-s", args)) != -1) {
+            buildSubject(currentIndex + 1, args);
+        }
+
         if ((currentIndex = getIndexOfOption("-exp", args)) != -1) {
             buildExp(currentIndex + 1, args);
         } else {
@@ -101,11 +105,6 @@ public class ParserArgs {
             Runner.explorers.add(new CallExplorer(new BooleanExplorationNegation()));
             Runner.explorers.add(new RandomExplorer(new BooleanExplorationNegation()));
         }
-
-        if ((currentIndex = getIndexOfOption("-s", args)) != -1) {
-            buildSubject(currentIndex + 1, args);
-        }
-
     }
 
     private static void buildExp(int index, String[] args) {
