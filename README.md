@@ -44,12 +44,14 @@ It will install everything you will need to run experiments (nearly 7 minutes).
 In order to try, run :
 
 ```
-java -cp target/classes quicksort.Main -v
+./src/script/run.sh
 ```
 
 It about 5 minutes to execute and run all campaigns on the quicksort subject, with 20 arrays of 100 integers.
 
 ## Options
+
+### OutOfDate
 
 You can run each subject separately, or all of it with the Runner. Options remains the same.
 
