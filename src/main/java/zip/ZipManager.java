@@ -9,6 +9,13 @@ import experiment.Runner;
  */
 public class ZipManager extends OracleManager<String> {
 
+    public ZipManager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\n";
+        super.header += "Random char generated with " + seedForGenTask + " as seed\n";
+        super.path = "zip";
+    }
+
     public ZipManager() {
         super();
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\n";

@@ -23,6 +23,12 @@ public class BayesManager extends OracleManager<Experiment> {
 
     private static final String PATH_DIR = "resources/classifier/";
 
+    public BayesManager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " datasets\nPicked up in the data set provided by Weka.\n";
+        super.path = "classifier";
+    }
+
     public BayesManager() {
         super();
         super.header = Runner.numberOfTask + " datasets\nPicked up in the data set provided by Weka.\n";

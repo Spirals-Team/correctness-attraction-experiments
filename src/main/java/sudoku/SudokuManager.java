@@ -17,6 +17,18 @@ public class SudokuManager extends OracleManager<int[][]> {
 
     private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
 
+    public SudokuManager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " sudoku grid \n";
+        super.header += "Those grid are read from file in resources/sudoku/grid.txt\n";
+        super.path = "sudoku";
+        try {
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public SudokuManager() {
         super();
         super.header = Runner.numberOfTask + " sudoku grid \n";

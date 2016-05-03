@@ -27,6 +27,13 @@ public class OptimizerManager extends OracleManager<OptimizationData[]> {
 
     public static int numberOfFile = pathToFileOfLinearProgram.size();
 
+    public OptimizerManager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " linear problems to be resolved\n";
+        super.header += "linear problem come from test of commons.math lib\n";
+        super.path = "optimizer";
+    }
+
     public OptimizerManager() {
         super();
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";

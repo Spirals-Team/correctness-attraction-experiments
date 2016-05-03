@@ -9,6 +9,13 @@ import experiment.Runner;
  */
 public class QuickSort2Manager extends OracleManager<int[]> {
 
+    public QuickSort2Manager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";
+        super.header += "Random integer generated with " + seedForGenTask + " as seed\n";
+        super.path = "quicksort-visualization";
+    }
+
     public QuickSort2Manager() {
         super();
         super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";

@@ -1,12 +1,13 @@
 package quicksort_visualization;
 
 import experiment.*;
-import experiment.explorer.AddNExplorerImpl;
+import experiment.exploration.IntegerExplorationPlusMagnitude;
+import experiment.exploration.IntegerExplorationPlusOne;
+import experiment.explorer.CallExplorer;
 import experiment.explorer.Explorer;
-import experiment.explorer.IntegerAdd1RndEnactorExplorerImpl;
+import experiment.explorer.RandomExplorer;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
-import perturbation.perturbator.AddNPerturbatorImpl;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 /**
  * Created by spirals on 12/04/16.
  */
+//@TODO refactor : not working anymore
 public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     static List<List<Integer>> lst = new ArrayList<>();
@@ -30,7 +32,6 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     static String[] exp;
 
-    //@TODO refactor
     static Tuple[][][][][] resultsPerExp;
 
     static int [] magnitudes;
@@ -88,13 +89,13 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
         Explorer[] addNExplorers = new Explorer[magnitudes.length];
         for (int indexMagnitude = 0; indexMagnitude < magnitudes.length; indexMagnitude++) {
-            addNExplorers[indexMagnitude] = new AddNExplorerImpl(magnitudes[indexMagnitude]);
+            addNExplorers[indexMagnitude] = new CallExplorer(new IntegerExplorationPlusMagnitude(magnitudes[indexMagnitude]));
             exp[indexMagnitude] = "ADD" + magnitudes[indexMagnitude];
         }
 
         Explorer[] IntegerAdd1RndEnactorExplorers = new Explorer[randomRates.length];
         for (int indexRandomRate = 0; indexRandomRate < randomRates.length; indexRandomRate++) {
-            IntegerAdd1RndEnactorExplorers[indexRandomRate] = new IntegerAdd1RndEnactorExplorerImpl(new AddNPerturbatorImpl(1), randomRates[indexRandomRate]);
+            IntegerAdd1RndEnactorExplorers[indexRandomRate] = new RandomExplorer(new IntegerExplorationPlusOne(), randomRates[indexRandomRate]);
             exp[magnitudes.length + indexRandomRate] = "RND" + randomRates[indexRandomRate];
         }
 

@@ -34,6 +34,16 @@ public class TorrentManager extends OracleManager<String> {
 
     private static FilenameFilter filter = (dir, name) -> name.endsWith(".torrent");
 
+    public TorrentManager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " files of " + Runner.sizeOfEachTask + " chararacters\n";
+        super.header += "Random characters generated with " + seedForGenTask + " as seed\n";
+
+        super.path = "torrent";
+
+        initTracker();
+    }
+
     public TorrentManager() {
         super();
         super.header = Runner.numberOfTask + " files of " + Runner.sizeOfEachTask + " chararacters\n";

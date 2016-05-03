@@ -9,6 +9,12 @@ import experiment.Runner;
  */
 public class MD5Manager extends OracleManager<String> {
 
+    public MD5Manager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\nRandom char generated with " + seedForGenTask + " as seed\n";
+        super.path = "md5";
+    }
+
     public MD5Manager() {
         super();
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\nRandom char generated with " + seedForGenTask + " as seed\n";

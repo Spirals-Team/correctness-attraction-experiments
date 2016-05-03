@@ -9,6 +9,12 @@ import experiment.Runner;
  */
 public class RSAManager extends OracleManager<String> {
 
+    public RSAManager(int seed) {
+        super(seed);
+        super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " characters\nGenerated with " + super.seedForGenTask + " as seed\n";
+        super.path = "rsa";
+    }
+
     public RSAManager() {
         super();
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " characters\nGenerated with " + super.seedForGenTask + " as seed\n";
