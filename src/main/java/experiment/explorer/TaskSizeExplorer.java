@@ -152,17 +152,4 @@ public class TaskSizeExplorer extends CallExplorer {
         }
         mergeFile(sizeOfTask);
     }
-
-    public static void main(String[] args) {
-        System.out.println("Quicksort");
-        run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
-//        System.out.println("MD5");
-//        run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
-//        System.out.println("MT");
-//        run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
-//        System.out.println("LZW");
-//        run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
-    }
-
-
 }

@@ -148,12 +148,12 @@ public class ParserArgs {
 
     private static void runNumberTask() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
+        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(),  typePerturbed != null ? typePerturbed : "Numerical", Runner.inputType);
     }
 
     private static void runSizeTask() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        TaskSizeExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed, Runner.inputType);
+        TaskSizeExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(),  typePerturbed != null ? typePerturbed : "Numerical", Runner.inputType);
     }
 
     private static void buildHeatMap() {
