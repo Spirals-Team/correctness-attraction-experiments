@@ -111,13 +111,29 @@ public class ParserArgs {
     }
 
     private static void run(int index, String[] args) {
+        int [] arrayInteger = null;
         int currentIndex = index;
+
+        if (currentIndex + 1 < args.length) {
+            String [] arrayStr;
+            if ( (arrayStr = args[currentIndex + 1].split("")).length > 1) {
+                arrayInteger = new int[arrayStr.length];
+                for (int i = 0 ; i < arrayStr.length ; i++)
+                    arrayInteger[i] = Integer.parseInt(arrayStr[i]);
+                TaskNumberExplorer.numberOfTask = arrayInteger;
+            }
+        }
+
         while (currentIndex < args.length && !args[currentIndex].startsWith("-")) {
             switch (args[currentIndex]) {
                 case "tasknumber":
+                    if (arrayInteger != null)
+                        TaskNumberExplorer.numberOfTask = arrayInteger;
                     runNumberTask();
                     break;
                 case "tasksize":
+                    if (arrayInteger != null)
+                        TaskSizeExplorer.sizeOfTask = arrayInteger;
                     runSizeTask();
                     break;
             }

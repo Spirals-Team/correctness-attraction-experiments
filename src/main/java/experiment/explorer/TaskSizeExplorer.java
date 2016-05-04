@@ -20,6 +20,8 @@ import java.util.List;
  */
 public class TaskSizeExplorer extends CallExplorer {
 
+    public static int[] sizeOfTask = new int[]{5,10,20,50,100,250,500};
+
     private String header;
 
     private String nameOfSpecificExploration;
@@ -136,7 +138,6 @@ public class TaskSizeExplorer extends CallExplorer {
 
     public static void run(Class<?> classUnderPerturbation, Class<?> classCallable, Class<?> classManager, String locationType, Class<?>... inputTypes) {
         System.out.println("Explore the saturation by the size of tasks...");
-        int[] sizeOfTask = new int[]{5,10,20,50,100,250,500};
         for (int i = 0 ; i < sizeOfTask.length ; i++) {
             int size = sizeOfTask[i];
             System.out.println("Size of task : \t" + size + "\t" +Util.getStringPerc(i, sizeOfTask.length));

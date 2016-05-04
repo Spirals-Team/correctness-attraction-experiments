@@ -29,6 +29,8 @@ import java.util.List;
  */
 public class TaskNumberExplorer extends CallExplorer {
 
+    public static int[] numberOfTask = new int[]{1,2,5,10,25,50,100,200};
+
     private String header;
 
     private String nameOfSpecificExploration;
@@ -137,7 +139,6 @@ public class TaskNumberExplorer extends CallExplorer {
 
     public static void run(Class<?> classUnderPerturbation, Class<?> classCallable, Class<?> classManager, String locationType, Class<?>... inputTypes) {
         System.out.println("Explore the saturation by the number of tasks...");
-        int[] numberOfTask = new int[]{1,2,5,10,25,50,100,200};
         for (int i = 0 ; i < numberOfTask.length ; i++) {
             int nbTask = numberOfTask[i];
             System.out.println("Number of task : \t" + nbTask + "\t" +Util.getStringPerc(i, numberOfTask.length));
