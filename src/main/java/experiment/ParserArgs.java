@@ -59,7 +59,7 @@ public class ParserArgs {
         if ((currentIndex = getIndexOfOption("-time", args)) != -1) {
             try {
                 Runner.numberOfSecondsToWait = Integer.parseInt(args[currentIndex + 1]);
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 System.err.println("Time specified must be an integer.");
                 usage();
             }
@@ -68,7 +68,7 @@ public class ParserArgs {
         if ((currentIndex = getIndexOfOption("-size", args)) != -1) {
             try {
                 Runner.sizeOfEachTask = Integer.parseInt(args[currentIndex + 1]);
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 System.err.println("Size specified must be an integer.");
                 usage();
             }
@@ -77,7 +77,7 @@ public class ParserArgs {
         if ((currentIndex = getIndexOfOption("-nb", args)) != -1) {
             try {
                 Runner.numberOfTask = Integer.parseInt(args[currentIndex + 1]);
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 System.err.println("Number of Task specified must be an integer.");
                 usage();
             }
@@ -97,7 +97,7 @@ public class ParserArgs {
         if ((currentIndex = getIndexOfOption("-exp", args)) != -1) {
             buildExp(currentIndex + 1, args);
         } else {
-            if ((currentIndex = getIndexOfOption("-run", args)) !=  -1) {
+            if ((currentIndex = getIndexOfOption("-run", args)) != -1) {
                 run(currentIndex + 1, args);
             } else {
                 Runner.explorers.add(new CallExplorer(new IntegerExplorationPlusOne()));
@@ -111,14 +111,14 @@ public class ParserArgs {
     }
 
     private static void run(int index, String[] args) {
-        int [] arrayInteger = null;
+        int[] arrayInteger = null;
         int currentIndex = index;
 
         if (currentIndex + 1 < args.length) {
-            String [] arrayStr;
-            if ( (arrayStr = args[currentIndex + 1].split(":")).length > 1) {
+            String[] arrayStr;
+            if ((arrayStr = args[currentIndex + 1].split(":")).length > 1) {
                 arrayInteger = new int[arrayStr.length];
-                for (int i = 0 ; i < arrayStr.length ; i++)
+                for (int i = 0; i < arrayStr.length; i++)
                     arrayInteger[i] = Integer.parseInt(arrayStr[i]);
                 TaskNumberExplorer.numberOfTask = arrayInteger;
             }
@@ -164,12 +164,12 @@ public class ParserArgs {
 
     private static void runNumberTask() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(),  typePerturbed != null ? typePerturbed : "Numerical", Runner.inputType);
+        TaskNumberExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed != null ? typePerturbed : "Numerical", Runner.inputType);
     }
 
     private static void runSizeTask() {
         assert Runner.CUP != null : "CUP must be initialized with -s cmd";
-        TaskSizeExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(),  typePerturbed != null ? typePerturbed : "Numerical", Runner.inputType);
+        TaskSizeExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed != null ? typePerturbed : "Numerical", Runner.inputType);
     }
 
     private static void buildHeatMap() {
@@ -185,34 +185,44 @@ public class ParserArgs {
 
     private static int buildRnd(int i, String[] args) {
         Exploration exploration = getExploration(i, args);
+        if (magnitude)
+            i++;
         i++;
         int repeat;
         if (i < args.length) {
             try {
                 repeat = Integer.parseInt(args[i]);
                 i++;
-            } catch (InputMismatchException e) {
+            } catch (NumberFormatException e) {
                 repeat = 5;
             }
         } else
             repeat = 5;
 
-        float[] randomRate;
+        float[] randomRate = null;
         if (i < args.length) {
-            String[] rndRateStr;
-            if ((rndRateStr = args[i].split(":")).length > 1) {
-                randomRate = new float[rndRateStr.length];
-                for (int index = 0; index < rndRateStr.length; index++)
-                    randomRate[i] = Float.parseFloat(rndRateStr[i]);
-                i++;
-            } else
+            try {
+                String[] rndRateStr;
+                if ((rndRateStr = args[i].split(":")).length > 1) {
+                    randomRate = new float[rndRateStr.length];
+                    for (int index = 0; index < rndRateStr.length; index++)
+                        randomRate[index] = Float.parseFloat(rndRateStr[index]);
+                    i++;
+                }
+            } catch (NumberFormatException e) {
                 randomRate = new float[]{0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
-        } else
+            }
+        }
+
+        if (randomRate == null)
             randomRate = new float[]{0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
 
         Runner.explorers.add(new RandomExplorer(exploration, repeat, randomRate));
         return i;
     }
+
+    //@TODO
+    private static boolean magnitude = false;
 
     private static Exploration getExploration(int i, String[] args) {
         switch (args[i]) {
@@ -222,7 +232,8 @@ public class ParserArgs {
                 if (i + 1 < args.length && (mag = args[i + 1].split(":")).length > 1) {
                     int[] magint = new int[mag.length];
                     for (int index = 0; index < mag.length; index++)
-                        magint[i] = Integer.parseInt(mag[i]);
+                        magint[index] = Integer.parseInt(mag[index]);
+                    magnitude = true;
                     return new IntegerExplorationPlusMagnitude(magint);
                 } else
                     return new IntegerExplorationPlusMagnitude();
