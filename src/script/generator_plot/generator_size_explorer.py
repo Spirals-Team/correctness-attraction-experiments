@@ -1,4 +1,5 @@
 from matplotlib import pyplot as plt
+import sys
 
 def plot_increasingSize_percentageSuccess(path, filename, output, subject, logscale=False):
 
@@ -92,7 +93,8 @@ def plot_increasingSize_percentageSuccess(path, filename, output, subject, logsc
     fig.savefig(path+"/img/"+output+"_plot_logscale.jpeg", bbox_extra_artists=(text,), bbox_inches='tight')
     plt.close(fig)
 
-subjects=["quicksort","md5","mersenne","zip"]
+#subjects=["quicksort","md5","mersenne","zip"]
+subjects=sys.argv[1:]
 for subject in subjects:
     plot_increasingSize_percentageSuccess("results/"+subject, "SizeTaskExploration.txt", "sizeexplorer", subject)
 

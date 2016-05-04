@@ -173,6 +173,6 @@ def gen_sample_for_all_exp(path, prefixename):
         plt.close(fig)
 
 gen_all("results/quicksort-visualization", "exec_path_all")
-#gen_all_per_xp("results/quicksort-visualization", "exec_path_")
-#gen_sample_per_exp("results/quicksort-visualization", "exec_path_")
-#gen_sample_for_all_exp("results/quicksort-visualization", "exec_path_")
+gen_all_per_xp("results/quicksort-visualization", "exec_path_")
+gen_sample_per_exp("results/quicksort-visualization", "exec_path_")
+gen_sample_for_all_exp("results/quicksort-visualization", "exec_path_")

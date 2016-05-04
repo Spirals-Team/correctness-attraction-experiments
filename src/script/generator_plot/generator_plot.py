@@ -173,11 +173,12 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+".pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
-subjects=["quicksort","zip","md5","sudoku","optimizer","mersenne"]
+#subjects=["quicksort","zip","md5","sudoku","optimizer","mersenne"]
+subjects=sys.argv[1:]
 for subject in subjects:
-    #scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", "intadd1_rnd" ,subject)
-    #scatterPlotSuccessNumPerturb("results/"+subject, "BooleanInvRndEnactorExplorer_random_rates_analysis_graph_data.txt", "boolinv_rnd", subject)
+    scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", "intadd1_rnd" ,subject)
+    scatterPlotSuccessNumPerturb("results/"+subject, "BooleanInvRndEnactorExplorer_random_rates_analysis_graph_data.txt", "boolinv_rnd", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "AddNExplorer_magnitude_analysis_graph_data.txt", "magnitude_call" ,subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAdd1RndEnactorExplorer_random_rates_analysis_graph_data.txt", "intadd1_rnd",subject, logscale=True)
-    #plot_increasingPerturbation_percentageSuccess("results/"+subject, "BooleanInvRndEnactorExplorer_random_rates_analysis_graph_data.txt", "boolinv_rnd", subject, logscale=True)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "BooleanInvRndEnactorExplorer_random_rates_analysis_graph_data.txt", "boolinv_rnd", subject, logscale=True)
 

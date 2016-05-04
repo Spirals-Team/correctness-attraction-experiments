@@ -94,7 +94,8 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
     fig.savefig(path+"/img/"+output+"_plot_logscale.jpeg", bbox_extra_artists=(text,), bbox_inches='tight')
     plt.close(fig)
 
-subjects=["quicksort","md5","mersenne","zip"]
+#subjects=["quicksort","md5","mersenne","zip"]
+subjects=sys.argv[1:]
 for subject in subjects:
     plot_increasingNbTask_percentageSuccess("results/"+subject, "NumberTaskExplorer.txt", "taskexplorer", subject)
 
