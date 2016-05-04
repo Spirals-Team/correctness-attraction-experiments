@@ -7,15 +7,15 @@ import experiment.Runner;
 /**
  * Created by bdanglot on 29/04/16.
  */
-public class RSAManagerImpl extends OracleManagerImpl<String> {
+public class RSAManager extends OracleManagerImpl<String> {
 
-    public RSAManagerImpl(int seed) {
+    public RSAManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " characters\nGenerated with " + super.seedForGenTask + " as seed\n";
         super.path = "rsa";
     }
 
-    public RSAManagerImpl() {
+    public RSAManager() {
         super();
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " characters\nGenerated with " + super.seedForGenTask + " as seed\n";
         super.path = "rsa";

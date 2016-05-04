@@ -7,16 +7,16 @@ import experiment.Runner;
 /**
  * Created by spirals on 19/04/16.
  */
-public class MersenneManagerImpl extends OracleManagerImpl<Long> {
+public class MersenneManager extends OracleManagerImpl<Long> {
 
-    public MersenneManagerImpl(int seed) {
+    public MersenneManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " list of " + Runner.sizeOfEachTask + " number\n";
         super.header += "Random numbers generated with " + seedForGenTask + " as seed\n";
         super.path = "mersenne";
     }
 
-    public MersenneManagerImpl() {
+    public MersenneManager() {
         super();
         super.header = Runner.numberOfTask + " list of " + Runner.sizeOfEachTask + " number\n";
         super.header += "Random numbers generated with " + seedForGenTask + " as seed\n";

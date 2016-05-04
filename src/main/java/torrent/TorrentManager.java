@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by spirals on 21/04/16.
  */
-public class TorrentManagerImpl extends OracleManagerImpl<String> {
+public class TorrentManager extends OracleManagerImpl<String> {
 
     public static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
 
@@ -34,7 +34,7 @@ public class TorrentManagerImpl extends OracleManagerImpl<String> {
 
     private static FilenameFilter filter = (dir, name) -> name.endsWith(".torrent");
 
-    public TorrentManagerImpl(int seed) {
+    public TorrentManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " files of " + Runner.sizeOfEachTask + " chararacters\n";
         super.header += "Random characters generated with " + seedForGenTask + " as seed\n";
@@ -44,7 +44,7 @@ public class TorrentManagerImpl extends OracleManagerImpl<String> {
         initTracker();
     }
 
-    public TorrentManagerImpl() {
+    public TorrentManager() {
         super();
         super.header = Runner.numberOfTask + " files of " + Runner.sizeOfEachTask + " chararacters\n";
         super.header += "Random characters generated with " + seedForGenTask + " as seed\n";

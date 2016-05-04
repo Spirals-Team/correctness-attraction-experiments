@@ -7,16 +7,16 @@ import experiment.Runner;
 /**
  * Created by spirals on 19/04/16.
  */
-public class QuickSort2ManagerImpl extends OracleManagerImpl<int[]> {
+public class QuickSort2Manager extends OracleManagerImpl<int[]> {
 
-    public QuickSort2ManagerImpl(int seed) {
+    public QuickSort2Manager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";
         super.header += "Random integer generated with " + seedForGenTask + " as seed\n";
         super.path = "quicksort-visualization";
     }
 
-    public QuickSort2ManagerImpl() {
+    public QuickSort2Manager() {
         super();
         super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";
         super.header += "Random integer generated with " + seedForGenTask + " as seed\n";

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class Runner {
 
     public static Oracle oracle;
-    public static OracleManagerImpl manager;
+    public static OracleManager manager;
     public static Class<?> CUP;// Class Under Perturbation
     public static Class<?> classCallable;
     public static Constructor constructorRunner;
@@ -82,7 +82,7 @@ public class Runner {
     }
 
     public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable,
-                             OracleManagerImpl manager, float percentage, int indexPercentage, String locationType, Class<?>... inputTypes) {
+                             OracleManager manager, float percentage, int indexPercentage, String locationType, Class<?>... inputTypes) {
         CUP = classUnderPerturbation;
         Runner.classCallable = classCallable;
         Runner.manager = manager;
@@ -106,7 +106,7 @@ public class Runner {
      * @param manager
      * @param inputTypes
      */
-    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManagerImpl manager, String locationType, Class<?>... inputTypes) {
+    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManager manager, String locationType, Class<?>... inputTypes) {
         CUP = classUnderPerturbation;
         Runner.classCallable = classCallable;
         Runner.manager = manager;

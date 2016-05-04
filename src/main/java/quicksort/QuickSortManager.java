@@ -10,15 +10,15 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class QuickSortManagerImpl extends OracleManagerImpl<List<Integer>> {
+public class QuickSortManager extends OracleManagerImpl<List<Integer>> {
 
-    public QuickSortManagerImpl(int seed) {
+    public QuickSortManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "quicksort";
     }
 
-    public QuickSortManagerImpl() {
+    public QuickSortManager() {
         super();
         super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "quicksort";

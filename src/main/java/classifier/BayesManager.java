@@ -15,7 +15,7 @@ import java.io.File;
 /**
  * Created by spirals on 27/04/16.
  */
-public class BayesManagerImpl extends OracleManagerImpl<Experiment> {
+public class BayesManager extends OracleManagerImpl<Experiment> {
 
     private String[] path;
 
@@ -23,13 +23,13 @@ public class BayesManagerImpl extends OracleManagerImpl<Experiment> {
 
     private static final String PATH_DIR = "resources/classifier/";
 
-    public BayesManagerImpl(int seed) {
+    public BayesManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " datasets\nPicked up in the data set provided by Weka.\n";
         super.path = "classifier";
     }
 
-    public BayesManagerImpl() {
+    public BayesManager() {
         super();
         super.header = Runner.numberOfTask + " datasets\nPicked up in the data set provided by Weka.\n";
         super.path = "classifier";

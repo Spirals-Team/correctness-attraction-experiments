@@ -4,19 +4,19 @@ import experiment.*;
 import experiment.exploration.IntegerExplorationPlusOne;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
-import md5.MD5ManagerImpl;
+import md5.MD5Manager;
 import mersenne.MersenneCallableImpl;
-import mersenne.MersenneManagerImpl;
+import mersenne.MersenneManager;
 import mersenne.MersenneTwisterInstr;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
-import quicksort.QuickSortManagerImpl;
+import quicksort.QuickSortManager;
 import zip.LZWInstr;
 import zip.ZipCallableImpl;
-import zip.ZipManagerImpl;
+import zip.ZipManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -46,7 +46,7 @@ public class TaskNumberExplorer extends CallExplorer {
         this.header += "N Execution Enactor\n";
         this.header += "PONE : Numerical Perturbator\n";
         this.header += "Size of each task : " + Runner.sizeOfEachTask + "\n";
-        this.header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
+        this.header += "Seed used for generate task is " + ((OracleManagerImpl)Runner.manager).seedForGenTask + "\n";
 
         this.nameOfSpecificExploration = "NumberTaskExplorer";
         PerturbationEngine.loggers.put(this.nameOfSpecificExploration, new LoggerImpl());
@@ -113,7 +113,7 @@ public class TaskNumberExplorer extends CallExplorer {
         header += "N Execution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
         header += "Each task is an arrays of " + Runner.sizeOfEachTask + "\n";
-        header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
+        header += "Seed used for generate task is " + ((OracleManagerImpl)Runner.manager).seedForGenTask + "\n";
 
         try {
             FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/NumberTaskExplorer.txt", false);
@@ -157,12 +157,12 @@ public class TaskNumberExplorer extends CallExplorer {
 
     public static void main(String[] args) {
         System.out.println("Quicksort");
-        TaskNumberExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManagerImpl.class, "Numerical", List.class);
+        TaskNumberExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
         System.out.println("MD5");
-        TaskNumberExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5ManagerImpl.class, "Numerical", String.class);
+        TaskNumberExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
         System.out.println("MT");
-        TaskNumberExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManagerImpl.class,"Numerical", Long.class);
+        TaskNumberExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
         System.out.println("LZW");
-        TaskNumberExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManagerImpl.class, "Numerical", String.class);
+        TaskNumberExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
     }
 }

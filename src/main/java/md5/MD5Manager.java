@@ -7,15 +7,15 @@ import experiment.Runner;
 /**
  * Created by spirals on 19/04/16.
  */
-public class MD5ManagerImpl extends OracleManagerImpl<String> {
+public class MD5Manager extends OracleManagerImpl<String> {
 
-    public MD5ManagerImpl(int seed) {
+    public MD5Manager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\nRandom char generated with " + seedForGenTask + " as seed\n";
         super.path = "md5";
     }
 
-    public MD5ManagerImpl() {
+    public MD5Manager() {
         super();
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\nRandom char generated with " + seedForGenTask + " as seed\n";
         super.path = "md5";

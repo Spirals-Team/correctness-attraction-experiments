@@ -37,7 +37,7 @@ public class TaskSizeExplorer extends CallExplorer {
         header += "N Execution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
         header += "One task of different size\n";
-        header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
+        header += "Seed used for generate task is " + ((OracleManagerImpl)Runner.manager).seedForGenTask + "\n";
 
         PerturbationEngine.loggers.remove(super.name);
         nameOfSpecificExploration = "SizeTaskExploration";
@@ -106,7 +106,7 @@ public class TaskSizeExplorer extends CallExplorer {
         header += "N Execution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
         header += "One task of different size\n";
-        header += "Seed used for generate task is " + Runner.manager.seedForGenTask + "\n";
+        header += "Seed used for generate task is " + ((OracleManagerImpl)Runner.manager).seedForGenTask + "\n";
 
         String name = "SizeTaskExploration";
 

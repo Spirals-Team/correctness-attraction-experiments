@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class SudokuManagerImpl extends OracleManagerImpl<int[][]> {
+public class SudokuManager extends OracleManagerImpl<int[][]> {
 
     private List<int[][]> grids;
 
@@ -21,7 +21,7 @@ public class SudokuManagerImpl extends OracleManagerImpl<int[][]> {
 
     private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
 
-    public SudokuManagerImpl(int seed) {
+    public SudokuManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " sudoku grid \n";
         super.header += "Those grid are read from file in resources/sudoku/grid.txt\n";
@@ -33,7 +33,7 @@ public class SudokuManagerImpl extends OracleManagerImpl<int[][]> {
         }
     }
 
-    public SudokuManagerImpl() {
+    public SudokuManager() {
         super();
         super.header = Runner.numberOfTask + " sudoku grid \n";
         super.header += "Those grid are read from file in resources/sudoku/grid.txt\n";

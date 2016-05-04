@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class OptimizerManagerImpl extends OracleManagerImpl<OptimizationData[]> {
+public class OptimizerManager extends OracleManagerImpl<OptimizationData[]> {
 
     private static List<String> pathToFileOfLinearProgram = new ArrayList<>();
 
@@ -29,14 +29,14 @@ public class OptimizerManagerImpl extends OracleManagerImpl<OptimizationData[]> 
 
     public static int numberOfFile = pathToFileOfLinearProgram.size();
 
-    public OptimizerManagerImpl(int seed) {
+    public OptimizerManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";
         super.header += "linear problem come from test of commons.math lib\n";
         super.path = "optimizer";
     }
 
-    public OptimizerManagerImpl() {
+    public OptimizerManager() {
         super();
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";
         super.header += "linear problem come from test of commons.math lib\n";

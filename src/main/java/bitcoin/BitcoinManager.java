@@ -21,7 +21,7 @@ import java.util.Map;
  * Runner.numberOfTask is the number of tx, and Runner.sizeOfEachTask is the number of bitcoin node used in scenarios.
  *
  */
-public class BitcoinManagerImpl extends OracleManagerImpl<Tuple> {
+public class BitcoinManager extends OracleManagerImpl<Tuple> {
 
     private static Map<Integer, WalletAppKit> kits = new HashMap<>();
 
@@ -33,14 +33,14 @@ public class BitcoinManagerImpl extends OracleManagerImpl<Tuple> {
 
     static final int FEE_AMOUNT = 1;
 
-    public BitcoinManagerImpl(int seed) {
+    public BitcoinManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " random tx between " + Runner.sizeOfEachTask + " bitcoin nodes\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "bitcoin";
         initWallets();
     }
 
-    public BitcoinManagerImpl() {
+    public BitcoinManager() {
         super();
         super.header = Runner.numberOfTask + " random tx between " + Runner.sizeOfEachTask + " bitcoin nodes\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "bitcoin";
