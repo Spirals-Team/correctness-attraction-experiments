@@ -206,9 +206,9 @@ public class ParserArgs {
                     randomRate[i] = Float.parseFloat(rndRateStr[i]);
                 i++;
             } else
-                randomRate = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
+                randomRate = new float[]{0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
         } else
-            randomRate = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
+            randomRate = new float[]{0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
 
         Runner.explorers.add(new RandomExplorer(exploration, repeat, randomRate));
         return i;

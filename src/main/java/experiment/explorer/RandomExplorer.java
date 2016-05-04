@@ -31,7 +31,7 @@ public class RandomExplorer extends ExplorerImpl {
     private int numberOfRepeat;
 
     public RandomExplorer(Exploration exploration) {
-        this(exploration, 5, 0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f);
+        this(exploration, 5, 0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f);
     }
 
     public RandomExplorer(Exploration exploration, float... randomRates) {
@@ -39,7 +39,7 @@ public class RandomExplorer extends ExplorerImpl {
     }
 
     public RandomExplorer(Exploration exploration, int numberOfRepeat) {
-        this(exploration, numberOfRepeat, 0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f);
+        this(exploration, numberOfRepeat, 0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f);
     }
 
     public RandomExplorer(Exploration exploration, int repeat, float... randomRates) {
@@ -47,7 +47,7 @@ public class RandomExplorer extends ExplorerImpl {
         if (randomRates.length >= 1)
             this.randomRates = randomRates;
         else
-            this.randomRates = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
+            this.randomRates = new float[]{0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
 
         this.numberOfRepeat = repeat;
 
@@ -105,11 +105,16 @@ public class RandomExplorer extends ExplorerImpl {
         String pathToOutPutFile = "results/" + Runner.manager.getPath() + "/" +
                 campaignName + "_" + this.name;
 
+        String header = "random rate : ";
+        for (float rate : this.randomRates)
+            header += rate + " ";
+        header += "\n";
+
         try {
             /* All Log */
             FileWriter writer = new FileWriter(pathToOutPutFile + "_detail.txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-14s %-22s %-27s";
-            writer.write("detail per task and per random rate and per " + exploration.getColumnName() + ".\n" + exploration.getHeader() + Runner.manager.getHeader());
+            writer.write("detail per task and per random rate and per " + exploration.getColumnName() + ".\n" + exploration.getHeader() + header + Runner.manager.getHeader());
             writer.write(String.format(format,
                     "Task", "RandomRate",
                     exploration.getColumnName(), "IndexLoc",
@@ -137,7 +142,7 @@ public class RandomExplorer extends ExplorerImpl {
              /* Sum Arrays */
             writer = new FileWriter(pathToOutPutFile+"_analysis_graph_data.txt", false);
             writer.write("contains the data for the random rates analysis graph with " + exploration.getColumnName() + " as perturbator.\n");
-                    writer.write(exploration.getHeader() + Runner.manager.getHeader());
+                    writer.write(exploration.getHeader() + header + Runner.manager.getHeader());
             format = "%-10s %-"+exploration.getColumnName().length()+"s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write(String.format(format,
                     "RandomRate", exploration.getColumnName(), "IndexLoc",
