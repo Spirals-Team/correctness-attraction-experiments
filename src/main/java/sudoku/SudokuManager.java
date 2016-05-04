@@ -7,11 +7,15 @@ import experiment.Runner;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by spirals on 19/04/16.
  */
 public class SudokuManager extends OracleManager<int[][]> {
+
+    private List<int[][]> grids;
 
     private BufferedReader br;
 
@@ -41,22 +45,38 @@ public class SudokuManager extends OracleManager<int[][]> {
         }
     }
 
-    @Override
-    protected int[][] generateOneTask() {
-        int[][] grid = new int[9][9];
+    private void readFile() {
+        grids = new ArrayList<>();
         try {
-            if (br == null)
-                br = new BufferedReader(new FileReader(PATH_TO_GRID_FILE));
-            //Trash Header
-            br.readLine();
-            for (int row = 0; row < 9; row++) {
-                String rowAsStr = br.readLine();
-                for (int col = 0; col < rowAsStr.length(); col++) {
-                    grid[row][col] = Integer.parseInt(rowAsStr.charAt(col) + "");
+            br = new BufferedReader(new FileReader(PATH_TO_GRID_FILE));
+            while (br.readLine() != null) {//Trash Header
+                int[][] grid = new int[9][9];
+                for (int row = 0; row < 9; row++) {
+                    String rowAsStr = br.readLine();
+                    for (int col = 0; col < rowAsStr.length(); col++) {
+                        grid[row][col] = Integer.parseInt(rowAsStr.charAt(col) + "");
+                    }
                 }
+                grids.add(grid);
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected int[][] generateOneTask() {
+        if (br == null)
+            readFile();
+
+        int[][] grid = grids.get(super.scenario.size() % grids.size());
+        int nbCellToErase = 10 + (int) (Runner.sizeOfEachTask * 0.1f);
+        for (int i = 0; i < nbCellToErase; i++) {
+            int indexToErase = 0;
+            do {
+                indexToErase = randomForGenTask.nextInt(81);
+            } while (grid[indexToErase % 9][(indexToErase) / 9] == 0);
+            grid[indexToErase % 9][indexToErase / 9] = 0;
         }
         return grid;
     }
@@ -64,11 +84,11 @@ public class SudokuManager extends OracleManager<int[][]> {
 
     @Override
     public int[][] get(int index) {
-        int [][] clone = new int[9][9];
-        int [][] originalValue = scenario.get(index);
-        for (int row = 0 ; row <originalValue.length ; row++) {
-            for (int col = 0 ; col < originalValue[row].length ; col++) {
-                clone[row][col] =originalValue[row][col];
+        int[][] clone = new int[9][9];
+        int[][] originalValue = scenario.get(index);
+        for (int row = 0; row < originalValue.length; row++) {
+            for (int col = 0; col < originalValue[row].length; col++) {
+                clone[row][col] = originalValue[row][col];
             }
         }
         return clone;
@@ -78,4 +98,5 @@ public class SudokuManager extends OracleManager<int[][]> {
     public Oracle<int[][], ?> getOracle() {
         return new SudokuOracle();
     }
+
 }
