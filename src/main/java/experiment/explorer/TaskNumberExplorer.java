@@ -55,7 +55,7 @@ public class TaskNumberExplorer extends CallExplorer {
 
     private void init(PerturbationLocation location) {
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + name + "_" + (location.getLocationIndex()) + ".txt", false);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             writer.write(header);
             writer.write(String.format(format, "#Tasks", "IndexLoc",
@@ -77,7 +77,7 @@ public class TaskNumberExplorer extends CallExplorer {
     private void log(PerturbationLocation location) {
         Tuple[][][][] results = Logger.getResults();
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + name + "_" + (location.getLocationIndex()) + ".txt", true);
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", true);
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             Tuple result = new Tuple(6);
             int accNbOfTasks = 0;
