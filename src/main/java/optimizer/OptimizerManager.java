@@ -4,6 +4,8 @@ import experiment.Oracle;
 import experiment.OracleManager;
 import experiment.Runner;
 import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math3.optim.linear.*;
+import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,10 +43,41 @@ public class OptimizerManager extends OracleManager<OptimizationData[]> {
         super.path = "optimizer";
     }
 
+    protected OptimizationData[] generateOneTaskOLD() {
+        return MPSParser.run(PATH_DIRECTORY_DATASET + pathToFileOfLinearProgram.get(scenario.size()));
+    }
+
     @Override
     protected OptimizationData[] generateOneTask() {
-        return MPSParser.run(PATH_DIRECTORY_DATASET+pathToFileOfLinearProgram.get(scenario.size()));
+        int nbVariable = (int)(Runner.sizeOfEachTask*0.1f) + randomForGenTask.nextInt((int)(Runner.sizeOfEachTask*0.05f));
+
+        int upperBound = (int)(Runner.sizeOfEachTask*0.2f);
+        int downBound = -(int)(Runner.sizeOfEachTask*0.1f);
+
+        double[] rateObjectiveFunction = new double[nbVariable];
+        for (int i = 0; i < nbVariable; i++)
+            rateObjectiveFunction[i] = downBound + randomForGenTask.nextInt(upperBound);
+        LinearObjectiveFunction f = new LinearObjectiveFunction(rateObjectiveFunction, 0);
+
+        List<LinearConstraint> constraints = new ArrayList<>();
+
+        for (int i = 0; i < nbVariable; i++) {
+            double[] rate = new double[nbVariable];
+            for (int j = 0; j < nbVariable; j++) {
+                if (i != j)
+                    rate[j] = ( downBound / 2 ) + randomForGenTask.nextInt(upperBound / 2);
+            }
+            int relation = -1 + randomForGenTask.nextInt(3);
+            Relationship relationship = relation == 0 ? Relationship.EQ : relation == 1 ? Relationship.GEQ : Relationship.LEQ;
+            constraints.add(new LinearConstraint(rate, relationship, ( downBound / 2 ) + randomForGenTask.nextInt(upperBound / 2)));
+        }
+
+        return new OptimizationData[]{f, new LinearConstraintSet(constraints),
+                randomForGenTask.nextBoolean() ? GoalType.MAXIMIZE : GoalType.MINIMIZE,
+                new NonNegativeConstraint(true),
+                PivotSelectionRule.BLAND};
     }
+
 
     @Override
     public OptimizationData[] get(int index) {
