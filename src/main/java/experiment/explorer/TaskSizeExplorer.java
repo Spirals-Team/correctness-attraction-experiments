@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class TaskSizeExplorer extends CallExplorer {
 
-    public static int[] sizeOfTask = new int[]{5,10,20,50,100,250,500};
+    public static int[] sizeOfTask = new int[]{5,10,20,50,100,250,300};
 
     private String header;
 
