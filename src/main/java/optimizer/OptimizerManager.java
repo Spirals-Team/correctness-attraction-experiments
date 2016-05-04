@@ -65,11 +65,11 @@ public class OptimizerManager extends OracleManager<OptimizationData[]> {
             double[] rate = new double[nbVariable];
             for (int j = 0; j < nbVariable; j++) {
                 if (i != j)
-                    rate[j] = ( downBound / 2 ) + randomForGenTask.nextInt(upperBound / 2);
+                    rate[j] = ( downBound / 2 ) + randomForGenTask.nextInt(upperBound);
             }
             int relation = -1 + randomForGenTask.nextInt(3);
             Relationship relationship = relation == 0 ? Relationship.EQ : relation == 1 ? Relationship.GEQ : Relationship.LEQ;
-            constraints.add(new LinearConstraint(rate, relationship, ( downBound / 2 ) + randomForGenTask.nextInt(upperBound / 2)));
+            constraints.add(new LinearConstraint(rate, relationship, ( downBound / 2 ) + randomForGenTask.nextInt(upperBound)));
         }
 
         return new OptimizationData[]{f, new LinearConstraintSet(constraints),
