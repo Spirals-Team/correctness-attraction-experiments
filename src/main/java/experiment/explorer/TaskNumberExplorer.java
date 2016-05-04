@@ -79,7 +79,7 @@ public class TaskNumberExplorer extends CallExplorer {
         try {
             FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + name + "_" + (location.getLocationIndex()) + ".txt", true);
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
-            Tuple result = new Tuple(5);
+            Tuple result = new Tuple(6);
             int accNbOfTasks = 0;
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 result = result.add(results[Runner.locations.indexOf(location)][indexTask][0][0]);
