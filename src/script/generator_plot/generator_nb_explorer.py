@@ -1,5 +1,7 @@
 from matplotlib import pyplot as plt
 
+import sys
+
 def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, logscale=False):
 
     lines = [line.rstrip('\n') for line in open(path+"/"+filename)]

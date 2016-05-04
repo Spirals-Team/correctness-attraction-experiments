@@ -1,4 +1,6 @@
 from matplotlib import pyplot as plt
+
+import sys
 '''
 this script is used to generate plot in results/<subject>/img/
 '''
