@@ -49,10 +49,10 @@ public class OptimizerManager extends OracleManager<OptimizationData[]> {
 
     @Override
     protected OptimizationData[] generateOneTask() {
-        int nbVariable = (int)(Runner.sizeOfEachTask*0.1f) + randomForGenTask.nextInt((int)(Runner.sizeOfEachTask*0.05f));
+        int nbVariable = (int)(2+Runner.sizeOfEachTask*0.1f) + randomForGenTask.nextInt((int)(5+Runner.sizeOfEachTask*0.05f));
 
-        int upperBound = (int)(Runner.sizeOfEachTask*0.2f);
-        int downBound = -(int)(Runner.sizeOfEachTask*0.1f);
+        int upperBound = 5+(int)(Runner.sizeOfEachTask*0.2f);
+        int downBound = -2+(int)(Runner.sizeOfEachTask*0.1f);
 
         double[] rateObjectiveFunction = new double[nbVariable];
         for (int i = 0; i < nbVariable; i++)
