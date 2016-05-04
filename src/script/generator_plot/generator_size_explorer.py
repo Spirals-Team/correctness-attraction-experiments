@@ -90,6 +90,7 @@ def plot_increasingSize_percentageSuccess(path, filename, output, subject, logsc
     fig.savefig(path+"/img/"+output+"_plot.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     fig.savefig(path+"/img/"+output+"_plot.jpeg", bbox_extra_artists=(text,), bbox_inches='tight')
     ax.set_xscale('log')
+    fig.savefig(path+"/img/"+output+"_plot_logscale.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     fig.savefig(path+"/img/"+output+"_plot_logscale.jpeg", bbox_extra_artists=(text,), bbox_inches='tight')
     plt.close(fig)
 

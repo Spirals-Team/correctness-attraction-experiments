@@ -97,5 +97,5 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
 #subjects=["quicksort","md5","mersenne","zip"]
 subjects=sys.argv[1:]
 for subject in subjects:
-    plot_increasingNbTask_percentageSuccess("results/"+subject, "NumberTaskExplorer.txt", "taskexplorer", subject)
+    plot_increasingNbTask_percentageSuccess("results/"+subject, "NumberTaskExplorer.txt", "numberexplorer", subject)
 
