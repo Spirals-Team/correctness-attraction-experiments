@@ -187,21 +187,29 @@ public class ParserArgs {
         Exploration exploration = getExploration(i, args);
         i++;
         int repeat;
-        try {
-            repeat = Integer.parseInt(args[i]);
-        } catch (InputMismatchException e) {
+        if (i < args.length) {
+            try {
+                repeat = Integer.parseInt(args[i]);
+                i++;
+            } catch (InputMismatchException e) {
+                repeat = 5;
+            }
+        } else
             repeat = 5;
-        }
-        i++;
+
         float[] randomRate;
-        String[] rndRateStr;
-        if ((rndRateStr = args[i].split(":")).length > 1) {
-            randomRate = new float[rndRateStr.length];
-            for (int index = 0; index < rndRateStr.length; index++)
-                randomRate[i] = Float.parseFloat(rndRateStr[i]);
+        if (i < args.length) {
+            String[] rndRateStr;
+            if ((rndRateStr = args[i].split(":")).length > 1) {
+                randomRate = new float[rndRateStr.length];
+                for (int index = 0; index < rndRateStr.length; index++)
+                    randomRate[i] = Float.parseFloat(rndRateStr[i]);
+                i++;
+            } else
+                randomRate = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
         } else
             randomRate = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
-        i++;
+
         Runner.explorers.add(new RandomExplorer(exploration, repeat, randomRate));
         return i;
     }
