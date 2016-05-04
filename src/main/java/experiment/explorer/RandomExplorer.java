@@ -64,7 +64,7 @@ public class RandomExplorer extends ExplorerImpl {
     }
 
     @Override
-    public void init() {
+    public void initLogger() {
         //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
         Logger.init(Runner.locations.size(), Runner.numberOfTask, perturbators.size(), this.randomRates.length);
         PerturbationEngine.loggers.put(name, new LoggerImpl());
@@ -162,7 +162,7 @@ public class RandomExplorer extends ExplorerImpl {
                         resultForLocation = resultForLocation.add(result);
                     }
                 }
-                Explorer.addToFragilityList(resultForLocation, resultForLocation.total(), location, locationExceptionFragile,locationSuperAntiFragile,
+                Logger.addToFragilityList(resultForLocation, resultForLocation.total(), location, locationExceptionFragile,locationSuperAntiFragile,
                         locationAntiFragile, locationOracleFragile);
             }
             writer.close();
@@ -202,14 +202,14 @@ public class RandomExplorer extends ExplorerImpl {
                 }
             }
 
-            Explorer.writeListOnGivenFile(pathToOutPutFile + "_anti_fragile.txt",
+            Logger.writeListOnGivenFile(pathToOutPutFile + "_anti_fragile.txt",
                     "List of ids antifragile points.", locationAntiFragile);
-            Explorer.writeListOnGivenFile(pathToOutPutFile + "_super_anti_fragile.txt",
+            Logger.writeListOnGivenFile(pathToOutPutFile + "_super_anti_fragile.txt",
                     "List of ids antifragile points.", locationSuperAntiFragile);
-            Explorer.writeListOnGivenFile(pathToOutPutFile + "_oracle_fragile.txt",
-                    "list ids of oracle fragile code : >" + Explorer.TOLERANCE +"% of oracle failures", locationOracleFragile);
-            Explorer.writeListOnGivenFile(pathToOutPutFile + "_exception_fragile.txt",
-                    "list ids of exception fragile code : >" + Explorer.TOLERANCE +"% of exceptions.", locationExceptionFragile);
+            Logger.writeListOnGivenFile(pathToOutPutFile + "_oracle_fragile.txt",
+                    "list ids of oracle fragile code : >" + Logger.TOLERANCE +"% of oracle failures", locationOracleFragile);
+            Logger.writeListOnGivenFile(pathToOutPutFile + "_exception_fragile.txt",
+                    "list ids of exception fragile code : >" + Logger.TOLERANCE +"% of exceptions.", locationExceptionFragile);
 
         } catch (IOException e) {
             e.printStackTrace();

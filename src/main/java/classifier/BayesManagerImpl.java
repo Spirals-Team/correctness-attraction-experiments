@@ -1,7 +1,7 @@
 package classifier;
 
 import experiment.Oracle;
-import experiment.OracleManager;
+import experiment.OracleManagerImpl;
 import experiment.Runner;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
@@ -15,7 +15,7 @@ import java.io.File;
 /**
  * Created by spirals on 27/04/16.
  */
-public class BayesManager extends OracleManager<Experiment> {
+public class BayesManagerImpl extends OracleManagerImpl<Experiment> {
 
     private String[] path;
 
@@ -23,13 +23,13 @@ public class BayesManager extends OracleManager<Experiment> {
 
     private static final String PATH_DIR = "resources/classifier/";
 
-    public BayesManager(int seed) {
+    public BayesManagerImpl(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " datasets\nPicked up in the data set provided by Weka.\n";
         super.path = "classifier";
     }
 
-    public BayesManager() {
+    public BayesManagerImpl() {
         super();
         super.header = Runner.numberOfTask + " datasets\nPicked up in the data set provided by Weka.\n";
         super.path = "classifier";

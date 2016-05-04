@@ -4,7 +4,7 @@ import com.turn.ttorrent.common.Torrent;
 import com.turn.ttorrent.tracker.TrackedTorrent;
 import com.turn.ttorrent.tracker.Tracker;
 import experiment.Oracle;
-import experiment.OracleManager;
+import experiment.OracleManagerImpl;
 import experiment.Runner;
 
 import java.io.*;
@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by spirals on 21/04/16.
  */
-public class TorrentManager extends OracleManager<String> {
+public class TorrentManagerImpl extends OracleManagerImpl<String> {
 
     public static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
 
@@ -34,7 +34,7 @@ public class TorrentManager extends OracleManager<String> {
 
     private static FilenameFilter filter = (dir, name) -> name.endsWith(".torrent");
 
-    public TorrentManager(int seed) {
+    public TorrentManagerImpl(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " files of " + Runner.sizeOfEachTask + " chararacters\n";
         super.header += "Random characters generated with " + seedForGenTask + " as seed\n";
@@ -44,7 +44,7 @@ public class TorrentManager extends OracleManager<String> {
         initTracker();
     }
 
-    public TorrentManager() {
+    public TorrentManagerImpl() {
         super();
         super.header = Runner.numberOfTask + " files of " + Runner.sizeOfEachTask + " chararacters\n";
         super.header += "Random characters generated with " + seedForGenTask + " as seed\n";

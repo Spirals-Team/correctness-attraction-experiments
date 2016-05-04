@@ -1,7 +1,7 @@
 package sudoku;
 
 import experiment.Oracle;
-import experiment.OracleManager;
+import experiment.OracleManagerImpl;
 import experiment.Runner;
 
 import java.io.BufferedReader;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class SudokuManager extends OracleManager<int[][]> {
+public class SudokuManagerImpl extends OracleManagerImpl<int[][]> {
 
     private List<int[][]> grids;
 
@@ -21,7 +21,7 @@ public class SudokuManager extends OracleManager<int[][]> {
 
     private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
 
-    public SudokuManager(int seed) {
+    public SudokuManagerImpl(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " sudoku grid \n";
         super.header += "Those grid are read from file in resources/sudoku/grid.txt\n";
@@ -33,7 +33,7 @@ public class SudokuManager extends OracleManager<int[][]> {
         }
     }
 
-    public SudokuManager() {
+    public SudokuManagerImpl() {
         super();
         super.header = Runner.numberOfTask + " sudoku grid \n";
         super.header += "Those grid are read from file in resources/sudoku/grid.txt\n";

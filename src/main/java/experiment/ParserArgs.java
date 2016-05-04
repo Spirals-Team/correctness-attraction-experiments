@@ -1,9 +1,9 @@
 package experiment;
 
 import bitcoin.BitcoinCallable;
-import bitcoin.BitcoinManager;
+import bitcoin.BitcoinManagerImpl;
 import classifier.BayesCallable;
-import classifier.BayesManager;
+import classifier.BayesManagerImpl;
 import com.turn.ttorrent.bcodec.BDecoder;
 import experiment.exploration.BooleanExplorationNegation;
 import experiment.exploration.Exploration;
@@ -12,30 +12,30 @@ import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.*;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
-import md5.MD5Manager;
+import md5.MD5ManagerImpl;
 import mersenne.MersenneCallableImpl;
-import mersenne.MersenneManager;
+import mersenne.MersenneManagerImpl;
 import mersenne.MersenneTwisterInstr;
 import optimizer.OptimizerCallableImpl;
-import optimizer.OptimizerManager;
+import optimizer.OptimizerManagerImpl;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
 import org.bitcoinj.core.ECKey;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
-import quicksort.QuickSortManager;
+import quicksort.QuickSortManagerImpl;
 import rsa.RSACallable;
-import rsa.RSAManager;
+import rsa.RSAManagerImpl;
 import sudoku.SudokuCallableImpl;
 import sudoku.SudokuInstr;
-import sudoku.SudokuManager;
+import sudoku.SudokuManagerImpl;
 import torrent.TorrentCallable;
-import torrent.TorrentManager;
+import torrent.TorrentManagerImpl;
 import weka.experiment.CrossValidationResultProducer;
 import weka.experiment.Experiment;
 import zip.LZWInstr;
 import zip.ZipCallableImpl;
-import zip.ZipManager;
+import zip.ZipManagerImpl;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -232,35 +232,35 @@ public class ParserArgs {
     private static void buildSubject(int index, String[] args) {
         switch (args[index]) {
             case "zip":
-                Runner.setup(LZWInstr.class, ZipCallableImpl.class, new ZipManager(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
+                Runner.setup(LZWInstr.class, ZipCallableImpl.class, new ZipManagerImpl(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
                 break;
             case "torrent":
-                Runner.setup(BDecoder.class, TorrentCallable.class, new TorrentManager(), 0.5f, 1, typePerturbed != null ? typePerturbed : "Numerical", String.class);
+                Runner.setup(BDecoder.class, TorrentCallable.class, new TorrentManagerImpl(), 0.5f, 1, typePerturbed != null ? typePerturbed : "Numerical", String.class);
                 break;
             case "mersenne":
             case "mt":
-                Runner.setup(MersenneTwisterInstr.class, MersenneCallableImpl.class, new MersenneManager(), typePerturbed != null ? typePerturbed : "Numerical", Long.class);
+                Runner.setup(MersenneTwisterInstr.class, MersenneCallableImpl.class, new MersenneManagerImpl(), typePerturbed != null ? typePerturbed : "Numerical", Long.class);
                 break;
             case "md5":
-                Runner.setup(MD5Instr.class, MD5CallableImpl.class, new MD5Manager(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
+                Runner.setup(MD5Instr.class, MD5CallableImpl.class, new MD5ManagerImpl(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
                 break;
             case "bitcoin":
             case "bc":
-                Runner.setup(ECKey.class, BitcoinCallable.class, new BitcoinManager(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
+                Runner.setup(ECKey.class, BitcoinCallable.class, new BitcoinManagerImpl(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
                 break;
             case "classifier":
             case "bayes":
-                Runner.setup(CrossValidationResultProducer.class, BayesCallable.class, new BayesManager(), typePerturbed != null ? typePerturbed : "Numerical", Experiment.class);
+                Runner.setup(CrossValidationResultProducer.class, BayesCallable.class, new BayesManagerImpl(), typePerturbed != null ? typePerturbed : "Numerical", Experiment.class);
                 break;
             case "sudoku":
-                Runner.setup(SudokuInstr.class, SudokuCallableImpl.class, new SudokuManager(), typePerturbed != null ? typePerturbed : "Numerical", int[][].class);
+                Runner.setup(SudokuInstr.class, SudokuCallableImpl.class, new SudokuManagerImpl(), typePerturbed != null ? typePerturbed : "Numerical", int[][].class);
                 break;
             case "cipher":
             case "rsa":
                 Class rsaCoreEngine = null;
                 try {
                     rsaCoreEngine = ParserArgs.class.getClassLoader().loadClass("org.bouncycastle.crypto.engines.RSACoreEngine");
-                    Runner.setup(rsaCoreEngine, RSACallable.class, new RSAManager(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
+                    Runner.setup(rsaCoreEngine, RSACallable.class, new RSAManagerImpl(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -268,12 +268,12 @@ public class ParserArgs {
             case "simplex":
             case "optimizer":
             case "opt":
-                Runner.setup(SimplexSolverInstr.class, OptimizerCallableImpl.class, new OptimizerManager(), typePerturbed != null ? typePerturbed : "Numerical", OptimizationData[].class);
+                Runner.setup(SimplexSolverInstr.class, OptimizerCallableImpl.class, new OptimizerManagerImpl(), typePerturbed != null ? typePerturbed : "Numerical", OptimizationData[].class);
                 break;
             default:
             case "qs":
             case "quicksort":
-                Runner.setup(QuickSortInstr.class, QuickSortCallableImpl.class, new QuickSortManager(),
+                Runner.setup(QuickSortInstr.class, QuickSortCallableImpl.class, new QuickSortManagerImpl(),
                         typePerturbed != null ? typePerturbed : "Numerical", List.class);
                 break;
         }

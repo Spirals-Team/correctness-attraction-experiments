@@ -1,10 +1,9 @@
 package bitcoin;
 
 import experiment.Oracle;
-import experiment.OracleManager;
+import experiment.OracleManagerImpl;
 import experiment.Runner;
 import experiment.Tuple;
-import org.bitcoinj.core.Context;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.RegTestParams;
@@ -22,7 +21,7 @@ import java.util.Map;
  * Runner.numberOfTask is the number of tx, and Runner.sizeOfEachTask is the number of bitcoin node used in scenarios.
  *
  */
-public class BitcoinManager extends OracleManager<Tuple> {
+public class BitcoinManagerImpl extends OracleManagerImpl<Tuple> {
 
     private static Map<Integer, WalletAppKit> kits = new HashMap<>();
 
@@ -34,14 +33,14 @@ public class BitcoinManager extends OracleManager<Tuple> {
 
     static final int FEE_AMOUNT = 1;
 
-    public BitcoinManager(int seed) {
+    public BitcoinManagerImpl(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " random tx between " + Runner.sizeOfEachTask + " bitcoin nodes\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "bitcoin";
         initWallets();
     }
 
-    public BitcoinManager() {
+    public BitcoinManagerImpl() {
         super();
         super.header = Runner.numberOfTask + " random tx between " + Runner.sizeOfEachTask + " bitcoin nodes\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "bitcoin";

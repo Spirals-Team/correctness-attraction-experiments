@@ -4,19 +4,19 @@ import experiment.*;
 import experiment.exploration.IntegerExplorationPlusOne;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
-import md5.MD5Manager;
+import md5.MD5ManagerImpl;
 import mersenne.MersenneCallableImpl;
-import mersenne.MersenneManager;
+import mersenne.MersenneManagerImpl;
 import mersenne.MersenneTwisterInstr;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
-import quicksort.QuickSortManager;
+import quicksort.QuickSortManagerImpl;
 import zip.LZWInstr;
 import zip.ZipCallableImpl;
-import zip.ZipManager;
+import zip.ZipManagerImpl;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -143,9 +143,9 @@ public class TaskNumberExplorer extends CallExplorer {
             int nbTask = numberOfTask[i];
             System.out.println("Number of task : \t" + nbTask + "\t" +Util.getStringPerc(i, numberOfTask.length));
             Runner.numberOfTask = nbTask;
-            OracleManager manager = null;
+            OracleManagerImpl manager = null;
             try {
-                manager = (OracleManager) classManager.getConstructor().newInstance();
+                manager = (OracleManagerImpl) classManager.getConstructor().newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -157,12 +157,12 @@ public class TaskNumberExplorer extends CallExplorer {
 
     public static void main(String[] args) {
         System.out.println("Quicksort");
-        TaskNumberExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManager.class, "Numerical", List.class);
+        TaskNumberExplorer.run(QuickSortInstr.class, QuickSortCallableImpl.class, QuickSortManagerImpl.class, "Numerical", List.class);
         System.out.println("MD5");
-        TaskNumberExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5Manager.class, "Numerical", String.class);
+        TaskNumberExplorer.run(MD5Instr.class, MD5CallableImpl.class, MD5ManagerImpl.class, "Numerical", String.class);
         System.out.println("MT");
-        TaskNumberExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManager.class,"Numerical", Long.class);
+        TaskNumberExplorer.run(MersenneTwisterInstr.class, MersenneCallableImpl.class, MersenneManagerImpl.class,"Numerical", Long.class);
         System.out.println("LZW");
-        TaskNumberExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManager.class, "Numerical", String.class);
+        TaskNumberExplorer.run(LZWInstr.class, ZipCallableImpl.class, ZipManagerImpl.class, "Numerical", String.class);
     }
 }

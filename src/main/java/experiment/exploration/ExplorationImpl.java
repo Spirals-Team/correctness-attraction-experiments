@@ -5,7 +5,7 @@ import perturbation.perturbator.Perturbator;
 import java.util.List;
 
 /**
- * Created by beyni on 01/05/16.
+ * Created by spirals on 01/05/16.
  */
 public abstract class ExplorationImpl implements Exploration {
 

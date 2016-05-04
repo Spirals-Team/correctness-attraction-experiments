@@ -5,15 +5,11 @@ import experiment.exploration.IntegerExplorationPlusOne;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
-import quicksort.QuickSortCallableImpl;
-import quicksort.QuickSortInstr;
-import quicksort.QuickSortManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by bdanglot on 02/05/16.
@@ -142,9 +138,9 @@ public class TaskSizeExplorer extends CallExplorer {
             int size = sizeOfTask[i];
             System.out.println("Size of task : \t" + size + "\t" +Util.getStringPerc(i, sizeOfTask.length));
             Runner.sizeOfEachTask = size;
-            OracleManager manager = null;
+            OracleManagerImpl manager = null;
             try {
-                manager = (OracleManager) classManager.getConstructor().newInstance();
+                manager = (OracleManagerImpl) classManager.getConstructor().newInstance();
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -1,7 +1,7 @@
 package quicksort;
 
 import experiment.Oracle;
-import experiment.OracleManager;
+import experiment.OracleManagerImpl;
 import experiment.Runner;
 
 import java.util.ArrayList;
@@ -10,15 +10,15 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class QuickSortManager extends OracleManager<List<Integer>> {
+public class QuickSortManagerImpl extends OracleManagerImpl<List<Integer>> {
 
-    public QuickSortManager(int seed) {
+    public QuickSortManagerImpl(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "quicksort";
     }
 
-    public QuickSortManager() {
+    public QuickSortManagerImpl() {
         super();
         super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "quicksort";

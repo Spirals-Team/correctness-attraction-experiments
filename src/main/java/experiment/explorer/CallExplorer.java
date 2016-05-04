@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by beyni on 30/04/16.
+ * Created by spirals on 30/04/16.
  */
 public class CallExplorer extends ExplorerImpl {
 
@@ -29,7 +29,7 @@ public class CallExplorer extends ExplorerImpl {
     }
 
     @Override
-    public void init() {
+    public void initLogger() {
         //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
         Logger.init(Runner.locations.size(), Runner.numberOfTask, perturbators.size());
         PerturbationEngine.loggers.put(name, new LoggerImpl());
@@ -133,7 +133,7 @@ public class CallExplorer extends ExplorerImpl {
 
                     resultForLocation = resultForLocation.add(result);
                 }
-                Explorer.addToFragilityList(resultForLocation, resultForLocation.total(), location, locationExceptionFragile, locationSuperAntiFragile,
+                Logger.addToFragilityList(resultForLocation, resultForLocation.total(), location, locationExceptionFragile, locationSuperAntiFragile,
                         locationAntiFragile, locationOracleFragile);
             }
             writer.close();
@@ -184,6 +184,15 @@ public class CallExplorer extends ExplorerImpl {
                 }
                 writer.close();
             }
+
+            Logger.writeListOnGivenFile(pathToOutPutFile + "_anti_fragile.txt",
+                    "List of ids antifragile points.", locationAntiFragile);
+            Logger.writeListOnGivenFile(pathToOutPutFile + "_super_anti_fragile.txt",
+                    "List of ids antifragile points.", locationSuperAntiFragile);
+            Logger.writeListOnGivenFile(pathToOutPutFile + "_oracle_fragile.txt",
+                    "list ids of oracle fragile code : >" + Logger.TOLERANCE +"% of oracle failures", locationOracleFragile);
+            Logger.writeListOnGivenFile(pathToOutPutFile + "_exception_fragile.txt",
+                    "list ids of exception fragile code : >" + Logger.TOLERANCE +"% of exceptions.", locationExceptionFragile);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -3,8 +3,6 @@ package experiment;
 import experiment.explorer.*;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
-import perturbation.perturbator.AddNPerturbatorImpl;
-import perturbation.perturbator.InvPerturbatorImpl;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ import java.util.stream.Collectors;
 public class Runner {
 
     public static Oracle oracle;
-    public static OracleManager manager;
+    public static OracleManagerImpl manager;
     public static Class<?> CUP;// Class Under Perturbation
     public static Class<?> classCallable;
     public static Constructor constructorRunner;
@@ -36,7 +34,7 @@ public class Runner {
         explorer = explorerUnderPerturbation;
         System.out.println("Run " + explorer + " on " + CUP.getSimpleName() + " ...");
         filterLocation(explorer.getTypeOfExploration());
-        explorer.init();
+        explorer.initLogger();
         for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
             runLocations(indexOfTask);
         }
@@ -84,7 +82,7 @@ public class Runner {
     }
 
     public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable,
-                             OracleManager manager, float percentage, int indexPercentage,String locationType, Class<?>... inputTypes) {
+                             OracleManagerImpl manager, float percentage, int indexPercentage, String locationType, Class<?>... inputTypes) {
         CUP = classUnderPerturbation;
         Runner.classCallable = classCallable;
         Runner.manager = manager;
@@ -108,7 +106,7 @@ public class Runner {
      * @param manager
      * @param inputTypes
      */
-    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManager manager, String locationType, Class<?>... inputTypes) {
+    public static void setup(Class<?> classUnderPerturbation, Class<?> classCallable, OracleManagerImpl manager, String locationType, Class<?>... inputTypes) {
         CUP = classUnderPerturbation;
         Runner.classCallable = classCallable;
         Runner.manager = manager;

@@ -1,22 +1,22 @@
 package mersenne;
 
 import experiment.Oracle;
-import experiment.OracleManager;
+import experiment.OracleManagerImpl;
 import experiment.Runner;
 
 /**
  * Created by spirals on 19/04/16.
  */
-public class MersenneManager extends OracleManager<Long> {
+public class MersenneManagerImpl extends OracleManagerImpl<Long> {
 
-    public MersenneManager(int seed) {
+    public MersenneManagerImpl(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " list of " + Runner.sizeOfEachTask + " number\n";
         super.header += "Random numbers generated with " + seedForGenTask + " as seed\n";
         super.path = "mersenne";
     }
 
-    public MersenneManager() {
+    public MersenneManagerImpl() {
         super();
         super.header = Runner.numberOfTask + " list of " + Runner.sizeOfEachTask + " number\n";
         super.header += "Random numbers generated with " + seedForGenTask + " as seed\n";

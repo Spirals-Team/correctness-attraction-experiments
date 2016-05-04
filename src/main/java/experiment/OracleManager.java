@@ -1,57 +1,29 @@
 package experiment;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 /**
- * Created by spirals on 05/04/16.
+ * T : generic input type of subject
  */
+public interface OracleManager<T> {
 
-/**
- * OracleManager
- * @param <T>
- */
-public abstract class OracleManager<T> {
+    /**
+     * getter of task of type T
+     * @param index
+     * @return
+     */
+    T get(int index);
 
-    public int seedForGenTask;
+    Oracle<T, ?> getOracle();
 
-    protected String path;
+    /**
+     * the path to identify where logs of the subject will be print
+     * @return
+     */
+    String getPath();
 
-    protected String header;
-
-    protected List<T> scenario;
-
-    protected Random randomForGenTask;
-
-    public OracleManager(int seed) {
-        this.seedForGenTask = seed;
-        this.randomForGenTask = new Random(seedForGenTask);
-        scenario = new ArrayList<>();
-        while (scenario.size() < Runner.numberOfTask)
-            scenario.add(generateOneTask());
-    }
-
-    public OracleManager() {
-        this(23);
-    }
-
-    protected abstract T generateOneTask();
-
-    public abstract T get(int index);
-
-    public abstract Oracle<T, ?> getOracle();
-
-    public String getPath() {
-        return path;
-    }
-
-    public String getHeader() {
-        return this.header;
-    }
-
-
-
-
+    /**
+     * Identification of the oracle used
+     * @return
+     */
+    String getHeader();
 
 }

@@ -1,6 +1,11 @@
 package experiment;
 
 import perturbation.PerturbationEngine;
+import perturbation.location.PerturbationLocation;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by spirals on 13/04/16.
@@ -82,6 +87,37 @@ public class Logger {
         tuple.set(4, PerturbationEngine.loggers.get(name).getEnactions(Runner.locations.get(indexLocation)));
         tuple.set(5, 1);
         results[indexLocation][indexTask][indexParameters][indexEnactor] = results[indexLocation][indexTask][indexParameters][indexEnactor].add(tuple);
+    }
+
+    @Deprecated
+    public static double TOLERANCE = 70.0f;
+
+    @Deprecated
+    public static void addToFragilityList(Tuple result, int total, PerturbationLocation location,
+                                   List<PerturbationLocation> locationExceptionFragile, List<PerturbationLocation> locationSuperAntiFragile,
+                                   List<PerturbationLocation> locationAntiFragile , List<PerturbationLocation> locationOracleFragile) {
+        if (result.get(0) == total && result.get(0) != 0)//Super - Antifragile
+            locationSuperAntiFragile.add(location);
+        else if (Util.perc(result.get(0), total) >= TOLERANCE)//AntiFragile
+            locationAntiFragile.add(location);
+        else if (Util.perc(result.get(1), total) >= TOLERANCE)//OracleFragile
+            locationOracleFragile.add(location);
+        else if (Util.perc(result.get(2), total) >= TOLERANCE)//ExceptionFragile
+            locationExceptionFragile.add(location);
+    }
+
+    @Deprecated
+    public static void writeListOnGivenFile(String pathToFile, String header, List<PerturbationLocation> locations) {
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(pathToFile , false);
+            writer.write(header + "\n");
+            for (PerturbationLocation location : locations)
+                writer.write(location.getLocationIndex() + " ");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,21 +1,21 @@
 package rsa;
 
 import experiment.Oracle;
-import experiment.OracleManager;
+import experiment.OracleManagerImpl;
 import experiment.Runner;
 
 /**
  * Created by bdanglot on 29/04/16.
  */
-public class RSAManager extends OracleManager<String> {
+public class RSAManagerImpl extends OracleManagerImpl<String> {
 
-    public RSAManager(int seed) {
+    public RSAManagerImpl(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " characters\nGenerated with " + super.seedForGenTask + " as seed\n";
         super.path = "rsa";
     }
 
-    public RSAManager() {
+    public RSAManagerImpl() {
         super();
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " characters\nGenerated with " + super.seedForGenTask + " as seed\n";
         super.path = "rsa";
