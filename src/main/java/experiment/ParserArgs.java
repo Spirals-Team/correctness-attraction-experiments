@@ -97,22 +97,22 @@ public class ParserArgs {
         if ((currentIndex = getIndexOfOption("-exp", args)) != -1) {
             buildExp(currentIndex + 1, args);
         } else {
-            Runner.explorers.add(new CallExplorer(new IntegerExplorationPlusOne()));
-            Runner.explorers.add(new CallExplorer(new IntegerExplorationPlusMagnitude()));
-            Runner.explorers.add(new RandomExplorer(new IntegerExplorationPlusOne()));
-            Runner.explorers.add(new CallExplorer(new BooleanExplorationNegation()));
-            Runner.explorers.add(new RandomExplorer(new BooleanExplorationNegation()));
-        }
-
-        if ((currentIndex = getIndexOfOption("-run", args)) !=  -1) {
-            run(currentIndex + 1, args);
+            if ((currentIndex = getIndexOfOption("-run", args)) !=  -1) {
+                run(currentIndex + 1, args);
+            } else {
+                Runner.explorers.add(new CallExplorer(new IntegerExplorationPlusOne()));
+                Runner.explorers.add(new CallExplorer(new IntegerExplorationPlusMagnitude()));
+                Runner.explorers.add(new RandomExplorer(new IntegerExplorationPlusOne()));
+                Runner.explorers.add(new CallExplorer(new BooleanExplorationNegation()));
+                Runner.explorers.add(new RandomExplorer(new BooleanExplorationNegation()));
+            }
         }
 
     }
 
     private static void run(int index, String[] args) {
         int currentIndex = index;
-        while (!args[currentIndex].startsWith("-") || currentIndex < args.length) {
+        while (currentIndex < args.length && !args[currentIndex].startsWith("-")) {
             switch (args[currentIndex]) {
                 case "tasknumber":
                     runNumberTask();
@@ -129,7 +129,7 @@ public class ParserArgs {
 
         int currentIndex = index;
 
-        while (!args[currentIndex].startsWith("-") || currentIndex < args.length) {
+        while (currentIndex < args.length && !args[currentIndex].startsWith("-")) {
             switch (args[currentIndex]) {
                 case "rnd":
                     currentIndex = buildRnd(currentIndex + 1, args);
@@ -251,6 +251,7 @@ public class ParserArgs {
                 break;
             case "simplex":
             case "optimizer":
+            case "opt":
                 Runner.setup(SimplexSolverInstr.class, OptimizerCallableImpl.class, new OptimizerManager(), typePerturbed != null ? typePerturbed : "Numerical", OptimizationData[].class);
                 break;
             default:
