@@ -176,7 +176,7 @@ public class RandomExplorer extends ExplorerImpl {
             for (int indexPerturbator = 0 ; indexPerturbator < numberOfPerturbor ; indexPerturbator++) {
                 for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
-                    writer = new FileWriter(pathToOutPutFile + "_per_location_" + perturbatorsName[indexPerturbator] +  randomRates[indexRandomRates] + "_"  + ".txt", false);
+                    writer = new FileWriter(pathToOutPutFile + "_per_location_" + perturbatorsName[indexPerturbator] + "_" +  randomRates[indexRandomRates] + "_"  + ".txt", false);
                     writer.write("aggregate data per location for random rate = " + randomRates[indexRandomRates] + " and with " + exploration.getColumnName()+" = " + perturbatorsName[indexPerturbator] + "\n");
                     writer.write(exploration.getHeader() + Runner.manager.getHeader());
                     writer.write(String.format(format,
