@@ -27,24 +27,43 @@ def buildHeatMap(subject):
         for zy in range(len(y)):
             currentIntensity = []
             for zx in range(len(x)):
-                currentIntensity.append(int(float(' '.join(lines[i + zx].split()).split(" ")[-1].replace(',', '.'))))
+                perc = float(' '.join(lines[i + zx].split()).split(" ")[-1].replace(',', '.'))
+                if perc == perc:
+                    currentIntensity.append(int(perc))
+                else:
+                    currentIntensity.append(100)
+
             intensity.append(currentIntensity)
             i = i + len(y) + 1
 
-        print(intensity)
 
-        intensity = np.array(intensity)
+        b = True
+        for intensities in intensity:
+            for intens in intensities:
+                b = b and intens == 100
 
-        fig = plt.figure()
-        ax = fig.add_axes((.1,.4,.8,.5))
-        plt.pcolormesh(mx, my, intensity)
-        plt.colorbar()
-        fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+".pdf")
-        fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+".jpeg")
-        ax.set_xscale('log')
-        ax.set_yscale('log')
-        fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+"_log.pdf")
-        fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+"_log.jpeg")
+        if not b:
+            print(intensity)
+
+            intensity = np.array(intensity)
+
+            fig = plt.figure()
+            ax = fig.add_axes((.1,.4,.8,.5))
+            box = ax.get_position()
+            ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+            plt.pcolormesh(my, mx, intensity, label="%Success")
+            plt.colorbar()
+            plt.xlabel("probability")
+            plt.ylabel("magnitude")
+            txt = "Heat map for the location " + str(currentLoca) + " on " + subject
+            text = fig.text(.1,.25,txt)
+            plt.title(subject)
+            fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+".pdf", bbox_extra_artists=(text,), bbox_inches='tight')
+            fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+".jpeg")
+            ax.set_xscale('log')
+            ax.set_yscale('log')
+            fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+"_log.pdf")
+            fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+"_log.jpeg")
 
 subjects=sys.argv[1:]
 for subject in subjects:
