@@ -49,33 +49,63 @@ public class OptimizerManager extends OracleManagerImpl<OptimizationData[]> {
 
     @Override
     protected OptimizationData[] generateOneTask() {
+        OptimizationData[] datas;
+
         int nbVariable = (int)(2+Runner.sizeOfEachTask*0.1f) + randomForGenTask.nextInt((int)(5+Runner.sizeOfEachTask*0.05f));
 
         int upperBound = 5+(int)(Runner.sizeOfEachTask*0.2f);
         int downBound = -2+(int)(Runner.sizeOfEachTask*0.1f);
 
         double[] rateObjectiveFunction = new double[nbVariable];
-        for (int i = 0; i < nbVariable; i++)
-            rateObjectiveFunction[i] = downBound + randomForGenTask.nextInt(upperBound);
-        LinearObjectiveFunction f = new LinearObjectiveFunction(rateObjectiveFunction, 0);
 
-        List<LinearConstraint> constraints = new ArrayList<>();
+        int cpt = 0;
 
-        for (int i = 0; i < nbVariable; i++) {
-            double[] rate = new double[nbVariable];
-            for (int j = 0; j < nbVariable; j++) {
-                if (i != j)
-                    rate[j] = ( downBound / 2 ) + randomForGenTask.nextInt(upperBound);
+        long time = System.currentTimeMillis();
+
+        do {
+
+            for (int i = 0; i < nbVariable; i++)
+                rateObjectiveFunction[i] = downBound + randomForGenTask.nextInt(upperBound);
+            LinearObjectiveFunction f = new LinearObjectiveFunction(rateObjectiveFunction, 0);
+
+            List<LinearConstraint> constraints = new ArrayList<>();
+
+            for (int i = 0; i < nbVariable; i++) {
+                double[] rate = new double[nbVariable];
+                for (int j = 0; j < nbVariable; j++) {
+                    if (i != j)
+                        rate[j] = (downBound / 2) + randomForGenTask.nextInt(upperBound);
+                }
+                int relation = -1 + randomForGenTask.nextInt(3);
+                Relationship relationship = relation == 0 ? Relationship.EQ : relation == 1 ? Relationship.GEQ : Relationship.LEQ;
+                constraints.add(new LinearConstraint(rate, relationship, (downBound / 2) + randomForGenTask.nextInt(upperBound)));
             }
-            int relation = -1 + randomForGenTask.nextInt(3);
-            Relationship relationship = relation == 0 ? Relationship.EQ : relation == 1 ? Relationship.GEQ : Relationship.LEQ;
-            constraints.add(new LinearConstraint(rate, relationship, ( downBound / 2 ) + randomForGenTask.nextInt(upperBound)));
-        }
 
-        return new OptimizationData[]{f, new LinearConstraintSet(constraints),
-                randomForGenTask.nextBoolean() ? GoalType.MAXIMIZE : GoalType.MINIMIZE,
-                new NonNegativeConstraint(true),
-                PivotSelectionRule.BLAND};
+
+            datas = new OptimizationData[]{f, new LinearConstraintSet(constraints),
+                    randomForGenTask.nextBoolean() ? GoalType.MAXIMIZE : GoalType.MINIMIZE,
+                    new NonNegativeConstraint(true),
+                    PivotSelectionRule.BLAND};
+
+            cpt++;
+
+        } while (!isOk(datas));
+
+        System.err.println(System.currentTimeMillis() - time);
+
+        System.err.println("number of Try " + cpt);
+
+        return datas;
+    }
+
+    private boolean isOk(OptimizationData [] datas) {
+        try {
+            SimplexSolverInstr solver = new SimplexSolverInstr();
+            solver.optimize(datas);
+        } catch(Exception e) {
+            return false;
+        }
+        return true;
     }
 
 
