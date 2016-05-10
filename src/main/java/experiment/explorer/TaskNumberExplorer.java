@@ -22,6 +22,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 /**
@@ -29,7 +32,7 @@ import java.util.List;
  */
 public class TaskNumberExplorer extends CallExplorer {
 
-    public static int[] numberOfTask = new int[]{1,2,5,10,25,50,100,200};
+    public static int[] numberOfTask = new int[]{1,2,5,10,25,50,100};
 
     private String header;
 
@@ -132,6 +135,7 @@ public class TaskNumberExplorer extends CallExplorer {
                 while ((line = buffer.readLine()) != null)
                     writer.write(line + "\n");
                 buffer.close();
+                Files.delete(Paths.get("results/" + Runner.manager.getPath() + "/NumberTaskExplorer_" + (location.getLocationIndex()) + ".txt"));
             }
             writer.close();
         } catch (IOException e){}

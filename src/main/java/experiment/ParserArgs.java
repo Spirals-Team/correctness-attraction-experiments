@@ -21,6 +21,9 @@ import optimizer.OptimizerManager;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
 import org.bitcoinj.core.ECKey;
+import org.bitcoinj.core.Message;
+import org.bitcoinj.crypto.DeterministicKey;
+import perturbation.location.PerturbationLocation;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
 import quicksort.QuickSortManager;
@@ -37,7 +40,7 @@ import zip.LZWInstr;
 import zip.ZipCallableImpl;
 import zip.ZipManager;
 
-import java.util.InputMismatchException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -46,6 +49,8 @@ import java.util.List;
 public class ParserArgs {
 
     private static String typePerturbed;
+
+    public static final List<PerturbationLocation> locations = new ArrayList<>();
 
     public static void parseArgs(String[] args) {
 
@@ -136,6 +141,13 @@ public class ParserArgs {
                         TaskSizeExplorer.sizeOfTask = arrayInteger;
                     runSizeTask();
                     break;
+                case "seed":
+                    if (arrayInteger != null)
+                        SeedExplorer.seeds = arrayInteger;
+                    runSeed();
+                    break;
+                default:
+                    usage();
             }
             currentIndex++;
         }
@@ -156,6 +168,8 @@ public class ParserArgs {
                 case "heatmap":
                 case "hm":
                     buildHeatMap();
+                    currentIndex++;
+                    break;
                 default:
                     usage();
             }
@@ -172,12 +186,19 @@ public class ParserArgs {
         TaskSizeExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed != null ? typePerturbed : "Numerical", Runner.inputType);
     }
 
+    private static void runSeed() {
+        assert Runner.CUP != null : "CUP must be initialized with -s cmd";
+        SeedExplorer.run(Runner.CUP, Runner.classCallable, Runner.manager.getClass(), typePerturbed != null ? typePerturbed : "Numerical", Runner.inputType);
+    }
+
     private static void buildHeatMap() {
         Runner.explorers.add(new HeatMapExplorer(new IntegerExplorationPlusMagnitude()));
     }
 
     private static int buildCall(int i, String[] args) {
         Exploration exploration = getExploration(i, args);
+        if (magnitude)
+            i++;
         i++;
         Runner.explorers.add(new CallExplorer(exploration));
         return i++;
@@ -265,7 +286,22 @@ public class ParserArgs {
                 break;
             case "bitcoin":
             case "bc":
-                Runner.setup(ECKey.class, BitcoinCallable.class, new BitcoinManager(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
+                locations.add(Message.__L2286);
+                locations.add(Message.__L2295);
+                locations.add(Message.__L2296);
+                locations.add(Message.__L2298);
+                locations.add(Message.__L2309);
+                locations.add(Message.__L2310);
+                locations.add(Message.__L2311);
+                locations.add(Message.__L2312);
+                locations.add(Message.__L2315);
+                locations.add(ECKey.__L1588);
+                locations.add(ECKey.__L1589);
+                locations.add(DeterministicKey.__L6751);
+                locations.add(DeterministicKey.__L6752);
+                locations.add(DeterministicKey.__L6753);
+                locations.add(DeterministicKey.__L6755);
+                Runner.setup(DeterministicKey.class, BitcoinCallable.class, new BitcoinManager(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
                 break;
             case "classifier":
             case "bayes":

@@ -10,13 +10,15 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Created by bdanglot on 02/05/16.
  */
 public class TaskSizeExplorer extends CallExplorer {
 
-    public static int[] sizeOfTask = new int[]{5,10,20,50,100,250};
+    public static int[] sizeOfTask = new int[]{5,10,20,50,100};
 
     private String header;
 
@@ -127,6 +129,7 @@ public class TaskSizeExplorer extends CallExplorer {
                 while ((line = buffer.readLine()) != null)
                     writer.write(line + "\n");
                 buffer.close();
+                Files.delete(Paths.get("results/" + Runner.manager.getPath() + "/"+name+"_" +  (location.getLocationIndex()) + ".txt"));
             }
             writer.close();
         } catch (IOException e){}

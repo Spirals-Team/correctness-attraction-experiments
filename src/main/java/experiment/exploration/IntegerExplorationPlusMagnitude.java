@@ -16,7 +16,7 @@ public class IntegerExplorationPlusMagnitude extends ExplorationImpl {
         if (magnitudes.length > 0)
             this.magnitudes = magnitudes;
         else
-            this.magnitudes = new int[]{1,2,5,10,20,50};
+            this.magnitudes = new int[]{1,5,10,20,50,75,100};
 
         super.names = new String[this.magnitudes.length];
         super.perturbators = new ArrayList<>();

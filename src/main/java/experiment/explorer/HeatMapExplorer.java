@@ -15,7 +15,9 @@ import java.io.IOException;
  */
 public class HeatMapExplorer extends RandomExplorer {
 
-    public HeatMapExplorer(Exploration exploration, float... randomRates) {
+    private static final float [] randomRates = new float[]{0.001f,0.005f,0.01f,0.05f,0.1f,0.5f,0.9f};
+
+    public HeatMapExplorer(Exploration exploration) {
         super(exploration, randomRates);
     }
 
@@ -26,10 +28,8 @@ public class HeatMapExplorer extends RandomExplorer {
 
         int numberOfPerturbor = exploration.getPerturbators().size();
         String[] perturbatorsName = exploration.getPerturbatorsName();
-        String campaignName = exploration.getName();
 
-        String pathToOutPutFile = "results/" + Runner.manager.getPath() + "/" +
-                campaignName + "_HeatMap.txt";
+        String pathToOutPutFile = "results/" + Runner.manager.getPath() + "/HeatMap.txt";
 
         try {
          /* Sum Arrays */

@@ -30,10 +30,21 @@ public class Runner {
 
     public static boolean verbose = false;
 
-    public static void run(Explorer explorerUnderPerturbation) {
-        explorer = explorerUnderPerturbation;
+    public static void run(Explorer explorerToBeRun) {
+        explorer = explorerToBeRun;
         System.out.println("Run " + explorer + " on " + CUP.getSimpleName() + " ...");
         filterLocation(explorer.getTypeOfExploration());
+        explorer.initLogger();
+        for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
+            runLocations(indexOfTask);
+        }
+        explorer.log();
+    }
+
+    public static void run(Explorer explorerToBeRun, List<PerturbationLocation> customLocations) {
+        explorer = explorerToBeRun;
+        System.out.println("Run " + explorer + " on " + CUP.getSimpleName() + " ...");
+        locations = customLocations;
         explorer.initLogger();
         for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
             runLocations(indexOfTask);
@@ -133,6 +144,9 @@ public class Runner {
 
     public static void main(String[] args) {
         ParserArgs.parseArgs(args);
-        runExplorers();
+        if (ParserArgs.locations.isEmpty())
+            runExplorers();
+        else
+            run(explorers.get(0), ParserArgs.locations);
     }
 }

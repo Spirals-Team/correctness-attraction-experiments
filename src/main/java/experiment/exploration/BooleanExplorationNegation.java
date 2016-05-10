@@ -12,7 +12,7 @@ public class BooleanExplorationNegation extends ExplorationImpl {
 
     public BooleanExplorationNegation() {
         super.names = new String[1];
-        super.names[0] = "!";
+        super.names[0] = "NEGB";
         super.perturbators = new ArrayList<>();
         super.perturbators.add(new InvPerturbatorImpl());
 
