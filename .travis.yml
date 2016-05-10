@@ -16,6 +16,6 @@ install:
   - ./src/script/install.sh
   - mvn compile
 script:
-   - ./src/script/run.sh
+   - mvn test
 #after_success:
 #- ./src/script/commit.sh
