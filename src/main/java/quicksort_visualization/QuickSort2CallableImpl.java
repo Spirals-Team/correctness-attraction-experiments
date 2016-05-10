@@ -2,21 +2,16 @@ package quicksort_visualization;
 
 import experiment.*;
 import experiment.exploration.IntegerExplorationPlusMagnitude;
-import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.CallExplorer;
 import experiment.explorer.Explorer;
-import experiment.explorer.RandomExplorer;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Created by spirals on 12/04/16.
@@ -24,20 +19,11 @@ import java.util.stream.Collectors;
 //@TODO refactor : not working anymore
 public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
-    static List<List<Integer>> lst = new ArrayList<>();
-
-    static Map<String, Map<PerturbationLocation, List<Integer>>> map = new HashMap<>();
+    static List<List<Integer>> paths = new ArrayList<>();
 
     static List<Integer> unperturbed = new ArrayList<>();
 
-    static String[] exp;
-
-    static Tuple[][][][][] resultsPerExp;
-
     static int [] magnitudes;
-    static float [] randomRates;
-
-    static int currentExp = 0;
 
     public QuickSort2CallableImpl(int[] input) {
         super(input);
@@ -50,30 +36,17 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
         LoggerExecPath.init(quicksort);
 
         quicksort.sort(0, this.input.length - 1);
-        PerturbationLocation currentLocation = Runner.locations.stream()
-                .filter(location ->
-                        !(location.getEnactor() instanceof NeverEnactorImpl))
-                .findFirst().get();
 
-        map.get(exp[currentExp]).put(currentLocation, LoggerExecPath.execPath);
-
-        lst.add(LoggerExecPath.execPath);
+        paths.add(LoggerExecPath.execPath);
         return quicksort.values;
-    }
-
-    public static void runExp(Explorer explorer) {
-        map.put(exp[currentExp], new HashMap<>());
-        Runner.run(explorer);
-        resultsPerExp[currentExp] = Logger.getResults();
-        currentExp++;
     }
 
     public static void main(String[] args) {
         /* only one array */
         Runner.numberOfTask = 1;
         Runner.numberOfSecondsToWait = 30;
-        OracleManager<int[]> manager = new QuickSort2Manager();
-        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, manager,"Numerical", int[].class);
+        OracleManager<int[]> manager = new QuickSort2Manager(192);
+        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, manager, "Numerical", int[].class);
         Runner.verbose = true;
 
         /* no Perturbation */
@@ -82,128 +55,75 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
         quicksort.sort(0, manager.get(0).length - 1);
         unperturbed = LoggerExecPath.execPath;
 
-        magnitudes = new int[]{1, 2, 5, 10, 20, 50};
-        exp = new String[magnitudes.length + randomRates.length];
-        resultsPerExp = new Tuple[magnitudes.length + randomRates.length][][][][];
+        magnitudes = new int[]{1, 2, 5, 10, 20, 50, 75, 100};
 
-        Explorer[] addNExplorers = new Explorer[magnitudes.length];
-        for (int indexMagnitude = 0; indexMagnitude < magnitudes.length; indexMagnitude++) {
-            addNExplorers[indexMagnitude] = new CallExplorer(new IntegerExplorationPlusMagnitude(magnitudes[indexMagnitude]));
-            exp[indexMagnitude] = "ADD" + magnitudes[indexMagnitude];
-        }
+        Runner.run(new CallExplorer(new IntegerExplorationPlusMagnitude(magnitudes)));
 
-        /* Run AddNExplorer */
-        for (Explorer explorer : addNExplorers) {
-            runExp(explorer);
-        }
-
-        logAll();
-        logExp();
+        log();
     }
 
-    public static void logAll() {
+    public static List<List<Integer>> getFarthestPath(List<List<Integer>> lst) {
+
+        List<Integer> distances = new ArrayList<>();
+
+        for (List<Integer> path : lst) {
+            int distance = 0;
+            for (int i = 0 ; i <Math.min(path.size(), unperturbed.size()); i++)
+                distance += Math.abs(unperturbed.get(i) - path.get(i));
+            distances.add(distance);
+        }
+        List<List<Integer>> list = lst.stream()
+                .distinct()
+                .sorted((l1,l2) ->
+                        -distances.get(lst.indexOf(l1)).compareTo(distances.get(lst.indexOf(l2)))
+                ).collect(Collectors.toList());
+        System.out.println(list.size());
+        return list.subList(0, Math.min(300, list.size()));
+    }
+
+    private static void log() {
+
+        Collections.shuffle(paths.stream().distinct().collect(Collectors.toList())
+                , new java.util.Random(23));
+
+        List<List<Integer>> successes = paths.stream()
+                .filter(path -> path.get(path.size()-1) == 0)
+                .collect(Collectors.toList());
+
+        successes = getFarthestPath(successes);
+        successes = successes.subList(0, Math.min(successes.size(),600));
+
+        List<List<Integer>> failures = paths.stream()
+                .filter(path -> path.get(path.size()-1) != 0)
+                .collect(Collectors.toList());
+
+        failures = getFarthestPath(failures).subList(0, Math.min(successes.size(),600));
+
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/exec_path_all.txt", false);
-            final Random rnd = new Random(68);
 
-            lst = lst.stream().distinct().collect(Collectors.toList());
-            final double percentageToTake = (double) 1500 / (double) lst.size();
-            lst = lst.stream().filter(list -> rnd.nextFloat() < percentageToTake).collect(Collectors.toList());
+            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/exec_path.txt", false);
 
-            String out = "";
+            for (Integer pairs : unperturbed)
+                writer.write(pairs + " ");
+            writer.write("\n");
 
-            for (Integer value : unperturbed)
-                out += value + " ";
-            writer.write(out + "\n");
+            failures.addAll(successes);
+            Collections.shuffle(failures);
 
-            for (List<Integer> list : lst) {
-                out = "";
-                for (Integer value : list)
-                    out += value + " ";
-                writer.write(out + "\n");
+            for (List<Integer> failure : failures) {
+                for (Integer pairs : failure)
+                    writer.write(pairs + " ");
+                writer.write("\n");
             }
+
             writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
+        } catch (Exception e) {}
+
+
     }
 
-    public static void logExp() {
-        List<List<PerturbationLocation>> listOfLocation = new ArrayList<>();
-        for (int i = 0 ; i < magnitudes.length ; i++) {
-            listOfLocation.add(log(i));
-        }
-        logCampaign(listOfLocation, "ADD", 0);
-        listOfLocation.clear();
-        for (int i = 0 ; i < randomRates.length ; i++) {
-            listOfLocation.add(log(magnitudes.length+i));
-        }
-        logCampaign(listOfLocation, "RND", magnitudes.length);
-    }
 
-    public static void logCampaign(List<List<PerturbationLocation>> listOfListofLocations, String cmp, int offset) {
-        try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/exec_path_"+cmp+".txt", false);
-            String out = "Unperturbed ";
-            for (Integer value : unperturbed)
-                out += value + " ";
-            writer.write(out + "\n");
-//            Collections.shuffle(listOfListofLocations);
-            for (List<PerturbationLocation> locations : listOfListofLocations) {
-                int indexParameters = listOfListofLocations.indexOf(locations) + offset;
-                Map<PerturbationLocation, List<Integer>> mapCallsPerLocation = map.get(exp[indexParameters]);
-                for (PerturbationLocation location : locations) {
-                    int indexLoc = Runner.locations.indexOf(location);
-                    Tuple result = resultsPerExp[indexParameters][indexLoc][0][0][0];
-                    writer.write(exp[indexParameters]+"@"+location.getLocationIndex());
-                    writer.write("#" + result.get(4));
-                    for (Integer value : mapCallsPerLocation.get(location)) {
-                        writer.write(value + " ");
-                    }
-                    writer.write("\n");
-                }
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static List<PerturbationLocation> log(int i) {
-        List<PerturbationLocation> locSorted = null;
-        try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/exec_path_" + exp[i] + ".txt", false);
-            Map<PerturbationLocation, List<Integer>> mapCallsPerLocation = map.get(exp[i]);
-            List<Integer> distances = new ArrayList<>();
-            for (List<Integer> list : mapCallsPerLocation.values()) {
-                int distance = 0;
-                for (int index = 0; index < Math.min(unperturbed.size(), list.size()); index++) {
-                    distance += Math.abs(unperturbed.get(index) - list.get(index));
-                }
-                distances.add(distance);
-            }
-            final List<PerturbationLocation> locToBeSorted = new ArrayList<>(mapCallsPerLocation.keySet());
-            locSorted = locToBeSorted.stream()
-                    .distinct()
-                    .sorted((l1, l2) -> -distances.get(locToBeSorted.indexOf(l1)).compareTo(distances.get(locToBeSorted.indexOf(l2))))
-                    .collect(Collectors.toList());
-            String out = "Unperturbed ";
-            for (Integer value : unperturbed)
-                out += value + " ";
-            writer.write(out + "\n");
-            for (PerturbationLocation key : locSorted) {
-                out = key.getLocationIndex()  + " ";
-                for (Integer value : mapCallsPerLocation.get(key)) {
-                    out += value + " ";
-                }
-                writer.write(out + "\n");
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return locSorted;
-    }
 
 
 }
