@@ -140,18 +140,18 @@ public class CallExplorer extends ExplorerImpl {
 
             format = "%-30s %-30s";
             for (int indexPerturbator = 0; indexPerturbator < numberOfPerturbor; indexPerturbator++) {
-                writer = new FileWriter(pathToOutPutFile + "search_space_size_" + perturbatorsName[indexPerturbator] + ".txt", false);
+                writer = new FileWriter(pathToOutPutFile + "_search_space_size_" + perturbatorsName[indexPerturbator] + ".txt", false);
                 writer.write("detail of space for " + this.name + " with " + exploration.getColumnName() + " = " + perturbatorsName[indexPerturbator] + "\n");
                 writer.write(String.format(format, "number of Task : ", Runner.numberOfTask) + "\n");
                 writer.write(String.format(format, "number of Locations : ", Runner.locations.size()) + "\n");
-                writer.write(String.format(format, "number of Task done : ", searchSpaceSizePerMagnitude[indexPerturbator]) + "\n");
-                writer.write(String.format(format, "number of successful task : ", numberOfSuccessPerMagnitude[indexPerturbator]) + "\n");
+                writer.write(String.format(format, "number of executions done : ", searchSpaceSizePerMagnitude[indexPerturbator]) + "\n");
+                writer.write(String.format(format, "number of successful executions done : ", numberOfSuccessPerMagnitude[indexPerturbator]) + "\n");
                 writer.write(String.format(format, "% Success : ", Util.getStringPerc(numberOfSuccessPerMagnitude[indexPerturbator], searchSpaceSizePerMagnitude[indexPerturbator])) + "\n");
                 writer.close();
             }
 
             /* Sum PerturbationPoint */
-            format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-10s %-27s";
+            format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-17s %-10s %-27s";
             for (int indexPerturbator = 0; indexPerturbator < numberOfPerturbor; indexPerturbator++) {
                 writer = new FileWriter(pathToOutPutFile + "_per_location_" + perturbatorsName[indexPerturbator] + ".txt", false);
                 writer.write("aggregate data per location for " + exploration.getColumnName() + " = " + perturbatorsName[indexPerturbator] + "\n");
@@ -161,25 +161,26 @@ public class CallExplorer extends ExplorerImpl {
                         "#Success", "#Failure", "#Exception",
                         "#CallAllExecs", "AvgCallPerExec",
                         "#Perturbations", "AvgPerturbationPerExec",
-                        "#Execs", "#ExecsRef", "#Tasks", "%Success") + "\n");
+                        "#Execs", "#ExecsRef", "AvgCallRefPerTask",
+                        "#Tasks", "%Success") + "\n");
 
                 for (PerturbationLocation location : Runner.locations) {
                     Tuple result = new Tuple(6);
                     int accExecsRef = 0;
-                    int nbExecution = 0;
                     for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                         result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][0]);
                         accExecsRef += nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
-                        nbExecution += result.get(5);
                     }
-                    double avgCall = (double) result.get(3) / (double) nbExecution;
-                    double avgPerturbation = (double) result.get(4) / (double) nbExecution;
+                    double avgCall = (double) result.get(3) / (double) result.get(5);
+                    double avgPerturbation = (double) result.get(4) / (double) result.get(5);
+                    double avgCallRefPerTask = (double) accExecsRef / (Runner.numberOfTask);
 
                     writer.write(String.format(format, location.getLocationIndex(),
                             result.get(0), result.get(1), result.get(2),
                             result.get(3), String.format("%.2f", avgCall),
                             result.get(4), String.format("%.2f", avgPerturbation),
-                            accExecsRef, nbExecution, Runner.numberOfTask,
+                            result.get(5), accExecsRef, avgCallRefPerTask,
+                            Runner.numberOfTask,
                             result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 }
                 writer.close();
