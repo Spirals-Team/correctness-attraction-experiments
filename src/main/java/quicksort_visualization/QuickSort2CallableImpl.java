@@ -83,7 +83,6 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
         unperturbed = LoggerExecPath.execPath;
 
         magnitudes = new int[]{1, 2, 5, 10, 20, 50};
-        randomRates = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
         exp = new String[magnitudes.length + randomRates.length];
         resultsPerExp = new Tuple[magnitudes.length + randomRates.length][][][][];
 
@@ -93,20 +92,8 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
             exp[indexMagnitude] = "ADD" + magnitudes[indexMagnitude];
         }
 
-        Explorer[] IntegerAdd1RndEnactorExplorers = new Explorer[randomRates.length];
-        for (int indexRandomRate = 0; indexRandomRate < randomRates.length; indexRandomRate++) {
-            IntegerAdd1RndEnactorExplorers[indexRandomRate] = new RandomExplorer(new IntegerExplorationPlusOne(), randomRates[indexRandomRate]);
-            exp[magnitudes.length + indexRandomRate] = "RND" + randomRates[indexRandomRate];
-        }
-
-
         /* Run AddNExplorer */
         for (Explorer explorer : addNExplorers) {
-            runExp(explorer);
-        }
-
-        /* Run RndExplorer */
-        for (Explorer explorer : IntegerAdd1RndEnactorExplorers) {
             runExp(explorer);
         }
 
