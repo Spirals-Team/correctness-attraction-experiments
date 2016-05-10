@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class HeatMapExplorer extends RandomExplorer {
 
-    private static final float [] randomRates = new float[]{0.001f,0.005f,0.01f,0.05f,0.1f,0.5f,0.9f};
+    private static final float[] randomRates = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.025f, 0.3f};
 
     public HeatMapExplorer(Exploration exploration) {
         super(exploration, randomRates);
@@ -31,11 +31,17 @@ public class HeatMapExplorer extends RandomExplorer {
 
         String pathToOutPutFile = "results/" + Runner.manager.getPath() + "/HeatMap.txt";
 
+        String randomRatesAsString = "random rates : ";
+        for (float rate : super.randomRates)
+            randomRatesAsString += rate + " ";
+        randomRatesAsString += "\n";
+
+
         try {
          /* Sum Arrays */
             FileWriter writer = new FileWriter(pathToOutPutFile, false);
             writer.write("contains the data for the random rates analysis graph with " + exploration.getColumnName() + " as perturbator.\n");
-            writer.write(exploration.getHeader() + Runner.manager.getHeader());
+            writer.write(exploration.getHeader() + randomRatesAsString +  Runner.manager.getHeader());
             String format = "%-10s %-" + exploration.getColumnName().length() + "s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write(String.format(format,
                     "RandomRate", exploration.getColumnName(), "IndexLoc",
@@ -50,19 +56,19 @@ public class HeatMapExplorer extends RandomExplorer {
                     for (int indexPerturbator = 0; indexPerturbator < numberOfPerturbor; indexPerturbator++) {
                         for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                             result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][indexRandomRates]);
-
-                            writer.write(String.format(format,
-                                    randomRates[indexRandomRates], perturbatorsName[indexPerturbator], location.getLocationIndex(),
-                                    result.get(0), result.get(1), result.get(2),
-                                    result.get(3), result.get(4),
-                                    result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
-
                         }
+                        writer.write(String.format(format,
+                                randomRates[indexRandomRates], perturbatorsName[indexPerturbator], location.getLocationIndex(),
+                                result.get(0), result.get(1), result.get(2),
+                                result.get(3), result.get(4),
+                                result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+
                         resultForLocation = resultForLocation.add(result);
                     }
                 }
             }
             writer.close();
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
     }
 }

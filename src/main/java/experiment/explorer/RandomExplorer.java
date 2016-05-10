@@ -31,7 +31,7 @@ public class RandomExplorer extends ExplorerImpl {
     private int numberOfRepeat;
 
     public RandomExplorer(Exploration exploration) {
-        this(exploration, 5, 0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f);
+        this(exploration, 5, 0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f);
     }
 
     public RandomExplorer(Exploration exploration, float... randomRates) {
@@ -39,7 +39,7 @@ public class RandomExplorer extends ExplorerImpl {
     }
 
     public RandomExplorer(Exploration exploration, int numberOfRepeat) {
-        this(exploration, numberOfRepeat, 0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f);
+        this(exploration, numberOfRepeat, 0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f);
     }
 
     public RandomExplorer(Exploration exploration, int repeat, float... randomRates) {
@@ -47,7 +47,7 @@ public class RandomExplorer extends ExplorerImpl {
         if (randomRates.length >= 1)
             this.randomRates = randomRates;
         else
-            this.randomRates = new float[]{0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
+            this.randomRates = new float[]{0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f};
 
         this.numberOfRepeat = repeat;
 
@@ -109,6 +109,8 @@ public class RandomExplorer extends ExplorerImpl {
         for (float rate : this.randomRates)
             header += rate + " ";
         header += "\n";
+
+        header += numberOfRepeat + " repetition\n";
 
         try {
             /* All Log */
