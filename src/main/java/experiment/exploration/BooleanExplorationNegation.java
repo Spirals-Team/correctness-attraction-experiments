@@ -23,6 +23,8 @@ public class BooleanExplorationNegation extends ExplorationImpl {
         super.name = "BooleanNegation";
         super.header = "Exploration Boolean Negation\n";
 
+        Runner.filterLocation("Boolean");
+
         super.header += Runner.locations.size() + " perturbation point.\n";
         super.header += "NEGB : negation of boolean value.\n";
     }
