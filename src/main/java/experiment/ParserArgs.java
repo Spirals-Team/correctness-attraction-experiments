@@ -231,12 +231,12 @@ public class ParserArgs {
                     i++;
                 }
             } catch (NumberFormatException e) {
-                randomRate = new float[]{0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
+                randomRate = new float[]{ 0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f};
             }
         }
 
         if (randomRate == null)
-            randomRate = new float[]{0.001f, 0.01f, 0.05f, 0.1f, 0.5f, 0.9f};
+            randomRate = new float[]{0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f};
 
         Runner.explorers.add(new RandomExplorer(exploration, repeat, randomRate));
         return i;
@@ -275,7 +275,7 @@ public class ParserArgs {
                 Runner.setup(LZWInstr.class, ZipCallableImpl.class, new ZipManager(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
                 break;
             case "torrent":
-                Runner.setup(BDecoder.class, TorrentCallable.class, new TorrentManager(), 0.5f, 1, typePerturbed != null ? typePerturbed : "Numerical", String.class);
+                Runner.setup(BDecoder.class, TorrentCallable.class, new TorrentManager(), typePerturbed != null ? typePerturbed : "Numerical", String.class);
                 break;
             case "mersenne":
             case "mt":
