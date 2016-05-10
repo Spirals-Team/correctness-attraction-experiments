@@ -6,7 +6,7 @@ import sys
 def buildHeatMap(subject, indexLoc):
 
     lines = [line.rstrip('\n') for line in
-             open("results/" + subject + "/IntegerAddM_RandomExplorer_analysis_graph_data.txt")]
+             open("results/" + subject + "/HeatMap.txt")]
     magnitudes = ' '.join(lines[2].split()).split(" ")[3:]
     randoms = ' '.join(lines[5].split()).split(" ")[3:]
     numberOfLocation = ' '.join(lines[3].split()).split(" ")[0]
@@ -14,8 +14,8 @@ def buildHeatMap(subject, indexLoc):
     y = [float(rnd) for rnd in randoms]
     x = [int(mag) for mag in magnitudes]
 
-    print(x)
-    print(y)
+    print(x, len(x))
+    print(y, len(y))
 
     i = 9
     nbLocation = 0
@@ -23,6 +23,7 @@ def buildHeatMap(subject, indexLoc):
 
     for loc in range(int(numberOfLocation)):
         currentLoca = int(' '.join(lines[i].split()).split(" ")[2])
+        print(currentLoca)
         if len(indexLoc) == 0 or str(currentLoca) in indexLoc:
             intensity = []
             for zy in range(len(y)):
@@ -35,7 +36,7 @@ def buildHeatMap(subject, indexLoc):
                         currentIntensity.append(100)
 
                 intensity.append(currentIntensity)
-                i = i + len(y) + 1
+                i = i + len(x)
 
 
             b = True
@@ -44,7 +45,9 @@ def buildHeatMap(subject, indexLoc):
                     b = b and intens == 100
 
             if not b:
-                print(intensity)
+
+                for z in intensity:
+                    print(z, len(z))
 
                 intensity = np.array(intensity)
 
@@ -66,7 +69,7 @@ def buildHeatMap(subject, indexLoc):
                 fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+"_log.pdf")
                 fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+"_log.jpeg")
         else:
-            i = i + len(y) + 1
+            i = i + len(y)*len(x)
 
 
 subjects=sys.argv[1].split(":")

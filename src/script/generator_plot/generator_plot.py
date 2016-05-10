@@ -29,11 +29,10 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     perturbAll=[]
     indicesLocation=[]
     i = 8 + offsetStart
-    currentLoc = 0
 
     print(n)
 
-    while currentLoc != 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
+    while i < (numberOfLocation*len(n)):#numberOfLocation:
 
         perc=[]
         my_n = []
@@ -51,17 +50,20 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
             my_n.append(n[lines[i:i+len(n)].index(line)])
 
 
-        if not perc in percAll and len(perc) > 0 and [p == p for p in perc]:
+        if perc not in percAll and len(perc) > 0 and [p == p for p in perc]:
             indexOfLocation = ' '.join(lines[i].split()).split(" ")[columnLoc]
             indicesLocation.append(indexOfLocation)
             percAll.append(perc)
             nAll.append(my_n)
-            currentLoc += 1
             callAll.append(my_call)
             perturbAll.append(my_perturb)
 
         i+=len(n)
 
+    sortedPerc, indicesLocation = [list(x)[:10] for x in zip(*sorted(zip(percAll, indicesLocation), key=lambda pair: -pair[0][-1]))]
+    sortedPerc, callAll = [list(x)[:10] for x in zip(*sorted(zip(percAll, callAll), key=lambda pair: -pair[0][-1]))]
+    sortedPerc, perturbAll = [list(x)[:10] for x in zip(*sorted(zip(percAll, perturbAll), key=lambda pair: -pair[0][-1]))]
+    percAll, nAll = [list(x)[:10] for x in zip(*sorted(zip(percAll, nAll), key=lambda pair: -pair[0][-1]))]
 
     indexToCutAll = []
     for i in range(len(percAll)):
@@ -120,20 +122,24 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      nbPerturbAll=[]
      labelsAll=[]
      indicesLocation=[]
+     nbCallAll=[]
      i = 9
      currentLoc = 0
+     nbTask = int(' '.join(lines[6].split()).split(" ")[0])
 
      while currentLoc != 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
 
         perc=[]
         label=[]
         nbPerturb=[]
+        nbCall=[]
 
         for line in lines[i:i+len(n)]:
             point = float(' '.join(line.split()).split(" ")[-1].replace(',','.'))
             if point == point:
                 perc.append(point)
                 nbPerturb.append(int(' '.join(line.split()).split(" ")[7].replace(',','.')))
+                nbCall.append(int(' '.join(line.split()).split(" ")[6].replace(',','.')))
 
         label.append(str(' '.join(lines[i].split()).split(" ")[0].replace(',','.')))
         label.append(str(' '.join(lines[i+(len(n))/2].split()).split(" ")[0].replace(',','.')))
@@ -146,6 +152,7 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
             labelsAll.append(label)
             nbPerturbAll.append(nbPerturb)
             percAll.append(perc)
+            nbCallAll.append(nbCall)
 
             currentLoc += 1
 
@@ -153,19 +160,23 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
 
 
      sortedPerc, indicesLocation = [list(x) for x in zip(*sorted(zip(percAll, indicesLocation), key=lambda pair: -pair[0][0]))]
-     percAll, nbPerturbAll = [list(x) for x in zip(*sorted(zip(percAll, nbPerturbAll), key=lambda pair: -pair[0][0]))]
+     sortedPerc, nbPerturbAll = [list(x) for x in zip(*sorted(zip(percAll, nbPerturbAll), key=lambda pair: -pair[0][0]))]
+     percAll, nbCallAll = [list(x) for x in zip(*sorted(zip(percAll, nbCallAll), key=lambda pair: -pair[0][0]))]
 
      fig = plt.figure()
      ax = fig.add_axes((.1,.4,.8,.5))
      for i in range(len(percAll)):
          mid = len(percAll[i]) / 2
          color = colors_manager.getColor(int(indicesLocation[i]))
-         plt.plot(nbPerturbAll[i][len(nbPerturbAll[i])-len(percAll[i]):], percAll[i], color=color, marker='x', label=str(indicesLocation[i]+" "+ str(int(percAll[i][0]))+ " %"))
+         x = [float( float(nbPerturbAll[i][len(nbPerturbAll[i])-len(percAll[i]):][z]) / float(nbTask))
+              for z in range(len(nbCallAll[i][len(nbCallAll[i])-len(percAll[i]):]))]
+         plt.plot(x , percAll[i], color=color, marker='x', label=str(indicesLocation[i]+" "+ str(int(percAll[i][0]))+ " %"))
          for z in [0,-1,mid]:
-            ax.annotate(labelsAll[i][z if z != mid else 1], xy = (nbPerturbAll[i][z], percAll[i][z]),
+            x = float( float(nbPerturbAll[i][z]) / float(nbTask))
+            ax.annotate(labelsAll[i][z if z != mid else 1], xy = (x, percAll[i][z]),
                         xytext=(0.5, 5), textcoords='offset points', size=5)
 
-     plt.xlabel("Avg Perturbation Per Tasks")
+     plt.xlabel("Avg perturbation per task")
      plt.ylabel("% success")
      plt.title(subject)
 
@@ -177,14 +188,17 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      box = ax.get_position()
      ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
      lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-     ax.set_xscale('symlog')
      fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+".pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+".jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+     ax.set_xscale('symlog')
+     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+"_log.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+"_log.jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
 #subjects=["quicksort","zip","md5","sudoku","optimizer","mersenne"]
 subjects=sys.argv[1:]
 for subject in subjects:
+    print(subject)
     scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "intadd1_rnd" ,subject)
     scatterPlotSuccessNumPerturb("results/"+subject, "BooleanNegation_RandomExplorer_analysis_graph_data.txt", "boolinv_rnd", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAddM_CallExplorer_analysis_graph_data.txt", "magnitude_call" ,subject, 2, 3, 1)

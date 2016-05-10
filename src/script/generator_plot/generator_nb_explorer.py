@@ -76,8 +76,8 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
     fig = plt.figure()
     ax = fig.add_axes((.1,.4,.8,.5))
     for i in range(len(percAll)):
-        #cut = len(percAll[i])
-        cut = min(indexToCut, len(percAll[i]))
+        cut = len(percAll[i])
+        #cut = min(indexToCut, len(percAll[i]))
         plt.plot(nAll[i][:cut], percAll[i][:cut], marker='x', label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"))
     plt.xlabel(labelOfN)
     plt.ylabel("% success")

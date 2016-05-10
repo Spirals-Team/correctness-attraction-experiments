@@ -1,6 +1,8 @@
 from matplotlib import pyplot as plt
 
-def gen_all(path,file):
+import sys
+
+def gen_all(path,file,suffix):
     lines = [line.rstrip('\n') for line in open(path+"/"+file+".txt")]
 
     unperturbed = ' '.join(lines[0].split()).split(" ")
@@ -8,9 +10,7 @@ def gen_all(path,file):
 
     for line in lines[1:]:
         l = ' '.join(line.split()).split(" ")
-        print(len(l), len(unperturbed)+60)
-        if len(l) < len(unperturbed)+60:
-            p.append(l)
+        p.append(l)
 
     cptGreen = 0
     cptRed = 0
@@ -28,8 +28,8 @@ def gen_all(path,file):
     caption = "Perturbation envelope of quicksort on an array of 100 integers\n"
     caption += "In blue, the unperturbed execution,\n"
     caption += "in green, the "+ str(cptGreen)  +" perturbed execution that end with a success, and\n"
-    caption += "in light red, the "+ str(cptRed)  +" perturbed execution that end with a success with \n failure or exception among the 3 campaigns.\n"
-    caption += "This is a sample of 30% (" + str((cptGreen+1+cptRed)) + " execs) of all execution of the 3 campaigns."
+    caption += "in light red, the "+ str(cptRed)  +" perturbed execution that end with failure or exception among the 3 campaigns.\n"
+   # caption += "This is a sample of 30% (" + str((cptGreen+1+cptRed)) + " execs) of all execution of the 3 campaigns."
 
     text=fig.text(.1,-.1,caption)
     plt.plot(range(0,len(unperturbed)), unperturbed, 'b-', label="unperturbed", linewidth=1.5)
@@ -40,9 +40,9 @@ def gen_all(path,file):
 
     box = ax.get_position()
     ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-    fig.savefig(path+"/img/perturbationVisualization_All.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
+    fig.savefig(path+"/img/perturbationVisualization_All_"+suffix+".pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     ax.set_xscale('symlog')
-    fig.savefig(path+"/img/perturbationVisualization_All_log.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
+    fig.savefig(path+"/img/perturbationVisualization_All_log_"+suffix+".pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     plt.close(fig)
 
 def gen_all_per_xp(path, prefixe):
@@ -76,7 +76,7 @@ def gen_all_per_xp(path, prefixe):
         caption += "In blue, the unperturbed execution,\n"
         caption += "in green, the "+ str(cptGreen) +" perturbed execution that end with a success, and\n"
         caption += "in light red, the "+ str(cptRed) +" perturbed execution that end with a success with \n  failure or exception for the " +file + "exp.\n"
-        caption += "in total, there is " + str((cptGreen+1+cptRed)) + " executions."
+        #caption += "in total, there is " + str((cptGreen+1+cptRed)) + " executions."
 
         text=fig.text(.1,.1,caption)
         plt.plot(range(0,len(unperturbed)), unperturbed, 'b-', label="unperturbed", linewidth=1.5)
@@ -172,7 +172,7 @@ def gen_sample_for_all_exp(path, prefixename):
         fig.savefig(path+"/img/perturbationVisualization_"+file+".pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
         plt.close(fig)
 
-gen_all("results/quicksort-visualization", "exec_path_all")
-gen_all_per_xp("results/quicksort-visualization", "exec_path_")
-gen_sample_per_exp("results/quicksort-visualization", "exec_path_")
-gen_sample_for_all_exp("results/quicksort-visualization", "exec_path_")
+gen_all("results/quicksort-visualization", "exec_path", sys.argv[1])
+#gen_all_per_xp("results/quicksort-visualization", "exec_path_")
+#gen_sample_per_exp("results/quicksort-visualization", "exec_path_")
+#gen_sample_for_all_exp("results/quicksort-visualization", "exec_path_")
