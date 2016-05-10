@@ -49,7 +49,9 @@ public class BitcoinManager extends OracleManagerImpl<Tuple> {
 
     public void initWallets() {
 
-        BriefLogFormatter.initWithSilentBitcoinJ();
+        System.out.println("Init...");
+
+//        BriefLogFormatter.initWithSilentBitcoinJ();
 
         BitcoinToolbox.clean();
 
@@ -79,7 +81,7 @@ public class BitcoinManager extends OracleManagerImpl<Tuple> {
             amountOfWalletBeforeTask[i] = btcStringToBtcInt(kits.get(i).wallet().getBalance().toFriendlyString());
         }
 
-//        print();
+        print();
 
     }
 

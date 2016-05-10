@@ -32,6 +32,7 @@ public class Search {
             else if (isJava(subFile.getName())) {
                 try {
                     Class<?> clazz = loader.loadClass(currentPackage + "." + removeExt(subFile.getName()));
+                    System.out.println(currentPackage + "." + removeExt(subFile.getName()));
                     classes.add(clazz);
                 } catch (ClassNotFoundException e) {
                    continue;
@@ -52,6 +53,8 @@ public class Search {
         iterateFolders(project, packagaPath);
     }
 
+    private static final String pathToBicoinJDirectory = "./bitcoinj/core/src/main/java/org/";
+
     public static void main(String[] args) {
         try {
 
@@ -65,7 +68,9 @@ public class Search {
 //            String type = "Numerical";
             String type = "Boolean";
 
-            getAllClasses("./core/src/main/java/org/", "org");
+            getAllClasses(pathToBicoinJDirectory, "org");
+
+            classes.forEach(clazz -> System.out.println(clazz));
 
             final List<PerturbationLocation> locations = new ArrayList<>();
 
