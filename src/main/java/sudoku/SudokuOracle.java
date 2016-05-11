@@ -43,6 +43,7 @@ public class SudokuOracle implements Oracle<int[][],int[][]> {
 //                    return false;
 //            }
 //        }
+
         return true;
     }
 }

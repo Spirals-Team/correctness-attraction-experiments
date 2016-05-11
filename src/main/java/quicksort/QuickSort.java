@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by spirals on 21/03/16.
+ * Download from http://rosettacode.org/wiki/Rosetta_Code
  */
 public class QuickSort {
 

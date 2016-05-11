@@ -86,6 +86,12 @@ public class TorrentManager extends OracleManagerImpl<String> {
     }
 
     @Override
+    public String getPath() {
+        this.stop();
+        return super.getPath();
+    }
+
+    @Override
     protected String generateOneTask() {
         if (super.scenario.isEmpty())
             createDirectories();

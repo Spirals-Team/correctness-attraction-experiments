@@ -8,6 +8,8 @@ import sys
 this script is used to generate plot in results/<subject>/img/
 '''
 
+global padding
+
 
 def plot_increasingPerturbation_percentageSuccess(path, filename, output, subject, indexN, indexLoc, columnLoc, offsetStart=0):
 
@@ -73,7 +75,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
                 indexToCut -= 1
             else:
                 break;
-        indexToCutAll.append(indexToCut+1 if indexToCut < len(percAll[i]) - 1 else indexToCut)
+        indexToCutAll.append(indexToCut+1 if indexToCut < len(percAll[i]) else indexToCut)
 
     indexToCut = max(indexToCutAll)
 
@@ -86,7 +88,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     ax = fig.add_axes((.1,.4,.8,.5))
     for i in range(len(percAll)):
         cut = min(indexToCut, len(percAll[i]))
-        color = colors_manager.getColor(int(indicesLocation[i]))
+        color = colors_manager.getColor(int(indicesLocation[i]), p=padding)
         plt.plot(nAll[i][:cut], percAll[i][:cut], marker='x', label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"), color=color)
     plt.xlabel(labelOfN)
     plt.ylabel("% success")
@@ -115,7 +117,8 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
 def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      lines = [line.rstrip('\n') for line in open(path+"/"+filename)]
 
-     n = ' '.join(lines[4].split()).split(" ")[3:]
+     stepi = int(len(' '.join(lines[4].split()).split(" ")[3:]))
+     n = ' '.join(lines[4].split()).split(" ")[3:11]
      numberOfLocation = int(' '.join(lines[2].split()).split(" ")[0])
 
      repeat = int(' '.join(lines[5].split()).split(" ")[0])
@@ -160,7 +163,7 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
 
             currentLoc += 1
 
-        i+=len(n)
+        i+=stepi
 
      sortedPerc, indicesLocation = [list(x) for x in zip(*sorted(zip(percAll, indicesLocation), key=lambda pair: -pair[0][0]))]
      sortedPerc, nbPerturbAll = [list(x) for x in zip(*sorted(zip(percAll, nbPerturbAll), key=lambda pair: -pair[0][0]))]
@@ -170,7 +173,7 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      ax = fig.add_axes((.1,.4,.8,.5))
      for i in range(len(percAll)):
          mid = len(percAll[i]) / 2
-         color = colors_manager.getColor(int(indicesLocation[i]))
+         color = colors_manager.getColor(int(indicesLocation[i]), p=padding)
          x = [float(float(nbPerturbAll[i][len(nbPerturbAll[i])-len(percAll[i]):][z]) / nbExec)
               for z in range(len(nbCallAll[i][len(nbCallAll[i])-len(percAll[i]):]))]
          plt.plot(x , percAll[i], color=color, marker='x', label=str(indicesLocation[i]+" "+ str(int(percAll[i][0]))+ " %"))
@@ -199,7 +202,13 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      plt.close(fig)
 
 #subjects=["quicksort","zip","md5","sudoku","optimizer","mersenne"]
-subjects=sys.argv[1:]
+if sys.argv[1].isdigit():
+    padding = int(sys.argv[1])
+    subjects=sys.argv[2:]
+else:
+    padding = 3
+    subjects=sys.argv[1:]
+
 for subject in subjects:
     print(subject)
     scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "intadd1_rnd" ,subject)

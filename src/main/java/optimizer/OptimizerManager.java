@@ -32,14 +32,14 @@ public class OptimizerManager extends OracleManagerImpl<OptimizationData[]> {
     public OptimizerManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";
-        super.header += "linear problem come from test of commons.math lib\n";
+        super.header += "linear problem are generated randomly\n";
         super.path = "optimizer";
     }
 
     public OptimizerManager() {
         super();
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";
-        super.header += "linear problem come from test of commons.math lib\n";
+        super.header += "linear problem are generated randomly\n";
         super.path = "optimizer";
     }
 

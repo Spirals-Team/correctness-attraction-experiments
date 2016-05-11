@@ -13,8 +13,7 @@ for name, rgb in six.iteritems(colors.ColorConverter.colors):
     if str(hex_) not in blacklist_color:
         colors_.append((name, hex_))
 
-padding = 3
 colors_ = filter(lambda c: c[1] not in blacklist_color, colors_)
 
-def getColor(indexLoc):
-    return colors_[ (indexLoc + padding) % len(colors_)][1]
+def getColor(indexLoc, p = 3):
+    return colors_[ (indexLoc + p) % len(colors_)][1]

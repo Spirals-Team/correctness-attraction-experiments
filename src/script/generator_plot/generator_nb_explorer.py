@@ -1,5 +1,7 @@
 from matplotlib import pyplot as plt
 
+global padding
+
 import sys
 
 def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, logscale=False):
@@ -22,7 +24,7 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
 
     i = 9
 
-    while len(percAll) < 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
+    while i < (numberOfLocation*len(n)):#numberOfLocation:
 
         perc=[]
         my_n = []
@@ -42,21 +44,11 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
             indicesLocation.append(indexOfLocation)
             percAll.append(perc)
             nAll.append(my_n)
-        else:
-            percSave.append(perc)
-            nSave.append(my_n)
-            indexOfLocation = ' '.join(lines[i].split()).split(" ")[1]
-            indiceSave.append(indexOfLocation)
 
         i+=len(n)
 
-    while len(percAll) < 10:
-        headPerc, percSave = percSave[0], percSave[1:]
-        headN, nSave = nSave[0], nSave[1:]
-        headIndice, indiceSave = indiceSave[0], indiceSave[1:]
-        percAll.append(headPerc)
-        nAll.append(headN)
-        indicesLocation.append(headIndice)
+    sortedPerc, indicesLocation = [list(x)[:10] for x in zip(*sorted(zip(percAll, indicesLocation), key=lambda pair: -pair[0][-1]))]
+    percAll, nAll = [list(x)[:10] for x in zip(*sorted(zip(percAll, nAll), key=lambda pair: -pair[0][-1]))]
 
     indexToCutAll = []
     for i in range(len(percAll)):
@@ -78,7 +70,8 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
     for i in range(len(percAll)):
         cut = len(percAll[i])
         #cut = min(indexToCut, len(percAll[i]))
-        plt.plot(nAll[i][:cut], percAll[i][:cut], marker='x', label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"))
+        color = colors_manager.getColor(int(indicesLocation[i]), p=padding)
+        plt.plot(nAll[i][:cut], percAll[i][:cut], marker='x', color=color, label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"))
     plt.xlabel(labelOfN)
     plt.ylabel("% success")
     box = ax.get_position()
@@ -97,7 +90,12 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
     plt.close(fig)
 
 #subjects=["quicksort","md5","mersenne","zip"]
-subjects=sys.argv[1:]
+if sys.argv[1].isdigit():
+    padding = int(sys.argv[1])
+    subjects=sys.argv[2:]
+else:
+    padding = 3
+    subjects=sys.argv[1:]
 for subject in subjects:
     plot_increasingNbTask_percentageSuccess("results/"+subject, "NumberTaskExplorer.txt", "numberexplorer", subject)
 

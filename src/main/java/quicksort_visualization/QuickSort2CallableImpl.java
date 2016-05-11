@@ -32,11 +32,8 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
     @Override
     public int[] call() throws Exception {
         QuickSort2 quicksort = new QuickSort2(this.input);
-
         LoggerExecPath.init(quicksort);
-
         quicksort.sort(0, this.input.length - 1);
-
         paths.add(LoggerExecPath.execPath);
         return quicksort.values;
     }
@@ -57,7 +54,18 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
         magnitudes = new int[]{1, 2, 5, 10, 20, 50, 75, 100};
 
-        Runner.run(new CallExplorer(new IntegerExplorationPlusMagnitude(magnitudes)));
+        CallExplorer explorer = new CallExplorer(new IntegerExplorationPlusMagnitude(magnitudes));
+
+        Runner.run(explorer);
+
+        int[][] nbCAllRef = explorer.getNbCallReferencePerLocationPerTask();
+
+        int sumExecsRefs = 0;
+
+        for (int i = 0 ; i < Runner.locations.size() ; i++)
+            sumExecsRefs += nbCAllRef[i][0];
+
+        System.out.println(sumExecsRefs);
 
         log();
     }
@@ -77,7 +85,6 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
                 .sorted((l1,l2) ->
                         -distances.get(lst.indexOf(l1)).compareTo(distances.get(lst.indexOf(l2)))
                 ).collect(Collectors.toList());
-        System.out.println(list.size());
         return list.subList(0, Math.min(300, list.size()));
     }
 

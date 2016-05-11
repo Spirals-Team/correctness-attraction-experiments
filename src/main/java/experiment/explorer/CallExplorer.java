@@ -64,6 +64,10 @@ public class CallExplorer extends ExplorerImpl {
         return Runner.runPerturbation(indexOfTask);
     }
 
+    public int[][] getNbCallReferencePerLocationPerTask() {
+        return this.nbCallReferencePerLocationPerTask;
+    }
+
     @Override
     public void log() {
         Tuple[][][][] results = Logger.getResults();

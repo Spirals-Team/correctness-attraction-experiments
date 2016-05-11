@@ -1,5 +1,8 @@
-package torrent;
+package classifier;
 
+import bitcoin.BitcoinCallable;
+import bitcoin.BitcoinManager;
+import experiment.Runner;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
@@ -21,14 +24,21 @@ public class Search {
 
     public static List<Class> classes = new ArrayList<>();
 
-    public static void iterateFolders(String path, String currentPackage) throws ClassNotFoundException {
+    public static void iterateFolders(String path, String currentPackage) {
         File root = new File(path);
         assert root.listFiles() != null;
         for (File subFile : root.listFiles()) {
             if (subFile.isDirectory())
                 iterateFolders(path + subFile.getName() + "/", currentPackage + "." + subFile.getName());
-            else if (isJava(subFile.getName()))
-                classes.add(loader.loadClass(currentPackage + "." + removeExt(subFile.getName())));
+            else if (isJava(subFile.getName())) {
+                try {
+                    Class<?> clazz = loader.loadClass(currentPackage + "." + removeExt(subFile.getName()));
+                    System.out.println(currentPackage + "." + removeExt(subFile.getName()));
+                    classes.add(clazz);
+                } catch (ClassNotFoundException e) {
+                   continue;
+                }
+            }
         }
     }
 
@@ -44,9 +54,24 @@ public class Search {
         iterateFolders(project, packagaPath);
     }
 
+    private static final String pathToBicoinJDirectory = "./weka-3-8-0/src/src/main/java/weka";
+
     public static void main(String[] args) {
         try {
-            getAllClasses("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent");
+
+            Runner.numberOfSecondsToWait = 60;
+            Runner.sizeOfEachTask = 3;
+            Runner.numberOfTask = 2;
+            Runner.verbose = true;
+
+            PerturbationEngine.loggers.put("Bitcoin", new LoggerImpl());
+
+//            String type = "Numerical";
+            String type = "Boolean";
+
+            getAllClasses(pathToBicoinJDirectory, "org");
+
+            classes.forEach(clazz -> System.out.println(clazz));
 
             final List<PerturbationLocation> locations = new ArrayList<>();
 
@@ -54,29 +79,27 @@ public class Search {
                     locations.addAll(PerturbationLocationImpl.getLocationFromClass(clazz))
             );
 
-            PerturbationEngine.loggers.put("Torrent", new LoggerImpl());
-
-//            String type = "Numerical";
-            String type = "Boolean";
-
-            locations.stream()
-                    .filter(location -> location.getType().equals(type))
-                    .forEach(location -> PerturbationEngine.loggers.get("Torrent").logOn(location));
-
-            TorrentManager manager = new TorrentManager();
-            TorrentCallable callable = new TorrentCallable(manager.get(0));
+            BitcoinManager manager = new BitcoinManager();
+            BitcoinCallable callable = new BitcoinCallable(manager.get(0));
             ExecutorService executor = Executors.newSingleThreadExecutor();
-            Future future = executor.submit(callable);
-            future.get(60, TimeUnit.SECONDS);
-
-            final FileWriter writer = new FileWriter("results/torrent/output_search_torrent_"+type+".txt", false);
 
             locations.stream()
                     .filter(location -> location.getType().equals(type))
-                    .sorted((l1, l2) -> - (PerturbationEngine.loggers.get("Torrent").getCalls(l1) - PerturbationEngine.loggers.get("Torrent").getCalls(l2)))
+                    .forEach(location -> PerturbationEngine.loggers.get("Bitcoin").logOn(location));
+
+            Future future = executor.submit(callable);
+            long time = System.currentTimeMillis();
+            future.get(Runner.numberOfSecondsToWait, TimeUnit.SECONDS);
+            System.out.println(System.currentTimeMillis() - time + " ms");
+
+            final FileWriter writer = new FileWriter("results/bitcoin/output_search_bitcoin_"+type+".txt", false);
+
+            locations.stream()
+                    .filter(location -> location.getType().equals(type))
+                    .sorted((l1, l2) -> - (PerturbationEngine.loggers.get("Bitcoin").getCalls(l1) - PerturbationEngine.loggers.get("Bitcoin").getCalls(l2)))
                     .forEach(location -> {
                         try {
-                            writer.write(location + "\t" + PerturbationEngine.loggers.get("Torrent").getCalls(location) + "\n");
+                            writer.write(location + "\t" + PerturbationEngine.loggers.get("Bitcoin").getCalls(location) + "\n");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
