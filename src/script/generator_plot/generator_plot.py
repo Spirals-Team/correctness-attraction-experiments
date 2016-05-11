@@ -73,7 +73,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
                 indexToCut -= 1
             else:
                 break;
-        indexToCutAll.append(indexToCut)
+        indexToCutAll.append(indexToCut+1 if indexToCut < len(percAll[i]) - 1 else indexToCut)
 
     indexToCut = max(indexToCutAll)
 
