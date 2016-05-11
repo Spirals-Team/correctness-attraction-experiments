@@ -118,6 +118,11 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      n = ' '.join(lines[4].split()).split(" ")[3:]
      numberOfLocation = int(' '.join(lines[2].split()).split(" ")[0])
 
+     repeat = int(' '.join(lines[5].split()).split(" ")[0])
+     nbTask = int(' '.join(lines[6].split()).split(" ")[0])
+
+     nbExec = float(repeat * nbTask)
+
      percAll=[]
      nbPerturbAll=[]
      labelsAll=[]
@@ -125,7 +130,6 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      nbCallAll=[]
      i = 9
      currentLoc = 0
-     nbTask = int(' '.join(lines[6].split()).split(" ")[0])
 
      while currentLoc != 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
 
@@ -158,7 +162,6 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
 
         i+=len(n)
 
-
      sortedPerc, indicesLocation = [list(x) for x in zip(*sorted(zip(percAll, indicesLocation), key=lambda pair: -pair[0][0]))]
      sortedPerc, nbPerturbAll = [list(x) for x in zip(*sorted(zip(percAll, nbPerturbAll), key=lambda pair: -pair[0][0]))]
      percAll, nbCallAll = [list(x) for x in zip(*sorted(zip(percAll, nbCallAll), key=lambda pair: -pair[0][0]))]
@@ -168,15 +171,15 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      for i in range(len(percAll)):
          mid = len(percAll[i]) / 2
          color = colors_manager.getColor(int(indicesLocation[i]))
-         x = [float( float(nbPerturbAll[i][len(nbPerturbAll[i])-len(percAll[i]):][z]) / float(nbTask))
+         x = [float(float(nbPerturbAll[i][len(nbPerturbAll[i])-len(percAll[i]):][z]) / nbExec)
               for z in range(len(nbCallAll[i][len(nbCallAll[i])-len(percAll[i]):]))]
          plt.plot(x , percAll[i], color=color, marker='x', label=str(indicesLocation[i]+" "+ str(int(percAll[i][0]))+ " %"))
          for z in [0,-1,mid]:
-            x = float( float(nbPerturbAll[i][z]) / float(nbTask))
+            x = float( float(nbPerturbAll[i][z]) / nbExec)
             ax.annotate(labelsAll[i][z if z != mid else 1], xy = (x, percAll[i][z]),
                         xytext=(0.5, 5), textcoords='offset points', size=5)
 
-     plt.xlabel("Avg perturbation per task")
+     plt.xlabel("Avg perturbation per exec")
      plt.ylabel("% success")
      plt.title(subject)
 
