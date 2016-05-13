@@ -1,11 +1,19 @@
 package oracle;
 
+import classifier.BayesManager;
+import classifier.BayesOracle;
 import experiment.Oracle;
+import experiment.OracleManager;
 import md5.MD5;
 import md5.MD5Oracle;
 import mersenne.MersenneOracle;
 import org.junit.Test;
 import quicksort.QuickSortOracle;
+import sudoku.Sudoku;
+import sudoku.SudokuManager;
+import sudoku.SudokuOracle;
+import weka.experiment.Experiment;
+import weka.experiment.InstancesResultListener;
 import zip.LZW;
 import zip.ZipOracle;
 
@@ -67,7 +75,7 @@ public class TestOracle {
     @Test
     public void testMersenne() throws Exception {
 
-        //test the oracle seed with a given seed
+        //test the mersenne oracle with a given seed
 
         long seed = 23l;
 
@@ -137,4 +145,38 @@ public class TestOracle {
         assertFalse(oracle.assertPerturbation(input, output.substring(1)));
 
     }
+
+    @Test
+    public void testSudoku() throws Exception {
+
+        Oracle<int[][],int[][]> oracle = new SudokuOracle();
+        OracleManager<int[][]> manager = new SudokuManager();
+
+        int[][] input = manager.get(0);
+        Sudoku sdk = new Sudoku(input);
+        sdk.initSubsets();
+        sdk.solve();
+        int[][] output = sdk.getGrid();
+        assertTrue(oracle.assertPerturbation(input, output));
+
+        assertFalse(oracle.assertPerturbation(manager.get(1), output));
+
+        output[0][0] = 0;
+        assertFalse(oracle.assertPerturbation(input, output));
+
+    }
+
+    //    @Test
+//    public void testClassifier() throws Exception {
+//
+//        OracleManager<Experiment> manager = new BayesManager();
+//        Oracle<Experiment, InstancesResultListener> oracle = (BayesOracle)manager.getOracle();
+//        Experiment input = manager.get(0);
+//        input.initialize();
+//        input.runExperiment();
+//        input.postProcess();
+//        assertTrue(oracle.assertPerturbation(manager.get(0), (InstancesResultListener) input.getResultListener()));
+//
+//
+//    }
 }

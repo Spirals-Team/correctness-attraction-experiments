@@ -10,7 +10,7 @@ public class ResourcesOracle implements Oracle<Integer,Integer> {
 
     @Override
     public boolean assertPerturbation(Integer input, Integer output) {
-        return output == 11;
+        return output == 10;
     }
 
 }
