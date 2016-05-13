@@ -22,7 +22,11 @@ import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
 import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.Message;
+import org.bitcoinj.core.Sha256Hash;
+import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.wallet.BasicKeyChain;
+import org.bitcoinj.wallet.DeterministicKeyChain;
 import perturbation.location.PerturbationLocation;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
@@ -231,12 +235,12 @@ public class ParserArgs {
                     i++;
                 }
             } catch (NumberFormatException e) {
-                randomRate = new float[]{ 0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f};
+                randomRate = new float[]{ 0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f};
             }
         }
 
         if (randomRate == null)
-            randomRate = new float[]{0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f};
+            randomRate = new float[]{ 0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f};
 
         Runner.explorers.add(new RandomExplorer(exploration, repeat, randomRate));
         return i;
@@ -286,22 +290,37 @@ public class ParserArgs {
                 break;
             case "bitcoin":
             case "bc":
-                locations.add(Message.__L2286);
-                locations.add(Message.__L2295);
-                locations.add(Message.__L2296);
-                locations.add(Message.__L2298);
-                locations.add(Message.__L2309);
-                locations.add(Message.__L2310);
-                locations.add(Message.__L2311);
-                locations.add(Message.__L2312);
-                locations.add(Message.__L2315);
-                locations.add(ECKey.__L1588);
-                locations.add(ECKey.__L1589);
-                locations.add(DeterministicKey.__L6751);
-                locations.add(DeterministicKey.__L6752);
-                locations.add(DeterministicKey.__L6753);
-                locations.add(DeterministicKey.__L6755);
-                Runner.setup(DeterministicKey.class, BitcoinCallable.class, new BitcoinManager(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
+
+                //Integer locations
+
+//                locations.add(ECKey.__L1588);
+//                locations.add(ECKey.__L1589);
+//                locations.add(DeterministicKey.__L6751);
+//                locations.add(DeterministicKey.__L6752);
+//                locations.add(DeterministicKey.__L6753);
+//                locations.add(DeterministicKey.__L6755);
+//                locations.add(Message.__L2286);
+//                locations.add(Message.__L2295);
+//                locations.add(Message.__L2296);
+//                locations.add(Message.__L2298);
+//                locations.add(Message.__L2309);
+//                locations.add(Message.__L2310);
+//                locations.add(Message.__L2311);
+//                locations.add(Message.__L2312);
+//                locations.add(Message.__L2315);
+//                locations.add(ECKey.__L1648);
+//                locations.add(ECKey.__L1648);
+//                locations.add(Sha256Hash.__L3677);
+//                locations.add(Sha256Hash.__L3678);
+//                locations.add(BasicKeyChain.__L12816);
+
+                //Boolean locations
+
+//                locations.add(DeterministicKey.__L6715);
+//                locations.add(DeterministicKey.__L1604);
+
+
+                Runner.setup(Message.class, BitcoinCallable.class, new BitcoinManager(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
                 break;
             case "classifier":
             case "bayes":

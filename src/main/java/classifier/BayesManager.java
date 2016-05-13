@@ -38,7 +38,6 @@ public class BayesManager extends OracleManagerImpl<Experiment> {
     private void initPath() {
         File directory = new File(PATH_DIR);
         File [] files = directory.listFiles();
-        assert files == null;
         path = new String[files.length];
         for (int i = 0 ; i < files.length ; i++)
             path[i] = files[i].getName();

@@ -51,7 +51,7 @@ public class BitcoinManager extends OracleManagerImpl<Tuple> {
 
         System.out.println("Init...");
 
-//        BriefLogFormatter.initWithSilentBitcoinJ();
+        BriefLogFormatter.initWithSilentBitcoinJ();
 
         BitcoinToolbox.clean();
 

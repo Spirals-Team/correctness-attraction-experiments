@@ -8,7 +8,12 @@ import perturbation.location.PerturbationLocation;
 public interface Explorer {
 
     /**
-     * Method to run the explorer on the given parameteres
+     * Method to run one time the subject on a task without any perturbation.
+     */
+    void runReference(int indexOfTask, PerturbationLocation location);
+
+    /**
+     * Method to run the explorer on the given parameters
      * @param indexOfTask
      * @param location
      */

@@ -34,15 +34,15 @@ public class SudokuOracle implements Oracle<int[][],int[][]> {
                     return false;
             }
         }
-//        for (int col = 0; col < output.length; col++) {
-//            List<Integer> listOfInteger = buildListOf9Integer();
-//            for (int row = 0; row < output[row].length; row++) {
-//                if (!listOfInteger.remove(new Integer(output[row][col])))
-//                    return false;
-//                if (input[row][col] != 0 && input[row][col] != output[row][col])
-//                    return false;
-//            }
-//        }
+        for (int col = 0; col < output.length ; col++) {
+            List<Integer> listOfInteger = buildListOf9Integer();
+            for (int row = 0; row < output[col].length ; row++) {
+                if (!listOfInteger.remove(new Integer(output[row][col])))
+                    return false;
+                if (input[row][col] != 0 && input[row][col] != output[row][col])
+                    return false;
+            }
+        }
 
         return true;
     }

@@ -1,5 +1,6 @@
 package bitcoin;
 
+import experiment.Oracle;
 import experiment.Runner;
 import org.bitcoinj.crypto.PBKDF2SHA512;
 import perturbation.PerturbationEngine;
@@ -60,13 +61,13 @@ public class Search {
 
             Runner.numberOfSecondsToWait = 60;
             Runner.sizeOfEachTask = 3;
-            Runner.numberOfTask = 2;
+            Runner.numberOfTask = 5;
             Runner.verbose = true;
 
             PerturbationEngine.loggers.put("Bitcoin", new LoggerImpl());
 
-//            String type = "Numerical";
-            String type = "Boolean";
+            String type = "Numerical";
+//            String type = "Boolean";
 
             getAllClasses(pathToBicoinJDirectory, "org");
 
@@ -79,6 +80,7 @@ public class Search {
             );
 
             BitcoinManager manager = new BitcoinManager();
+            Oracle oracle = manager.getOracle();
             BitcoinCallable callable = new BitcoinCallable(manager.get(0));
             ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -88,7 +90,7 @@ public class Search {
 
             Future future = executor.submit(callable);
             long time = System.currentTimeMillis();
-            future.get(Runner.numberOfSecondsToWait, TimeUnit.SECONDS);
+            System.out.println(oracle.assertPerturbation(manager.get(0), future.get(Runner.numberOfSecondsToWait, TimeUnit.SECONDS)));
             System.out.println(System.currentTimeMillis() - time + " ms");
 
             final FileWriter writer = new FileWriter("results/bitcoin/output_search_bitcoin_"+type+".txt", false);

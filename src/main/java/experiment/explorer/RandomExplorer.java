@@ -31,7 +31,7 @@ public class RandomExplorer extends ExplorerImpl {
     private int numberOfRepeat;
 
     public RandomExplorer(Exploration exploration) {
-        this(exploration, 5, 0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f);
+        this(exploration, 5, 0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f);
     }
 
     public RandomExplorer(Exploration exploration, float... randomRates) {
@@ -39,7 +39,7 @@ public class RandomExplorer extends ExplorerImpl {
     }
 
     public RandomExplorer(Exploration exploration, int numberOfRepeat) {
-        this(exploration, numberOfRepeat, 0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f);
+        this(exploration, numberOfRepeat,   0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f);
     }
 
     public RandomExplorer(Exploration exploration, int repeat, float... randomRates) {
@@ -47,7 +47,7 @@ public class RandomExplorer extends ExplorerImpl {
         if (randomRates.length >= 1)
             this.randomRates = randomRates;
         else
-            this.randomRates = new float[]{0.001f, 0.002f, 0.005f, 0.01f, 0.02f, 0.05f, 0.1f, 0.2f, 0.5f, 0.9f};
+            this.randomRates = new float[]{ 0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f};
 
         this.numberOfRepeat = repeat;
 
@@ -64,9 +64,17 @@ public class RandomExplorer extends ExplorerImpl {
     }
 
     @Override
+    public void runReference(int indexOfTask, PerturbationLocation location) {
+        PerturbationEngine.loggers.get(super.name).logOn(location);
+        Tuple result = Runner.runPerturbation(indexOfTask);
+        Logger.log(Runner.locations.indexOf(location), indexOfTask, 0, 0, result, super.name);
+        PerturbationEngine.loggers.get(super.name).reset();
+    }
+
+    @Override
     public void initLogger() {
         //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
-        Logger.init(Runner.locations.size(), Runner.numberOfTask, perturbators.size(), this.randomRates.length);
+        Logger.init(Runner.locations.size(), Runner.numberOfTask, perturbators.size(), this.randomRates.length + 1);
         PerturbationEngine.loggers.put(name, new LoggerImpl());
     }
 
@@ -83,7 +91,7 @@ public class RandomExplorer extends ExplorerImpl {
         for (int i = 0; i < numberOfRepeat; i++) {
             PerturbationEngine.loggers.get(super.name).logOn(location);
             Tuple result = Runner.runPerturbation(indexOfTask);
-            Logger.log(Runner.locations.indexOf(location), indexOfTask, perturbator, indexRandomRate, result, super.name);
+            Logger.log(Runner.locations.indexOf(location), indexOfTask, perturbator, indexRandomRate + 1, result, super.name);
             PerturbationEngine.loggers.get(super.name).reset();
         }
     }
@@ -115,7 +123,7 @@ public class RandomExplorer extends ExplorerImpl {
         try {
             /* All Log */
             FileWriter writer = new FileWriter(pathToOutPutFile + "_detail.txt", false);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-10s %-14s %-22s %-27s";
+            String format = "%-4s %-10s %-"+ exploration.getColumnName().length() +"s %-10s %-10s %-10s %-10s %-10s %-14s %-22s %-27s";
             writer.write("detail per task and per random rate and per " + exploration.getColumnName() + ".\n" + exploration.getHeader() + header + Runner.manager.getHeader());
             writer.write(String.format(format,
                     "Task", "RandomRate",
@@ -125,10 +133,18 @@ public class RandomExplorer extends ExplorerImpl {
                     "%Success") + "\n");
             for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
                 for (PerturbationLocation location : Runner.locations) {
+                    Tuple result = results[Runner.locations.indexOf(location)][indexTask][0][0];
+                    double avg = (double) result.get(4) / (double) result.get(3);
+                    writer.write(String.format(format,
+                            indexTask, 0.0,
+                            "None", location.getLocationIndex(),
+                            result.get(0), result.get(1), result.get(2),
+                            result.get(3), result.get(4), avg,
+                            Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                     for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                         for (int indexPerturbator = 0; indexPerturbator < numberOfPerturbor; indexPerturbator++) {
-                            Tuple result = results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][indexRandomRates];
-                            double avg = (double) result.get(4) / (double) result.get(5);
+                            result = results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][indexRandomRates + 1];
+                            avg = (double) result.get(4) / (double) result.get(3);
                             writer.write(String.format(format,
                                     indexTask, randomRates[indexRandomRates],
                                     perturbatorsName[indexPerturbator], location.getLocationIndex(),
@@ -142,10 +158,10 @@ public class RandomExplorer extends ExplorerImpl {
             writer.close();
 
              /* Sum Arrays */
-            writer = new FileWriter(pathToOutPutFile+"_analysis_graph_data.txt", false);
+            writer = new FileWriter(pathToOutPutFile + "_analysis_graph_data.txt", false);
             writer.write("contains the data for the random rates analysis graph with " + exploration.getColumnName() + " as perturbator.\n");
-                    writer.write(exploration.getHeader() + header + Runner.manager.getHeader());
-            format = "%-10s %-"+exploration.getColumnName().length()+"s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
+            writer.write(exploration.getHeader() + header + Runner.manager.getHeader());
+            format = "%-10s %-" + exploration.getColumnName().length() + "s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write(String.format(format,
                     "RandomRate", exploration.getColumnName(), "IndexLoc",
                     "#Success", "#Failure", "#Exception",
@@ -154,32 +170,45 @@ public class RandomExplorer extends ExplorerImpl {
 
             for (PerturbationLocation location : Runner.locations) {
                 Tuple resultForLocation = new Tuple(3);
-                for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
+                for (int indexRandomRates = 0; indexRandomRates < randomRates.length + 1; indexRandomRates++) {
                     Tuple result = new Tuple(5);
                     for (int indexPerturbator = 0; indexPerturbator < numberOfPerturbor; indexPerturbator++) {
                         for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++)
                             result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][indexRandomRates]);
 
+                        String random;
+                        String perturbator;
+                        String success;
+                        if (indexRandomRates == 0) {
+                            random = "0.0";
+                            success = Util.getStringPerc(result.get(0), result.total(3));
+                            perturbator = "None";
+                        } else {
+                            random =  "" +randomRates[indexRandomRates - 1];
+                            success = result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3));
+                            perturbator = perturbatorsName[indexPerturbator];
+                        }
+
                         writer.write(String.format(format,
-                                randomRates[indexRandomRates], perturbatorsName[indexPerturbator], location.getLocationIndex(),
+                                random, perturbator, location.getLocationIndex(),
                                 result.get(0), result.get(1), result.get(2),
-                                result.get(3), result.get(4),
-                                result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+                                result.get(3), result.get(4), success
+                                ) + "\n");
 
                         resultForLocation = resultForLocation.add(result);
                     }
                 }
-                Logger.addToFragilityList(resultForLocation, resultForLocation.total(), location, locationExceptionFragile,locationSuperAntiFragile,
+                Logger.addToFragilityList(resultForLocation, resultForLocation.total(), location, locationExceptionFragile, locationSuperAntiFragile,
                         locationAntiFragile, locationOracleFragile);
             }
             writer.close();
 
             format = "%-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
-            for (int indexPerturbator = 0 ; indexPerturbator < numberOfPerturbor ; indexPerturbator++) {
+            for (int indexPerturbator = 0; indexPerturbator < numberOfPerturbor; indexPerturbator++) {
                 for (int indexRandomRates = 0; indexRandomRates < randomRates.length; indexRandomRates++) {
                 /* Sum PerturbationPoint */
-                    writer = new FileWriter(pathToOutPutFile + "_per_location_" + perturbatorsName[indexPerturbator] + "_" +  randomRates[indexRandomRates] + "_"  + ".txt", false);
-                    writer.write("aggregate data per location for random rate = " + randomRates[indexRandomRates] + " and with " + exploration.getColumnName()+" = " + perturbatorsName[indexPerturbator] + "\n");
+                    writer = new FileWriter(pathToOutPutFile + "_per_location_" + perturbatorsName[indexPerturbator] + "_" + randomRates[indexRandomRates] + "_" + ".txt", false);
+                    writer.write("aggregate data per location for random rate = " + randomRates[indexRandomRates] + " and with " + exploration.getColumnName() + " = " + perturbatorsName[indexPerturbator] + "\n");
                     writer.write(exploration.getHeader() + Runner.manager.getHeader());
                     writer.write(String.format(format,
                             "IndexLoc", "#Success", "#Failure", "#Exception",
@@ -191,7 +220,7 @@ public class RandomExplorer extends ExplorerImpl {
                         Tuple result = new Tuple(5);
                         int accNbOfTasks = 0;
                         for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
-                            result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][indexRandomRates]);
+                            result = result.add(results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][indexRandomRates + 1]);
                             accNbOfTasks += results[Runner.locations.indexOf(location)][indexTask][indexPerturbator][indexRandomRates].get(5);
                         }
 
@@ -214,9 +243,9 @@ public class RandomExplorer extends ExplorerImpl {
             Logger.writeListOnGivenFile(pathToOutPutFile + "_super_anti_fragile.txt",
                     "List of ids antifragile points.", locationSuperAntiFragile);
             Logger.writeListOnGivenFile(pathToOutPutFile + "_oracle_fragile.txt",
-                    "list ids of oracle fragile code : >" + Logger.TOLERANCE +"% of oracle failures", locationOracleFragile);
+                    "list ids of oracle fragile code : >" + Logger.TOLERANCE + "% of oracle failures", locationOracleFragile);
             Logger.writeListOnGivenFile(pathToOutPutFile + "_exception_fragile.txt",
-                    "list ids of exception fragile code : >" + Logger.TOLERANCE +"% of exceptions.", locationExceptionFragile);
+                    "list ids of exception fragile code : >" + Logger.TOLERANCE + "% of exceptions.", locationExceptionFragile);
 
         } catch (IOException e) {
             e.printStackTrace();

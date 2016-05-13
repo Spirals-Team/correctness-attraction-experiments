@@ -89,10 +89,8 @@ public class Logger {
         results[indexLocation][indexTask][indexParameters][indexEnactor] = results[indexLocation][indexTask][indexParameters][indexEnactor].add(tuple);
     }
 
-    @Deprecated
     public static double TOLERANCE = 70.0f;
 
-    @Deprecated
     public static void addToFragilityList(Tuple result, int total, PerturbationLocation location,
                                    List<PerturbationLocation> locationExceptionFragile, List<PerturbationLocation> locationSuperAntiFragile,
                                    List<PerturbationLocation> locationAntiFragile , List<PerturbationLocation> locationOracleFragile) {
@@ -106,7 +104,6 @@ public class Logger {
             locationExceptionFragile.add(location);
     }
 
-    @Deprecated
     public static void writeListOnGivenFile(String pathToFile, String header, List<PerturbationLocation> locations) {
         FileWriter writer = null;
         try {

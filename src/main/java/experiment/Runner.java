@@ -1,5 +1,6 @@
 package experiment;
 
+import bitcoin.BitcoinManager;
 import experiment.explorer.*;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by spirals on 05/04/16.
@@ -35,9 +37,8 @@ public class Runner {
         System.out.println("Run " + explorer + " on " + CUP.getSimpleName() + " ...");
         filterLocation(explorer.getTypeOfExploration());
         explorer.initLogger();
-        for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
-            runLocations(indexOfTask);
-        }
+        IntStream.range(0, numberOfTask)
+                 .forEach(Runner::runLocations);
         explorer.log();
     }
 
@@ -46,9 +47,8 @@ public class Runner {
         System.out.println("Run " + explorer + " on " + CUP.getSimpleName() + " ...");
         locations = customLocations;
         explorer.initLogger();
-        for (int indexOfTask = 0 ; indexOfTask < numberOfTask ; indexOfTask++) {
-            runLocations(indexOfTask);
-        }
+        IntStream.range(0, numberOfTask)
+                 .forEach(Runner::runLocations);
         explorer.log();
     }
 
@@ -56,6 +56,7 @@ public class Runner {
         for (PerturbationLocation location : locations) {
             if (verbose)
                 System.out.println(location.getLocationIndex()+" \t "+Util.getStringPerc(locations.indexOf(location) , locations.size()));
+            explorer.runReference(indexOfTask, location);
             explorer.run(indexOfTask, location);
         }
     }
@@ -82,12 +83,16 @@ public class Runner {
                 result.set(2, 1); // error computation time
                 System.err.println("Time out!");
                 executor.shutdownNow();
+                if (manager instanceof BitcoinManager)
+                    ((BitcoinManager) manager).initWallets();
                 return result;
             }
 
         } catch (Exception | Error e) {
             result.set(2, 1);
             executor.shutdownNow();
+            if (manager instanceof BitcoinManager)
+                ((BitcoinManager) manager).initWallets();
             return result;
         }
     }

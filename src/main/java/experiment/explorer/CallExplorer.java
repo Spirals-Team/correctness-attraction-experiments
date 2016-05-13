@@ -36,15 +36,13 @@ public class CallExplorer extends ExplorerImpl {
     }
 
     @Override
-    public void run(int indexOfTask, PerturbationLocation location) {
+    public void runReference(int indexOfTask, PerturbationLocation location) {
         //reference run : no perturbation
         PerturbationEngine.loggers.get(super.name).logOn(location);
         Runner.runPerturbation(indexOfTask);
         int currentNbCall = PerturbationEngine.loggers.get(super.name).getCalls(location);
         nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexOfTask] = currentNbCall;
         PerturbationEngine.loggers.get(super.name).reset();
-
-        super.run(indexOfTask, location);
     }
 
     @Override
@@ -89,7 +87,7 @@ public class CallExplorer extends ExplorerImpl {
 
         try {
             FileWriter writer = new FileWriter(pathToOutPutFile + "_detail.txt", false);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
+            String format = "%-4s %-"+(exploration.getColumnName().length()+1)+"s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write("detail per task and per " + exploration.getColumnName() + ".\n" + exploration.getHeader() + Runner.manager.getHeader());
             writer.write(String.format(format,
                     "Task", exploration.getColumnName(), "IndexLoc",
