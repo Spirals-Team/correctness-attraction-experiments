@@ -74,6 +74,7 @@ cd ../../
 #Install ttorrent
 git clone https://github.com/mpetazzoni/ttorrent.git
 cd ttorrent
+git reset --hard e1daf413c9700607b2074cc3c566389cfaae756f
 mvn package -Dmaven.javadoc.skip=true -DskipTests
 mvn_dep_torrent=$m2_repo/com/beust/jcommander/1.12/jcommander-1.12.jar:$m2_repo/commons-io/commons-io/2.4/commons-io-2.4.jar:$m2_repo/junit/junit/3.8.1/junit-3.8.1.jar:$m2_repo/org/beanshell/bsh/2.0b4/bsh-2.0b4.jar:$m2_repo/org/simpleframework/simple/4.1.21/simple-4.1.21.jar:$m2_repo/org/slf4j/slf4j-api/1.6.4/slf4j-api-1.6.4.jar:$m2_repo/org/testng/testng/6.1.1/testng-6.1.1.jar:$m2_repo/org/yaml/snakeyaml/1.6/snakeyaml-1.6.jar
 cd ..
@@ -93,6 +94,7 @@ cd ..
 git clone https://github.com/bitcoinj/bitcoinj.git
 cd bitcoinj
 git checkout release-0.13
+git reset --hard fc82bece027ff19afd2a9c51a5739f595629f347
 mvn clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 cd ..
 
@@ -123,6 +125,7 @@ cd ..
 #Install Bouncy Castle
 git clone https://github.com/bcgit/bc-java.git
 cd bc-java
+git reset --hard 3db7ef3619f0e8e5d1521b596e8305d1de989499
 gradle core:jar
 cd ..
 

@@ -22,7 +22,11 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
 
     labelOfN = ' '.join(lines[indexN].split()).split(" ")[0]
     print(labelOfN)
-    n = ' '.join(lines[indexN].split()).split(" ")[3:]
+    if "magnitude_call" == output:
+        n =  ' '.join(lines[indexN].split()).split(" ")[3:]
+    else:
+        n = [0.0]  + (' '.join(lines[indexN].split()).split(" ")[3:])
+
     numberOfLocation = int(' '.join(lines[indexLoc].split()).split(" ")[0])
 
     percAll=[]
@@ -34,7 +38,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
 
     print(n)
 
-    while i < (numberOfLocation*len(n)):#numberOfLocation:
+    while i < (numberOfLocation*len(n)) + 1:#numberOfLocation:
 
         perc=[]
         my_n = []
@@ -112,13 +116,37 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     ax.set_xscale('log')
     fig.savefig(path+"/img/"+output+"_plot_logscale.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
     fig.savefig(path+"/img/"+output+"_plot_logscale.jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+
+    fig = plt.figure()
+
+    percOverAllLoc = []
+    for i in range(len(percAll[0])):
+        perc = 0.0
+        for j in range(len(percAll)):
+            perc += percAll[j][i]
+        percOverAllLoc.append(float(float(perc) / float(len(percAll[j]))))
+
+    plt.plot(n, percOverAllLoc, marker='x', label="% success")
+
+    plt.xlabel(labelOfN)
+    plt.ylabel("% success")
+
+    box = ax.get_position()
+    txt = "Aggregation of the whole results over locations."
+    text = fig.text(.1,-.1,txt)
+    plt.title(subject)
+    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+    lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
+    fig.savefig(path+"/img/"+output+"plotAll.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+
     plt.close(fig)
 
 def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      lines = [line.rstrip('\n') for line in open(path+"/"+filename)]
 
-     stepi = int(len(' '.join(lines[4].split()).split(" ")[3:]))
-     n = ' '.join(lines[4].split()).split(" ")[3:11]
+     n = [0.0] + ' '.join(lines[4].split()).split(" ")[3:]
+     stepi = len(n)
      numberOfLocation = int(' '.join(lines[2].split()).split(" ")[0])
 
      repeat = int(' '.join(lines[5].split()).split(" ")[0])
@@ -132,9 +160,8 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      indicesLocation=[]
      nbCallAll=[]
      i = 9
-     currentLoc = 0
 
-     while currentLoc != 10 and i < (numberOfLocation*len(n)):#numberOfLocation:
+     while i < (numberOfLocation*len(n))+1:#numberOfLocation:
 
         perc=[]
         label=[]
@@ -161,7 +188,6 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
             percAll.append(perc)
             nbCallAll.append(nbCall)
 
-            currentLoc += 1
 
         i+=stepi
 

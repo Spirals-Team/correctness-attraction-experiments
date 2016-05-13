@@ -1,5 +1,7 @@
 from matplotlib import pyplot as plt
 
+import colors_manager
+
 global padding
 
 import sys
