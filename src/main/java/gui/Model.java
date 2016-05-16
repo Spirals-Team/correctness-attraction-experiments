@@ -12,6 +12,7 @@ import quicksort.QuickSortManager;
 import quicksort.QuickSortOracle;
 
 import java.util.List;
+import java.util.Observable;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,50 +20,61 @@ import java.util.stream.IntStream;
 /**
  * Created by bdanglot on 13/05/16.
  */
-public class Main {
+public class Model extends Observable {
 
-    private static float rnd = 0.001f;
+    private float rnd;
 
-    private static QuickSortManager manager = new QuickSortManager();
+    private QuickSortManager manager;
 
-    private static QuickSortOracle oracle = new QuickSortOracle();
+    private QuickSortOracle oracle;
 
-    private static List<PerturbationLocation> locations;
+    private List<PerturbationLocation> locations;
 
-    public static void init() {
+    private double percentageOfSuccess;
+
+    public Model() {
+        Runner.numberOfTask = 40;
+        this.manager = new QuickSortManager();
+        oracle = new QuickSortOracle();
         locations = PerturbationLocationImpl.getLocationFromClass(QuickSortInstr.class)
-                    .stream()
-                    .filter(location -> location.getType() == "Numerical")
-                    .collect(Collectors.toList());
-        locations.forEach(Main::setPerturbator);
+                .stream()
+                .filter(location -> location.getType() == "Numerical")
+                .collect(Collectors.toList());
+        locations.forEach(location -> location.setPerturbator(new AddNPerturbatorImpl(1)));
     }
 
-    public static double runAllTask() {
+    public void setRnd(float rnd) {
+        this.rnd = rnd;
+        this.percentageOfSuccess = this.runAllTask();
+        this.setChanged();
+        this.notifyObservers();
+    }
+
+    public double getPercentageOfSuccess() {
+        return this.percentageOfSuccess;
+    }
+
+    private double runAllTask() {
         return (double) IntStream.range(0, Runner.numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask))
                 / (double)(locations.size() * Runner.numberOfTask) * 100;
     }
 
-    private static int runLocations(int indexTask) {
+    private int runLocations(int indexTask) {
         return IntStream.range(0, locations.size())
                         .reduce(0, (acc, indexLocation) ->
                                 acc + runLocation(indexTask, locations.get(indexLocation))
                         );
     }
 
-    public static int runLocation(int indexTask, PerturbationLocation location) {
+    private int runLocation(int indexTask, PerturbationLocation location) {
         boolean success;
         location.setEnactor(new RandomEnactorImpl(rnd));
-        success = run(indexTask);
+        success = runPerturbation(indexTask);
         location.setEnactor(new NeverEnactorImpl());
         return success ? 1 : 0;
     }
 
-    private static void setPerturbator(PerturbationLocation location) {
-        location.setPerturbator(new AddNPerturbatorImpl(1));
-    }
-
-    private static boolean run(int indexTask) {
-        boolean result = false;
+    private boolean runPerturbation(int indexTask) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
             Callable instanceRunner = new QuickSortCallableImpl(manager.get(indexTask));
@@ -70,30 +82,18 @@ public class Main {
             try {
                 List<Integer> output = (List<Integer>)(future.get(15, TimeUnit.SECONDS));
                 boolean assertion = oracle.assertPerturbation(manager.get(indexTask), output);
-                if (assertion)
-                    result = true ;// success
                 executor.shutdownNow();
-                return result;
-
+                return assertion;
             } catch (TimeoutException e) {
                 future.cancel(true);
                 System.err.println("Time out!");
                 executor.shutdownNow();
-                return result;
+                return false;
             }
         } catch (Exception | Error e) {
             executor.shutdownNow();
-            return result;
+            return false;
         }
     }
-
-    public static void main(String[] args) {
-        Runner.numberOfTask = 20;
-        init();
-        long time = System.currentTimeMillis();
-        System.out.println(String.format("%.2f", runAllTask())  + " % of success");
-        System.err.println(System.currentTimeMillis() - time);
-    }
-
 
 }
