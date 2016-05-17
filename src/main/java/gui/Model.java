@@ -30,7 +30,7 @@ public class Model extends Observable {
 
     private List<PerturbationLocation> locations;
 
-    private double percentageOfSuccess;
+    private float percentageOfSuccess;
 
     public Model() {
         Runner.numberOfTask = 40;
@@ -50,13 +50,13 @@ public class Model extends Observable {
         this.notifyObservers();
     }
 
-    public double getPercentageOfSuccess() {
+    public float getPercentageOfSuccess() {
         return this.percentageOfSuccess;
     }
 
-    private double runAllTask() {
-        return (double) IntStream.range(0, Runner.numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask))
-                / (double)(locations.size() * Runner.numberOfTask) * 100;
+    private float runAllTask() {
+        return (float) IntStream.range(0, Runner.numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask))
+                / (float)(locations.size() * Runner.numberOfTask) * 100;
     }
 
     private int runLocations(int indexTask) {
