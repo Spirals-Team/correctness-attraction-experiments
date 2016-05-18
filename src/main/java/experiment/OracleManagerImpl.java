@@ -32,6 +32,10 @@ public abstract class OracleManagerImpl<T> implements OracleManager<T> {
             scenario.add(generateOneTask());
     }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
     public OracleManagerImpl() {
         this(23);
     }

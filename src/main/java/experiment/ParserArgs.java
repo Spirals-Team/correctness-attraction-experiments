@@ -16,17 +16,15 @@ import md5.MD5Manager;
 import mersenne.MersenneCallableImpl;
 import mersenne.MersenneManager;
 import mersenne.MersenneTwisterInstr;
-import optimizer.OptimizerCallableImpl;
-import optimizer.OptimizerManager;
-import org.apache.commons.math3.optim.OptimizationData;
-import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
 import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.Message;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.wallet.BasicKeyChain;
-import org.bitcoinj.wallet.DeterministicKeyChain;
+import solver.SolverCallableImpl;
+import solver.SolverManager;
+import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
+import org.bitcoinj.core.Sha256Hash;
 import perturbation.location.PerturbationLocation;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
@@ -293,34 +291,42 @@ public class ParserArgs {
 
                 //Integer locations
 
-//                locations.add(ECKey.__L1588);
-//                locations.add(ECKey.__L1589);
-//                locations.add(DeterministicKey.__L6751);
-//                locations.add(DeterministicKey.__L6752);
-//                locations.add(DeterministicKey.__L6753);
-//                locations.add(DeterministicKey.__L6755);
-//                locations.add(Message.__L2286);
-//                locations.add(Message.__L2295);
-//                locations.add(Message.__L2296);
-//                locations.add(Message.__L2298);
-//                locations.add(Message.__L2309);
-//                locations.add(Message.__L2310);
-//                locations.add(Message.__L2311);
-//                locations.add(Message.__L2312);
-//                locations.add(Message.__L2315);
-//                locations.add(ECKey.__L1648);
-//                locations.add(ECKey.__L1648);
-//                locations.add(Sha256Hash.__L3677);
-//                locations.add(Sha256Hash.__L3678);
-//                locations.add(BasicKeyChain.__L12816);
+                locations.add(ECKey.__L1588);
+                locations.add(ECKey.__L1589);
+                locations.add(DeterministicKey.__L6751);
+                locations.add(DeterministicKey.__L6752);
+                locations.add(DeterministicKey.__L6753);
+                locations.add(DeterministicKey.__L6755);
+                locations.add(Message.__L2286);
+                locations.add(Message.__L2295);
+                locations.add(Message.__L2296);
+                locations.add(Message.__L2298);
+                locations.add(Message.__L2309);
+                locations.add(Message.__L2310);
+                locations.add(Message.__L2311);
+                locations.add(Message.__L2312);
+                locations.add(Message.__L2315);
+                locations.add(ECKey.__L1648);
+                locations.add(ECKey.__L1648);
+                locations.add(Sha256Hash.__L3677);
+                locations.add(Sha256Hash.__L3678);
+                locations.add(BasicKeyChain.__L12816);
 
                 //Boolean locations
 
 //                locations.add(DeterministicKey.__L6715);
 //                locations.add(DeterministicKey.__L1604);
+//
+//                locations.add(Message.__L2287);
+//                locations.add(Message.__L2288);
+//                locations.add(Message.__L2337);
+//                locations.add(Message.__L2343);
+//                locations.add(Message.__L2371);
+//                locations.add(Message.__L2374);
+//                locations.add(Message.__L2379);
+//                locations.add(Message.__L2382);
 
-
-                Runner.setup(Message.class, BitcoinCallable.class, new BitcoinManager(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
+                Runner.setup(BasicKeyChain.class, BitcoinCallable.class, new BitcoinManager(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
                 break;
             case "classifier":
             case "bayes":
@@ -340,9 +346,9 @@ public class ParserArgs {
                 }
                 break;
             case "simplex":
-            case "optimizer":
+            case "solver":
             case "opt":
-                Runner.setup(SimplexSolverInstr.class, OptimizerCallableImpl.class, new OptimizerManager(), typePerturbed != null ? typePerturbed : "Numerical", OptimizationData[].class);
+                Runner.setup(SimplexSolverInstr.class, SolverCallableImpl.class, new SolverManager(), typePerturbed != null ? typePerturbed : "Numerical", OptimizationData[].class);
                 break;
             default:
             case "qs":
