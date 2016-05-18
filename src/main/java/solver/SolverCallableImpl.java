@@ -1,4 +1,4 @@
-package optimizer;
+package solver;
 
 import experiment.CallableImpl;
 import org.apache.commons.math3.optim.OptimizationData;
@@ -8,9 +8,9 @@ import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
 /**
  * Created by spirals on 15/04/16.
  */
-public class OptimizerCallableImpl extends CallableImpl<OptimizationData[], PointValuePair> {
+public class SolverCallableImpl extends CallableImpl<OptimizationData[], PointValuePair> {
 
-    public OptimizerCallableImpl(OptimizationData[] input) {
+    public SolverCallableImpl(OptimizationData[] input) {
         super(input);
     }
 

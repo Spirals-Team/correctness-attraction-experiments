@@ -6,15 +6,15 @@ import experiment.OracleManagerImpl;
 /**
  * Created by bdanglot on 09/05/16.
  */
-public class ResourcesManager extends OracleManagerImpl<Integer> {
+public class ResourcesManager extends OracleManagerImpl<Object> {
 
     @Override
-    public Integer get(int index) {
-        return 0;
+    public Object get(int index) {
+        return null;
     }
 
     @Override
-    public Oracle<Integer, ?> getOracle() {
+    public Oracle<Object, ?> getOracle() {
         return new ResourcesOracle();
     }
 

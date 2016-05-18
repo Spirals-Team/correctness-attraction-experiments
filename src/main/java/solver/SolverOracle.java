@@ -1,4 +1,4 @@
-package optimizer;
+package solver;
 
 import experiment.Oracle;
 import org.apache.commons.math3.optim.OptimizationData;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by spirals on 15/04/16.
  */
-public class OptimizerOracle implements Oracle<OptimizationData[], PointValuePair> {
+public class SolverOracle implements Oracle<OptimizationData[], PointValuePair> {
 
     private static final double EPSILON = 1e-6;
 

@@ -1,4 +1,4 @@
-package optimizer;
+package solver;
 
 import experiment.Oracle;
 import experiment.OracleManagerImpl;
@@ -14,11 +14,11 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class OptimizerManager extends OracleManagerImpl<OptimizationData[]> {
+public class SolverManager extends OracleManagerImpl<OptimizationData[]> {
 
     private static List<String> pathToFileOfLinearProgram = new ArrayList<>();
 
-    private static String PATH_DIRECTORY_DATASET = "resources/optimizer/";
+    private static String PATH_DIRECTORY_DATASET = "resources/solver/";
 
     static {
         File directory = new File(PATH_DIRECTORY_DATASET);
@@ -29,18 +29,18 @@ public class OptimizerManager extends OracleManagerImpl<OptimizationData[]> {
 
     public static int numberOfFile = pathToFileOfLinearProgram.size();
 
-    public OptimizerManager(int seed) {
+    public SolverManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";
         super.header += "linear problem are generated randomly\n";
-        super.path = "optimizer";
+        super.path = "solver";
     }
 
-    public OptimizerManager() {
+    public SolverManager() {
         super();
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";
         super.header += "linear problem are generated randomly\n";
-        super.path = "optimizer";
+        super.path = "solver";
     }
 
     protected OptimizationData[] generateOneTaskOLD() {
@@ -116,6 +116,6 @@ public class OptimizerManager extends OracleManagerImpl<OptimizationData[]> {
 
     @Override
     public Oracle<OptimizationData[], ?> getOracle() {
-        return new OptimizerOracle();
+        return new SolverOracle();
     }
 }
