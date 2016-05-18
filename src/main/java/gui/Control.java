@@ -17,20 +17,19 @@ public class Control extends JSlider {
 
     public Control(Model m, JLabel l) {
         super(JSlider.HORIZONTAL, RND_MIN, RND_MAX, RND_MIN);
+        this.setPaintTicks(false);
+        this.setPaintLabels(false);
+        this.setPaintTrack(false);
         this.model = m;
         this.label = l;
         this.setMajorTickSpacing(5);
         this.setMinorTickSpacing(1);
         this.setPaintTicks(true);
         this.setPaintLabels(true);
-        this.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                float rand = getRnd();
-                System.err.println(rand);
-                label.setText("" + rand);
-                model.setRnd(getRnd());
-            }
+        this.addChangeListener(ChangeEvent -> {
+            float rand = getRnd();
+            label.setText("" + rand);
+            model.setRnd(getRnd());
         });
     }
 

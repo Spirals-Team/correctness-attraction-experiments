@@ -20,7 +20,7 @@ import java.util.stream.IntStream;
 /**
  * Created by bdanglot on 13/05/16.
  */
-public class Model extends Observable {
+public class Model {
 
     private float rnd;
 
@@ -38,7 +38,7 @@ public class Model extends Observable {
         oracle = new QuickSortOracle();
         locations = PerturbationLocationImpl.getLocationFromClass(QuickSortInstr.class)
                 .stream()
-                .filter(location -> location.getType() == "Numerical")
+                .filter(location -> location.getType().equals("Numerical"))
                 .collect(Collectors.toList());
         locations.forEach(location -> location.setPerturbator(new AddNPerturbatorImpl(1)));
     }
@@ -46,15 +46,10 @@ public class Model extends Observable {
     public void setRnd(float rnd) {
         this.rnd = rnd;
         this.percentageOfSuccess = this.runAllTask();
-        this.setChanged();
-        this.notifyObservers();
     }
 
-    public float getPercentageOfSuccess() {
-        return this.percentageOfSuccess;
-    }
 
-    private float runAllTask() {
+    public float runAllTask() {
         return (float) IntStream.range(0, Runner.numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask))
                 / (float)(locations.size() * Runner.numberOfTask) * 100;
     }
