@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 import sys
 
-subjects=("classifier", "md5", "mersenne", "optimizer", "quicksort", "rsa", "sudoku", "zip", "torrent" ,"bitcoin")
+subjects=("classifier", "md5", "mersenne", "solver", "quicksort", "rsa", "sudoku", "zip", "torrent" ,"bitcoin")
 
 perc = []
 execs = []
@@ -55,7 +55,7 @@ def autolabel(rects, nbexecs):
 autolabel(rects1, execs)
 box = ax.get_position()
 ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-fig.savefig("results/perc_success_plot_"+exp+".pdf", bbox_extra_artists=(lgd,), bbox_inches='tight')
+fig.savefig("results/"+exp+"SuccesBarChart.pdf", bbox_extra_artists=(lgd,), bbox_inches='tight')
 
 
 

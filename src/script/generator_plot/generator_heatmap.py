@@ -62,12 +62,12 @@ def buildHeatMap(subject, indexLoc):
                 txt = "Heat map for the location " + str(currentLoca) + " on " + subject
                 text = fig.text(.1,.25,txt)
                 plt.title(subject)
-                fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+".pdf", bbox_extra_artists=(text,), bbox_inches='tight')
-                fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+".jpeg")
+                fig.savefig("results/" + subject + "/img/IntegerRandomHeatMap"+str(currentLoca)+".pdf", bbox_extra_artists=(text,), bbox_inches='tight')
+                fig.savefig("results/" + subject + "/img/IntegerRandomHeatMap"+str(currentLoca)+".jpeg")
                 ax.set_xscale('log')
                 ax.set_yscale('log')
-                fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+"_log.pdf")
-                fig.savefig("results/" + subject + "/img/heatmap_"+str(currentLoca)+"_log.jpeg")
+                fig.savefig("results/" + subject + "/img/IntegerRandomHeatMap"+str(currentLoca)+"_log.pdf")
+                fig.savefig("results/" + subject + "/img/IntegerRandomHeatMap"+str(currentLoca)+"_log.jpeg")
         else:
             i = i + len(y)*len(x)
 

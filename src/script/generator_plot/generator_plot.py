@@ -220,14 +220,14 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      box = ax.get_position()
      ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
      lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
-     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+".pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
-     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+".jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+     fig.savefig(path+"/img/"+output+"scatterPlotSuccessNumPerturb.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+     fig.savefig(path+"/img/"+output+"scatterPlotSuccessNumPerturb.jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      ax.set_xscale('symlog')
-     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+"_log.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
-     fig.savefig(path+"/img/scatterPlotSuccessNumPerturb_"+output+"_log.jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+     fig.savefig(path+"/img/"+output+"scatterPlotSuccessNumPerturb_log.pdf", bbox_extra_artists=(lgd,text), bbox_inches='tight')
+     fig.savefig(path+"/img/"+output+"scatterPlotSuccessNumPerturb_log.jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
-#subjects=["quicksort","zip","md5","sudoku","optimizer","mersenne"]
+#subjects=["quicksort","zip","md5","sudoku","solver","mersenne"]
 if sys.argv[1].isdigit():
     padding = int(sys.argv[1])
     subjects=sys.argv[2:]
@@ -237,8 +237,8 @@ else:
 
 for subject in subjects:
     print(subject)
-    scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "intadd1_rnd" ,subject)
-    scatterPlotSuccessNumPerturb("results/"+subject, "BooleanNegation_RandomExplorer_analysis_graph_data.txt", "boolinv_rnd", subject)
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAddM_CallExplorer_analysis_graph_data.txt", "magnitude_call" ,subject, 2, 3, 1)
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "intadd1_rnd",subject, 4, 2, 2, offsetStart=1)
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "BooleanNegation_RandomExplorer_analysis_graph_data.txt", "boolinv_rnd", subject, 4 ,2, 2, offsetStart=1)
+    scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "IntegerAdd1Rnd" ,subject)
+    scatterPlotSuccessNumPerturb("results/"+subject, "BooleanNegation_RandomExplorer_analysis_graph_data.txt", "BooleanNegRnd", subject)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAddM_CallExplorer_analysis_graph_data.txt", "IntegerMagnitudeSys" ,subject, 2, 3, 1)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "IntegerAdd1Sys",subject, 4, 2, 2, offsetStart=1)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "BooleanNegation_RandomExplorer_analysis_graph_data.txt", "BooleanNegRnd", subject, 4 ,2, 2, offsetStart=1)
