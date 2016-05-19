@@ -8,9 +8,6 @@ import sys
 this script is used to generate plot in results/<subject>/img/
 '''
 
-global padding
-
-
 def plot_increasingPerturbation_percentageSuccess(path, filename, output, subject, indexN, indexLoc, columnLoc, offsetStart=0):
 
     '''
@@ -22,7 +19,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
 
     labelOfN = ' '.join(lines[indexN].split()).split(" ")[0]
     print(labelOfN)
-    if "magnitude_call" == output:
+    if "IntegerMagnitudeSys" == output:
         n =  ' '.join(lines[indexN].split()).split(" ")[3:]
     else:
         n = [0.0]  + (' '.join(lines[indexN].split()).split(" ")[3:])
@@ -92,7 +89,7 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     ax = fig.add_axes((.1,.4,.8,.5))
     for i in range(len(percAll)):
         cut = min(indexToCut, len(percAll[i]))
-        color = colors_manager.getColor(int(indicesLocation[i]), p=padding)
+        color = colors_manager.getColor(int(indicesLocation[i]))
         plt.plot(nAll[i][:cut], percAll[i][:cut], marker='x', label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"), color=color)
     plt.xlabel(labelOfN)
     plt.ylabel("% success")
@@ -188,8 +185,11 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
             percAll.append(perc)
             nbCallAll.append(nbCall)
 
-
         i+=stepi
+
+     sortedPerc, indicesLocation = [list(x)[:10] for x in zip(*sorted(zip(percAll, indicesLocation), key=lambda pair: -pair[0][-1]))]
+     sortedPerc, nbPerturbAll = [list(x)[:10] for x in zip(*sorted(zip(percAll, nbPerturbAll), key=lambda pair: -pair[0][-1]))]
+     percAll, nbCallAll = [list(x)[:10] for x in zip(*sorted(zip(percAll, nbCallAll), key=lambda pair: -pair[0][-1]))]
 
      sortedPerc, indicesLocation = [list(x) for x in zip(*sorted(zip(percAll, indicesLocation), key=lambda pair: -pair[0][0]))]
      sortedPerc, nbPerturbAll = [list(x) for x in zip(*sorted(zip(percAll, nbPerturbAll), key=lambda pair: -pair[0][0]))]
@@ -199,7 +199,7 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      ax = fig.add_axes((.1,.4,.8,.5))
      for i in range(len(percAll)):
          mid = len(percAll[i]) / 2
-         color = colors_manager.getColor(int(indicesLocation[i]), p=padding)
+         color = colors_manager.getColor(int(indicesLocation[i]))
          x = [float(float(nbPerturbAll[i][len(nbPerturbAll[i])-len(percAll[i]):][z]) / nbExec)
               for z in range(len(nbCallAll[i][len(nbCallAll[i])-len(percAll[i]):]))]
          plt.plot(x , percAll[i], color=color, marker='x', label=str(indicesLocation[i]+" "+ str(int(percAll[i][0]))+ " %"))
@@ -227,18 +227,12 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      fig.savefig(path+"/img/"+output+"scatterPlotSuccessNumPerturb_log.jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
-#subjects=["quicksort","zip","md5","sudoku","solver","mersenne"]
-if sys.argv[1].isdigit():
-    padding = int(sys.argv[1])
-    subjects=sys.argv[2:]
-else:
-    padding = 3
-    subjects=sys.argv[1:]
-
+#subjects=["quicksort","zip","md5","sudoku","simplex","mersenne"]
+subjects=sys.argv[1:]
 for subject in subjects:
     print(subject)
     scatterPlotSuccessNumPerturb("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "IntegerAdd1Rnd" ,subject)
     scatterPlotSuccessNumPerturb("results/"+subject, "BooleanNegation_RandomExplorer_analysis_graph_data.txt", "BooleanNegRnd", subject)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAddM_CallExplorer_analysis_graph_data.txt", "IntegerMagnitudeSys" ,subject, 2, 3, 1)
-    plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "IntegerAdd1Sys",subject, 4, 2, 2, offsetStart=1)
+    plot_increasingPerturbation_percentageSuccess("results/"+subject, "IntegerAddOne_RandomExplorer_analysis_graph_data.txt", "IntegerAdd1Rnd",subject, 4, 2, 2, offsetStart=1)
     plot_increasingPerturbation_percentageSuccess("results/"+subject, "BooleanNegation_RandomExplorer_analysis_graph_data.txt", "BooleanNegRnd", subject, 4 ,2, 2, offsetStart=1)

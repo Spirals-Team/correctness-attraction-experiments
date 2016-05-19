@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 import sys
 
-subjects=("classifier", "md5", "mersenne", "solver", "quicksort", "rsa", "sudoku", "zip", "torrent" ,"bitcoin")
+subjects=("classifier", "md5", "mersenne", "simplex", "quicksort", "rsa", "sudoku", "zip", "torrent" ,"bitcoin")
 
 perc = []
 execs = []

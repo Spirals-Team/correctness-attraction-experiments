@@ -72,7 +72,7 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
     for i in range(len(percAll)):
         cut = len(percAll[i])
         #cut = min(indexToCut, len(percAll[i]))
-        color = colors_manager.getColor(int(indicesLocation[i]), p=padding)
+        color = colors_manager.getColor(int(indicesLocation[i]))
         plt.plot(nAll[i][:cut], percAll[i][:cut], marker='x', color=color, label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"))
     plt.xlabel(labelOfN)
     plt.ylabel("% success")
@@ -82,7 +82,7 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
         txt += line +"\n"
     text = fig.text(.1,-.10,txt)
     plt.title(subject)
-    ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+    ax.set_position([box.x0, box.y0, box.width * 0.7, box.height])
     lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     fig.savefig(path+"/img/"+output+"_plot.pdf", bbox_extra_artists=(text,), bbox_inches='tight')
     fig.savefig(path+"/img/"+output+"_plot.jpeg", bbox_extra_artists=(text,), bbox_inches='tight')
