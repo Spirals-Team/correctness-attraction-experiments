@@ -9,18 +9,19 @@ import experiment.Runner;
  */
 public class QuickSort2Manager extends OracleManagerImpl<int[]> {
 
-    public QuickSort2Manager(int seed) {
-        super(seed);
-        super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";
+    public QuickSort2Manager(int numberOfTask, int seed) {
+        super(numberOfTask, seed);
+        super.header = super.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";
         super.header += "Random integer generated with " + seedForGenTask + " as seed\n";
         super.path = "quicksort-visualization";
     }
 
+    public QuickSort2Manager(int seed) {
+        this(Runner.numberOfTask, seed);
+    }
+
     public QuickSort2Manager() {
-        super();
-        super.header = Runner.numberOfTask + " arrays of " + Runner.sizeOfEachTask + " integers\n";
-        super.header += "Random integer generated with " + seedForGenTask + " as seed\n";
-        super.path = "quicksort-visualization";
+        this(Runner.numberOfTask, 23);
     }
 
     @Override

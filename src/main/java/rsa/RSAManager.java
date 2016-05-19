@@ -9,16 +9,18 @@ import experiment.Runner;
  */
 public class RSAManager extends OracleManagerImpl<String> {
 
-    public RSAManager(int seed) {
-        super(seed);
-        super.header = Runner.numberOfTask + " string of 64 bytes\nGenerated with " + super.seedForGenTask + " as seed\n";
+    public RSAManager(int numberOfTask, int seed) {
+        super(numberOfTask, seed);
+        super.header = super.numberOfTask + " string of 64 bytes\nGenerated with " + super.seedForGenTask + " as seed\n";
         super.path = "rsa";
     }
 
+    public RSAManager(int seed) {
+        this(Runner.numberOfTask, seed);
+    }
+
     public RSAManager() {
-        super();
-        super.header = Runner.numberOfTask + " string of 64 bytes\nGenerated with " + super.seedForGenTask + " as seed\n";
-        super.path = "rsa";
+        this(Runner.numberOfTask, 23);
     }
 
     @Override

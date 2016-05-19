@@ -33,18 +33,19 @@ public class BitcoinManager extends OracleManagerImpl<Tuple> {
 
     static final int FEE_AMOUNT = 1;
 
-    public BitcoinManager(int seed) {
-        super(seed);
-        super.header = Runner.numberOfTask + " random tx between " + Runner.sizeOfEachTask + " bitcoin nodes\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
+    public BitcoinManager(int numberOfTask, int seed) {
+        super(numberOfTask, seed);
+        super.header = super.numberOfTask + " random tx between " + Runner.sizeOfEachTask + " bitcoin nodes\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
         super.path = "bitcoin";
         initWallets();
     }
 
+    public BitcoinManager(int seed) {
+        this(Runner.numberOfTask, seed);
+    }
+
     public BitcoinManager() {
-        super();
-        super.header = Runner.numberOfTask + " random tx between " + Runner.sizeOfEachTask + " bitcoin nodes\nRandom integer generated with " + super.seedForGenTask + " as seed\n";
-        super.path = "bitcoin";
-        initWallets();
+        this(Runner.numberOfTask, 23);
     }
 
     public void initWallets() {

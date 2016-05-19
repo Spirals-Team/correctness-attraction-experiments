@@ -9,16 +9,18 @@ import experiment.Runner;
  */
 public class MD5Manager extends OracleManagerImpl<String> {
 
-    public MD5Manager(int seed) {
-        super(seed);
-        super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\nRandom char generated with " + seedForGenTask + " as seed\n";
+    public MD5Manager(int numberOfTask, int seed) {
+        super(numberOfTask, seed);
+        super.header = super.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\nRandom char generated with " + seedForGenTask + " as seed\n";
         super.path = "md5";
     }
 
+    public MD5Manager(int seed) {
+        this(Runner.numberOfTask, seed);
+    }
+
     public MD5Manager() {
-        super();
-        super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\nRandom char generated with " + seedForGenTask + " as seed\n";
-        super.path = "md5";
+        this(Runner.numberOfTask, 23);
     }
 
     @Override

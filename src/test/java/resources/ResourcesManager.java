@@ -8,6 +8,10 @@ import experiment.OracleManagerImpl;
  */
 public class ResourcesManager extends OracleManagerImpl<Object> {
 
+    public ResourcesManager() {
+        super(1, 23);
+    }
+
     @Override
     public Object get(int index) {
         return null;

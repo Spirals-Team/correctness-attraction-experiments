@@ -9,18 +9,19 @@ import experiment.Runner;
  */
 public class ZipManager extends OracleManagerImpl<String> {
 
-    public ZipManager(int seed) {
-        super(seed);
+    public ZipManager(int numberOfTask, int seed) {
+        super(numberOfTask, seed);
         super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\n";
         super.header += "Random char generated with " + seedForGenTask + " as seed\n";
         super.path = "zip";
     }
 
+    public ZipManager(int seed) {
+        this(Runner.numberOfTask, seed);
+    }
+
     public ZipManager() {
-        super();
-        super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\n";
-        super.header += "Random char generated with " + seedForGenTask + " as seed\n";
-        super.path = "zip";
+        this(Runner.numberOfTask, 23);
     }
 
     @Override

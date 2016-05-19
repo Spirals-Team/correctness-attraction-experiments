@@ -29,18 +29,19 @@ public class SimplexManager extends OracleManagerImpl<OptimizationData[]> {
 
     public static int numberOfFile = pathToFileOfLinearProgram.size();
 
-    public SimplexManager(int seed) {
-        super(seed);
-        super.header = Runner.numberOfTask + " linear problems to be resolved\n";
+    public SimplexManager(int numberOfTask, int seed) {
+        super(numberOfTask, seed);
+        super.header = super.numberOfTask + " linear problems to be resolved\n";
         super.header += "linear problem are generated randomly\n";
         super.path = "simplex";
     }
 
+    public SimplexManager(int seed) {
+        this(Runner.numberOfTask, seed);
+    }
+
     public SimplexManager() {
-        super();
-        super.header = Runner.numberOfTask + " linear problems to be resolved\n";
-        super.header += "linear problem are generated randomly\n";
-        super.path = "simplex";
+        this(Runner.numberOfTask, 23);
     }
 
     protected OptimizationData[] generateOneTaskOLD() {
@@ -116,6 +117,6 @@ public class SimplexManager extends OracleManagerImpl<OptimizationData[]> {
 
     @Override
     public Oracle<OptimizationData[], ?> getOracle() {
-        return new SolverOracle();
+        return new SimplexOracle();
     }
 }

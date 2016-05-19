@@ -21,9 +21,9 @@ public class SudokuManager extends OracleManagerImpl<int[][]> {
 
     private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
 
-    public SudokuManager(int seed) {
-        super(seed);
-        super.header = Runner.numberOfTask + " sudoku grid \n";
+    public SudokuManager(int numberOfTask, int seed) {
+        super(numberOfTask, seed);
+        super.header = super.numberOfTask + " sudoku grid \n";
         super.header += "Those grid are read from file in resources/sudoku/grid.txt\n";
         super.path = "sudoku";
         try {
@@ -33,16 +33,12 @@ public class SudokuManager extends OracleManagerImpl<int[][]> {
         }
     }
 
+    public SudokuManager(int seed) {
+        this(Runner.numberOfTask ,seed);
+    }
+
     public SudokuManager() {
-        super();
-        super.header = Runner.numberOfTask + " sudoku grid \n";
-        super.header += "Those grid are read from file in resources/sudoku/grid.txt\n";
-        super.path = "sudoku";
-        try {
-            br.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this(Runner.numberOfTask, 23);
     }
 
     private void readFile() {

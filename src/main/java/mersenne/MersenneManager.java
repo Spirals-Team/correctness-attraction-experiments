@@ -9,18 +9,20 @@ import experiment.Runner;
  */
 public class MersenneManager extends OracleManagerImpl<Long> {
 
-    public MersenneManager(int seed) {
-        super(seed);
-        super.header = Runner.numberOfTask + " list of " + Runner.sizeOfEachTask + " number\n";
+    public MersenneManager(int numberOfTask, int seed) {
+        super(numberOfTask, seed);
+        super.header = super.numberOfTask + " list of " + Runner.sizeOfEachTask + " number\n";
         super.header += "Random numbers generated with " + seedForGenTask + " as seed\n";
         super.path = "mersenne";
     }
 
+    public MersenneManager(int seed) {
+        this(Runner.numberOfTask, seed);
+
+    }
+
     public MersenneManager() {
-        super();
-        super.header = Runner.numberOfTask + " list of " + Runner.sizeOfEachTask + " number\n";
-        super.header += "Random numbers generated with " + seedForGenTask + " as seed\n";
-        super.path = "mersenne";
+        this(Runner.numberOfTask, 23);
     }
 
     @Override
