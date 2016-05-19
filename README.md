@@ -8,7 +8,7 @@ This project contains experiments for [jPerturb](https://github.com/Spirals-Team
 * zip : Perturbation on LZW compression.
 * md5 : Perturbation on MD5 hash function.
 * sudoku : Perturbation on a Sudoku solver.
-* optimizer : Solver of linear program with the Simplex algorithm from [math3](https://commons.apache.org/proper/commons-math/) of Apache lib.
+* simplex : simplex of linear program with the Simplex algorithm from [math3](https://commons.apache.org/proper/commons-math/) of Apache lib.
 * mersenne : an implementation of the Mersenne-Twister PRNG : [link](http://www.java2s.com/Code/Java/Development-Class/MersenneTwisterRandom.htm)
 * torrent : implementation of bittorent protocol retrieve [here](https://github.com/mpetazzoni/ttorrent).
 * bitcoin : implementation of bitcoin node in java found [here](https://github.com/bitcoinj/bitcoinj).
@@ -70,7 +70,7 @@ You can run "little" exp (quicksort,zip,md5,sudoku and mersenne) as you ran quic
 java -cp target/classes <package_exp>.Main <list of options>
 ```
 
-For the "large" exp (optimizer, torrent, bitcoin, classifier and cipher (comming soon)), you must run them with all dependencies. The easiest way to do so is to use the maven command exec :
+For the "large" exp (simplex, torrent, bitcoin, classifier and cipher (comming soon)), you must run them with all dependencies. The easiest way to do so is to use the maven command exec :
 
 ```
 mvn exec:java -Dexec.mainClass="<package_exp>.Main" -Dexec.args="<list of options"
