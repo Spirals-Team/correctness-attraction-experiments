@@ -1,4 +1,4 @@
-package solver;
+package simplex;
 
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.linear.LinearConstraint;

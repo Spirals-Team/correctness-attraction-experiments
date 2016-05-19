@@ -1,4 +1,4 @@
-package solver;
+package simplex;
 
 import experiment.Oracle;
 import experiment.OracleManagerImpl;
@@ -14,11 +14,11 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class SolverManager extends OracleManagerImpl<OptimizationData[]> {
+public class SimplexManager extends OracleManagerImpl<OptimizationData[]> {
 
     private static List<String> pathToFileOfLinearProgram = new ArrayList<>();
 
-    private static String PATH_DIRECTORY_DATASET = "resources/solver/";
+    private static String PATH_DIRECTORY_DATASET = "resources/simplex/";
 
     static {
         File directory = new File(PATH_DIRECTORY_DATASET);
@@ -29,18 +29,18 @@ public class SolverManager extends OracleManagerImpl<OptimizationData[]> {
 
     public static int numberOfFile = pathToFileOfLinearProgram.size();
 
-    public SolverManager(int seed) {
+    public SimplexManager(int seed) {
         super(seed);
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";
         super.header += "linear problem are generated randomly\n";
-        super.path = "solver";
+        super.path = "simplex";
     }
 
-    public SolverManager() {
+    public SimplexManager() {
         super();
         super.header = Runner.numberOfTask + " linear problems to be resolved\n";
         super.header += "linear problem are generated randomly\n";
-        super.path = "solver";
+        super.path = "simplex";
     }
 
     protected OptimizationData[] generateOneTaskOLD() {
