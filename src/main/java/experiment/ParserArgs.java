@@ -20,8 +20,8 @@ import org.bitcoinj.core.ECKey;
 import org.bitcoinj.core.Message;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.wallet.BasicKeyChain;
-import solver.SolverCallableImpl;
-import solver.SolverManager;
+import simplex.SimplexCallableImpl;
+import simplex.SimplexManager;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
 import org.bitcoinj.core.Sha256Hash;
@@ -346,9 +346,7 @@ public class ParserArgs {
                 }
                 break;
             case "simplex":
-            case "solver":
-            case "opt":
-                Runner.setup(SimplexSolverInstr.class, SolverCallableImpl.class, new SolverManager(), typePerturbed != null ? typePerturbed : "Numerical", OptimizationData[].class);
+                Runner.setup(SimplexSolverInstr.class, SimplexCallableImpl.class, new SimplexManager(), typePerturbed != null ? typePerturbed : "Numerical", OptimizationData[].class);
                 break;
             default:
             case "qs":
