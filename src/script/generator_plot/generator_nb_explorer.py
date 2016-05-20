@@ -2,8 +2,6 @@ from matplotlib import pyplot as plt
 
 import colors_manager
 
-global padding
-
 import sys
 
 def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, logscale=False):
@@ -92,12 +90,7 @@ def plot_increasingNbTask_percentageSuccess(path, filename, output, subject, log
     plt.close(fig)
 
 #subjects=["quicksort","md5","mersenne","zip"]
-if sys.argv[1].isdigit():
-    padding = int(sys.argv[1])
-    subjects=sys.argv[2:]
-else:
-    padding = 3
-    subjects=sys.argv[1:]
+subjects=sys.argv[1:]
 for subject in subjects:
     plot_increasingNbTask_percentageSuccess("results/"+subject, "NumberTaskExplorer.txt", "numberexplorer", subject)
 

@@ -227,7 +227,6 @@ def scatterPlotSuccessNumPerturb(path, filename, output, subject):
      fig.savefig(path+"/img/"+output+"scatterPlotSuccessNumPerturb_log.jpeg", bbox_extra_artists=(lgd,text), bbox_inches='tight')
      plt.close(fig)
 
-#subjects=["quicksort","zip","md5","sudoku","simplex","mersenne"]
 subjects=sys.argv[1:]
 for subject in subjects:
     print(subject)
