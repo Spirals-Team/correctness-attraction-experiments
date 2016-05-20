@@ -25,6 +25,7 @@ for subject in subjects:
     plt.ylabel("#Mutant")
     lgd = ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     fig.savefig("results/"+str(subject)+"/img/mutant_number_plot.pdf", bbox_extra_artists=(lgd,), bbox_inches='tight')
+    fig.savefig("results/"+str(subject)+"/img/mutant_number_plot.jpeg", bbox_extra_artists=(lgd,), bbox_inches='tight')
     plt.close(fig)
 
 
