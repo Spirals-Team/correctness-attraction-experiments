@@ -36,6 +36,7 @@ import sudoku.SudokuInstr;
 import sudoku.SudokuManager;
 import torrent.TorrentCallable;
 import torrent.TorrentManager;
+import weka.core.Instances;
 import weka.experiment.CrossValidationResultProducer;
 import weka.experiment.Experiment;
 import zip.LZWInstr;
@@ -127,7 +128,6 @@ public class ParserArgs {
                 arrayInteger = new int[arrayStr.length];
                 for (int i = 0; i < arrayStr.length; i++)
                     arrayInteger[i] = Integer.parseInt(arrayStr[i]);
-                TaskNumberExplorer.numberOfTask = arrayInteger;
             }
         }
 
@@ -233,12 +233,12 @@ public class ParserArgs {
                     i++;
                 }
             } catch (NumberFormatException e) {
-                randomRate = new float[]{ 0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f};
+                randomRate = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f};
             }
         }
 
         if (randomRate == null)
-            randomRate = new float[]{ 0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f};
+            randomRate = new float[]{0.001f, 0.005f, 0.01f, 0.05f, 0.1f, 0.15f, 0.2f, 0.25f, 0.3f};
 
         Runner.explorers.add(new RandomExplorer(exploration, repeat, randomRate));
         return i;
@@ -289,42 +289,41 @@ public class ParserArgs {
             case "bitcoin":
             case "bc":
 
-                //Integer locations
-
-                locations.add(ECKey.__L1588);
-                locations.add(ECKey.__L1589);
-                locations.add(DeterministicKey.__L6751);
-                locations.add(DeterministicKey.__L6752);
-                locations.add(DeterministicKey.__L6753);
-                locations.add(DeterministicKey.__L6755);
-                locations.add(Message.__L2286);
-                locations.add(Message.__L2295);
-                locations.add(Message.__L2296);
-                locations.add(Message.__L2298);
-                locations.add(Message.__L2309);
-                locations.add(Message.__L2310);
-                locations.add(Message.__L2311);
-                locations.add(Message.__L2312);
-                locations.add(Message.__L2315);
-                locations.add(ECKey.__L1648);
-                locations.add(ECKey.__L1648);
-                locations.add(Sha256Hash.__L3677);
-                locations.add(Sha256Hash.__L3678);
-                locations.add(BasicKeyChain.__L12816);
-
-                //Boolean locations
-
-//                locations.add(DeterministicKey.__L6715);
-//                locations.add(DeterministicKey.__L1604);
-//
-//                locations.add(Message.__L2287);
-//                locations.add(Message.__L2288);
-//                locations.add(Message.__L2337);
-//                locations.add(Message.__L2343);
-//                locations.add(Message.__L2371);
-//                locations.add(Message.__L2374);
-//                locations.add(Message.__L2379);
-//                locations.add(Message.__L2382);
+                if (typePerturbed == null || typePerturbed.equals("Numerical")) {
+                    //Integer locations
+                    locations.add(ECKey.__L1588);
+                    locations.add(ECKey.__L1589);
+                    locations.add(DeterministicKey.__L6751);
+                    locations.add(DeterministicKey.__L6752);
+                    locations.add(DeterministicKey.__L6753);
+                    locations.add(DeterministicKey.__L6755);
+                    locations.add(Message.__L2286);
+                    locations.add(Message.__L2295);
+                    locations.add(Message.__L2296);
+                    locations.add(Message.__L2298);
+                    locations.add(Message.__L2309);
+                    locations.add(Message.__L2310);
+                    locations.add(Message.__L2311);
+                    locations.add(Message.__L2312);
+                    locations.add(Message.__L2315);
+                    locations.add(ECKey.__L1648);
+                    locations.add(ECKey.__L1648);
+                    locations.add(Sha256Hash.__L3677);
+                    locations.add(Sha256Hash.__L3678);
+                    locations.add(BasicKeyChain.__L12816);
+                } else {
+                    //Boolean locations
+                    locations.add(DeterministicKey.__L6715);
+                    locations.add(DeterministicKey.__L1604);
+                    locations.add(Message.__L2287);
+                    locations.add(Message.__L2288);
+                    locations.add(Message.__L2337);
+                    locations.add(Message.__L2343);
+                    locations.add(Message.__L2371);
+                    locations.add(Message.__L2374);
+                    locations.add(Message.__L2379);
+                    locations.add(Message.__L2382);
+                }
 
                 Runner.setup(BasicKeyChain.class, BitcoinCallable.class, new BitcoinManager(), typePerturbed != null ? typePerturbed : "Numerical", Tuple.class);
                 break;

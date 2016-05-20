@@ -22,7 +22,6 @@ public class SudokuOracle implements Oracle<int[][],int[][]> {
         return lst;
     }
 
-    //@TODO Improve oracle
     @Override
     public boolean assertPerturbation(int[][] input, int[][] output) {
         for (int row = 0; row < output.length; row++) {

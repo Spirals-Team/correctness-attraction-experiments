@@ -12,6 +12,10 @@ public interface OracleManager<T> {
      */
     T get(int index);
 
+    /**
+     * Provide a oracle
+     * @return
+     */
     Oracle<T, ?> getOracle();
 
     /**

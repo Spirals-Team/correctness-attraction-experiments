@@ -64,7 +64,7 @@ public class Window extends JFrame {
 
     public void run() {
         Graphics2D g2D = (Graphics2D) this.panel.getGraphics();
-        float percentage = this.model.runAllTask();
+        double percentage = this.model.runAllTask();
         System.out.println(String.format("%.2f", percentage) + " % of success");
         this.panel.setBackground(Color.WHITE);
         g2D.clearRect(0, this.c.getHeight() + 15, 400, 350);
@@ -75,7 +75,6 @@ public class Window extends JFrame {
         float x = (float)(cx + r * Math.cos(a));
         float y = (float)(cy + r * Math.sin(a));
         g2D.draw(new Line2D.Float(cx, cy, x, y));
-        g2D.dispose();
     }
 
     public static void main(String[] args) {

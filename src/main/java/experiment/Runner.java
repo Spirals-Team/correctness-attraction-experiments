@@ -29,7 +29,17 @@ public class Runner {
     public static Explorer explorer;
     public static int numberOfSecondsToWait = 1;
     public static int sizeOfEachTask = 100;
-    public static int numberOfTask = 20;
+    public static List<Integer> task;
+
+    public static int numberOfTask = -1;
+
+    static {
+        task = new ArrayList<>();
+        for (int i = 0; i < (numberOfTask == -1 ? 20 : numberOfTask) ; i++) {
+            task.add(i);
+        }
+        numberOfTask = task.size();
+    }
     public static Class[] inputType;
 
     private static List<Object> outputs = new ArrayList<>();
@@ -42,7 +52,7 @@ public class Runner {
         filterLocation(explorer.getTypeOfExploration());
         explorer.initLogger();
         IntStream.range(0, numberOfTask)
-                .forEach(Runner::runLocations);
+                .forEach(index -> Runner.runLocations(task.get(index)));
         explorer.log();
     }
 
@@ -52,7 +62,7 @@ public class Runner {
         locations = customLocations;
         explorer.initLogger();
         IntStream.range(0, numberOfTask)
-                .forEach(Runner::runLocations);
+                .forEach(index -> Runner.runLocations(task.get(index)));
         explorer.log();
     }
 

@@ -20,7 +20,9 @@ import java.util.Random;
  */
 public class SeedExplorer extends CallExplorer {
 
-    public static int[] seeds = new int[]{1, 2, 3, 4, 5};
+    public static int numberOfSeed = 15;
+
+    public static int[] seeds;
 
     private static String nameOfSpecificExploration;
 
@@ -72,7 +74,7 @@ public class SeedExplorer extends CallExplorer {
         Tuple[][][][] results = Logger.getResults();
         try {
             FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", true);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
+            String format = "%-15s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             Tuple result = new Tuple(6);
             int accNbOfTasks = 0;
             int accNbExecAllTask = 0;
@@ -100,7 +102,7 @@ public class SeedExplorer extends CallExplorer {
     private static void mergeFile() {
         try {
             FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/"+nameOfSpecificExploration+".txt", false);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
+            String format = "%-15s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             writer.write(header);
             writer.write(String.format(format, "#Seed", "IndexLoc",
                     "#Success", "#Failure", "#Exception",
@@ -115,19 +117,19 @@ public class SeedExplorer extends CallExplorer {
                 while ((line = buffer.readLine()) != null)
                     writer.write(line + "\n");
                 buffer.close();
-                Files.delete(Paths.get("results/" + Runner.manager.getPath() + "/NumberTaskExplorer_" + (location.getLocationIndex()) + ".txt"));
+                Files.delete(Paths.get("results/" + Runner.manager.getPath() + "/"+nameOfSpecificExploration+ "_" + (location.getLocationIndex()) + ".txt"));
             }
             writer.close();
-        } catch (IOException ignored){}
+        } catch (IOException ignored){ignored.printStackTrace();}
     }
 
 
     public static void run(Class<?> classUnderPerturbation, Class<?> classCallable, Class<?> classManager, String locationType, Class<?>... inputTypes) {
-        System.out.println("Explore the impact of seed ...");
+        System.out.println("Explore the impact of seed("+numberOfSeed+") ...");
 
-        seeds = new int[5];
+        seeds = new int[numberOfSeed];
         Random rnd = new Random(((OracleManagerImpl) Runner.manager).seedForGenTask);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < seeds.length; i++)
             seeds[i] = rnd.nextInt();
 
         for (int i = 0; i < seeds.length; i++) {

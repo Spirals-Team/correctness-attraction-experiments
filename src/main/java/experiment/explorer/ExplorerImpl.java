@@ -21,7 +21,7 @@ public abstract class ExplorerImpl implements Explorer {
 
     protected Exploration exploration;
 
-    public final String name;
+    public String name;
 
     public ExplorerImpl(Exploration exploration, String name) {
         this.exploration = exploration;
