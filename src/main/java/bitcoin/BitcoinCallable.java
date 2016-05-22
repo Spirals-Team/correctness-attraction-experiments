@@ -1,11 +1,12 @@
 package bitcoin;
 
 import experiment.CallableImpl;
-import experiment.Runner;
 import experiment.Tuple;
 import org.bitcoinj.core.Coin;
 import org.bitcoinj.core.InsufficientMoneyException;
 import org.bitcoinj.core.Wallet;
+import org.junit.runner.Runner;
+
 /**
  * Created by spirals on 25/04/16.
  */

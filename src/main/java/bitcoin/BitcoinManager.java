@@ -1,13 +1,14 @@
 package bitcoin;
 
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.OracleManagerImpl;
-import experiment.Runner;
 import experiment.Tuple;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.RegTestParams;
 import org.bitcoinj.utils.BriefLogFormatter;
+import org.junit.runner.Runner;
 
 import java.io.File;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ import java.util.Map;
  * Runner.numberOfTask is the number of tx, and Runner.sizeOfEachTask is the number of bitcoin node used in scenarios.
  *
  */
-public class BitcoinManager extends OracleManagerImpl<Tuple> {
+public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
     private static Map<Integer, WalletAppKit> kits = new HashMap<>();
 
@@ -118,8 +119,28 @@ public class BitcoinManager extends OracleManagerImpl<Tuple> {
     }
 
     @Override
+    public CallableImpl<Tuple, Integer> getCallable(Tuple input) {
+        return new BitcoinCallable(input);
+    }
+
+    @Override
     public Oracle<Tuple, ?> getOracle() {
         return new BitcoinOracle();
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public String getHeader() {
+        return null;
+    }
+
+    @Override
+    public Tuple getTask(int indexOfTask) {
+        return null;
     }
 
 

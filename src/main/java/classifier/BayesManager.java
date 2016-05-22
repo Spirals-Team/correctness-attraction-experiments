@@ -2,7 +2,6 @@ package classifier;
 
 import experiment.Oracle;
 import experiment.OracleManagerImpl;
-import experiment.Runner;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.experiment.*;

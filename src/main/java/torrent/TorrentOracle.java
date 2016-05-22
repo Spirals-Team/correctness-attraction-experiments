@@ -1,7 +1,6 @@
 package torrent;
 
 import experiment.Oracle;
-import experiment.Runner;
 
 import java.io.IOException;
 import java.nio.file.Files;

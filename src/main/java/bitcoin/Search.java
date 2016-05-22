@@ -1,8 +1,6 @@
 package bitcoin;
 
 import experiment.Oracle;
-import experiment.Runner;
-import org.bitcoinj.crypto.PBKDF2SHA512;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;

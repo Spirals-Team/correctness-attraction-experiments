@@ -1,7 +1,6 @@
 package mersenne;
 
 import experiment.CallableImpl;
-import experiment.Runner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,15 +10,18 @@ import java.util.List;
  */
 public class MersenneCallableImpl extends CallableImpl<Long, List<Long>> {
 
-    public MersenneCallableImpl(Long input) {
+    private int size;
+
+    public MersenneCallableImpl(Long input, int size) {
         super(input);
+        this.size = size;
     }
 
     @Override
     public List<Long> call() throws Exception {
         MersenneTwisterInstr mersenneTwister = new MersenneTwisterInstr(input);
         List<Long> rndList = new ArrayList<>();
-        for(int i = 0; i < Runner.sizeOfEachTask ; i++)
+        for(int i = 0; i < this.size ; i++)
             rndList.add(mersenneTwister.genrand());
         return rndList;
     }

@@ -4,7 +4,6 @@ import com.turn.ttorrent.client.Client;
 import com.turn.ttorrent.client.SharedTorrent;
 import com.turn.ttorrent.common.Torrent;
 import experiment.CallableImpl;
-import experiment.Runner;
 
 import java.io.File;
 import java.net.InetAddress;

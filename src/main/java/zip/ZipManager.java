@@ -1,45 +1,58 @@
 package zip;
 
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.OracleManagerImpl;
-import experiment.Runner;
 
 /**
  * Created by spirals on 19/04/16.
  */
-public class ZipManager extends OracleManagerImpl<String> {
+public class ZipManager extends ManagerImpl<String,String> {
 
-    public ZipManager(int numberOfTask, int seed) {
-        super(numberOfTask, seed);
-        super.header = Runner.numberOfTask + " string of " + Runner.sizeOfEachTask + " char\n";
-        super.header += "Random char generated with " + seedForGenTask + " as seed\n";
-        super.path = "zip";
+    public ZipManager(int numberOfTask, int size) {
+        this(numberOfTask, size, 23);
     }
 
-    public ZipManager(int seed) {
-        this(Runner.numberOfTask, seed);
+    public ZipManager(int numberOfTask, int size, int seed) {
+        super(23);
+        super.CUP = LZWInstr.class;
+        super.initialize(numberOfTask, size);
     }
 
-    public ZipManager() {
-        this(Runner.numberOfTask, 23);
-    }
 
     @Override
     protected String generateOneTask() {
         String string = "";
-        for (int i = 0; i < Runner.sizeOfEachTask ; i++) {
+        for (int i = 0; i < super.sizeOfTask ; i++) {
             string += ((char)randomForGenTask.nextInt(256));
         }
         return string;
     }
 
     @Override
-    public String get(int index) {
-        return new String(scenario.get(index));
+    public CallableImpl<String, String> getCallable(String input) {
+        return new ZipCallableImpl(input);
     }
 
     @Override
-    public Oracle<String, ?> getOracle() {
+    public Oracle<String, String> getOracle() {
         return new ZipOracle();
+    }
+
+    @Override
+    public String getName() {
+        return "zip";
+    }
+
+    @Override
+    public String getHeader() {
+        return super.indexTasks.size()+ " string of " + super.sizeOfTask + " char\n" +
+                "Random char generated with " + seedForGenTask + " as seed\n" +
+                super.locations.size() + " perturbation points\n";
+    }
+
+    @Override
+    public String getTask(int indexOfTask) {
+        return new String(super.tasks.get(indexOfTask));
     }
 }

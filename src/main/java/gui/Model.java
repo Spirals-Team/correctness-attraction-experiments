@@ -1,6 +1,6 @@
 package gui;
 
-import experiment.Runner;
+import org.junit.runner.Runner;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
@@ -12,7 +12,6 @@ import quicksort.QuickSortManager;
 import quicksort.QuickSortOracle;
 
 import java.util.List;
-import java.util.Observable;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

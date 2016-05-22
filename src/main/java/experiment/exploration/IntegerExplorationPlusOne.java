@@ -1,9 +1,10 @@
 package experiment.exploration;
 
-import experiment.Runner;
+import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.AddNPerturbatorImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by beyni on 01/05/16.
@@ -23,7 +24,6 @@ public class IntegerExplorationPlusOne extends ExplorationImpl {
         super.name = "IntegerAddOne";
         super.header = "Exploration Plus One\n";
 
-        super.header += Runner.locations.size() + " perturbation point\n";
         super.header += "PONE : plus one perturbator\n";
     }
 

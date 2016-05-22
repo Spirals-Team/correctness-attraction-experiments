@@ -1,12 +1,8 @@
 package partial_mutant;
 
-import experiment.*;
-import experiment.Runner;
+import experiment.OracleManager;
 import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.RandomExplorer;
-import md5.MD5CallableImpl;
-import md5.MD5Instr;
-import md5.MD5Manager;
 import perturbation.enactor.AlwaysEnactorImpl;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
@@ -82,7 +78,7 @@ public class RandomMutantRepair {
         System.out.println(task.size());
         Runner.numberOfTask = task.size();
         Runner.locations = locations;
-        RandomExplorer rndExplorer = new RandomExplorer(new IntegerExplorationPlusOne());
+        RandomExplorer rndExplorer = new RandomExplorer(new IntegerExplorationPlusOne(null));
         rndExplorer.name = name;
         Runner.run(rndExplorer , locations);
     }

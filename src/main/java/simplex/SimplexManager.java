@@ -2,7 +2,6 @@ package simplex;
 
 import experiment.Oracle;
 import experiment.OracleManagerImpl;
-import experiment.Runner;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.linear.*;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;

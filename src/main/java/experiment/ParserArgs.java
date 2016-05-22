@@ -8,7 +8,6 @@ import com.turn.ttorrent.bcodec.BDecoder;
 import experiment.exploration.BooleanExplorationNegation;
 import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusMagnitude;
-import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.*;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
@@ -16,27 +15,27 @@ import md5.MD5Manager;
 import mersenne.MersenneCallableImpl;
 import mersenne.MersenneManager;
 import mersenne.MersenneTwisterInstr;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.Message;
-import org.bitcoinj.crypto.DeterministicKey;
-import org.bitcoinj.wallet.BasicKeyChain;
-import simplex.SimplexCallableImpl;
-import simplex.SimplexManager;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.linear.SimplexSolverInstr;
+import org.bitcoinj.core.ECKey;
+import org.bitcoinj.core.Message;
 import org.bitcoinj.core.Sha256Hash;
+import org.bitcoinj.crypto.DeterministicKey;
+import org.bitcoinj.wallet.BasicKeyChain;
+import org.junit.runner.Runner;
 import perturbation.location.PerturbationLocation;
 import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
 import quicksort.QuickSortManager;
 import rsa.RSACallable;
 import rsa.RSAManager;
+import simplex.SimplexCallableImpl;
+import simplex.SimplexManager;
 import sudoku.SudokuCallableImpl;
 import sudoku.SudokuInstr;
 import sudoku.SudokuManager;
 import torrent.TorrentCallable;
 import torrent.TorrentManager;
-import weka.core.Instances;
 import weka.experiment.CrossValidationResultProducer;
 import weka.experiment.Experiment;
 import zip.LZWInstr;
@@ -108,9 +107,9 @@ public class ParserArgs {
             if ((currentIndex = getIndexOfOption("-run", args)) != -1) {
                 run(currentIndex + 1, args);
             } else {
-                Runner.explorers.add(new CallExplorer(new IntegerExplorationPlusOne()));
+//                Runner.explorers.add(new CallExplorer(new IntegerExplorationPlusOne()));
                 Runner.explorers.add(new CallExplorer(new IntegerExplorationPlusMagnitude()));
-                Runner.explorers.add(new RandomExplorer(new IntegerExplorationPlusOne()));
+//                Runner.explorers.add(new RandomExplorer(new IntegerExplorationPlusOne()));
                 Runner.explorers.add(new CallExplorer(new BooleanExplorationNegation()));
                 Runner.explorers.add(new RandomExplorer(new BooleanExplorationNegation()));
             }
@@ -262,12 +261,13 @@ public class ParserArgs {
                     return new IntegerExplorationPlusMagnitude();
             case "one":
                 typePerturbed = "Numerical";
-                return new IntegerExplorationPlusOne();
+//                return new IntegerExplorationPlusOne();
             case "boolean":
                 typePerturbed = "Boolean";
                 return new BooleanExplorationNegation();
             default:
-                return new IntegerExplorationPlusOne();
+                return new BooleanExplorationNegation();
+//                return new IntegerExplorationPlusOne();
         }
     }
 

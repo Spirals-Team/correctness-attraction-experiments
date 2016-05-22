@@ -2,7 +2,6 @@ package classifier;
 
 import bitcoin.BitcoinCallable;
 import bitcoin.BitcoinManager;
-import experiment.Runner;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;

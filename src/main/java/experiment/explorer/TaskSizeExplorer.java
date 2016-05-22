@@ -12,22 +12,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * Created by bdanglot on 02/05/16.
  */
 public class TaskSizeExplorer extends CallExplorer {
 
-    public static int[] sizeOfTask = new int[]{5,10,20,50,100};
+    public static int[] sizeOfTask = new int[]{5, 10, 20, 50, 100};
 
     private String header;
 
     private String nameOfSpecificExploration;
 
-    public TaskSizeExplorer(boolean init, int[] arrayOfTask) {
-        super(new IntegerExplorationPlusOne());
+    public TaskSizeExplorer(Manager manager, boolean init, int[] arrayOfTask) {
+        super(manager, new IntegerExplorationPlusOne());
         //Logger contains : Success Failure Exception Call Perturbation NumberOfExecution
-        Logger.init(Runner.locations.size(), Runner.numberOfTask, super.perturbators.size());
+        super.logger = new Logger(super.manager, super.manager.getLocations().size(), super.manager.getIndexTask().size(), super.perturbators.size());//@TODO Check this
         PerturbationEngine.loggers.put(super.name, new LoggerImpl());
 
         header = "Contains data to explore the size of task required for saturation\n";
@@ -35,85 +36,88 @@ public class TaskSizeExplorer extends CallExplorer {
         header += "Task Size : ";
         for (int nTask : arrayOfTask)
             header += nTask + " ";
-        header += "\n" + Runner.locations.size() + " perturbation point\n";
+        header += "\n" + super.manager.getLocations().size() + " perturbation point\n";
         header += "N Execution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
         header += "One task of different size\n";
-        header += "Seed used for generate task is " + ((OracleManagerImpl)Runner.manager).seedForGenTask + "\n";
+        header += "Seed used for generate task is " + ((ManagerImpl) manager).seedForGenTask + "\n";
 
         PerturbationEngine.loggers.remove(super.name);
         nameOfSpecificExploration = "SizeTaskExploration";
         PerturbationEngine.loggers.put(super.name, new LoggerImpl());
 
         if (init)
-            Runner.locations.stream().forEach(this::init);
+            init();
     }
 
-    private void init(PerturbationLocation location) {
-        try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", false);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
-            writer.write(header);
-            writer.write(String.format(format, "Size", "IndexLoc",
-                    "#Success", "#Failure", "#Exception",
-                    "#CallAllExecs", "AvgCallPerExec",
-                    "#Perturbations", "AvgPerturbationPerExec",
-                    "#Execs", "#CallRef", "%Success") + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void init() {
+        List<PerturbationLocation> locations = super.manager.getLocations();
+        for (PerturbationLocation location : locations) {
+            try {
+                FileWriter writer = new FileWriter("results/" + super.manager.getName() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", false);
+                String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
+                writer.write(header);
+                writer.write(String.format(format, "Size", "IndexLoc",
+                        "#Success", "#Failure", "#Exception",
+                        "#CallAllExecs", "AvgCallPerExec",
+                        "#Perturbations", "AvgPerturbationPerExec",
+                        "#Execs", "#CallRef", "%Success") + "\n");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void log() {
-        Runner.locations.stream().forEach(this::log);
-    }
+        Tuple[][][][] results = super.logger.getResults();
+        List<PerturbationLocation> locations = super.manager.getLocations();
+        for (PerturbationLocation location : locations) {
+            try {
+                FileWriter writer = new FileWriter("results/" + super.manager.getName() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", true);
+                String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
+                Tuple result = new Tuple(6);
+                int accNbOfTasks = 0;
+                int accNbExecAllTask = 0;
+                for (int indexTask = 0; indexTask < super.manager.getIndexTask().size(); indexTask++) {
+                    result = result.add(results[locations.indexOf(location)][indexTask][0][0]);
+                    accNbOfTasks += super.nbCallReferencePerLocationPerTask[locations.indexOf(location)][indexTask];
+                }
 
-    private void log(PerturbationLocation location) {
-        Tuple[][][][] results = Logger.getResults();
-        try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/" + nameOfSpecificExploration + "_" + (location.getLocationIndex()) + ".txt", true);
-            String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
-            Tuple result = new Tuple(6);
-            int accNbOfTasks = 0;
-            int accNbExecAllTask = 0;
-            for (int indexTask = 0; indexTask < Runner.numberOfTask; indexTask++) {
-                result = result.add(results[Runner.locations.indexOf(location)][indexTask][0][0]);
-                accNbOfTasks += super.nbCallReferencePerLocationPerTask[Runner.locations.indexOf(location)][indexTask];
+                double avgCall = (double) result.get(3) / (double) accNbOfTasks;
+                double avgPerturbation = (double) result.get(4) / (double) accNbOfTasks;
+
+                writer.write(String.format(format, super.manager.getSizeOfTask(), location.getLocationIndex(),
+                        result.get(0), result.get(1), result.get(2),
+                        result.get(3), String.format("%.2f", avgCall),
+                        result.get(4), String.format("%.2f", avgPerturbation),
+                        accNbExecAllTask, result.get(5),
+                        result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-            double avgCall = (double) result.get(3) / (double) accNbOfTasks;
-            double avgPerturbation = (double) result.get(4) / (double) accNbOfTasks;
-
-            writer.write(String.format(format, Runner.sizeOfEachTask, location.getLocationIndex(),
-                    result.get(0), result.get(1), result.get(2),
-                    result.get(3), String.format("%.2f", avgCall),
-                    result.get(4), String.format("%.2f", avgPerturbation),
-                    accNbExecAllTask, result.get(5),
-                    result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
-    private static void mergeFile(int[] sizeOfTask) {
-        String  header = "Contains data to explore the size of task required for saturation\n";
+    private static void mergeFile(Manager manager, int[] sizeOfTask) {
+        List<PerturbationLocation> locations = manager.getLocations();
+        String header = "Contains data to explore the size of task required for saturation\n";
         header += "Size Task Exploration (STE)\n";
         header += "Size Task : ";
         for (int size : sizeOfTask)
             header += size + " ";
-        header += "\n" + Runner.locations.size() + " perturbation point\n";
+        header += "\n" + locations.size() + " perturbation point\n";
         header += "N Execution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
         header += "One task of different size\n";
-        header += "Seed used for generate task is " + ((OracleManagerImpl)Runner.manager).seedForGenTask + "\n";
+        header += "Seed used for generate task is " + ((ManagerImpl) manager).seedForGenTask + "\n";
 
         String name = "SizeTaskExploration";
 
         try {
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/"+name+".txt", false);
+            FileWriter writer = new FileWriter("results/" + manager.getName() + "/" + name + ".txt", false);
             String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
             writer.write(header);
             writer.write(String.format(format, "#Tasks", "IndexLoc",
@@ -122,34 +126,34 @@ public class TaskSizeExplorer extends CallExplorer {
                     "#Perturbations", "AvgPerturbationPerExec",
                     "#Execs", "#CallRef", "%Success") + "\n");
 
-            for (PerturbationLocation location : Runner.locations) {
-                BufferedReader buffer = new BufferedReader(new FileReader("results/" + Runner.manager.getPath() + "/"+name+"_" + (location.getLocationIndex()) + ".txt"));
-                for (int i = 0 ; i < 9 ; i++) buffer.readLine();
+            for (PerturbationLocation location : locations) {
+                BufferedReader buffer = new BufferedReader(new FileReader("results/" + manager.getName() + "/" + name + "_" + (location.getLocationIndex()) + ".txt"));
+                for (int i = 0; i < 9; i++) buffer.readLine();
                 String line;
                 while ((line = buffer.readLine()) != null)
                     writer.write(line + "\n");
                 buffer.close();
-                Files.delete(Paths.get("results/" + Runner.manager.getPath() + "/"+name+"_" +  (location.getLocationIndex()) + ".txt"));
+                Files.delete(Paths.get("results/" + manager.getName() + "/" + name + "_" + (location.getLocationIndex()) + ".txt"));
             }
             writer.close();
-        } catch (IOException e){}
+        } catch (IOException e) {
+        }
     }
 
-    public static void run(Class<?> classUnderPerturbation, Class<?> classCallable, Class<?> classManager, String locationType, Class<?>... inputTypes) {
+    public static void run(Class<?> classManager) {
+        Manager manager = null;
         System.out.println("Explore the saturation by the size of tasks...");
-        for (int i = 0 ; i < sizeOfTask.length ; i++) {
+        for (int i = 0; i < sizeOfTask.length; i++) {
             int size = sizeOfTask[i];
-            System.out.println("Size of task : \t" + size + "\t" +Util.getStringPerc(i, sizeOfTask.length));
-            Runner.sizeOfEachTask = size;
-            OracleManagerImpl manager = null;
+            System.out.println("Size of task : \t" + size + "\t" + Util.getStringPerc(i, sizeOfTask.length));
             try {
-                manager = (OracleManagerImpl) classManager.getConstructor().newInstance();
+                manager = (Manager) classManager.getConstructor().newInstance();
+                manager.initialize(20, size);
+                new TaskSizeExplorer(manager, i == 0, sizeOfTask);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            Runner.setup(classUnderPerturbation, classCallable, manager, locationType, inputTypes);
-            Runner.run(new TaskSizeExplorer(i == 0, sizeOfTask));
         }
-        mergeFile(sizeOfTask);
+        mergeFile(manager, sizeOfTask);
     }
 }

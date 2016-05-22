@@ -2,7 +2,6 @@ package rsa;
 
 import experiment.Oracle;
 import experiment.OracleManagerImpl;
-import experiment.Runner;
 
 /**
  * Created by bdanglot on 29/04/16.

@@ -1,6 +1,5 @@
 package explorer;
 
-import experiment.Runner;
 import experiment.exploration.BooleanExplorationNegation;
 import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.CallExplorer;
@@ -28,7 +27,7 @@ public class TestCallExplorer {
     public void testPlusOneCallExplorer() throws Exception {
         ResourcesManager manager = new ResourcesManager();
         Runner.setup(Resources.class, ResourcesCallableInt.class, manager, "Numerical", Integer.class);
-        CallExplorer explorer = new CallExplorer(new IntegerExplorationPlusOne());
+        CallExplorer explorer = new CallExplorer(new IntegerExplorationPlusOne(null));
 
         explorer.initLogger();
 

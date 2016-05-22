@@ -15,9 +15,11 @@ public class Logger {
     /**
      * Tuple results with 4 dimensions Location Task Perturbator Enactor
      */
-    private static Tuple[][][][] results;
+    private Tuple[][][][] results;
 
-    private static int sizeOfTuple;
+    private int sizeOfTuple;
+
+    private Manager manager;
 
     /**
      * Init logger with Tuple 6 with the given numbers and 1 enactor.
@@ -25,8 +27,8 @@ public class Logger {
      * @param numberOfTask
      * @param numberOfPerturbator
      */
-    public static void init(int numberOfLocations, int numberOfTask, int numberOfPerturbator) {
-        init(numberOfLocations, numberOfTask, numberOfPerturbator, 1, 6);
+    public Logger(Manager manager, int numberOfLocations, int numberOfTask, int numberOfPerturbator) {
+        this(manager, numberOfLocations, numberOfTask, numberOfPerturbator, 1, 6);
     }
 
     /**
@@ -36,9 +38,10 @@ public class Logger {
      * @param numberOfPerturbator
      * @param numberOfEnactor
      */
-    public static void init(int numberOfLocations, int numberOfTask, int numberOfPerturbator, int numberOfEnactor) {
-        init(numberOfLocations, numberOfTask, numberOfPerturbator, numberOfEnactor, 6);
+    public Logger(Manager manager, int numberOfLocations, int numberOfTask, int numberOfPerturbator, int numberOfEnactor) {
+        this(manager, numberOfLocations, numberOfTask, numberOfPerturbator, numberOfEnactor, 6);
     }
+
 
     /**
      * Init logger with Tuple with the given numbers.
@@ -48,26 +51,22 @@ public class Logger {
      * @param numberOfEnactor
      * @param sizeOfEachTuple
      */
-    public static void init(int numberOfLocations, int numberOfTask, int numberOfPerturbator, int numberOfEnactor, int sizeOfEachTuple) {
-        sizeOfTuple = sizeOfEachTuple;
-        results = new Tuple[numberOfLocations][numberOfTask][numberOfPerturbator][numberOfEnactor];
+    public Logger(Manager manager, int numberOfLocations, int numberOfTask, int numberOfPerturbator, int numberOfEnactor, int sizeOfEachTuple) {
+        this.manager = manager;
+        this.sizeOfTuple = sizeOfEachTuple;
+        this.results = new Tuple[numberOfLocations][numberOfTask][numberOfPerturbator][numberOfEnactor];
         for (int indexLocation = 0 ; indexLocation < numberOfLocations ; indexLocation ++) {
             for (int indexTask = 0 ; indexTask < numberOfTask ; indexTask++) {
                 for (int indexPerturbator = 0 ; indexPerturbator < numberOfPerturbator ; indexPerturbator++) {
                     for (int indexEnactor = 0 ; indexEnactor < numberOfEnactor ; indexEnactor++)
-                    results[indexLocation][indexTask][indexPerturbator][indexEnactor] = new Tuple(sizeOfTuple);
+                        this.results[indexLocation][indexTask][indexPerturbator][indexEnactor] = new Tuple(this.sizeOfTuple);
                 }
             }
         }
     }
 
-    public static Tuple[][][][] getResults() {
-        return results;
-    }
-
-    @Deprecated
-    public static void add(int indexLocation, int indexTask, int indexPerturbator, int indexEnactor, Tuple result) {
-        results[indexLocation][indexTask][indexPerturbator][indexEnactor] = results[indexLocation][indexTask][indexPerturbator][indexEnactor].add(result);
+    public Tuple[][][][] getResults() {
+        return this.results;
     }
 
     /**
@@ -81,12 +80,12 @@ public class Logger {
      * @param result
      * @param name
      */
-    public static void log(int indexLocation, int indexTask, int indexParameters, int indexEnactor, Tuple result, String name) {
-        Tuple tuple = (new Tuple(sizeOfTuple)).add(result);
-        tuple.set(3, PerturbationEngine.loggers.get(name).getCalls(Runner.locations.get(indexLocation)));
-        tuple.set(4, PerturbationEngine.loggers.get(name).getEnactions(Runner.locations.get(indexLocation)));
+    public void log(int indexLocation, int indexTask, int indexParameters, int indexEnactor, Tuple result, String name) {
+        Tuple tuple = (new Tuple(this.sizeOfTuple)).add(result);
+        tuple.set(3, PerturbationEngine.loggers.get(name).getCalls((PerturbationLocation) this.manager.getLocations().get(indexLocation)));//@TODO Check to remove this weird cast
+        tuple.set(4, PerturbationEngine.loggers.get(name).getEnactions((PerturbationLocation) this.manager.getLocations().get(indexLocation)));
         tuple.set(5, 1);
-        results[indexLocation][indexTask][indexParameters][indexEnactor] = results[indexLocation][indexTask][indexParameters][indexEnactor].add(tuple);
+        this.results[indexLocation][indexTask][indexParameters][indexEnactor] = this.results[indexLocation][indexTask][indexParameters][indexEnactor].add(tuple);
     }
 
     public static double TOLERANCE = 70.0f;

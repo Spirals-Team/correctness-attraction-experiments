@@ -1,6 +1,5 @@
 package experiment.exploration;
 
-import experiment.Runner;
 import perturbation.perturbator.AddNPerturbatorImpl;
 
 import java.util.ArrayList;
@@ -36,7 +35,6 @@ public class IntegerExplorationPlusMagnitude extends ExplorationImpl {
         }
 
         super.header += "\n";
-        super.header += Runner.locations.size() + " perturbation point\n";
         super.header += "PM : Numerical Perturbator\n";
     }
 }

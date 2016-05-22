@@ -1,8 +1,8 @@
 package sudoku;
 
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.OracleManagerImpl;
-import experiment.Runner;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class SudokuManager extends OracleManagerImpl<int[][]> {
+public class SudokuManager extends ManagerImpl<int[][],int[][]> {
 
     private List<int[][]> grids;
 
@@ -21,24 +21,19 @@ public class SudokuManager extends OracleManagerImpl<int[][]> {
 
     private static final String PATH_TO_GRID_FILE = "resources/sudoku/grid/grid.txt";
 
-    public SudokuManager(int numberOfTask, int seed) {
-        super(numberOfTask, seed);
-        super.header = super.numberOfTask + " sudoku grid \n";
-        super.header += "Those grid are read from file in resources/sudoku/grid.txt\n";
-        super.path = "sudoku";
+    public SudokuManager(int numberOfTask, int size) {
+        this(numberOfTask, size, 23);
+    }
+
+    public SudokuManager(int numberOfTask, int size, int seed) {
+        super(seed);
+        super.CUP = SudokuInstr.class;
+        super.initialize(numberOfTask, size);
         try {
             br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public SudokuManager(int seed) {
-        this(Runner.numberOfTask ,seed);
-    }
-
-    public SudokuManager() {
-        this(Runner.numberOfTask, 23);
     }
 
     private void readFile() {
@@ -65,8 +60,8 @@ public class SudokuManager extends OracleManagerImpl<int[][]> {
         if (br == null)
             readFile();
 
-        int[][] grid = grids.get(super.scenario.size() % grids.size());
-        int nbCellToErase = 10 + (int) (Runner.sizeOfEachTask * 0.1f);
+        int[][] grid = grids.get(super.indexTasks.size() % grids.size());
+        int nbCellToErase = 10 + (int) (super.sizeOfTask * 0.1f);
         for (int i = 0; i < nbCellToErase; i++) {
             int indexToErase = 0;
             do {
@@ -79,9 +74,9 @@ public class SudokuManager extends OracleManagerImpl<int[][]> {
 
 
     @Override
-    public int[][] get(int index) {
+    public int[][] getTask(int index) {
         int[][] clone = new int[9][9];
-        int[][] originalValue = scenario.get(index);
+        int[][] originalValue = super.tasks.get(index);
         for (int row = 0; row < originalValue.length; row++) {
             for (int col = 0; col < originalValue[row].length; col++) {
                 clone[row][col] = originalValue[row][col];
@@ -91,7 +86,24 @@ public class SudokuManager extends OracleManagerImpl<int[][]> {
     }
 
     @Override
-    public Oracle<int[][], ?> getOracle() {
+    public CallableImpl<int[][], int[][]> getCallable(int[][] input) {
+        return new SudokuCallableImpl(input);
+    }
+
+    @Override
+    public String getName() {
+        return "sudoku";
+    }
+
+    @Override
+    public String getHeader() {
+        return super.indexTasks.size() + " sudoku grid \n"
+                + "Those grid are read from file in resources/sudoku/grid.txt\n"+
+                this.locations.size() + " perturbations points\n";
+    }
+
+    @Override
+    public Oracle<int[][], int[][]> getOracle() {
         return new SudokuOracle();
     }
 

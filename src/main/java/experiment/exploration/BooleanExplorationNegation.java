@@ -1,9 +1,10 @@
 package experiment.exploration;
 
-import experiment.Runner;
+import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.InvPerturbatorImpl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bdanglot on 02/05/16.
@@ -21,11 +22,8 @@ public class BooleanExplorationNegation extends ExplorationImpl {
         super.columnName = "Perturbator";
 
         super.name = "BooleanNegation";
+
         super.header = "Exploration Boolean Negation\n";
-
-        Runner.filterLocation("Boolean");
-
-        super.header += Runner.locations.size() + " perturbation point.\n";
         super.header += "NEGB : negation of boolean value.\n";
     }
 
