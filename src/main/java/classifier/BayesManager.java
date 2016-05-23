@@ -1,5 +1,7 @@
 package classifier;
 
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
 import experiment.Oracle;
 import experiment.OracleManagerImpl;
 import weka.classifiers.Classifier;
@@ -14,7 +16,7 @@ import java.io.File;
 /**
  * Created by spirals on 27/04/16.
  */
-public class BayesManager extends OracleManagerImpl<Experiment> {
+public class BayesManager extends ManagerImpl<Experiment, InstancesResultListener> {
 
     private String[] path;
 
@@ -22,19 +24,16 @@ public class BayesManager extends OracleManagerImpl<Experiment> {
 
     private static final String PATH_DIR = "resources/classifier/";
 
-    public BayesManager(int numberOfTask, int seed) {
-        super(numberOfTask, seed);
-        super.header = super.numberOfTask + " datasets\nPicked up in the data set provided by Weka.\n";
-        super.path = "classifier";
+    public BayesManager(int numberOfTask, int size) {
+        this(numberOfTask, size, 23);
     }
 
-    public BayesManager(int seed) {
-        this(Runner.numberOfTask, seed);
+    public BayesManager(int numberOfTask, int size, int seed) {
+        super(seed);
+        super.CUP = CrossValidationResultProducer.class;
+        super.initialize(numberOfTask, size);
     }
 
-    public BayesManager() {
-        this(Runner.numberOfTask, 23);
-    }
 
     private void initPath() {
         File directory = new File(PATH_DIR);
@@ -43,8 +42,6 @@ public class BayesManager extends OracleManagerImpl<Experiment> {
         for (int i = 0 ; i < files.length ; i++)
             path[i] = files[i].getName();
         oracle = new BayesOracle();
-        if (Runner.numberOfTask > path.length)
-            Runner.numberOfTask = path.length;
     }
 
     @Override
@@ -83,7 +80,7 @@ public class BayesManager extends OracleManagerImpl<Experiment> {
         input.setRunLower(1);
         input.setRunUpper(10);
         DefaultListModel model = new DefaultListModel();
-        model.addElement(new File(PATH_DIR+path[scenario.size()]));
+        model.addElement(new File(PATH_DIR+path[super.tasks.size()]));
         input.setDatasets(model);
         InstancesResultListener irl = new InstancesResultListener();
         irl.setOutputFile(new File("output"));
@@ -95,12 +92,28 @@ public class BayesManager extends OracleManagerImpl<Experiment> {
     }
 
     @Override
-    public Experiment get(int index) {
-        return scenario.get(index);
+    public Experiment getTask(int index) {
+        return super.tasks.get(index);
     }
 
     @Override
-    public Oracle<Experiment, ?> getOracle() {
+    public Oracle<Experiment, InstancesResultListener> getOracle() {
         return oracle;
+    }
+
+    @Override
+    public CallableImpl<Experiment, InstancesResultListener> getCallable(Experiment input) {
+        return new BayesCallable(input);
+    }
+
+    @Override
+    public String getName() {
+        return "classifier";
+    }
+
+    @Override
+    public String getHeader() {
+        return super.indexTasks.size() + " datasets\nPicked up in the directory resources/classifier\n" +
+                super.locations.size() + " perturbations points\n";
     }
 }

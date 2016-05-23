@@ -15,6 +15,12 @@ import static torrent.TorrentManager.PATH_TO_TORRENT_FILE;
  */
 public class TorrentOracle implements Oracle<String, String> {
 
+    private TorrentManager manager;
+
+    public TorrentOracle(TorrentManager manager) {
+        this.manager = manager;
+    }
+
     @Override
     public boolean assertPerturbation(String input, String output) {
         try {
@@ -23,7 +29,7 @@ public class TorrentOracle implements Oracle<String, String> {
             return Arrays.equals(f1, f2);
         } catch (IOException e) {
             e.printStackTrace();
-            ((TorrentManager) Runner.manager).reinit();
+            this.manager.reinit();
             return false;
         }
     }

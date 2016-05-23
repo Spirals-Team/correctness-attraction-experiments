@@ -2,6 +2,7 @@ package oracle;
 
 import classifier.BayesManager;
 import classifier.BayesOracle;
+import experiment.Manager;
 import experiment.Oracle;
 import experiment.OracleManager;
 import md5.MD5;
@@ -150,16 +151,16 @@ public class TestOracle {
     public void testSudoku() throws Exception {
 
         Oracle<int[][],int[][]> oracle = new SudokuOracle();
-        OracleManager<int[][]> manager = new SudokuManager();
+        Manager<int[][], int[][]> manager = new SudokuManager(2,40);
 
-        int[][] input = manager.get(0);
+        int[][] input = manager.getTask(0);
         Sudoku sdk = new Sudoku(input);
         sdk.initSubsets();
         sdk.solve();
         int[][] output = sdk.getGrid();
         assertTrue(oracle.assertPerturbation(input, output));
 
-        assertFalse(oracle.assertPerturbation(manager.get(1), output));
+        assertFalse(oracle.assertPerturbation(manager.getTask(1), output));
 
         output[0][0] = 0;
         assertFalse(oracle.assertPerturbation(input, output));

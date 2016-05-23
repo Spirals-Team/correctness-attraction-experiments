@@ -1,5 +1,7 @@
 package bitcoin;
 
+import experiment.Main;
+
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,9 +45,9 @@ public class BitcoinToolbox {
     public synchronized static void initWallets() {
         try {
             FileWriter writer = new FileWriter("resources/bitcoin/adr_bitcoin", false);
-            for (int i = 0 ; i < Runner.sizeOfEachTask ; i++)
-                writer.write(BitcoinManager.getWalletAppKit(i).wallet().currentReceiveAddress() + "\n");
             writer.close();
+            for (int i = 0; i < Main.manager.getSizeOfTask() ; i++)
+                writer.write(BitcoinManager.getWalletAppKit(i).wallet().currentReceiveAddress() + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

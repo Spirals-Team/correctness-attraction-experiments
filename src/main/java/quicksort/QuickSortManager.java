@@ -59,7 +59,7 @@ public class QuickSortManager extends ManagerImpl<List<Integer>, List<Integer>> 
     public String getHeader() {
         return super.indexTasks.size() + " arrays of " + super.sizeOfTask + " integers\n" +
                 "Random integer generated with " + super.seedForGenTask + " as seed\n" +
-                this.locations.size() + " perturbations points\n";
+                super.locations.size() + " perturbations points\n";
     }
 
     public static void main(String[] args) {

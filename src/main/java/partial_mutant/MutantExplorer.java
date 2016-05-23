@@ -1,5 +1,6 @@
 package partial_mutant;
 
+import experiment.Manager;
 import experiment.OracleManager;
 import experiment.Util;
 import md5.MD5CallableImpl;
@@ -33,19 +34,11 @@ import java.util.stream.IntStream;
  */
 public class MutantExplorer {
 
-    private static final int[] numberOfTasks = new int[]{1, 2, 5, 10, 25, 50, 75, 100, 125, 150};// 150, 300};//, 500};//, 1000, 1500, 2000};
+    private static final int[] numberOfTasks = new int[]{1, 2, 5, 10, 25, 50, 75, 100, 125, 500};
 
     private int numberOfTask;
 
-    private Class<?> CUP;
-
-    private OracleManager manager;
-
-    private Class<?> callable;
-
-    private Constructor callableConstructor;
-
-    private Class<?>[] inputTypes;
+    private Manager manager;
 
     private List<Integer> listOfSuccessTask;
 
@@ -63,14 +56,8 @@ public class MutantExplorer {
 
     private List[] partialMutantByTask;
 
-    public MutantExplorer(Class<?> CUP, OracleManager manager, Class<?> callable, Class<?>... inputTypes) {
-        this.CUP = CUP;
+    public MutantExplorer(Manager manager) {
         this.manager = manager;
-        this.callable = callable;
-        try {
-            this.callableConstructor = callable.getConstructor(inputTypes);
-        } catch (NoSuchMethodException e) {e.printStackTrace();}
-        this.inputTypes = inputTypes;
         this.indexSuccessTaskPerPartialMutant = new HashMap<>();
         this.indexFailureTaskPerPartialMutant = new HashMap<>();
         this.listOfSuccessTask = new ArrayList<>();
@@ -95,11 +82,8 @@ public class MutantExplorer {
 
     public List<PerturbationLocation> getPartialMutant() {
         this.partialMutant = new ArrayList<>();
-        PerturbationLocationImpl.getLocationFromClass(CUP)
-                .stream()
-                .filter(location ->
-                        location.getType().equals("Numerical")
-                ).forEach(this::run);
+        List<PerturbationLocation> locations =  this.manager.getLocations();
+        locations.forEach(this::run);
         return this.partialMutant;
     }
 
@@ -110,7 +94,7 @@ public class MutantExplorer {
     }
 
     private void log() {
-        String path = "results/"+manager.getPath()+"/mutant";
+        String path = "results/"+manager.getName()+"/mutant";
         try {
             /* number exploration results */
             FileWriter writer = new FileWriter(path + "_number.txt", false);
@@ -148,11 +132,8 @@ public class MutantExplorer {
         this.partialMutant = new ArrayList<>();
         this.numberOfTask = numberOfTasks[indexOfNumberOfTask];
         System.out.println(this.numberOfTask + " " + Util.getStringPerc(indexOfNumberOfTask, numberOfTasks.length));
-        PerturbationLocationImpl.getLocationFromClass(CUP)
-                .stream()
-                .filter(location ->
-                        location.getType().equals("Numerical")
-                ).forEach(this::run);
+        List<PerturbationLocation> locations =  this.manager.getLocations();
+        locations.forEach(this::run);
         this.sosiesByTask[indexOfNumberOfTask] = this.sosies;
         this.partialMutantByTask[indexOfNumberOfTask] = this.partialMutant;
     }
@@ -192,11 +173,11 @@ public class MutantExplorer {
     public int run(int indexTask) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
-            Callable instanceRunner = (Callable) callableConstructor.newInstance(manager.get(indexTask));
+            Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexTask));
             Future future = executor.submit(instanceRunner);
             try {
                 Object output = future.get(60, TimeUnit.SECONDS);
-                boolean assertion = manager.getOracle().assertPerturbation(manager.get(indexTask), output);
+                boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexTask), output);
                 executor.shutdownNow();
                 if (assertion) {
                     this.listOfSuccessTask.add(indexTask);
@@ -220,8 +201,7 @@ public class MutantExplorer {
 
     public static void main(String[] args) {
         //Class<?> CUP, OracleManager manager, Constructor callableConstructor, Class<?>... inputTypes
-        MutantExplorer explorer = new MutantExplorer(SudokuInstr.class,
-                new SudokuManager(numberOfTasks[numberOfTasks.length - 1], 32), SudokuCallableImpl.class, int[][].class);
+        MutantExplorer explorer = new MutantExplorer(new ZipManager(numberOfTasks[numberOfTasks.length-1], 100));
         explorer.run();
     }
 

@@ -99,7 +99,7 @@ public class SudokuManager extends ManagerImpl<int[][],int[][]> {
     public String getHeader() {
         return super.indexTasks.size() + " sudoku grid \n"
                 + "Those grid are read from file in resources/sudoku/grid.txt\n"+
-                this.locations.size() + " perturbations points\n";
+                super.locations.size() + " perturbations points\n";
     }
 
     @Override

@@ -1,9 +1,7 @@
 package experiment.explorer;
 
-import experiment.Logger;
-import experiment.Manager;
-import experiment.Tuple;
-import experiment.Util;
+import com.google.common.annotations.VisibleForTesting;
+import experiment.*;
 import experiment.exploration.Exploration;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
@@ -46,7 +44,7 @@ public abstract class ExplorerImpl implements Explorer {
             Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
             Future future = executor.submit(instanceRunner);
             try {
-                Object output = (future.get(15, TimeUnit.SECONDS));
+                Object output = (future.get(Main.numberOfSecondsToWait, TimeUnit.SECONDS));
                 this.outputs.add(output);
                 boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexOfTask), output);
                 if (assertion)
@@ -69,7 +67,7 @@ public abstract class ExplorerImpl implements Explorer {
         }
     }
 
-    private void runLocation(int indexOfTask, PerturbationLocation location) {
+    public void runLocation(int indexOfTask, PerturbationLocation location) {
         for (Perturbator perturbator : this.perturbators)
             runOnePerturbator(indexOfTask, location, perturbator);
 

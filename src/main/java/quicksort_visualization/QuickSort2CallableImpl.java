@@ -16,7 +16,6 @@ import java.util.stream.Stream;
 /**
  * Created by spirals on 12/04/16.
  */
-//@TODO refactor : not working anymore
 public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     static List<List<Integer>> paths = new ArrayList<>();
@@ -40,29 +39,26 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
     public static void main(String[] args) {
         /* only one array */
-        Runner.numberOfTask = 1;
-        Runner.numberOfSecondsToWait = 30;
-        OracleManager<int[]> manager = new QuickSort2Manager(192);
-        Runner.setup(QuickSort2.class, QuickSort2CallableImpl.class, manager, "Numerical", int[].class);
-        Runner.verbose = true;
+        int numberOfTask = 1;
+        int numberOfSecondsToWait = 30;
+        QuickSort2Manager manager = new QuickSort2Manager(numberOfTask, 100);
 
         /* no Perturbation */
-        QuickSort2 quicksort = new QuickSort2(manager.get(0));
+        QuickSort2 quicksort = new QuickSort2(manager.getTask(0));
         LoggerExecPath.init(quicksort);
-        quicksort.sort(0, manager.get(0).length - 1);
+        quicksort.sort(0, manager.getTask(0).length - 1);
         unperturbed = LoggerExecPath.execPath;
 
         magnitudes = new int[]{1, 2, 5, 10, 20, 50, 75, 100};
 
-        CallExplorer explorer = new CallExplorer(new IntegerExplorationPlusMagnitude(magnitudes));
-
-        Runner.run(explorer);
+        CallExplorer explorer = new CallExplorer(manager, new IntegerExplorationPlusMagnitude(magnitudes));
+        explorer.run();
 
         int[][] nbCAllRef = explorer.getNbCallReferencePerLocationPerTask();
 
         int sumExecsRefs = 0;
 
-        for (int i = 0 ; i < Runner.locations.size() ; i++)
+        for (int i = 0 ; i < manager.getLocations().size() ; i++)
             sumExecsRefs += nbCAllRef[i][0];
 
         System.out.println(sumExecsRefs);
@@ -108,7 +104,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
 
         try {
 
-            FileWriter writer = new FileWriter("results/" + Runner.manager.getPath() + "/exec_path.txt", false);
+            FileWriter writer = new FileWriter("results/quicksort-visualization/exec_path.txt", false);
 
             for (Integer pairs : unperturbed)
                 writer.write(pairs + " ");

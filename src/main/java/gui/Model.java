@@ -1,12 +1,10 @@
 package gui;
 
-import org.junit.runner.Runner;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
 import perturbation.perturbator.AddNPerturbatorImpl;
-import quicksort.QuickSortCallableImpl;
 import quicksort.QuickSortInstr;
 import quicksort.QuickSortManager;
 import quicksort.QuickSortOracle;
@@ -31,9 +29,13 @@ public class Model {
 
     private float percentageOfSuccess;
 
+    private int numberOfTask;
+    private int size;
+
     public Model() {
-        Runner.numberOfTask = 40;
-        this.manager = new QuickSortManager();
+        this.size = 100;
+        this.numberOfTask = 40;
+        this.manager = new QuickSortManager(numberOfTask, size);
         oracle = new QuickSortOracle();
         locations = PerturbationLocationImpl.getLocationFromClass(QuickSortInstr.class)
                 .stream()
@@ -49,8 +51,8 @@ public class Model {
 
 
     public float runAllTask() {
-        return (float) IntStream.range(0, Runner.numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask))
-                / (float)(locations.size() * Runner.numberOfTask) * 100;
+        return (float) IntStream.range(0, numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask))
+                / (float)(locations.size() * numberOfTask) * 100;
     }
 
     private int runLocations(int indexTask) {
@@ -71,11 +73,11 @@ public class Model {
     private boolean runPerturbation(int indexTask) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
-            Callable instanceRunner = new QuickSortCallableImpl(manager.get(indexTask));
+            Callable instanceRunner = manager.getCallable(manager.getTask(indexTask));
             Future future = executor.submit(instanceRunner);
             try {
                 List<Integer> output = (List<Integer>)(future.get(15, TimeUnit.SECONDS));
-                boolean assertion = oracle.assertPerturbation(manager.get(indexTask), output);
+                boolean assertion = oracle.assertPerturbation(manager.getTask(indexTask), output);
                 executor.shutdownNow();
                 return assertion;
             } catch (TimeoutException e) {

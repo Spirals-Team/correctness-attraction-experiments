@@ -1,10 +1,15 @@
 package torrent;
 
+import com.turn.ttorrent.bcodec.BDecoder;
 import com.turn.ttorrent.common.Torrent;
 import com.turn.ttorrent.tracker.TrackedTorrent;
 import com.turn.ttorrent.tracker.Tracker;
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
 import experiment.Oracle;
 import experiment.OracleManagerImpl;
+import org.junit.runner.Runner;
+import org.omg.CORBA.OBJ_ADAPTER;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -17,7 +22,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * Created by spirals on 21/04/16.
  */
-public class TorrentManager extends OracleManagerImpl<String> {
+public class TorrentManager extends ManagerImpl<String, String> {
 
     public static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
 
@@ -33,22 +38,15 @@ public class TorrentManager extends OracleManagerImpl<String> {
 
     private static FilenameFilter filter = (dir, name) -> name.endsWith(".torrent");
 
-    public TorrentManager(int numberOfTask, int seed) {
-        super(numberOfTask, seed);
-        super.header = super.numberOfTask + " files of " + Runner.sizeOfEachTask + " chararacters\n";
-        super.header += "Random characters generated with " + seedForGenTask + " as seed\n";
+    public TorrentManager(int numberOfTask, int size) {
+        this(numberOfTask, size, 23);
+    }
 
-        super.path = "torrent";
-
+    public TorrentManager(int numberOfTask, int size, int seed) {
+        super(seed);
+        super.CUP = BDecoder.class;
+        super.initialize(numberOfTask, size);
         initTracker();
-    }
-
-    public TorrentManager(int seed) {
-        this(Runner.numberOfTask,seed);
-    }
-
-    public TorrentManager() {
-        this(Runner.numberOfTask, 23);
     }
 
     public void initTracker() {
@@ -83,16 +81,16 @@ public class TorrentManager extends OracleManagerImpl<String> {
     }
 
     @Override
-    public String getPath() {
+    public String getName() {
         this.stop();
-        return super.getPath();
+        return "torrent";
     }
 
     @Override
     protected String generateOneTask() {
-        if (super.scenario.isEmpty())
+        if (super.tasks.isEmpty())
             createDirectories();
-        String pathOfTheNewTask = PREFIX_FILE + (super.scenario.size());
+        String pathOfTheNewTask = PREFIX_FILE + (super.tasks.size());
         /* Create the file */
         File task = createFile(PATH_TO_TORRENT_FILE + pathOfTheNewTask);
         /* Create the torrent of the file */
@@ -113,7 +111,7 @@ public class TorrentManager extends OracleManagerImpl<String> {
         try {
             task.createNewFile();
             FileWriter writer = new FileWriter(pathOfTheNewTask + ".txt");
-            for (int i = 0; i < Runner.sizeOfEachTask; i++) {
+            for (int i = 0; i < super.sizeOfTask ; i++) {
                 writer.write((char) randomForGenTask.nextInt(256));
             }
             writer.close();
@@ -145,14 +143,25 @@ public class TorrentManager extends OracleManagerImpl<String> {
     }
 
     @Override
-    public String get(int index) {
-        String input = new String(scenario.get(index));
+    public String getTask(int index) {
+        String input = new String(super.tasks.get(index));
         return input;
     }
 
     @Override
-    public Oracle<String, ?> getOracle() {
-        return new TorrentOracle();
+    public Oracle<String, String> getOracle() {
+        return new TorrentOracle(this);
     }
 
+    @Override
+    public CallableImpl<String, String> getCallable(String input) {
+        return new TorrentCallable(input, this);
+    }
+
+    @Override
+    public String getHeader() {
+        return super.indexTasks.size()+ " files of " + super.sizeOfTask + " chararacters\n" +
+                "Random characters generated with " + super.seedForGenTask + " as seed\n" +
+                super.locations.size() + " perturbations points\n";
+    }
 }

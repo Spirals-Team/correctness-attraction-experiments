@@ -3,12 +3,11 @@ package explorer;
 import experiment.exploration.BooleanExplorationNegation;
 import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.CallExplorer;
+import experiment.explorer.ExplorerImpl;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
 import resources.Resources;
-import resources.ResourcesCallableBoolean;
-import resources.ResourcesCallableInt;
 import resources.ResourcesManager;
 
 import java.lang.reflect.Field;
@@ -26,8 +25,7 @@ public class TestCallExplorer {
     @org.junit.Test
     public void testPlusOneCallExplorer() throws Exception {
         ResourcesManager manager = new ResourcesManager();
-        Runner.setup(Resources.class, ResourcesCallableInt.class, manager, "Numerical", Integer.class);
-        CallExplorer explorer = new CallExplorer(new IntegerExplorationPlusOne(null));
+        CallExplorer explorer = new CallExplorer(manager, new IntegerExplorationPlusOne());
 
         explorer.initLogger();
 
@@ -41,9 +39,9 @@ public class TestCallExplorer {
         assertEquals(10, PerturbationEngine.loggers.get("TestLogger").getCalls(location));
         assertEquals(0, PerturbationEngine.loggers.get("TestLogger").getEnactions(location));
 
-        Field fieldOutputs = Runner.class.getDeclaredField("outputs");
+        Field fieldOutputs = ExplorerImpl.class.getDeclaredField("outputs");
         fieldOutputs.setAccessible(true);
-        List<Object> output = (List<Object>) fieldOutputs.get(null);
+        List<Object> output = (List<Object>) fieldOutputs.get(explorer);
 
         assertEquals(10, output.get(0));
 
@@ -51,7 +49,7 @@ public class TestCallExplorer {
         PerturbationEngine.loggers.get("TestLogger").remove(location);
         PerturbationEngine.loggers.get("TestLogger").logOn(location);
 
-        explorer.run(0, location);
+        explorer.runLocation(0, location);
 
         //100 call because 10 * 10
         assertEquals(100, PerturbationEngine.loggers.get("TestLogger").getCalls(location));
@@ -73,8 +71,7 @@ public class TestCallExplorer {
     @org.junit.Test
     public void testBooleanNegationCallExplorer() throws Exception {
         ResourcesManager manager = new ResourcesManager();
-        Runner.setup(Resources.class, ResourcesCallableBoolean.class, manager, "Boolean", Boolean.class);
-        CallExplorer explorer = new CallExplorer(new BooleanExplorationNegation());
+        CallExplorer explorer = new CallExplorer(manager, new BooleanExplorationNegation());
 
         explorer.initLogger();
 
@@ -83,14 +80,14 @@ public class TestCallExplorer {
         PerturbationEngine.loggers.put("TestLogger", new LoggerImpl());
         PerturbationEngine.loggers.get("TestLogger").logOn(location);
 
-        explorer.runReference(0, location);
+        explorer.runReference(1, location);
 
         assertEquals(10, PerturbationEngine.loggers.get("TestLogger").getCalls(location));
         assertEquals(0, PerturbationEngine.loggers.get("TestLogger").getEnactions(location));
 
-        Field fieldOutputs = Runner.class.getDeclaredField("outputs");
+        Field fieldOutputs = ExplorerImpl.class.getDeclaredField("outputs");
         fieldOutputs.setAccessible(true);
-        List<Object> output = (List<Object>) fieldOutputs.get(null);
+        List<Object> output = (List<Object>) fieldOutputs.get(explorer);
 
         assertEquals(true, output.get(0));
 
@@ -98,7 +95,7 @@ public class TestCallExplorer {
         PerturbationEngine.loggers.get("TestLogger").remove(location);
         PerturbationEngine.loggers.get("TestLogger").logOn(location);
 
-        explorer.run(0, location);
+        explorer.runLocation(1, location);
 
         //100 call because 10 * 10
         assertEquals(100, PerturbationEngine.loggers.get("TestLogger").getCalls(location));

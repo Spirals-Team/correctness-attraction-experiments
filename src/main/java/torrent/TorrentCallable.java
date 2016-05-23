@@ -14,8 +14,11 @@ import java.util.concurrent.TimeoutException;
  */
 public class TorrentCallable extends CallableImpl<String,String> {
 
-    public TorrentCallable(String input) {
+    private TorrentManager manager;
+
+    public TorrentCallable(String input, TorrentManager manager) {
         super(input);
+        this.manager = manager;
     }
 
     @Override
@@ -52,7 +55,7 @@ public class TorrentCallable extends CallableImpl<String,String> {
             seeder.stop();
             assert leecher != null;
             leecher.stop();
-            ((TorrentManager) Runner.manager).reinit();
+            this.manager.reinit();
             throw new TimeoutException();
         }
 

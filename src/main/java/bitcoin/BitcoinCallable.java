@@ -12,8 +12,11 @@ import org.junit.runner.Runner;
  */
 public class BitcoinCallable extends CallableImpl<Tuple, Integer> {
 
-    public BitcoinCallable(Tuple input) {
+    private BitcoinManager manager;
+
+    public BitcoinCallable(Tuple input, BitcoinManager manager) {
         super(input);
+        this.manager = manager;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class BitcoinCallable extends CallableImpl<Tuple, Integer> {
         } catch (InsufficientMoneyException e) {
             return -1;
         } catch (Error | Exception e) {
-            ((BitcoinManager) Runner.manager).initWallets();
+            this.manager.initWallets();
             throw e;
         }
     }

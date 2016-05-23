@@ -1,8 +1,11 @@
 package simplex;
 
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
 import experiment.Oracle;
 import experiment.OracleManagerImpl;
 import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.*;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 
@@ -13,7 +16,7 @@ import java.util.List;
 /**
  * Created by spirals on 19/04/16.
  */
-public class SimplexManager extends OracleManagerImpl<OptimizationData[]> {
+public class SimplexManager extends ManagerImpl<OptimizationData[], PointValuePair> {
 
     private static List<String> pathToFileOfLinearProgram = new ArrayList<>();
 
@@ -28,33 +31,28 @@ public class SimplexManager extends OracleManagerImpl<OptimizationData[]> {
 
     public static int numberOfFile = pathToFileOfLinearProgram.size();
 
-    public SimplexManager(int numberOfTask, int seed) {
-        super(numberOfTask, seed);
-        super.header = super.numberOfTask + " linear problems to be resolved\n";
-        super.header += "linear problem are generated randomly\n";
-        super.path = "simplex";
+    public SimplexManager(int numberOfTask, int size) {
+        this(numberOfTask, size, 23);
     }
 
-    public SimplexManager(int seed) {
-        this(Runner.numberOfTask, seed);
-    }
-
-    public SimplexManager() {
-        this(Runner.numberOfTask, 23);
+    public SimplexManager(int numberOfTask, int size, int seed) {
+        super(seed);
+        super.CUP = SimplexSolverInstr.class;
+        super.initialize(numberOfTask, size);
     }
 
     protected OptimizationData[] generateOneTaskOLD() {
-        return MPSParser.run(PATH_DIRECTORY_DATASET + pathToFileOfLinearProgram.get(scenario.size()));
+        return MPSParser.run(PATH_DIRECTORY_DATASET + pathToFileOfLinearProgram.get(super.tasks.size()));
     }
 
     @Override
     protected OptimizationData[] generateOneTask() {
         OptimizationData[] datas;
 
-        int nbVariable = (int)(2+Runner.sizeOfEachTask*0.1f) + randomForGenTask.nextInt((int)(5+Runner.sizeOfEachTask*0.05f));
+        int nbVariable = (int) (2 + super.sizeOfTask * 0.1f) + randomForGenTask.nextInt((int) (5 + super.sizeOfTask * 0.05f));
 
-        int upperBound = 5+(int)(Runner.sizeOfEachTask*0.2f);
-        int downBound = -2+(int)(Runner.sizeOfEachTask*0.1f);
+        int upperBound = 5 + (int) (super.sizeOfTask * 0.2f);
+        int downBound = -2 + (int) (super.sizeOfTask * 0.1f);
 
         double[] rateObjectiveFunction = new double[nbVariable];
 
@@ -98,11 +96,11 @@ public class SimplexManager extends OracleManagerImpl<OptimizationData[]> {
         return datas;
     }
 
-    private boolean isOk(OptimizationData [] datas) {
+    private boolean isOk(OptimizationData[] datas) {
         try {
             SimplexSolverInstr solver = new SimplexSolverInstr();
             solver.optimize(datas);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
         return true;
@@ -110,12 +108,29 @@ public class SimplexManager extends OracleManagerImpl<OptimizationData[]> {
 
 
     @Override
-    public OptimizationData[] get(int index) {
-        return super.scenario.get(index);
+    public OptimizationData[] getTask(int index) {
+        return super.tasks.get(index);
     }
 
     @Override
-    public Oracle<OptimizationData[], ?> getOracle() {
+    public Oracle<OptimizationData[], PointValuePair> getOracle() {
         return new SimplexOracle();
+    }
+
+    @Override
+    public CallableImpl<OptimizationData[], PointValuePair> getCallable(OptimizationData[] input) {
+        return new SimplexCallableImpl(input);
+    }
+
+    @Override
+    public String getName() {
+        return "simplex";
+    }
+
+    @Override
+    public String getHeader() {
+        return super.indexTasks.size() + " linear problems to be resolved\n" +
+                "linear problem are generated randomly\n" +
+                super.locations.size() + " perturbations points\n";
     }
 }
