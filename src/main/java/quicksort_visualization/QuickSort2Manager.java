@@ -3,8 +3,6 @@ package quicksort_visualization;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.OracleManagerImpl;
-import quicksort.QuickSortInstr;
 
 /**
  * Created by spirals on 19/04/16.
