@@ -3,7 +3,6 @@ package classifier;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.OracleManagerImpl;
 import weka.classifiers.Classifier;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.experiment.*;
@@ -12,6 +11,8 @@ import javax.swing.*;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Created by spirals on 27/04/16.
@@ -31,7 +32,8 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
     public BayesManager(int numberOfTask, int size, int seed) {
         super(seed);
         super.CUP = CrossValidationResultProducer.class;
-        super.initialize(numberOfTask, size);
+        initPath();
+        super.initialize(numberOfTask > this.path.length ? this.path.length : numberOfTask, size);
     }
 
 
@@ -46,8 +48,6 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
 
     @Override
     protected Experiment generateOneTask() {
-        if (path == null)
-            initPath();
         Experiment input = new Experiment();
         input.setPropertyArray(new Classifier[0]);
         input.setUsePropertyIterator(true);
@@ -80,7 +80,8 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
         input.setRunLower(1);
         input.setRunUpper(10);
         DefaultListModel model = new DefaultListModel();
-        model.addElement(new File(PATH_DIR+path[super.tasks.size()]));
+//        model.addElement(new File(PATH_DIR+path[super.tasks.size()]));
+        model.addElement(new File(build(super.tasks.size())));
         input.setDatasets(model);
         InstancesResultListener irl = new InstancesResultListener();
         irl.setOutputFile(new File("output"));
@@ -89,6 +90,38 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
         //Compute reference run for oracle
         oracle.runReference(input);
         return input;
+    }
+
+    private String build(int index) {
+        String file = "@relation dataset_" + index + " \n\n";
+        file += "@attribute attr1 numeric\n";
+        file += "@attribute attr2 numeric\n";
+        file += "@attribute attr3 numeric\n";
+        file += "@attribute class {class1,class2}\n\n";
+        file += "@data\n";
+
+        int cpt = 0;
+
+        for (int i = 0 ; i < super.sizeOfTask ; i++) {
+            file += String.format("%.2f", 10.0*randomForGenTask.nextDouble()).replaceAll(",", ".") +
+                    "," + String.format("%.2f", 10.0*randomForGenTask.nextDouble()).replaceAll(",", ".")  +
+                    "," + String.format("%.2f", 10.0*randomForGenTask.nextDouble()).replaceAll(",", ".") +
+                    "," + (randomForGenTask.nextBoolean()?"class1":"class2") + "\n";
+        }
+
+        System.out.println("resources/classifier/dataset"+index+".arff");
+        System.out.println(file);
+
+        try {
+            FileWriter writer = new FileWriter("resources/classifier/dataset"+index+".arff", false);
+            writer.write(file);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "resources/classifier/dataset"+index+".arff";
+
     }
 
     @Override
@@ -116,4 +149,17 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
         return super.indexTasks.size() + " datasets\nPicked up in the directory resources/classifier\n" +
                 super.locations.size() + " perturbations points\n";
     }
+
+    public static void main(String[] args) {
+        BayesManager manager = new BayesManager(1, 10);
+        try {
+            for (int i = 0 ; i < 1 ; i++) {
+            InstancesResultListener output = manager.getCallable(manager.getTask(i)).call();
+            System.out.println(manager.getOracle().assertPerturbation(manager.getTask(i), output));}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
