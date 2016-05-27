@@ -24,8 +24,8 @@ public class RSAManager extends ManagerImpl<String, String> {
 
     @Override
     protected String generateOneTask() {
-        byte [] task = new byte[64];
-        for (int i = 0 ; i < 64 ; i++)
+        byte [] task = new byte[super.sizeOfTask];
+        for (int i = 0 ; i < super.sizeOfTask ; i++)
             task[i] = ((byte)(randomForGenTask.nextInt()));
         return new String(org.bouncycastle.util.encoders.Hex.encode(task));
     }
