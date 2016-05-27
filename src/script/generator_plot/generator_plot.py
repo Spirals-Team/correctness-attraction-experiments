@@ -18,7 +18,6 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
 
 
     labelOfN = ' '.join(lines[indexN].split()).split(" ")[0]
-    print(labelOfN)
     if "IntegerMagnitudeSys" == output:
         n =  ' '.join(lines[indexN].split()).split(" ")[3:]
     else:
@@ -32,8 +31,6 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     perturbAll=[]
     indicesLocation=[]
     i = 8 + offsetStart
-
-    print(n)
 
     while i < (numberOfLocation*len(n)) + 1:#numberOfLocation:
 
@@ -84,6 +81,8 @@ def plot_increasingPerturbation_percentageSuccess(path, filename, output, subjec
     sortedPerc, callAll = [list(x) for x in zip(*sorted(zip(percAll, callAll), key=lambda pair: -pair[0][0]))]
     sortedPerc, perturbAll = [list(x) for x in zip(*sorted(zip(percAll, perturbAll), key=lambda pair: -pair[0][0]))]
     percAll, nAll = [list(x) for x in zip(*sorted(zip(percAll, nAll), key=lambda pair: -pair[0][0]))]
+
+    print(len(nAll))
 
     fig = plt.figure()
     ax = fig.add_axes((.1,.4,.8,.5))
