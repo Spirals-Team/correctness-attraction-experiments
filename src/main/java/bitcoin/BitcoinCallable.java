@@ -22,20 +22,17 @@ public class BitcoinCallable extends CallableImpl<Tuple, Integer> {
     @Override
     public Integer call() throws Exception {
         Coin value = Coin.valueOf(input.get(2), 0);
-        Wallet.SendRequest request = Wallet.SendRequest.to(BitcoinManager.getWalletAppKit(input.get(1))
+        Wallet.SendRequest request = Wallet.SendRequest.to(this.manager.getWalletAppKit(input.get(1))
                 .wallet().currentReceiveKey().toAddress(BitcoinManager.networkParameters), value);
         request.fee = Coin.valueOf(BitcoinManager.FEE_AMOUNT, 0);
         request.feePerKb = Coin.ZERO;
         try {
-            BitcoinManager.getWalletAppKit(input.get(0)).wallet().sendCoins(request);
+            this.manager.getWalletAppKit(input.get(0)).wallet().sendCoins(request);
             BitcoinToolbox.mine();
-//            Thread.sleep(2500);
+            Thread.sleep(500);
             return 1;
         } catch (InsufficientMoneyException e) {
             return -1;
-        } catch (Error | Exception e) {
-            this.manager.initWallets();
-            throw e;
         }
     }
 }

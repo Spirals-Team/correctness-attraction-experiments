@@ -4,19 +4,19 @@ import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
 import experiment.Tuple;
-import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.Message;
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Sha256Hash;
+import org.bitcoinj.core.*;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.RegTestParams;
 import org.bitcoinj.utils.BriefLogFormatter;
+import org.bitcoinj.utils.Threading;
 import org.bitcoinj.wallet.BasicKeyChain;
 import org.junit.runner.Runner;
 import perturbation.location.PerturbationLocationImpl;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,15 +24,14 @@ import java.util.stream.IntStream;
 
 /**
  * Created by spirals on 25/04/16.
- *
+ * <p>
  * Tuple : using Tuple3 to define tx between nodes as : T._1 = sender, T._2 = receiver and T._3 = amount.
- *
+ * <p>
  * Runner.numberOfTask is the number of tx, and super.sizeOfTask is the number of bitcoin node used in scenarios.
- *
  */
 public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
-    private static Map<Integer, WalletAppKit> kits = new HashMap<>();
+    private Map<Integer, WalletAppKit> kits;
 
     private static final String PATH_WALLET = "./resources/bitcoin/wallets/";
 
@@ -49,7 +48,8 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
     public BitcoinManager(int numberOfTask, int size, int seed, String typePerturbed) {
         super(seed);
         //Unused for bitcoin
-        super.CUP = null;
+        super.CUP = this.getClass();
+        super.locations = new ArrayList<>();
         if (typePerturbed == null || typePerturbed.equals("Numerical")) {
             //Integer locations
             locations.add(ECKey.__L1588);
@@ -85,7 +85,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
             locations.add(Message.__L2379);
             locations.add(Message.__L2382);
         }
-        super.initialize(numberOfTask, size);
+        this.initialize(numberOfTask, size);
         initWallets();
     }
 
@@ -102,7 +102,18 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         });
     }
 
+    private HashMap<Integer, WalletAppKit> initKits() {
+        if (this.kits != null) {
+            for (Integer key : this.kits.keySet()) {
+                this.kits.get(key).stopAsync();
+            }
+        }
+        return new HashMap<>();
+    }
+
     public void initWallets() {
+
+        this.kits = initKits();
 
         System.out.println("Init...");
 
@@ -110,46 +121,76 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
         BitcoinToolbox.clean();
 
-        for (int i = 0 ; i < super.sizeOfTask ; i++) {
-            kits.put(i, new WalletAppKit(networkParameters, new File(PATH_WALLET + "wallet_" + i), "wallet_" + i));
+        for (int i = 0; i < super.sizeOfTask ; i++) {
+            this.kits.put(i, new WalletAppKit(networkParameters, new File(PATH_WALLET + "wallet_" + i), "wallet_" + i));
         }
 
         for (Integer key : kits.keySet()) {
-            kits.get(key).connectToLocalHost();
+            this.kits.get(key).connectToLocalHost();
         }
 
-        for (Integer key : kits.keySet()) {
-            kits.get(key).startAsync();
+        for (Integer key : this.kits.keySet()) {
+            this.kits.get(key).startAsync();
         }
 
-        for (Integer key : kits.keySet()) {
-            kits.get(key).awaitRunning();
+        for (Integer key : this.kits.keySet()) {
+            this.kits.get(key).awaitRunning();
         }
 
-        BitcoinToolbox.initWallets();
+//        for (Integer key : this.kits.keySet()) {
+//            this.kits.get(key).wallet().addEventListener(
+//                    new AbstractWalletEventListener() {
+//                @Override
+//                public void onCoinsReceived(Wallet w, Transaction tx, Coin prevBalance, Coin newBalance) {
+//                    System.out.println("RECEIVE SOME BTC");
+//                    print();
+//                    BitcoinToolbox.mine();
+//                }
+//            });
+//        }
+
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for (Integer key : this.kits.keySet()) {
+            BitcoinToolbox.launchShellCmd(BitcoinToolbox.CMD_INIT, " " + this.kits.get(key).wallet().currentReceiveAddress());
+        }
 
         BitcoinToolbox.mine();
 
         amountOfWalletBeforeTask = new int[super.sizeOfTask];
 
-        for (int i = 0; i < super.sizeOfTask; i++) {
-            amountOfWalletBeforeTask[i] = btcStringToBtcInt(kits.get(i).wallet().getBalance().toFriendlyString());
+        int cpt = 0;
+
+        while (cpt < super.sizeOfTask) {
+            for (int i = 0; i < super.sizeOfTask; i++) {
+                int amount = btcStringToBtcInt(kits.get(i).wallet().getBalance().toFriendlyString());
+                if (amount != amountOfWalletBeforeTask[i]) {
+//                    System.out.println("BTC sent to " + i + ", " + (super.sizeOfTask - cpt) + " to go");
+                    amountOfWalletBeforeTask[i] = amount;
+                    cpt ++;
+//                    print();
+                }
+            }
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-
-        print();
-
-    }
-
-    public void stop() {
-        for (int key : kits.keySet())
-            kits.get(key).stopAsync();
+        BitcoinToolbox.mine();
+//        print();
     }
 
     public static int btcStringToBtcInt(String amount) {
         return (int) Float.parseFloat(amount.substring(0, amount.length() - 4));
     }
 
-    public static WalletAppKit getWalletAppKit(int index) {
+    public WalletAppKit getWalletAppKit(int index) {
         return kits.get(index);
     }
 
@@ -167,8 +208,8 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
     @Override
     public Tuple getTask(int index) {
-        Tuple retour = new Tuple(3);
-        return retour.add(super.tasks.get(index));
+        Tuple clone = new Tuple(3);
+        return clone.add(super.tasks.get(index));
     }
 
     @Override
@@ -178,7 +219,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
     @Override
     public Oracle<Tuple, Integer> getOracle() {
-        return new BitcoinOracle();
+        return new BitcoinOracle(this);
     }
 
     @Override
@@ -188,10 +229,10 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
     @Override
     public String getHeader() {
-        return super.indexTasks.size() + " random tx between " + super.sizeOfTask + " bitcoin nodes\n"+
+        return super.indexTasks.size() + " random tx between " + super.sizeOfTask + " bitcoin nodes\n" +
                 "Random integer generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
-            }
+    }
 
     public void print() {
         for (int key : kits.keySet()) {

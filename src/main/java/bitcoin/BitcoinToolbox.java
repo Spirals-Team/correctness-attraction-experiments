@@ -2,6 +2,7 @@ package bitcoin;
 
 import experiment.Main;
 
+import javax.print.DocFlavor;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,17 +13,20 @@ import java.io.InputStreamReader;
  */
 public class BitcoinToolbox {
 
-    private static final String CMD_MINING = "src/script/bitcoin/mine.sh";
+    static final String CMD_INIT = "src/script/bitcoin/init_bitcoin.sh";
 
-    private static final String CMD_INIT = "src/script/bitcoin/init_bitcoin.sh";
+    static final String CMD_CLEAN = "src/script/bitcoin/clean_bitcoin.sh";
 
-    private static final String CMD_CLEAN = "src/script/bitcoin/clean_bitcoin.sh";
+    private static final String CMD = "./bitcoin-0.12.1/bin/bitcoin-cli -regtest";
 
-    private static void launchShellCmd(String command) {
+    static final String CMD_MINING = CMD + " generate 1";
+
+    static void launchShellCmd(String command, String args) {
         StringBuffer output = new StringBuffer();
         Process p;
         try {
-            p = Runtime.getRuntime().exec(command);
+            System.out.println(command+args);
+            p = Runtime.getRuntime().exec(command+args);
             p.waitFor();
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -38,25 +42,12 @@ public class BitcoinToolbox {
         }
     }
 
-    public synchronized static void clean() {
-        launchShellCmd(CMD_CLEAN);
+    synchronized static void clean() {
+        launchShellCmd(CMD_CLEAN, "");
     }
 
-    public synchronized static void initWallets() {
-        try {
-            FileWriter writer = new FileWriter("resources/bitcoin/adr_bitcoin", false);
-            writer.close();
-            for (int i = 0; i < Main.manager.getSizeOfTask() ; i++)
-                writer.write(BitcoinManager.getWalletAppKit(i).wallet().currentReceiveAddress() + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        launchShellCmd(CMD_INIT);
-    }
-
-
-    public synchronized static void mine() {
-        launchShellCmd(CMD_MINING);
+    synchronized static void mine() {
+        launchShellCmd(CMD_MINING, "");
     }
 
 }
