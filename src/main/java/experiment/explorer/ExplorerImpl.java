@@ -1,5 +1,6 @@
 package experiment.explorer;
 
+import bitcoin.BitcoinManager;
 import com.google.common.annotations.VisibleForTesting;
 import experiment.*;
 import experiment.exploration.Exploration;
@@ -47,22 +48,35 @@ public abstract class ExplorerImpl implements Explorer {
                 Object output = (future.get(Main.numberOfSecondsToWait, TimeUnit.SECONDS));
                 this.outputs.add(output);
                 boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexOfTask), output);
+                executor.shutdownNow();
                 if (assertion)
                     result.set(0, 1); // success
-                else
+                else {
                     result.set(1, 1); // failures
-                executor.shutdownNow();
+                    if (this.manager instanceof BitcoinManager) {
+                        System.err.println("Recover Wallet... error");
+                        ((BitcoinManager) this.manager).initWallets();
+                    }
+                }
                 return result;
             } catch (TimeoutException e) {
                 future.cancel(true);
                 result.set(2, 1); // error computation time
                 System.err.println("Time out!");
                 executor.shutdownNow();
+                if (this.manager instanceof BitcoinManager) {
+                    System.err.println("Recover Wallet... Timeout");
+                    ((BitcoinManager) this.manager).initWallets();
+                }
                 return result;
             }
         } catch (Exception | Error e) {
             result.set(2, 1);
             executor.shutdownNow();
+            if (this.manager instanceof BitcoinManager) {
+                System.err.println("Recover Wallet... " + e.getMessage());
+                ((BitcoinManager) this.manager).initWallets();
+            }
             return result;
         }
     }

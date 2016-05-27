@@ -92,9 +92,20 @@ public abstract class ManagerImpl<T, P> implements Manager<T, P> {
     }
 
     @Override
+    public void setIndexTask(List<Integer> tasks) {
+        this.indexTasks = tasks;
+    }
+
+    @Override
     public List<PerturbationLocation> getLocations() {
         return this.locations;
     }
+
+    @Override
+    public void setLocations(List<PerturbationLocation> locations) {
+        this.locations = locations;
+    }
+
 
     @Override
     public List<PerturbationLocation> getLocations(String filter) {

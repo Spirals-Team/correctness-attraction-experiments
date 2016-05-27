@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class TaskSizeExplorer extends CallExplorer {
 
-    public static int[] sizeOfTask = new int[]{5, 10, 20, 50, 100};
+    public static int[] sizeOfTask = new int[]{5, 10, 20, 50, 100, 225};
 
     private String header;
 
@@ -34,8 +34,8 @@ public class TaskSizeExplorer extends CallExplorer {
         header = "Contains data to explore the size of task required for saturation\n";
         header += "Task Size Exploration (TSE)\n";
         header += "Task Size : ";
-        for (int nTask : arrayOfTask)
-            header += nTask + " ";
+        for (int size : arrayOfTask)
+            header += size + " ";
         header += "\n" + super.manager.getLocations().size() + " perturbation point\n";
         header += "N Execution Enactor\n";
         header += "PONE : Numerical Perturbator\n";
@@ -79,7 +79,6 @@ public class TaskSizeExplorer extends CallExplorer {
                 String format = "%-10s %-10s %-10s %-10s %-10s %-18s %-18s %-14s %-24s %-10s %-10s %-27s";
                 Tuple result = new Tuple(6);
                 int accNbOfTasks = 0;
-                int accNbExecAllTask = 0;
                 for (int indexTask = 0; indexTask < super.manager.getIndexTask().size(); indexTask++) {
                     result = result.add(results[locations.indexOf(location)][indexTask][0][0]);
                     accNbOfTasks += super.nbCallReferencePerLocationPerTask[locations.indexOf(location)][indexTask];
@@ -92,7 +91,7 @@ public class TaskSizeExplorer extends CallExplorer {
                         result.get(0), result.get(1), result.get(2),
                         result.get(3), String.format("%.2f", avgCall),
                         result.get(4), String.format("%.2f", avgPerturbation),
-                        accNbExecAllTask, result.get(5),
+                        accNbOfTasks, result.get(5),
                         result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
                 writer.close();
             } catch (IOException e) {
@@ -147,9 +146,8 @@ public class TaskSizeExplorer extends CallExplorer {
             int size = sizeOfTask[i];
             System.out.println("Size of task : \t" + size + "\t" + Util.getStringPerc(i, sizeOfTask.length));
             try {
-                manager = (Manager) classManager.getConstructor().newInstance();
-                manager.initialize(20, size);
-                new TaskSizeExplorer(manager, i == 0, sizeOfTask);
+                manager = (Manager) classManager.getConstructor(int.class, int.class).newInstance(20, size);
+                new TaskSizeExplorer(manager, i == 0, sizeOfTask).run();
             } catch (Exception e) {
                 e.printStackTrace();
             }

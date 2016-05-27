@@ -33,11 +33,11 @@ public interface Manager<T, P> {
      */
     List<PerturbationLocation> getLocations(String filter);
 
-    /**
-     * Used this getter to filter indexOfTask to be used
-     * @return
-     */
+    void setLocations(List<PerturbationLocation> locations);
+
     List<Integer> getIndexTask();
+
+    void setIndexTask(List<Integer> tasks);
 
     /**
      * @return the name of the subject
@@ -60,4 +60,5 @@ public interface Manager<T, P> {
      * @return
      */
     T getTask(int indexOfTask);
+
 }

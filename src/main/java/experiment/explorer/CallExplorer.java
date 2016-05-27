@@ -115,10 +115,10 @@ public class CallExplorer extends ExplorerImpl {
             writer = new FileWriter(pathToOutPutFile + "_analysis_graph_data.txt", false);
             writer.write("contains the data for build a graph for analysis.\n" +
                     exploration.getHeader() + super.manager.getHeader());
-            format = "%-11s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
-            writer.write(String.format(format, exploration.getColumnName(), "IndexLoc",
+            format = "%-11s %-10s %-14s %-10s %-10s %-10s %-14s %-27s";
+            writer.write(String.format(format, exploration.getColumnName(), "IndexLoc", "#Perturtions",
                     "#Success", "#Failure", "#Exception",
-                    "#Call", "#Perturtions",
+                    "#Call",
                     "%Success") + "\n");
             for (PerturbationLocation location : locations) {
                 Tuple resultForLocation = new Tuple(3);
@@ -127,9 +127,9 @@ public class CallExplorer extends ExplorerImpl {
                     for (int indexTask = 0; indexTask < super.manager.getIndexTask().size(); indexTask++) {
                         result = result.add(results[super.manager.getLocations().indexOf(location)][indexTask][indexPerturbator][0]);
                     }
-                    writer.write(String.format(format, perturbatorsName[indexPerturbator], location.getLocationIndex(),
+                    writer.write(String.format(format, perturbatorsName[indexPerturbator], location.getLocationIndex(), result.get(4),
                             result.get(0), result.get(1), result.get(2),
-                            result.get(3), result.get(4),
+                            result.get(3),
                             result.get(4) == 0 ? "NaN" : Util.getStringPerc(result.get(0), result.total(3))) + "\n");
 
                     resultForLocation = resultForLocation.add(result);

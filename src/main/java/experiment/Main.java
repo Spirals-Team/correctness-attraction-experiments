@@ -1,5 +1,8 @@
 package experiment;
 
+import laguerre.LaguerreManager;
+import partial_mutant.MutantExplorer;
+import tea.TEAManager;
 import bitcoin.BitcoinManager;
 import classifier.BayesManager;
 import experiment.exploration.BooleanExplorationNegation;
@@ -10,6 +13,7 @@ import experiment.explorer.*;
 import md5.MD5Manager;
 import mersenne.MersenneManager;
 import quicksort.QuickSortManager;
+import rc4.RC4Manager;
 import rsa.RSAManager;
 import simplex.SimplexManager;
 import sudoku.SudokuManager;
@@ -219,6 +223,9 @@ public class Main {
             case "zip":
                 manager = new ZipManager(numberOfTask, sizeOfTask, seed);
                 break;
+            case "rc4":
+                manager = new RC4Manager(numberOfTask, sizeOfTask, seed);
+                break;
             case "torrent":
                 manager = new TorrentManager(numberOfTask, sizeOfTask, seed);
                 break;
@@ -247,10 +254,17 @@ public class Main {
             case "simplex":
                 manager = new SimplexManager(numberOfTask, sizeOfTask, seed);
                 break;
+            case "tea":
+                manager = new TEAManager(numberOfTask, sizeOfTask, seed);
+                break;
+            case "laguerre":
+                manager = new LaguerreManager(numberOfTask, sizeOfTask, seed);
+                break;
             default:
             case "qs":
             case "quicksort":
                 manager = new QuickSortManager(numberOfTask, sizeOfTask, seed);
+                break;
         }
     }
 

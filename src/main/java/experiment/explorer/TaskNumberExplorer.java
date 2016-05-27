@@ -140,8 +140,7 @@ public class TaskNumberExplorer extends CallExplorer {
             int nbTask = numberOfTask[i];
             System.out.println("Number of task : \t" + nbTask + "\t" +Util.getStringPerc(i, numberOfTask.length));
             try {
-                manager = (Manager) classManager.getConstructor().newInstance();
-                manager.initialize(nbTask, 100);
+                manager = (Manager) classManager.getConstructor(int.class, int.class).newInstance(nbTask, 100);
                 new TaskNumberExplorer(manager, i == 0, numberOfTask).run();
             } catch (Exception e) {
                 e.printStackTrace();
