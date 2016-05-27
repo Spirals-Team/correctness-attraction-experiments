@@ -27,8 +27,6 @@ public class Model {
 
     private List<PerturbationLocation> locations;
 
-    private float percentageOfSuccess;
-
     private int numberOfTask;
     private int size;
 
@@ -46,13 +44,13 @@ public class Model {
 
     public void setRnd(float rnd) {
         this.rnd = rnd;
-        this.percentageOfSuccess = this.runAllTask();
     }
 
 
     public float runAllTask() {
-        return (float) IntStream.range(0, numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask))
-                / (float)(locations.size() * numberOfTask) * 100;
+        int nbSuccess = IntStream.range(0, numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask));
+        System.out.println(nbSuccess);
+        return (float) nbSuccess / (float)(locations.size() * numberOfTask) * 100;
     }
 
     private int runLocations(int indexTask) {
@@ -76,7 +74,7 @@ public class Model {
             Callable instanceRunner = manager.getCallable(manager.getTask(indexTask));
             Future future = executor.submit(instanceRunner);
             try {
-                List<Integer> output = (List<Integer>)(future.get(15, TimeUnit.SECONDS));
+                int[] output = (int[])(future.get(15, TimeUnit.SECONDS));
                 boolean assertion = oracle.assertPerturbation(manager.getTask(indexTask), output);
                 executor.shutdownNow();
                 return assertion;

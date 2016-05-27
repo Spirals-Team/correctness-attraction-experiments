@@ -1,14 +1,23 @@
 package gui;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.Mixer;
+import javax.sound.sampled.Port;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+
+import static javax.sound.sampled.FloatControl.Type.MASTER_GAIN;
 
 /**
  * Created by bdanglot on 13/05/16.
@@ -27,6 +36,8 @@ public class Window extends JFrame {
 
     private Model model;
 
+    private JTextArea text;
+
     public Window(Model m) {
         super();
         this.model = m;
@@ -36,6 +47,9 @@ public class Window extends JFrame {
         this.panel = new JPanel();
         this.panel.add(c);
 
+        this.text = new JTextArea("toto");
+
+        this.panel.add(text);
         this.panel.add(label);
         this.panel.setPreferredSize(new Dimension(400,350));
         this.panel.setBackground(Color.WHITE);
@@ -46,6 +60,20 @@ public class Window extends JFrame {
         this.setContentPane(panel);
         this.setPreferredSize(new Dimension(400,350));
         this.pack();
+
+        this.text.addKeyListener(new KeyAdapter() {
+
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                System.out.println("pressed " + e.getKeyCode());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                System.out.println("released " + e.getKeyCode());
+            }
+        });
 
         Graphics2D g = (Graphics2D) this.panel.getGraphics();
         g.clearRect(0, this.c.getHeight() + 10, 400, 350);

@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 public class Control extends JSlider {
 
     private static final int RND_MIN = 0;//0.001 = 1 / 1000
-    private static final int RND_MAX = 40;//0.9 = 900 / 1000
+    private static final int RND_MAX = 1000;//0.9 = 900 / 1000
 
     private Model model;
     private JLabel label;
