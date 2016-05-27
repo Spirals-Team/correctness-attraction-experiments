@@ -3,10 +3,6 @@ package resources;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.OracleManagerImpl;
-
-import java.util.Objects;
-import java.util.function.BooleanSupplier;
 
 /**
  * Created by bdanglot on 09/05/16.

@@ -1,10 +1,7 @@
 package oracle;
 
-import classifier.BayesManager;
-import classifier.BayesOracle;
 import experiment.Manager;
 import experiment.Oracle;
-import experiment.OracleManager;
 import md5.MD5;
 import md5.MD5Oracle;
 import mersenne.MersenneOracle;
@@ -13,15 +10,10 @@ import quicksort.QuickSortOracle;
 import sudoku.Sudoku;
 import sudoku.SudokuManager;
 import sudoku.SudokuOracle;
-import weka.experiment.Experiment;
-import weka.experiment.InstancesResultListener;
 import zip.LZW;
 import zip.ZipOracle;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -31,9 +23,15 @@ import static junit.framework.TestCase.assertTrue;
  */
 public class TestOracle {
 
-    private static List<Integer> clone(List<Integer> input) {
+    private int[] clone(int [] array) {
+        int [] clone = new int [array.length];
+        System.arraycopy(array, 0, clone, 0, array.length);
+        return clone;
+    }
+
+    private List<Integer> clone(List<Integer> lst) {
         List<Integer> clone = new ArrayList<>();
-        clone.addAll(input);
+        clone.addAll(lst);
         return clone;
     }
 
@@ -43,34 +41,53 @@ public class TestOracle {
         //Test the quicksort oracle by sorting, shuffling, adding and removing elements.
         //The input is cloned as the OracleManager does when it use get(int index) method.
 
-        Oracle<List<Integer>, List<Integer>> oracle = new QuickSortOracle();
+        //TODO
+        Oracle<int[], int[]> oracle = new QuickSortOracle();
 
-        Random rnd = new Random();
-        final List<Integer> input =  new ArrayList<>();
-        for (int i = 0 ; i < 100 ; i ++) {
-            input.add(rnd.nextInt());
+        Random rnd = new Random();//w/e the seed used, it has to work
+        final int[] input = new int[100];//100 elements
+        for (int i = 0; i < input.length; i++) {
+            input[i] = rnd.nextInt();
         }
 
-        List<Integer> listTest = clone(input);
+        int [] test = clone(input);
 
-        //list is not sorted
-        assertFalse(oracle.assertPerturbation(clone(input), listTest));
-        //sorting
-        Collections.sort(listTest);
-        assertTrue(oracle.assertPerturbation(clone(input), listTest));
-        //stateless
-        Collections.shuffle(listTest);
-        assertFalse(oracle.assertPerturbation(clone(input), listTest));
-        //the list is no longer as the input, it has one more element
-        listTest.add(1);// add an element
-        Collections.sort(listTest);
-        assertFalse(oracle.assertPerturbation(clone(input), listTest));
-        listTest.clear();
-        listTest.addAll(input);
-        //as before, but one less element
-        listTest.remove(1);//removing one element
-        Collections.sort(listTest);
-        assertFalse(oracle.assertPerturbation(clone(input), listTest));
+        assertFalse(oracle.assertPerturbation(clone(input), test));
+        Arrays.sort(test);
+        for (int i = 0; i < test.length; i++) {
+            System.out.print(test[i] + " ");
+        }
+        System.out.println();
+        assertTrue(oracle.assertPerturbation(clone(input), test));
+
+//        Oracle<List<Integer>, List<Integer>> oracle = new QuickSortOracle();
+//
+//        Random rnd = new Random();
+//        final List<Integer> input =  new ArrayList<>();
+//        for (int i = 0 ; i < 100 ; i ++) {
+//            input.add(rnd.nextInt());
+//        }
+//
+//        List<Integer> listTest = clone(input);
+//
+//        //list is not sorted
+//        assertFalse(oracle.assertPerturbation(clone(input), listTest));
+//        //sorting
+//        Collections.sort(listTest);
+//        assertTrue(oracle.assertPerturbation(clone(input), listTest));
+//        //stateless
+//        Collections.shuffle(listTest);
+//        assertFalse(oracle.assertPerturbation(clone(input), listTest));
+//        //the list is no longer as the input, it has one more element
+//        listTest.add(1);// add an element
+//        Collections.sort(listTest);
+//        assertFalse(oracle.assertPerturbation(clone(input), listTest));
+//        listTest.clear();
+//        listTest.addAll(input);
+//        //as before, but one less element
+//        listTest.remove(1);//removing one element
+//        Collections.sort(listTest);
+//        assertFalse(oracle.assertPerturbation(clone(input), listTest));
     }
 
     @Test
