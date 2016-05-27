@@ -7,9 +7,6 @@ import com.turn.ttorrent.tracker.Tracker;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.OracleManagerImpl;
-import org.junit.runner.Runner;
-import org.omg.CORBA.OBJ_ADAPTER;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -122,7 +119,8 @@ public class TorrentManager extends ManagerImpl<String, String> {
     }
 
     public void stop() {
-        this.tracker.stop();
+        if (this.tracker != null)
+            this.tracker.stop();
     }
 
     private void createTorrent(String pathOfTheNewTask, File task) {
