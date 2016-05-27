@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by beyni on 21/05/16.
  */
-public class QuickSortManager extends ManagerImpl<List<Integer>, List<Integer>> {
+public class QuickSortManager extends ManagerImpl<int[], int[]> {
 
     public QuickSortManager(int nbTask, int sizeTask) {
         this(nbTask, sizeTask, 23);
@@ -26,27 +26,34 @@ public class QuickSortManager extends ManagerImpl<List<Integer>, List<Integer>> 
     }
 
     @Override
-    protected List<Integer> generateOneTask() {
-        List<Integer> newTask = new ArrayList<>();
+    protected int[] generateOneTask() {
+        int [] task = new int[super.sizeOfTask];
         for (int i = 0; i < super.sizeOfTask ; i++)
-            newTask.add(randomForGenTask.nextInt());
-        return newTask;
+            task[i] = randomForGenTask.nextInt(10);
+        return task;
     }
 
     @Override
-    public List<Integer> getTask(int indexTask) {
-        List<Integer> clone = new ArrayList<>();
-        this.tasks.get(indexTask).forEach(clone::add);
+    public int[] getTask(int indexTask) {
+        int [] clone = new int[super.sizeOfTask];
+        System.arraycopy(super.tasks.get(indexTask), 0, clone, 0, super.sizeOfTask);
         return clone;
     }
 
     @Override
-    public CallableImpl<List<Integer>, List<Integer>> getCallable(List<Integer> input) {
-        return new QuickSortCallableImpl(input);
+    public CallableImpl<int[], int[]> getCallable(int[] input) {
+        return new CallableImpl<int[], int[]>(input) {
+            @Override
+            public int[] call() throws Exception {
+                QuickSortInstr quicksort = new QuickSortInstr(input);
+                quicksort.sort(0, input.length-1);
+                return quicksort.getArray();
+            }
+        };
     }
 
     @Override
-    public Oracle<List<Integer>, List<Integer>> getOracle() {
+    public Oracle<int[], int[]> getOracle() {
         return new QuickSortOracle();
     }
 
@@ -62,8 +69,4 @@ public class QuickSortManager extends ManagerImpl<List<Integer>, List<Integer>> 
                 super.locations.size() + " perturbations points\n";
     }
 
-    public static void main(String[] args) {
-        Manager manager = new QuickSortManager(20, 100);
-        new CallExplorer(manager, new IntegerExplorationPlusOne()).run();
-    }
 }
