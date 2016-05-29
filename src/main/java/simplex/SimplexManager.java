@@ -3,7 +3,6 @@ package simplex;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.OracleManagerImpl;
 import org.apache.commons.math3.optim.OptimizationData;
 import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.linear.*;

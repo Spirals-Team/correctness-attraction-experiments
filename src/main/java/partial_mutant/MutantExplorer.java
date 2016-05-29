@@ -1,7 +1,6 @@
 package partial_mutant;
 
 import experiment.Manager;
-import experiment.OracleManager;
 import experiment.Util;
 import md5.MD5CallableImpl;
 import md5.MD5Instr;
