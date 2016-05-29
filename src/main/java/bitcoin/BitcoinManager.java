@@ -71,7 +71,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
             locations.add(BasicKeyChain.__L930);
         } else {
             //Boolean locations
-            locations.add(DeterministicKey.__L1419);
+//            locations.add(DeterministicKey.__L1419);
 //            locations.add(DeterministicKey.__L1604);
 //            locations.add(Message.__L2287);
 //            locations.add(Message.__L2288);
