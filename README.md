@@ -4,26 +4,30 @@
 
 This project contains experiments for [jPerturb](https://github.com/Spirals-Team/jPerturb)
 
-* quicksort : Perturbation on Quicksort.
-* zip : Perturbation on LZW compression.
-* md5 : Perturbation on MD5 hash function.
-* sudoku : Perturbation on a Sudoku solver.
-* simplex : simplex of linear program with the Simplex algorithm from [math3](https://commons.apache.org/proper/commons-math/) of Apache lib.
-* mersenne : an implementation of the Mersenne-Twister PRNG : [link](http://www.java2s.com/Code/Java/Development-Class/MersenneTwisterRandom.htm)
-* torrent : implementation of bittorent protocol retrieve [here](https://github.com/mpetazzoni/ttorrent).
-* bitcoin : implementation of bitcoin node in java found [here](https://github.com/bitcoinj/bitcoinj).
-* classifier : a Naive bayes classifier from [Weka](http://www.cs.waikato.ac.nz/ml/weka/).
+* quicksort: Perturbation on Quicksort.
+* zip: Perturbation on LZW compression.
+* md5: Perturbation on MD5 hash function.
+* sudoku: Perturbation on a Sudoku solver.
+* simplex: solver of linear program with the Simplex algorithm from [math3](https://commons.apache.org/proper/commons-math/) of Apache lib.
+* laguerre: root finder of polynomial function from [math3](https://commons.apache.org/proper/commons-math/) of Apache lib.
+* mersenne: an implementation of the Mersenne-Twister PRNG: [link](http://www.java2s.com/Code/Java/Development-Class/MersenneTwisterRandom.htm)
+* rsa: asymmetric cryptosystem from [Bouncy Castle](https://github.com/bcgit/bc-java.git/)
+* rc4: symetric key stream cipher from [Bouncy Castle](https://github.com/bcgit/bc-java.git/)
+* tea: tiny encription algorithm in java, translation of this [implementation](https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm))
+* torrent: implementation of bittorent protocol retrieve [here](https://github.com/mpetazzoni/ttorrent).
+* bitcoin: implementation of bitcoin node in java found [here](https://github.com/bitcoinj/bitcoinj).
+* classifier: a Naive bayes classifier from [Weka](http://www.cs.waikato.ac.nz/ml/weka/).
 
 If the source is not specified, sources come from [RosettaCode](http://rosettacode.org/)
 
-about quicksort-visualization :
+about quicksort-visualization:
 This package is out of the experiments because it is used to draw perturbation envelop of quicksort algorithm.
 
 ## Experiments
 
 The experiments are the exploration of the perturbation envelop of each project.
 
-In order to explore it, we use 5 campaigns :
+In order to explore it, we use 5 campaigns:
 
    * Add 1 at each call of each perturbation Point.
    * Add N, an increasing magnitude at each call of each perturbation points.
@@ -31,9 +35,9 @@ In order to explore it, we use 5 campaigns :
    * Negation of Boolean at each call of each perturbation Point.
    * Negation of Boolean with an increasing random probability.
 
-## Install & Running
+## Install
 
-In order to install, just launch the following script :
+In order to install, just launch the following script:
 
 ```
 ./src/script/install.sh
@@ -41,39 +45,55 @@ In order to install, just launch the following script :
 
 It will install everything you will need to run experiments (nearly 7 minutes).
 
-In order to try, run :
+## Run
+
+### Commandes
 
 ```
-./src/script/run.sh
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="<options>"
 ```
 
-It about 5 minutes to execute and run all campaigns on the quicksort subject, with 20 arrays of 100 integers.
-
-## Options
-
-### OutOfDate
+### Options
 
 You can run each subject separately, or all of it with the Runner. Options remains the same.
 
-Several options are available :
-* -size <integer> specify the size of each task
-* -nb <integer> specify the number of task
-* -time <integer> specify the number of seconds to wait until timeout
+Several options available :
+* -size \<integer> specify the size of each task
+* -nb \<integer> specify the number of task
+* -time \<integer> specify the number of seconds to wait until timeout
 * -v or -verbose to active Runner verbose mode
-* -exp <exp> specify the exp. If no exp is specified, the program will run all of it. values available for <exp> are : addOne addN BoolCall IntRnd BoolRnd
+* -s \<subject> to specify the subject
+* value for \<subject> : qs zip rc4 laguerre tea torrent rsa sudoku bayes simplex mt md5 bc
+* -exp \<exp> specify the exp
+* value for \<exp> call rnd heatmap
+* for call and rnd exp you can specify which \<exploration> just after it.
+* value for \<exploration> : one magnitude boolean
+* you can specify an array of magnitude to be used just after the key-word magnitude
+* a list of integer separated with ":" (1:2:3 for example)
+* after the exploration, you can specify the random rates list used by rnd explorer just as for the magnitude (but with float)
+* -run tasksize tasknumber to run the exploration of the impact of the size or the number of task
+* runs will be executed before everything else, you must specify a subject (with -s) before
+* you can type -run gui to run the demo gui with success meter
+* -help display this help
 
-## Running commands
 
-You can run "little" exp (quicksort,zip,md5,sudoku and mersenne) as you ran quicksort :
+## Example of running commands
+
+Run the systematical call exploration with plus one perturbator model on quicksort, with 50 array of 200 integers with verbose mode:
 
 ```
-java -cp target/classes <package_exp>.Main <list of options>
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-v -s qs -nb 50 -size 200 -exp call one"
 ```
 
-For the "large" exp (simplex, torrent, bitcoin, classifier and cipher (comming soon)), you must run them with all dependencies. The easiest way to do so is to use the maven command exec :
+Run the gui on zip:
 
 ```
-mvn exec:java -Dexec.mainClass="<package_exp>.Main" -Dexec.args="<list of options"
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s zip -run gui"
 ```
 
-or you can try to add dependencies manually.
+Run the task size exploration on md5:
+
+```
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s md5 -run tasksize"
+```
+
