@@ -25,7 +25,7 @@ public class BitcoinToolbox {
         StringBuffer output = new StringBuffer();
         Process p;
         try {
-            System.out.println(command+args);
+//            System.out.println(command+args);
             p = Runtime.getRuntime().exec(command+args);
             p.waitFor();
             BufferedReader reader =

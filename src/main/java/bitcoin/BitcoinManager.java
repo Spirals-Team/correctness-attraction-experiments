@@ -1,16 +1,18 @@
 package bitcoin;
 
+
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
 import experiment.Tuple;
 import org.bitcoinj.core.ECKey;
-import org.bitcoinj.core.Message;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.core.Sha256Hash;
+import org.bitcoinj.core.*;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.RegTestParams;
+import org.bitcoinj.script.ScriptChunk;
 import org.bitcoinj.utils.BriefLogFormatter;
 import org.bitcoinj.wallet.BasicKeyChain;
 
@@ -45,43 +47,18 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
     public BitcoinManager(int numberOfTask, int size, int seed, String typePerturbed) {
         super(seed);
+
+//        super.CUP = DeterministicKey.class;
         //Unused for bitcoin
         super.CUP = this.getClass();
         super.locations = new ArrayList<>();
-        if (typePerturbed == null || typePerturbed.equals("Numerical")) {
-            //Integer locations
-            locations.add(ECKey.__L84);
-            locations.add(ECKey.__L85);
-            locations.add(ECKey.__L149);
-            locations.add(DeterministicKey.__L678);
-            locations.add(DeterministicKey.__L679);
-            locations.add(DeterministicKey.__L680);
-            locations.add(DeterministicKey.__L682);
-//            locations.add(Message.__L2286);
-            locations.add(Message.__L474);
-            locations.add(Message.__L475);
-            locations.add(Message.__L477);
-            locations.add(Message.__L488);
-            locations.add(Message.__L489);
-            locations.add(Message.__L490);
-            locations.add(Message.__L491);
-            locations.add(Message.__L494);
-            locations.add(Sha256Hash.__L611);
-            locations.add(Sha256Hash.__L612);
-            locations.add(BasicKeyChain.__L930);
-        } else {
-            //Boolean locations
-//            locations.add(DeterministicKey.__L1419);
-//            locations.add(DeterministicKey.__L1604);
-//            locations.add(Message.__L2287);
-//            locations.add(Message.__L2288);
-//            locations.add(Message.__L2337);
-//            locations.add(Message.__L2343);
-//            locations.add(Message.__L2371);
-//            locations.add(Message.__L2374);
-//            locations.add(Message.__L2379);
-//            locations.add(Message.__L2382);
-        }
+        super.locations.add(ECKey.__L1743);//813
+        super.locations.add(DeterministicKey.__L7172);//813
+        super.locations.add(BasicKeyChain.__L13795);//816
+        super.locations.add(UnsafeByteArrayOutputStream.__L5136);//463
+        super.locations.add(Sha256Hash.__L3925);//168
+        super.locations.add(ScriptChunk.__L11630);//168
+
         this.initialize(numberOfTask, size);
         initWallets();
     }
@@ -99,16 +76,21 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         });
     }
 
-    private HashMap<Integer, WalletAppKit> initKits() {
-        if (this.kits != null) {
-            for (Integer key : this.kits.keySet()) {
-                this.kits.get(key).stopAsync();
-            }
+    public void stop() {
+        for (Integer key : this.kits.keySet()) {
+            this.kits.get(key).stopAsync();
         }
+    }
+
+    private HashMap<Integer, WalletAppKit> initKits() {
+        if (this.kits != null)
+            stop();
         return new HashMap<>();
     }
 
     public void initWallets() {
+
+        long timeInit = System.currentTimeMillis();
 
         this.kits = initKits();
 
@@ -118,7 +100,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
         BitcoinToolbox.clean();
 
-        for (int i = 0; i < super.sizeOfTask ; i++) {
+        for (int i = 0; i < super.sizeOfTask; i++) {
             this.kits.put(i, new WalletAppKit(networkParameters, new File(PATH_WALLET + "wallet_" + i), "wallet_" + i));
         }
 
@@ -134,25 +116,6 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
             this.kits.get(key).awaitRunning();
         }
 
-//        for (Integer key : this.kits.keySet()) {
-//            this.kits.get(key).wallet().addEventListener(
-//                    new AbstractWalletEventListener() {
-//                @Override
-//                public void onCoinsReceived(Wallet w, Transaction tx, Coin prevBalance, Coin newBalance) {
-//                    System.out.println("RECEIVE SOME BTC");
-//                    print();
-//                    BitcoinToolbox.mine();
-//                }
-//            });
-//        }
-
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         for (Integer key : this.kits.keySet()) {
             BitcoinToolbox.launchShellCmd(BitcoinToolbox.CMD_INIT, " " + this.kits.get(key).wallet().currentReceiveAddress());
         }
@@ -161,26 +124,40 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
         amountOfWalletBeforeTask = new int[super.sizeOfTask];
 
+        int retry = 5;
         int cpt = 0;
+        int attempt = 0;
 
         while (cpt < super.sizeOfTask) {
+            if (attempt > 100) {
+                System.err.println("Too many attempt... retry");
+                for (Integer key : this.kits.keySet()) {
+                    BitcoinToolbox.launchShellCmd(BitcoinToolbox.CMD_INIT, " " + this.kits.get(key).wallet().currentReceiveAddress());
+                }
+                BitcoinToolbox.mine();
+                amountOfWalletBeforeTask = new int[super.sizeOfTask];
+                attempt = 0;
+                if (retry < 0) {
+                    System.err.println("Recall the whole recovery procedure....");
+                    initWallets();
+                    return;
+                } else
+                    retry--;
+
+            }
             for (int i = 0; i < super.sizeOfTask; i++) {
                 int amount = btcStringToBtcInt(kits.get(i).wallet().getBalance().toFriendlyString());
                 if (amount != amountOfWalletBeforeTask[i]) {
-//                    System.out.println("BTC sent to " + i + ", " + (super.sizeOfTask - cpt) + " to go");
                     amountOfWalletBeforeTask[i] = amount;
-                    cpt ++;
-//                    print();
+                    cpt++;
                 }
             }
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            attempt++;
         }
+
         BitcoinToolbox.mine();
-//        print();
+
+        System.out.println(System.currentTimeMillis() - timeInit);
     }
 
     public static int btcStringToBtcInt(String amount) {
