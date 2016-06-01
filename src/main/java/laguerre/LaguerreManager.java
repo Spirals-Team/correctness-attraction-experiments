@@ -31,7 +31,7 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
     protected double[] generateOneTask() {
         double [] coef = new double[super.sizeOfTask];
         for (int i = 0 ; i < super.sizeOfTask ; i++)
-            coef[i] = -5.0 + 10.0* randomForGenTask.nextDouble();//TODO Should we set a bound?
+            coef[i] = -5.0 + 10.0 * randomForGenTask.nextDouble();//TODO Should we set a bound : -5.0 <= coeff <= 5.0
         return coef;
     }
 
