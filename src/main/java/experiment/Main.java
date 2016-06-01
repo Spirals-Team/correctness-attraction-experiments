@@ -1,5 +1,6 @@
 package experiment;
 
+import gui.Window;
 import laguerre.LaguerreManager;
 import partial_mutant.MutantExplorer;
 import tea.TEAManager;
@@ -106,6 +107,9 @@ public class Main {
             case "seed":
                 runSeed();
                 break;
+            case "gui":
+                runGui();
+                break;
             default:
                 usage();
         }
@@ -139,6 +143,10 @@ public class Main {
 
     private static void runSeed() {
         SeedExplorer.run(manager.getClass());
+    }
+
+    private static void runGui() {
+        Window.launch(manager.getClass());
     }
 
     private static Explorer buildHeatMap() {
@@ -283,8 +291,7 @@ public class Main {
         System.out.println("\t-time <integer> specify the number of seconds to wait until timeout");
         System.out.println("\t-v or -verbose to active Runner verbose mode");
         System.out.println("\t-s <subject> to specify the subject");
-        System.out.println("\tvalue for <subject> : qs zip torrent rsa sudoku bayes simplex mt md5 bc");
-        System.out.println("\tquicksort is used if you don't specify it");
+        System.out.println("\tvalue for <subject> : qs zip rc4 laguerre tea torrent rsa sudoku bayes simplex mt md5 bc");
         System.out.println("\t-exp <exp> specify the exp");
         System.out.println("\tvalue for <exp> call rnd heatmap");
         System.out.println("\tfor call and rnd exp you can specify which <exploration> just after it.");
@@ -292,10 +299,10 @@ public class Main {
         System.out.println("\tyou can specify an array of magnitude to be used just after the key-word magnitude");
         System.out.println("\ta list of integer separated with \":\" (1:2:3 for example)");
         System.out.println("\tafter the exploration, you can specify the random rates list used by rnd explorer just as for the magnitude (but with float)");
-        System.out.println("\tyou can run as many as you want exp call and rnd");
         System.out.println("\tif no exp is specified, <call one> <call magnitude> <rnd one> <call boolean> <rnd boolean> will be run");
-        System.out.println("\t-run <tasksize> or <tasknumber> to run the exploration of the impact of the size or the number of task");
+        System.out.println("\t-run tasksize tasknumber to run the exploration of the impact of the size or the number of task");
         System.out.println("\truns will be executed before everything else, you must specify a subject (with -s) before");
+        System.out.println("\tyou can type -run gui to run the demo gui with success meter");
         System.out.println("\t-help display this help");
         System.exit(-1);
     }

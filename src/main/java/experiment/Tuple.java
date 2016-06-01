@@ -5,18 +5,18 @@ package experiment;
  */
 public class Tuple {
 
-    private int[] values;
+    private long[] values;
 
-    public int get(int i) {
+    public long get(int i) {
         return this.values[i];
     }
 
-    public void set(int i, int value) {
+    public void set(int i, long value) {
         this.values[i] = value;
     }
 
     public Tuple(int number) {
-        this.values = new int[number];
+        this.values = new long[number];
     }
 
     public Tuple add(Tuple that) {
@@ -26,15 +26,15 @@ public class Tuple {
         return add;
     }
 
-    public int total() {
-        int total = 0;
+    public long total() {
+        long total = 0;
         for (int i = 0; i < this.values.length ; i++)
             total += this.values[i];
         return total;
     }
 
-    public int total(int bound) {
-        int total = 0;
+    public long total(int bound) {
+        long total = 0;
         for (int i = 0; i < bound && i < this.values.length ; i++)
             total += this.values[i];
         return total;
@@ -43,7 +43,7 @@ public class Tuple {
     @Override
     public String toString() {
         String ret = "";
-        for (int value : values)
+        for (long value : values)
             ret += value + " ";
         return ret;
     }

@@ -109,6 +109,10 @@ public abstract class ExplorerImpl implements Explorer {
             for (Integer index : indices) {
                 this.runTask(index);
             }
+        if (this.manager instanceof BitcoinManager) {
+            System.err.println("Stopping Bitcoin");
+            ((BitcoinManager) this.manager).stop();
+        }
         log();
     }
 

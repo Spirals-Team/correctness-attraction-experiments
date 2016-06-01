@@ -18,11 +18,13 @@ import java.util.List;
  */
 public class CallExplorer extends ExplorerImpl {
 
-    protected int[][] nbCallReferencePerLocationPerTask;
+    protected long[][] nbCallReferencePerLocationPerTask;
+
+    private int step;
 
     public CallExplorer(Manager manager, Exploration exploration) {
         super(manager, exploration, "CallExplorer");
-        nbCallReferencePerLocationPerTask = new int[super.manager.getLocations().size()][super.manager.getIndexTask().size()];
+        nbCallReferencePerLocationPerTask = new long[super.manager.getLocations().size()][super.manager.getIndexTask().size()];
     }
 
     @Override
@@ -38,15 +40,16 @@ public class CallExplorer extends ExplorerImpl {
         PerturbationEngine.loggers.get(super.name).logOn(location);
         this.run(indexOfTask);
         int currentNbCall = PerturbationEngine.loggers.get(super.name).getCalls(location);
-        nbCallReferencePerLocationPerTask[super.manager.getLocations().indexOf(location)][indexOfTask] = currentNbCall;
+        this.nbCallReferencePerLocationPerTask[super.manager.getLocations().indexOf(location)][indexOfTask] = currentNbCall;
         PerturbationEngine.loggers.get(super.name).reset();
     }
 
     @Override
     public void runOnePerturbator(int indexOfTask, PerturbationLocation location, Perturbator perturbator) {
-        int currentNbCall = nbCallReferencePerLocationPerTask[super.manager.getLocations().indexOf(location)][indexOfTask];
+        long currentNbCall = nbCallReferencePerLocationPerTask[super.manager.getLocations().indexOf(location)][indexOfTask];
         location.setPerturbator(perturbator);
-        for (int indexOfCall = 0 ; indexOfCall < currentNbCall ; indexOfCall++) {
+        for (int indexOfCall = 0; indexOfCall < currentNbCall; indexOfCall++) {
+            System.out.println(Util.getStringPerc(indexOfCall, currentNbCall));
             PerturbationEngine.loggers.get(super.name).logOn(location);
             Tuple result = runAtTheIndexOfCall(indexOfCall, indexOfTask, location);
             super.logger.log(super.manager.getLocations().indexOf(location), indexOfTask, super.perturbators.indexOf(perturbator), 0, result, super.name);
@@ -59,7 +62,7 @@ public class CallExplorer extends ExplorerImpl {
         return this.run(indexOfTask);
     }
 
-    public int[][] getNbCallReferencePerLocationPerTask() {
+    public long[][] getNbCallReferencePerLocationPerTask() {
         return this.nbCallReferencePerLocationPerTask;
     }
 
@@ -86,7 +89,7 @@ public class CallExplorer extends ExplorerImpl {
 
         try {
             FileWriter writer = new FileWriter(pathToOutPutFile + "_detail.txt", false);
-            String format = "%-4s %-"+(exploration.getColumnName().length()+1)+"s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
+            String format = "%-4s %-" + (exploration.getColumnName().length() + 1) + "s %-10s %-10s %-10s %-10s %-10s %-14s %-27s";
             writer.write("detail per task and per " + exploration.getColumnName() + ".\n" + exploration.getHeader() + super.manager.getHeader());
             writer.write(String.format(format,
                     "Task", exploration.getColumnName(), "IndexLoc",
@@ -116,7 +119,7 @@ public class CallExplorer extends ExplorerImpl {
             writer.write("contains the data for build a graph for analysis.\n" +
                     exploration.getHeader() + super.manager.getHeader());
             format = "%-11s %-10s %-14s %-10s %-10s %-10s %-14s %-27s";
-            writer.write(String.format(format, exploration.getColumnName(), "IndexLoc", "#Perturtions",
+            writer.write(String.format(format, exploration.getColumnName(), "IndexLoc", "#Perturbations",
                     "#Success", "#Failure", "#Exception",
                     "#Call",
                     "%Success") + "\n");
@@ -187,14 +190,40 @@ public class CallExplorer extends ExplorerImpl {
                 writer.close();
             }
 
+
+            //Log Reference
+            writer = new FileWriter(pathToOutPutFile + "_nbCallRef.txt", false);
+            format = "%-10s %-10s %-10s";
+            writer.write("Number of Execution of the reference run per location and per task \n" +
+                    "With the aggregation by task for each location, and the total of the execution ref\n");
+            writer.write(String.format(format, "IndexLoc",
+                    "IndexTask",
+                    "#ExecRef") + "\n");
+            int accTotal = 0;
+            for (PerturbationLocation location : locations) {
+                int acc = 0;
+                for (int indexTask = 0; indexTask < super.manager.getIndexTask().size(); indexTask++) {
+                    acc += nbCallReferencePerLocationPerTask[super.manager.getLocations().indexOf(location)][indexTask];
+                    writer.write(String.format(format, location.getLocationIndex(),
+                            indexTask,
+                            nbCallReferencePerLocationPerTask[super.manager.getLocations().indexOf(location)][indexTask]) + "\n");
+                }
+                writer.write(String.format(format, location.getLocationIndex(),
+                        "TotalExcRef",
+                        acc) + "\n");
+                accTotal += acc;
+            }
+            writer.write("Total execution ref: " + accTotal + "\n");
+            writer.close();
+
             Logger.writeListOnGivenFile(pathToOutPutFile + "_anti_fragile.txt",
                     "List of ids antifragile points.", locationAntiFragile);
             Logger.writeListOnGivenFile(pathToOutPutFile + "_super_anti_fragile.txt",
                     "List of ids antifragile points.", locationSuperAntiFragile);
             Logger.writeListOnGivenFile(pathToOutPutFile + "_oracle_fragile.txt",
-                    "list ids of oracle fragile code : >" + Logger.TOLERANCE +"% of oracle failures", locationOracleFragile);
+                    "list ids of oracle fragile code : >" + Logger.TOLERANCE + "% of oracle failures", locationOracleFragile);
             Logger.writeListOnGivenFile(pathToOutPutFile + "_exception_fragile.txt",
-                    "list ids of exception fragile code : >" + Logger.TOLERANCE +"% of exceptions.", locationExceptionFragile);
+                    "list ids of exception fragile code : >" + Logger.TOLERANCE + "% of exceptions.", locationExceptionFragile);
 
         } catch (IOException e) {
             e.printStackTrace();

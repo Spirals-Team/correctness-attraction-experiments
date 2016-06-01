@@ -2,6 +2,7 @@ package experiment.explorer;
 
 import experiment.*;
 import experiment.exploration.IntegerExplorationPlusOne;
+import laguerre.LaguerreManager;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;

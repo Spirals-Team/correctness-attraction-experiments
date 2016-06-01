@@ -5,13 +5,13 @@ package experiment;
  */
 public class Util {
 
-    public static String getStringPerc(int nb, int total) {
+    public static String getStringPerc(long nb, long total) {
         double perc = perc(nb, total);
         String ret = dash(perc);
         return ret + " " + String.format("%.2f", perc);
     }
 
-    public static double perc(int nb, int total) {
+    public static double perc(long nb, long total) {
         return (double) nb / (double) total * 100;
     }
 

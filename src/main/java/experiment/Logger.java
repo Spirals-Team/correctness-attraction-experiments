@@ -90,7 +90,7 @@ public class Logger {
 
     public static double TOLERANCE = 70.0f;
 
-    public static void addToFragilityList(Tuple result, int total, PerturbationLocation location,
+    public static void addToFragilityList(Tuple result, long total, PerturbationLocation location,
                                    List<PerturbationLocation> locationExceptionFragile, List<PerturbationLocation> locationSuperAntiFragile,
                                    List<PerturbationLocation> locationAntiFragile , List<PerturbationLocation> locationOracleFragile) {
         if (result.get(0) == total && result.get(0) != 0)//Super - Antifragile
