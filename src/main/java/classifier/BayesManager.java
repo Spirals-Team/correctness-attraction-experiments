@@ -80,8 +80,8 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
         input.setRunLower(1);
         input.setRunUpper(10);
         DefaultListModel model = new DefaultListModel();
-//        model.addElement(new File(PATH_DIR+path[super.tasks.size()]));
-        model.addElement(new File(build(super.tasks.size())));
+        model.addElement(new File(PATH_DIR+path[super.tasks.size()]));
+//        model.addElement(new File(build(super.tasks.size())));
         input.setDatasets(model);
         InstancesResultListener irl = new InstancesResultListener();
         irl.setOutputFile(new File("output"));
@@ -90,38 +90,6 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
         //Compute reference run for oracle
         oracle.runReference(input);
         return input;
-    }
-
-    private String build(int index) {
-        String file = "@relation dataset_" + index + " \n\n";
-        file += "@attribute attr1 numeric\n";
-        file += "@attribute attr2 numeric\n";
-        file += "@attribute attr3 numeric\n";
-        file += "@attribute class {class1,class2}\n\n";
-        file += "@data\n";
-
-        int cpt = 0;
-
-        for (int i = 0 ; i < super.sizeOfTask ; i++) {
-            file += String.format("%.2f", 10.0*randomForGenTask.nextDouble()).replaceAll(",", ".") +
-                    "," + String.format("%.2f", 10.0*randomForGenTask.nextDouble()).replaceAll(",", ".")  +
-                    "," + String.format("%.2f", 10.0*randomForGenTask.nextDouble()).replaceAll(",", ".") +
-                    "," + (randomForGenTask.nextBoolean()?"class1":"class2") + "\n";
-        }
-
-        System.out.println("resources/classifier/dataset"+index+".arff");
-        System.out.println(file);
-
-        try {
-            FileWriter writer = new FileWriter("resources/classifier/dataset"+index+".arff", false);
-            writer.write(file);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return "resources/classifier/dataset"+index+".arff";
-
     }
 
     @Override
