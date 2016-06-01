@@ -18,16 +18,10 @@ mkdir resources/bitcoin/wallets/
 
 sleep 1
 
-#mkdir $HOME/.bitcoin/
-
-#echo "rpcpassword=password" >> $HOME/.bitcoin/bitcoin.conf
-
-sleep 1
-
 echo "$bitcoinpath/bitcoind -regtest -daemon"
 $bitcoinpath/bitcoind -regtest -daemon
 
-sleep 10
+sleep 8
 
 echo "$bitcoinpath/bitcoin-cli -regtest generate 500"
 $bitcoinpath/bitcoin-cli -regtest generate 500

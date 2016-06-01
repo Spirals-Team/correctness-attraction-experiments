@@ -5,7 +5,8 @@ perturbation=jPerturb/src/main/java/perturbation/
 processors=processor.AssignmentProcessor:processor.VariableCaster:processor.PerturbationProcessor
 m2_repo=$HOME/.m2/repository
 
-path=bc-java/core/src/main/java
-i=org/
+
+path=commons-math3-3.6.1-src/src/main/java/
+i=$path/org/apache/commons/math3/analysis/solvers/LaguerreSolver.java
 echo $path/$i
-java -jar $jPerturb -i $path/$i -o $path/$i -x -p processor.CountProcessor
+java -jar $jPerturb -i $i -x -p processor.CountProcessor
