@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by beyni on 21/05/16.
+ * Created by spirals on 21/05/16.
  */
 public class QuickSortManager extends ManagerImpl<int[], int[]> {
 
@@ -29,7 +29,7 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
     protected int[] generateOneTask() {
         int [] task = new int[super.sizeOfTask];
         for (int i = 0; i < super.sizeOfTask ; i++)
-            task[i] = randomForGenTask.nextInt(10);
+            task[i] = randomForGenTask.nextInt();
         return task;
     }
 
@@ -45,9 +45,8 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
         return new CallableImpl<int[], int[]>(input) {
             @Override
             public int[] call() throws Exception {
-                QuickSortInstr quicksort = new QuickSortInstr(input);
-                quicksort.sort(0, input.length-1);
-                return quicksort.getArray();
+                QuickSortInstr.sort(this.input, 0, this.input.length-1);
+                return this.input;
             }
         };
     }

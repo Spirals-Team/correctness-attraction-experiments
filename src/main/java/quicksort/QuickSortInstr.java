@@ -105,119 +105,85 @@ public class QuickSortInstr {
 
     public static PerturbationLocation __L46;
 
-    public static PerturbationLocation __L47;
-
-    public static PerturbationLocation __L48;
-
-    public static PerturbationLocation __L49;
-
-    public static PerturbationLocation __L50;
-
-    public static PerturbationLocation __L51;
-
-    public static PerturbationLocation __L52;
-
-    public static PerturbationLocation __L53;
-
-    public static PerturbationLocation __L54;
-
-    private int[] array;
-
-    public QuickSortInstr(int[] values) {
-        QuickSortInstr.this.array = values;
-    }
-
-    public void sort(int beg, int end) {
+    public static void sort(int[] array, int beg, int end) {
         int left = PerturbationEngine.pint(__L0, beg);
         int right = PerturbationEngine.pint(__L1, end);
-        int pivot = PerturbationEngine.pint(__L9, QuickSortInstr.this.array[PerturbationEngine.pint(__L8, ((PerturbationEngine.pint(__L2, beg)) + (PerturbationEngine.pint(__L7, ((PerturbationEngine.pint(__L5, ((PerturbationEngine.pint(__L3, end)) - (PerturbationEngine.pint(__L4, beg))))) / (PerturbationEngine.pint(__L6, 2)))))))]);
+        int pivot = PerturbationEngine.pint(__L9, array[PerturbationEngine.pint(__L8, ((PerturbationEngine.pint(__L2, beg)) + (PerturbationEngine.pint(__L7, ((PerturbationEngine.pint(__L5, ((PerturbationEngine.pint(__L3, end)) - (PerturbationEngine.pint(__L4, beg))))) / (PerturbationEngine.pint(__L6, 2)))))))]);
         while (PerturbationEngine.pboolean(__L12, ((PerturbationEngine.pint(__L10, left)) <= (PerturbationEngine.pint(__L11, right))))) {
-            while (PerturbationEngine.pboolean(__L16, ((PerturbationEngine.pint(__L14, QuickSortInstr.this.array[PerturbationEngine.pint(__L13, left)])) < (PerturbationEngine.pint(__L15, pivot))))) {
-                left = PerturbationEngine.pint(__L19, ((PerturbationEngine.pint(__L17, left)) + (PerturbationEngine.pint(__L18, 1))));
+            while (PerturbationEngine.pboolean(__L16, ((PerturbationEngine.pint(__L14, array[PerturbationEngine.pint(__L13, left)])) < (PerturbationEngine.pint(__L15, pivot))))) {
+                PerturbationEngine.pint(__L17, (left++));
             }
-            while (PerturbationEngine.pboolean(__L23, ((PerturbationEngine.pint(__L21, QuickSortInstr.this.array[PerturbationEngine.pint(__L20, right)])) > (PerturbationEngine.pint(__L22, pivot))))) {
-                right = PerturbationEngine.pint(__L26, ((PerturbationEngine.pint(__L24, right)) - (PerturbationEngine.pint(__L25, 1))));
+            while (PerturbationEngine.pboolean(__L21, ((PerturbationEngine.pint(__L19, array[PerturbationEngine.pint(__L18, right)])) > (PerturbationEngine.pint(__L20, pivot))))) {
+                PerturbationEngine.pint(__L22, (right--));
             }
-            if (PerturbationEngine.pboolean(__L29, ((PerturbationEngine.pint(__L27, left)) <= (PerturbationEngine.pint(__L28, right))))) {
-                swap(PerturbationEngine.pint(__L30, left), PerturbationEngine.pint(__L31, right));
-                left = PerturbationEngine.pint(__L34, ((PerturbationEngine.pint(__L32, left)) + (PerturbationEngine.pint(__L33, 1))));
-                right = PerturbationEngine.pint(__L37, ((PerturbationEngine.pint(__L35, right)) - (PerturbationEngine.pint(__L36, 1))));
+            if (PerturbationEngine.pboolean(__L25, ((PerturbationEngine.pint(__L23, left)) <= (PerturbationEngine.pint(__L24, right))))) {
+                QuickSortInstr.swap(array, PerturbationEngine.pint(__L26, left), PerturbationEngine.pint(__L27, right));
+                PerturbationEngine.pint(__L28, (left++));
+                PerturbationEngine.pint(__L29, (right--));
             } 
         }
-        if (PerturbationEngine.pboolean(__L40, ((PerturbationEngine.pint(__L38, beg)) < (PerturbationEngine.pint(__L39, right)))))
-            sort(PerturbationEngine.pint(__L41, beg), PerturbationEngine.pint(__L42, right));
+        if (PerturbationEngine.pboolean(__L32, ((PerturbationEngine.pint(__L30, beg)) < (PerturbationEngine.pint(__L31, right)))))
+            QuickSortInstr.sort(array, PerturbationEngine.pint(__L33, beg), PerturbationEngine.pint(__L34, right));
         
-        if (PerturbationEngine.pboolean(__L45, ((PerturbationEngine.pint(__L43, end)) > (PerturbationEngine.pint(__L44, left)))))
-            sort(PerturbationEngine.pint(__L46, left), PerturbationEngine.pint(__L47, end));
+        if (PerturbationEngine.pboolean(__L37, ((PerturbationEngine.pint(__L35, end)) > (PerturbationEngine.pint(__L36, left)))))
+            QuickSortInstr.sort(array, PerturbationEngine.pint(__L38, left), PerturbationEngine.pint(__L39, end));
         
     }
 
-    public int[] getArray() {
-        return QuickSortInstr.this.array;
-    }
-
-    public void swap(int i, int j) {
-        int x = PerturbationEngine.pint(__L49, QuickSortInstr.this.array[PerturbationEngine.pint(__L48, i)]);
-        QuickSortInstr.this.array[PerturbationEngine.pint(__L50, i)] = PerturbationEngine.pint(__L52, QuickSortInstr.this.array[PerturbationEngine.pint(__L51, j)]);
-        QuickSortInstr.this.array[PerturbationEngine.pint(__L53, j)] = PerturbationEngine.pint(__L54, x);
+    private static void swap(int[] array, int i, int j) {
+        int x = PerturbationEngine.pint(__L41, array[PerturbationEngine.pint(__L40, i)]);
+        array[PerturbationEngine.pint(__L42, i)] = PerturbationEngine.pint(__L44, array[PerturbationEngine.pint(__L43, j)]);
+        array[PerturbationEngine.pint(__L45, j)] = PerturbationEngine.pint(__L46, x);
     }
 
     private static void initPerturbationLocation0() {
-        __L0 = new PerturbationLocationImpl("QuickSort.java:66", 0, "Numerical");
-        __L1 = new PerturbationLocationImpl("QuickSort.java:66", 1, "Numerical");
-        __L2 = new PerturbationLocationImpl("QuickSort.java:67", 2, "Numerical");
-        __L3 = new PerturbationLocationImpl("QuickSort.java:67", 3, "Numerical");
-        __L4 = new PerturbationLocationImpl("QuickSort.java:67", 4, "Numerical");
-        __L5 = new PerturbationLocationImpl("QuickSort.java:67", 5, "Numerical");
-        __L6 = new PerturbationLocationImpl("QuickSort.java:67", 6, "Numerical");
-        __L7 = new PerturbationLocationImpl("QuickSort.java:67", 7, "Numerical");
-        __L8 = new PerturbationLocationImpl("QuickSort.java:67", 8, "Numerical");
-        __L9 = new PerturbationLocationImpl("QuickSort.java:67", 9, "Numerical");
-        __L10 = new PerturbationLocationImpl("QuickSort.java:69", 10, "Numerical");
-        __L11 = new PerturbationLocationImpl("QuickSort.java:69", 11, "Numerical");
-        __L12 = new PerturbationLocationImpl("QuickSort.java:69", 12, "Boolean");
-        __L13 = new PerturbationLocationImpl("QuickSort.java:71", 13, "Numerical");
-        __L14 = new PerturbationLocationImpl("QuickSort.java:71", 14, "Numerical");
-        __L15 = new PerturbationLocationImpl("QuickSort.java:71", 15, "Numerical");
-        __L16 = new PerturbationLocationImpl("QuickSort.java:71", 16, "Boolean");
-        __L17 = new PerturbationLocationImpl("QuickSort.java:72", 17, "Numerical");
-        __L18 = new PerturbationLocationImpl("QuickSort.java:72", 18, "Numerical");
-        __L19 = new PerturbationLocationImpl("QuickSort.java:72", 19, "Numerical");
-        __L20 = new PerturbationLocationImpl("QuickSort.java:75", 20, "Numerical");
-        __L21 = new PerturbationLocationImpl("QuickSort.java:75", 21, "Numerical");
-        __L22 = new PerturbationLocationImpl("QuickSort.java:75", 22, "Numerical");
-        __L23 = new PerturbationLocationImpl("QuickSort.java:75", 23, "Boolean");
-        __L24 = new PerturbationLocationImpl("QuickSort.java:76", 24, "Numerical");
-        __L25 = new PerturbationLocationImpl("QuickSort.java:76", 25, "Numerical");
-        __L26 = new PerturbationLocationImpl("QuickSort.java:76", 26, "Numerical");
-        __L27 = new PerturbationLocationImpl("QuickSort.java:79", 27, "Numerical");
-        __L28 = new PerturbationLocationImpl("QuickSort.java:79", 28, "Numerical");
-        __L29 = new PerturbationLocationImpl("QuickSort.java:79", 29, "Boolean");
-        __L30 = new PerturbationLocationImpl("QuickSort.java:80", 30, "Numerical");
-        __L31 = new PerturbationLocationImpl("QuickSort.java:80", 31, "Numerical");
-        __L32 = new PerturbationLocationImpl("QuickSort.java:81", 32, "Numerical");
-        __L33 = new PerturbationLocationImpl("QuickSort.java:81", 33, "Numerical");
-        __L34 = new PerturbationLocationImpl("QuickSort.java:81", 34, "Numerical");
-        __L35 = new PerturbationLocationImpl("QuickSort.java:82", 35, "Numerical");
-        __L36 = new PerturbationLocationImpl("QuickSort.java:82", 36, "Numerical");
-        __L37 = new PerturbationLocationImpl("QuickSort.java:82", 37, "Numerical");
-        __L38 = new PerturbationLocationImpl("QuickSort.java:86", 38, "Numerical");
-        __L39 = new PerturbationLocationImpl("QuickSort.java:86", 39, "Numerical");
-        __L40 = new PerturbationLocationImpl("QuickSort.java:86", 40, "Boolean");
-        __L41 = new PerturbationLocationImpl("QuickSort.java:87", 41, "Numerical");
-        __L42 = new PerturbationLocationImpl("QuickSort.java:87", 42, "Numerical");
-        __L43 = new PerturbationLocationImpl("QuickSort.java:88", 43, "Numerical");
-        __L44 = new PerturbationLocationImpl("QuickSort.java:88", 44, "Numerical");
-        __L45 = new PerturbationLocationImpl("QuickSort.java:88", 45, "Boolean");
-        __L46 = new PerturbationLocationImpl("QuickSort.java:89", 46, "Numerical");
-        __L47 = new PerturbationLocationImpl("QuickSort.java:89", 47, "Numerical");
-        __L48 = new PerturbationLocationImpl("QuickSort.java:97", 48, "Numerical");
-        __L49 = new PerturbationLocationImpl("QuickSort.java:97", 49, "Numerical");
-        __L50 = new PerturbationLocationImpl("QuickSort.java:98", 50, "Numerical");
-        __L51 = new PerturbationLocationImpl("QuickSort.java:98", 51, "Numerical");
-        __L52 = new PerturbationLocationImpl("QuickSort.java:98", 52, "Numerical");
-        __L53 = new PerturbationLocationImpl("QuickSort.java:99", 53, "Numerical");
-        __L54 = new PerturbationLocationImpl("QuickSort.java:99", 54, "Numerical");
+        __L0 = new PerturbationLocationImpl("QuickSort.java:9", 0, "Numerical");
+        __L1 = new PerturbationLocationImpl("QuickSort.java:9", 1, "Numerical");
+        __L2 = new PerturbationLocationImpl("QuickSort.java:10", 2, "Numerical");
+        __L3 = new PerturbationLocationImpl("QuickSort.java:10", 3, "Numerical");
+        __L4 = new PerturbationLocationImpl("QuickSort.java:10", 4, "Numerical");
+        __L5 = new PerturbationLocationImpl("QuickSort.java:10", 5, "Numerical");
+        __L6 = new PerturbationLocationImpl("QuickSort.java:10", 6, "Numerical");
+        __L7 = new PerturbationLocationImpl("QuickSort.java:10", 7, "Numerical");
+        __L8 = new PerturbationLocationImpl("QuickSort.java:10", 8, "Numerical");
+        __L9 = new PerturbationLocationImpl("QuickSort.java:10", 9, "Numerical");
+        __L10 = new PerturbationLocationImpl("QuickSort.java:12", 10, "Numerical");
+        __L11 = new PerturbationLocationImpl("QuickSort.java:12", 11, "Numerical");
+        __L12 = new PerturbationLocationImpl("QuickSort.java:12", 12, "Boolean");
+        __L13 = new PerturbationLocationImpl("QuickSort.java:14", 13, "Numerical");
+        __L14 = new PerturbationLocationImpl("QuickSort.java:14", 14, "Numerical");
+        __L15 = new PerturbationLocationImpl("QuickSort.java:14", 15, "Numerical");
+        __L16 = new PerturbationLocationImpl("QuickSort.java:14", 16, "Boolean");
+        __L17 = new PerturbationLocationImpl("QuickSort.java:15", 17, "Numerical");
+        __L18 = new PerturbationLocationImpl("QuickSort.java:18", 18, "Numerical");
+        __L19 = new PerturbationLocationImpl("QuickSort.java:18", 19, "Numerical");
+        __L20 = new PerturbationLocationImpl("QuickSort.java:18", 20, "Numerical");
+        __L21 = new PerturbationLocationImpl("QuickSort.java:18", 21, "Boolean");
+        __L22 = new PerturbationLocationImpl("QuickSort.java:19", 22, "Numerical");
+        __L23 = new PerturbationLocationImpl("QuickSort.java:22", 23, "Numerical");
+        __L24 = new PerturbationLocationImpl("QuickSort.java:22", 24, "Numerical");
+        __L25 = new PerturbationLocationImpl("QuickSort.java:22", 25, "Boolean");
+        __L26 = new PerturbationLocationImpl("QuickSort.java:23", 26, "Numerical");
+        __L27 = new PerturbationLocationImpl("QuickSort.java:23", 27, "Numerical");
+        __L28 = new PerturbationLocationImpl("QuickSort.java:24", 28, "Numerical");
+        __L29 = new PerturbationLocationImpl("QuickSort.java:25", 29, "Numerical");
+        __L30 = new PerturbationLocationImpl("QuickSort.java:29", 30, "Numerical");
+        __L31 = new PerturbationLocationImpl("QuickSort.java:29", 31, "Numerical");
+        __L32 = new PerturbationLocationImpl("QuickSort.java:29", 32, "Boolean");
+        __L33 = new PerturbationLocationImpl("QuickSort.java:30", 33, "Numerical");
+        __L34 = new PerturbationLocationImpl("QuickSort.java:30", 34, "Numerical");
+        __L35 = new PerturbationLocationImpl("QuickSort.java:31", 35, "Numerical");
+        __L36 = new PerturbationLocationImpl("QuickSort.java:31", 36, "Numerical");
+        __L37 = new PerturbationLocationImpl("QuickSort.java:31", 37, "Boolean");
+        __L38 = new PerturbationLocationImpl("QuickSort.java:32", 38, "Numerical");
+        __L39 = new PerturbationLocationImpl("QuickSort.java:32", 39, "Numerical");
+        __L40 = new PerturbationLocationImpl("QuickSort.java:36", 40, "Numerical");
+        __L41 = new PerturbationLocationImpl("QuickSort.java:36", 41, "Numerical");
+        __L42 = new PerturbationLocationImpl("QuickSort.java:37", 42, "Numerical");
+        __L43 = new PerturbationLocationImpl("QuickSort.java:37", 43, "Numerical");
+        __L44 = new PerturbationLocationImpl("QuickSort.java:37", 44, "Numerical");
+        __L45 = new PerturbationLocationImpl("QuickSort.java:38", 45, "Numerical");
+        __L46 = new PerturbationLocationImpl("QuickSort.java:38", 46, "Numerical");
     }
 }
 
