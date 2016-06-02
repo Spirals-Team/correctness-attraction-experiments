@@ -48,7 +48,6 @@ public class Window extends JFrame {
     private ButtonGroup typeOfPerturbation;
 
 
-
     public Window(Model m) {
         super();
         this.model = m;
@@ -61,7 +60,9 @@ public class Window extends JFrame {
 
         try {
             this.img = ImageIO.read(new File("resources/img/success_meter.png"));
-        } catch (IOException e) {e.printStackTrace();}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         this.panel = new JPanel();
         this.panel.setLayout(new BoxLayout(this.panel, BoxLayout.PAGE_AXIS));
@@ -84,13 +85,13 @@ public class Window extends JFrame {
         this.pack();
 
         this.cy = this.panel.getHeight() - r / 2;
-        this.cx = this.panel.getWidth() / 2 ;
+        this.cx = this.panel.getWidth() / 2;
 
         Graphics2D g2D = (Graphics2D) this.panel.getGraphics();
         g2D.clearRect(this.panelImg.getX(), this.panelImg.getY(),
-                this.panelImg.getX()+this.panelImg.getWidth(), this.panelImg.getY() + this.panelImg.getHeight());
+                this.panelImg.getX() + this.panelImg.getWidth(), this.panelImg.getY() + this.panelImg.getHeight());
         int xImg = (this.panel.getWidth() / 2) - (this.img.getWidth() / 2);
-        g2D.drawImage(img, xImg , this.panel.getHeight() - this.img.getHeight() , null);
+        g2D.drawImage(img, xImg, this.panel.getHeight() - this.img.getHeight(), null);
 
         this.setIgnoreRepaint(true);
 
@@ -135,7 +136,7 @@ public class Window extends JFrame {
 
     private JPanel buildPanelLabel() {
         JPanel panelLabel = new JPanel();
-        panelLabel.setLayout(new GridLayout(3,3));
+        panelLabel.setLayout(new GridLayout(3, 3));
 
         panelLabel.add(new JLabel());
         panelLabel.add(this.rand);
@@ -178,9 +179,32 @@ public class Window extends JFrame {
         panelLocation.add(integer);
         panelLocation.add(booleanb);
 
-        panelLocation.add(new Checkbox("Antifragile", null, true));
-        panelLocation.add(new Checkbox("Robust"));
-        panelLocation.add(new Checkbox("Weak"));
+        Checkbox antifragile = new Checkbox("Antifragile", null, true);
+        antifragile.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED)
+                model.addClassLocation("Antifragile");
+            else if (e.getStateChange() == ItemEvent.DESELECTED)
+                model.removeClassLocation("Antifragile");
+        });
+        panelLocation.add(antifragile);
+
+        Checkbox robust = new Checkbox("Robust");
+        robust.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED)
+                model.addClassLocation("Robust");
+            else if (e.getStateChange() == ItemEvent.DESELECTED)
+                model.removeClassLocation("Robust");
+        });
+        panelLocation.add(robust);
+
+        Checkbox weak = new Checkbox("Weak");
+        weak.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED)
+                model.addClassLocation("Weak");
+            else if (e.getStateChange() == ItemEvent.DESELECTED)
+                model.removeClassLocation("Weak");
+        });
+        panelLocation.add(weak);
 
         return panelLocation;
     }
@@ -197,9 +221,9 @@ public class Window extends JFrame {
         double percentage = this.model.runAllTask();
 
         g2D.clearRect(this.panelImg.getX(), this.panelImg.getY(),
-                this.panelImg.getX()+this.panelImg.getWidth(), this.panelImg.getY() + this.panelImg.getHeight());
+                this.panelImg.getX() + this.panelImg.getWidth(), this.panelImg.getY() + this.panelImg.getHeight());
         int xImg = (this.panel.getWidth() / 2) - (this.img.getWidth() / 2);
-        g2D.drawImage(img, xImg , this.panel.getHeight() - this.img.getHeight() , null);
+        g2D.drawImage(img, xImg, this.panel.getHeight() - this.img.getHeight(), null);
         g2D.setStroke(new BasicStroke(3));
         g2D.setColor(Color.red);
         double a = ((percentage + 900) * 180 / 100) * Math.PI / 180F;

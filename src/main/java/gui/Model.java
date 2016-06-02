@@ -85,6 +85,19 @@ public class Model {
 
     public void setType(String type) {
         this.currentTypeOfLocation = type;
+        this.setUpLocations();
+    }
+
+    public void addClassLocation(String classLocation) {
+        if (!this.classOfLocation.contains(classLocation))
+            this.classOfLocation.add(classLocation);
+        this.setUpLocations();
+    }
+
+    public void removeClassLocation(String classLocation) {
+        if (this.classOfLocation.contains(classLocation))
+            this.classOfLocation.remove(classLocation);
+        this.setUpLocations();
     }
 
     public Model(Class<?> manager) {
@@ -121,10 +134,6 @@ public class Model {
 
         this.readFile("results/" + this.manager.getName() + "/IntegerAddOne_RandomExplorer_analysis_graph_data.txt");
         this.readFile("results/" + this.manager.getName() + "/BooleanNegation_RandomExplorer_analysis_graph_data.txt");
-
-        System.out.println(this.antifragileLocation);
-        System.out.println(this.robustLocation);
-        System.out.println(this.weakLocation);
     }
 
     private void readFile(String path) {
@@ -146,11 +155,12 @@ public class Model {
                 boolean added = false;
                 int indexLoc = -1;
                 for (int random = 0; random < nbRandomRate ; random++) {
-                    String[] line = br.readLine().split(" ");
+                    String[] line = br.readLine().trim().replaceAll(" +", " ").split(" ");
                     float success = Float.parseFloat(line[line.length - 1].replace(",", "."));
                     indexLoc = Integer.parseInt(line[2]);
                     if (success < 50.0) {
-                        this.weakLocation.add(indexLoc);
+                        if (!this.weakLocation.contains(indexLoc))
+                            this.weakLocation.add(indexLoc);
                         added = true;
                         break;
                     } else if (success < 100.0) {
@@ -180,10 +190,11 @@ public class Model {
         if (this.classOfLocation.contains("Robust"))
             indices.addAll(this.robustLocation);
         if (this.classOfLocation.contains("Weak"))
-            indices.addAll(this.robustLocation);
+            indices.addAll(this.weakLocation);
 
         this.locations.stream().filter(location -> location.getType().equals(this.currentTypeOfLocation) && indices.contains(location.getLocationIndex()))
-                .forEach(location -> location.setEnactor(new RandomEnactorImpl(rnd)));
+                .forEach(location -> {location.setEnactor(new RandomEnactorImpl(rnd)) ; System.out.print(location.getLocationIndex() + " ");});
+        System.out.println();
     }
 
     public void incRnd() {
