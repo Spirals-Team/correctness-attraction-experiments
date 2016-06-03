@@ -54,7 +54,7 @@ public class QuickSort2CallableImpl extends CallableImpl<int[],int[]> {
         CallExplorer explorer = new CallExplorer(manager, new IntegerExplorationPlusMagnitude(magnitudes));
         explorer.run();
 
-        int[][] nbCAllRef = explorer.getNbCallReferencePerLocationPerTask();
+        long[][] nbCAllRef = explorer.getNbCallReferencePerLocationPerTask();
 
         int sumExecsRefs = 0;
 
