@@ -1,5 +1,6 @@
 package gui;
 
+import experiment.Tuple;
 import quicksort.QuickSortManager;
 
 import javax.imageio.ImageIO;
@@ -11,11 +12,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Created by bdanglot on 13/05/16.
  */
-public class Window extends JFrame {
+public class Window extends JFrame implements Observer {
 
     private JPanel panel;
 
@@ -45,12 +48,17 @@ public class Window extends JFrame {
 
     private BufferedImage img;
 
-    private ButtonGroup typeOfPerturbation;
+    private JLabel labelAntifragile;
+
+    private JLabel labelRobust;
+
+    private JLabel labelWeak;
 
 
     public Window(Model m) {
         super();
         this.model = m;
+        this.model.addObserver(this);
         this.rand = new JTextArea(String.format("%.2f", this.model.getRnd()));
         this.rand.setEditable(false);
 
@@ -123,9 +131,9 @@ public class Window extends JFrame {
                     fieldRawCode.setAccessible(true);
                     long rawCode = (long) fieldRawCode.get(e);
                     if (rawCode == 123)
-                        model.incRnd();
+                        model.addRand(0.05f);
                     else if (rawCode == 122)
-                        model.decRnd();
+                        model.minusRand(0.05f);
                     rand.setText(String.format("%.3f", model.getRnd()));
                 } catch (NoSuchFieldException | IllegalAccessException ex) {
                     ex.printStackTrace();
@@ -169,15 +177,26 @@ public class Window extends JFrame {
 
     private JPanel buildLocationManager() {
         JPanel panelLocation = new JPanel();
-        this.typeOfPerturbation = new ButtonGroup();
-        JRadioButton integer = new JRadioButton("Numerical", true);
-        integer.addActionListener(e -> this.model.setType("Numerical"));
-        this.typeOfPerturbation.add(integer);
-        JRadioButton booleanb = new JRadioButton("Boolean");
-        booleanb.addActionListener(e -> this.model.setType("Boolean"));
-        this.typeOfPerturbation.add(booleanb);
-        panelLocation.add(integer);
-        panelLocation.add(booleanb);
+
+        Checkbox plusOne = new Checkbox("+1", null, true);
+        plusOne.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED)
+                model.addType("Numerical");
+            else if (e.getStateChange() == ItemEvent.DESELECTED)
+                model.removeType("Numerical");
+        });
+        panelLocation.add(plusOne);
+
+        Checkbox negboolean = new Checkbox("Boolean");
+        negboolean.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED)
+                model.addType("Boolean");
+            else if (e.getStateChange() == ItemEvent.DESELECTED)
+                model.removeType("Boolean");
+        });
+        panelLocation.add(negboolean);
+
+        Tuple config = this.model.getConfig();
 
         Checkbox antifragile = new Checkbox("Antifragile", null, true);
         antifragile.addItemListener(e -> {
@@ -187,6 +206,8 @@ public class Window extends JFrame {
                 model.removeClassLocation("Antifragile");
         });
         panelLocation.add(antifragile);
+        this.labelAntifragile = new JLabel("("+config.get(0)+")");
+        panelLocation.add(labelAntifragile);
 
         Checkbox robust = new Checkbox("Robust");
         robust.addItemListener(e -> {
@@ -196,6 +217,8 @@ public class Window extends JFrame {
                 model.removeClassLocation("Robust");
         });
         panelLocation.add(robust);
+        this.labelRobust = new JLabel("("+config.get(1)+")");
+        panelLocation.add(labelRobust);
 
         Checkbox weak = new Checkbox("Weak");
         weak.addItemListener(e -> {
@@ -205,6 +228,8 @@ public class Window extends JFrame {
                 model.removeClassLocation("Weak");
         });
         panelLocation.add(weak);
+        this.labelWeak = new JLabel("("+config.get(2)+")");
+        panelLocation.add(labelWeak);
 
         return panelLocation;
     }
@@ -237,7 +262,7 @@ public class Window extends JFrame {
         Model m = new Model(clazz);
         Window w = new Window(m);
         while (true) {
-//            w.requestFocus();
+            w.requestFocus();
             w.run();
         }
     }
@@ -246,4 +271,11 @@ public class Window extends JFrame {
         launch(QuickSortManager.class);
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        Tuple config = this.model.getConfig();
+        this.labelAntifragile.setText("("+config.get(0)+")");
+        this.labelRobust.setText("("+config.get(1)+")");
+        this.labelWeak.setText("("+config.get(2)+")");
+    }
 }

@@ -1,6 +1,7 @@
 package gui;
 
 import experiment.Manager;
+import experiment.Tuple;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.enactor.RandomEnactorImpl;
@@ -17,13 +18,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 import java.util.concurrent.*;
 import java.util.stream.IntStream;
 
 /**
  * Created by bdanglot on 13/05/16.
  */
-public class Model {
+public class Model extends Observable {
 
     private float rnd = 0.0f;
 
@@ -47,7 +49,7 @@ public class Model {
 
     private List<String> classOfLocation;
 
-    private String currentTypeOfLocation;
+    private List<String> currentTypeOfLocation;
 
     private List<Integer> antifragileLocation;// == 100%
 
@@ -83,21 +85,53 @@ public class Model {
         this.size = size;
     }
 
-    public void setType(String type) {
-        this.currentTypeOfLocation = type;
+    public void addType(String type) {
+        this.currentTypeOfLocation.add(type);
+        this.setUpLocations();
+    }
+
+    public void removeType(String type) {
+        this.currentTypeOfLocation.remove(type);
         this.setUpLocations();
     }
 
     public void addClassLocation(String classLocation) {
-        if (!this.classOfLocation.contains(classLocation))
-            this.classOfLocation.add(classLocation);
+        this.classOfLocation.add(classLocation);
         this.setUpLocations();
     }
 
     public void removeClassLocation(String classLocation) {
-        if (this.classOfLocation.contains(classLocation))
-            this.classOfLocation.remove(classLocation);
+        this.classOfLocation.remove(classLocation);
         this.setUpLocations();
+    }
+
+    public void addRand(float value) {
+        this.rnd = this.rnd + value >= 1.0f? 1.0f : this.rnd + value;
+        this.setUpLocations();
+    }
+
+    public void minusRand(float value) {
+        this.rnd = this.rnd - value <= 0.0f? 0.0f : this.rnd - value;
+        this.setUpLocations();
+    }
+
+    public Tuple getConfig() {
+        Tuple config = new Tuple(3);
+        int cptAntiFragile = 0, cptRobust = 0, cptWeak = 0;
+        for (PerturbationLocation location : this.locations) {
+            if (this.currentTypeOfLocation.contains(location.getType())) {
+                if (this.antifragileLocation.contains(location.getLocationIndex()))
+                    cptAntiFragile++;
+                else if (this.robustLocation.contains(location.getLocationIndex()))
+                    cptRobust++;
+                else if (this.weakLocation.contains(location.getLocationIndex()))
+                    cptWeak++;
+            }
+        }
+        config.set(0, cptAntiFragile);
+        config.set(1, cptRobust);
+        config.set(2, cptWeak);
+        return config;
     }
 
     public Model(Class<?> manager) {
@@ -109,7 +143,8 @@ public class Model {
         this.classManager = manager;
         this.classOfLocation = new ArrayList<>();
         this.classOfLocation.add("Antifragile");
-        this.currentTypeOfLocation = "Numerical";
+        this.currentTypeOfLocation = new ArrayList<>();
+        this.currentTypeOfLocation.add("Numerical");
         try {
             this.manager = (Manager) this.classManager.getConstructor(int.class, int.class, int.class).newInstance(this.numberOfTask, this.size, (int) System.currentTimeMillis());
             this.initLocations();
@@ -134,6 +169,10 @@ public class Model {
 
         this.readFile("results/" + this.manager.getName() + "/IntegerAddOne_RandomExplorer_analysis_graph_data.txt");
         this.readFile("results/" + this.manager.getName() + "/BooleanNegation_RandomExplorer_analysis_graph_data.txt");
+
+        System.out.println(this.antifragileLocation);
+        System.out.println(this.robustLocation);
+        System.out.println(this.weakLocation);
     }
 
     private void readFile(String path) {
@@ -143,7 +182,7 @@ public class Model {
             br.readLine();
             br.readLine();
             br.readLine();//Trash unused lines
-            int nbRandomRate = br.readLine().split(" ").length - 3;
+            int nbRandomRate = (br.readLine().split(" ").length - 2);
             br.readLine();
             br.readLine();
             br.readLine();//Trash unused lines
@@ -153,21 +192,26 @@ public class Model {
             for (int loc = 0; loc < nbLocation; loc++) {
                 boolean isAntifragile = true;
                 boolean added = false;
+                boolean used = false;
                 int indexLoc = -1;
-                for (int random = 0; random < nbRandomRate ; random++) {
+                for (int random = 0; random < nbRandomRate; random++) {
                     String[] line = br.readLine().trim().replaceAll(" +", " ").split(" ");
-                    float success = Float.parseFloat(line[line.length - 1].replace(",", "."));
                     indexLoc = Integer.parseInt(line[2]);
-                    if (success < 50.0) {
-                        if (!this.weakLocation.contains(indexLoc))
-                            this.weakLocation.add(indexLoc);
-                        added = true;
-                        break;
-                    } else if (success < 100.0) {
-                        isAntifragile = false;
+                    if (Integer.parseInt(line[6]) > 0) {
+                        if (Integer.parseInt(line[7]) > 0) {
+                            float success = Float.parseFloat(line[line.length - 1].replace(",", "."));
+                            used = true;
+                            if (success < 50.0) {
+                                if (!this.weakLocation.contains(indexLoc))
+                                    this.weakLocation.add(indexLoc);
+                                added = true;
+                            } else if (success < 100.0) {
+                                isAntifragile = false;
+                            }
+                        }
                     }
                 }
-                if (!added) {
+                if (used && !added) {
                     if (isAntifragile)
                         this.antifragileLocation.add(indexLoc);
                     else
@@ -192,9 +236,16 @@ public class Model {
         if (this.classOfLocation.contains("Weak"))
             indices.addAll(this.weakLocation);
 
-        this.locations.stream().filter(location -> location.getType().equals(this.currentTypeOfLocation) && indices.contains(location.getLocationIndex()))
-                .forEach(location -> {location.setEnactor(new RandomEnactorImpl(rnd)) ; System.out.print(location.getLocationIndex() + " ");});
+        this.locations.stream().filter(location -> this.currentTypeOfLocation.contains(location.getType()) && indices.contains(location.getLocationIndex()))
+                .forEach(location -> {
+                    location.setEnactor(new RandomEnactorImpl(rnd));
+                    System.out.print(location.getLocationIndex() + " ");
+                });
         System.out.println();
+
+        this.setChanged();
+        this.notifyObservers();
+
     }
 
     public void incRnd() {
