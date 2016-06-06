@@ -63,8 +63,8 @@ public class Search {
 
             PerturbationEngine.loggers.put("Bitcoin", new LoggerImpl());
 
-            String type = "Numerical";
-//            String type = "Boolean";
+//            String type = "Numerical";
+            String type = "Boolean";
 
             getAllClasses(pathToBicoinJDirectory, "org");
 
