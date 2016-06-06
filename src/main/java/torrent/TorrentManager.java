@@ -43,16 +43,17 @@ public class TorrentManager extends ManagerImpl<String, String> {
         super(seed);
         super.CUP = BDecoder.class;
         super.initialize(numberOfTask, size);
-        initTracker();
+        System.out.println(super.locations);
+        this.initTracker();
     }
 
     public void initTracker() {
         try {
-            tracker = new Tracker(new InetSocketAddress(Tracker.DEFAULT_TRACKER_PORT));
+            this.tracker = new Tracker(new InetSocketAddress(Tracker.DEFAULT_TRACKER_PORT));
             File parent = new File(PATH_TO_TORRENT_FILE);
             for (File f : parent.listFiles(filter))
-                tracker.announce(TrackedTorrent.load(f));
-            tracker.start();
+                this.tracker.announce(TrackedTorrent.load(f));
+            this.tracker.start();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
@@ -61,9 +62,9 @@ public class TorrentManager extends ManagerImpl<String, String> {
     }
 
     public void reinit() {
+        this.stop();
         cleanDirectory();
-        stop();
-        initTracker();
+        this.initTracker();
     }
 
     public static void cleanDirectory() {
@@ -79,7 +80,6 @@ public class TorrentManager extends ManagerImpl<String, String> {
 
     @Override
     public String getName() {
-        this.stop();
         return "torrent";
     }
 
@@ -121,21 +121,14 @@ public class TorrentManager extends ManagerImpl<String, String> {
     public void stop() {
         if (this.tracker != null)
             this.tracker.stop();
+        this.tracker = null;
     }
 
     private void createTorrent(String pathOfTheNewTask, File task) {
         try {
             Torrent torrent = Torrent.create(task, new URI(URL_ANNOUCE), CREATOR);
             torrent.save(new FileOutputStream(PATH_TO_TORRENT_FILE + pathOfTheNewTask + ".torrent"));
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
