@@ -9,14 +9,11 @@ import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
 import perturbation.perturbator.AddNPerturbatorImpl;
 import perturbation.perturbator.InvPerturbatorImpl;
-import perturbation.perturbator.NothingPerturbatorImpl;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
 import java.util.concurrent.*;
@@ -158,7 +155,7 @@ public class Model extends Observable {
 
     private void initLocations() {
         this.locations = this.manager.getLocations();
-        this.locations.stream().filter(location -> !location.getType().equals("Boolean"))
+        this.locations.stream().filter(location -> location.getType().equals("Boolean"))
                 .forEach(location -> location.setPerturbator(new InvPerturbatorImpl()));
         this.locations.stream().filter(location -> location.getType().equals("Numerical"))
                 .forEach(location -> location.setPerturbator(new AddNPerturbatorImpl(1)));
@@ -273,7 +270,6 @@ public class Model extends Observable {
         }
 
         int nbSuccess = IntStream.range(0, numberOfTask).reduce(0, (acc, indexTask) -> acc + runPerturbation(indexTask));
-//        int nbSuccess = IntStream.range(0, numberOfTask).reduce(0, (acc, indexTask) -> acc + runLocations(indexTask));
 
         this.avgPerturbationPerExec = (double) IntStream.range(0, locations.size())
                 .reduce(0, (acc, indexLocation) ->
@@ -281,13 +277,6 @@ public class Model extends Observable {
                 ) / (double) numberOfTask;
 
         return (float) nbSuccess / (float) (numberOfTask) * 100;
-//        return (float) nbSuccess / (float) (locations.size()*numberOfTask) * 100;
-    }
-
-    private int runLocations(int indexTask) {
-        return IntStream.range(0, locations.size()).reduce(0, (acc, indexLocation) ->
-                acc + runLocation(indexTask, this.locations.get(indexLocation))
-        );
     }
 
     private int runLocation(int indexTask, PerturbationLocation location) {
