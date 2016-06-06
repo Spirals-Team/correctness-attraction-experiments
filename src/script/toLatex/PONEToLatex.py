@@ -6,7 +6,7 @@ subject=sys.argv[1]
 
 lines = [line.rstrip('\n') for line in
          open("results/" + subject + "/IntegerAddOne_CallExplorer_analysis_graph_data.txt")]
-npp = ' '.join(lines[5].split()).split(" ")[1]
+npp = ' '.join(lines[5].split()).split(" ")[0]
 
 out = ""
 
