@@ -8,6 +8,7 @@ import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.NothingPerturbatorImpl;
 import perturbation.perturbator.Perturbator;
+import torrent.TorrentManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +113,11 @@ public abstract class ExplorerImpl implements Explorer {
         if (this.manager instanceof BitcoinManager) {
             System.err.println("Stopping Bitcoin");
             ((BitcoinManager) this.manager).stop();
+        }
+
+        if (this.manager instanceof TorrentManager) {
+            System.err.println("Stopping TorrentManager");
+            ((TorrentManager) this.manager).stop();
         }
         log();
     }
