@@ -2,31 +2,31 @@ package experiment.explorer.bandit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by bdanglot on 06/06/16.
  */
-public class UCBPolitic extends PoliticImpl {
+public class UCBPolicy extends PolicyImpl {
 
     private final int ALPHA = 2;
 
     private int nbLap = 1;
 
-    public UCBPolitic(int nbArm, double epsilon) {
-        this(nbArm, epsilon, 23L);
+    public UCBPolicy(int nbArm) {
+        this(nbArm, 23L);
     }
 
-    public UCBPolitic(int nbArm, double epsilon, long seed) {
-        super(nbArm, epsilon, seed);
+    public UCBPolicy(int nbArm, long seed) {
+        super(nbArm, seed);
     }
 
     @Override
     public int selectArm() {
         double max = Double.MIN_VALUE;
         List<Integer> indices = new ArrayList<>();
-        for (int i = 0; i < this.probability.length; i++) {
-            double current = this.probability[i] + Math.sqrt( (this.ALPHA * Math.log(nbLap) / nbPull[i]));
+        for (int i = 0; i < super.nbPull.length ; i++) {
+            double probability = super.nbSuccessPerArm[i] / super.nbPull [i];
+            double current = probability + Math.sqrt( (this.ALPHA * Math.log(nbLap) / nbPull[i]));
             if (current == max)
                 indices.add(i);
             else if (current > max) {
@@ -36,6 +36,6 @@ public class UCBPolitic extends PoliticImpl {
             }
         }
         this.nbLap++;
-        return indices.isEmpty() ? this.random.nextInt(this.probability.length) : indices.get(this.random.nextInt(indices.size()));
+        return indices.isEmpty() ? super.random.nextInt(super.nbPull.length) : indices.get(super.random.nextInt(indices.size()));
     }
 }

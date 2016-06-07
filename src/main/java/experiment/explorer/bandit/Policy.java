@@ -3,7 +3,7 @@ package experiment.explorer.bandit;
 /**
  * Created by bdanglot on 06/06/16.
  */
-public interface Politic {
+public interface Policy {
 
     /**
      * @return the index of the arm to be pulled
@@ -23,9 +23,7 @@ public interface Politic {
     void successOnArm(int i);
 
     /**
-     * Update the state of the politic: we made a lap
+     * Log state of bandit : #pull #success estimated probability...
      */
-    void update();
-
     void log();
 }

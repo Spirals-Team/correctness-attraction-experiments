@@ -1,15 +1,18 @@
 package experiment.explorer.bandit;
 
+import experiment.Logger;
 import experiment.Main;
 import experiment.Manager;
 import experiment.Tuple;
 import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.Explorer;
+import perturbation.PerturbationEngine;
+import perturbation.enactor.NCallEnactorImpl;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
-import perturbation.perturbator.NothingPerturbatorImpl;
+import perturbation.log.LoggerImpl;
 import quicksort.QuickSortManager;
 
 import java.util.List;
@@ -20,11 +23,15 @@ import java.util.concurrent.*;
  */
 public class BanditExplorer implements Explorer {
 
+    private final String name = "Bandit";
+
+    private Logger logger;
+
     private Exploration exploration;
 
     private List<PerturbationLocation> arms;
 
-    private Politic politic;
+    private Policy policyLocation;
 
     private Budget budget;
 
@@ -32,38 +39,42 @@ public class BanditExplorer implements Explorer {
 
     private RandomEnactorImpl[] enactorByArm;
 
-    public BanditExplorer(Exploration exploration, Manager manager, Politic politic, Budget budget) {
+    private int[][] nbCallReferencePerLocationPerTask;
+
+    public BanditExplorer(Exploration exploration, Manager manager, Policy policyLocation, Budget budget) {
         this.manager = manager;
         this.exploration = exploration;
         this.arms = manager.getLocations();
-        this.politic = politic;
+        this.policyLocation = policyLocation;
         this.budget = budget;
         this.enactorByArm = new RandomEnactorImpl[manager.getIndexTask().size()];
         for (int i = 0; i < this.enactorByArm.length; i++)
             this.enactorByArm[i] = new RandomEnactorImpl(0.3f);
+        this.nbCallReferencePerLocationPerTask = new int[this.arms.size()][this.manager.getIndexTask().size()];
     }
 
     @Override
     public void run() {
+        //Getting the bound of call of references
+        for (int location = 0; location < this.arms.size(); location++) {
+            int max = Integer.MIN_VALUE;
+            for (int task = 0; task < this.manager.getIndexTask().size(); task++) {
+                this.runReference(task, this.arms.get(location));
+                if (this.nbCallReferencePerLocationPerTask[location][task] > max)
+                    max = this.nbCallReferencePerLocationPerTask[location][task];
+            }
+            this.arms.get(location).setPerturbator(this.exploration.getPerturbators().get(0));
+        }
+
         while (this.budget.shouldRun()) {
-            int armSelected = this.politic.selectArm();
+            int armSelected = this.policyLocation.selectArm();
             this.pullArm(armSelected);
-            this.politic.update();
         }
         this.log();
     }
 
     private void pullArm(int indexArm) {
-        this.arms.get(indexArm).setPerturbator(this.exploration.getPerturbators().get(0));
-        this.arms.get(indexArm).setEnactor( this.enactorByArm[indexArm]);
-        for (int i = 0; i < this.manager.getIndexTask().size() ; i++) {
-            Tuple result = run((Integer) this.manager.getIndexTask().get(i));
-            this.politic.armPulled(indexArm);
-            if (result.get(0) == 1)
-                this.politic.successOnArm(indexArm);
-        }
-        this.arms.get(indexArm).setEnactor(new NeverEnactorImpl());
-        this.arms.get(indexArm).setPerturbator(new NothingPerturbatorImpl());
+
     }
 
     private Tuple run(int indexOfTask) {
@@ -97,25 +108,30 @@ public class BanditExplorer implements Explorer {
 
     @Override
     public void runReference(int indexOfTask, PerturbationLocation location) {
-
+        PerturbationEngine.loggers.get(this.name).logOn(location);
+        this.run(indexOfTask);
+        int currentNbCall = PerturbationEngine.loggers.get(this.name).getCalls(location);
+        this.nbCallReferencePerLocationPerTask[this.manager.getLocations().indexOf(location)][indexOfTask] = currentNbCall;
+        PerturbationEngine.loggers.get(this.name).reset();
     }
 
     @Override
     public void initLogger() {
-
+        this.logger = new Logger(this.manager, this.manager.getLocations().size(), this.manager.getIndexTask().size(), this.exploration.getPerturbators().size());
+        PerturbationEngine.loggers.put(name, new LoggerImpl());
     }
 
     @Override
     public void log() {
-        this.politic.log();
+        this.policyLocation.log();
     }
 
     public static void main(String[] args) {
-        Manager manager = new QuickSortManager(100,25);
-        Budget budget = new TimeBudget(7200000);//2hour of budget
-        Politic politic = new DecreasingEpsilonGreedyPolitic(manager.getLocations().size(), 0.9d, 23);
+        Manager manager = new QuickSortManager(100, 25);
+        Budget budget = new LapBudget(manager.getLocations().size() * 2);
+        Policy policy = new UCBPolicy(manager.getLocations().size(), 23);
         Exploration exploration = new IntegerExplorationPlusOne();
-        Explorer explorer = new BanditExplorer(exploration, manager, politic, budget);
+        Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
         explorer.run();
     }
 
