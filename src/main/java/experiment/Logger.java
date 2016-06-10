@@ -75,17 +75,17 @@ public class Logger {
      * This Method assume Tuple of 6 integers.
      * @param indexLocation
      * @param indexTask
-     * @param indexParameters
+     * @param indexPerturbartor
      * @param indexEnactor
      * @param result
      * @param name
      */
-    public void log(int indexLocation, int indexTask, int indexParameters, int indexEnactor, Tuple result, String name) {
+    public void log(int indexLocation, int indexTask, int indexPerturbartor, int indexEnactor, Tuple result, String name) {
         Tuple tuple = (new Tuple(this.sizeOfTuple)).add(result);
         tuple.set(3, PerturbationEngine.loggers.get(name).getCalls((PerturbationLocation) this.manager.getLocations().get(indexLocation)));//@TODO Check to remove this weird cast
         tuple.set(4, PerturbationEngine.loggers.get(name).getEnactions((PerturbationLocation) this.manager.getLocations().get(indexLocation)));
         tuple.set(5, 1);
-        this.results[indexLocation][indexTask][indexParameters][indexEnactor] = this.results[indexLocation][indexTask][indexParameters][indexEnactor].add(tuple);
+        this.results[indexLocation][indexTask][indexPerturbartor][indexEnactor] = this.results[indexLocation][indexTask][indexPerturbartor][indexEnactor].add(tuple);
     }
 
     public static double TOLERANCE = 70.0f;
