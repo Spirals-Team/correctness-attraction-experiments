@@ -1,12 +1,24 @@
-subjects=("quicksort", "zip", "sudoku", "md5", "rc4", "laguerre", "rsa", "classifier", "torrent", "bitcoin")[::-1]#11 project, probably remove TEA
 
-outputR = open('results/violin_boxplot.R', 'w')
+import sys
 
-outputR.write("pdf(\"violinboxplot.pdf\")\n")
+exploration=sys.argv[1]
+
+subjects=("quicksort", "zip", "sudoku", "md5", "rc4", "laguerre", "rsa", "classifier", "canny")[::-1]#11 project, probably remove TEA
+
+outputR = open('results/violin_boxplot'+exploration+'.R', 'w')
+
+outputR.write("pdf(\"violinboxplot_"+exploration+".pdf\")\n")
+
+out = "names <- c("
+for s in subjects[:-1]:
+    out += "\""+ s + "\"" + ","
+out += "\""+ subjects[-1] + "\")\n"
+
+outputR.write(out)
 
 for subject in subjects:
     lines = [line.rstrip('\n') for line in
-             open("results/" + subject + "/IntegerAddOne_CallExplorer_analysis_graph_data.txt")]
+             open("results/" + subject + "/"+exploration+"_CallExplorer_analysis_graph_data.txt")]
 
     npp = ' '.join(lines[5].split()).split(" ")[0]
     success = []
@@ -23,15 +35,14 @@ for subject in subjects:
     out += str(success[-1])+")"
     outputR.write(out + "\n")
 
-out = "vioplot("
+out = "par(yaxt=\"n\")\n"
+out += "vioplot("
 for s in subjects:
     out += s + ","
-out += "names=c("
-for s in subjects[:-1]:
-    out += "\""+s+"\"" + ","
-out += "\""+subjects[-1]+ "\""+"), col=\"gold\", horizontal=FALSE)"
-#out += "\""+subjects[-1]+ "\""+"), col=\"gold\", horizontal=TRUE)"
-
-outputR.write(out + "\n")
-outputR.write("dev.off()")
+out += "names=names, col=\"lightblue\", horizontal=TRUE, drawRect=FALSE)\n"
+out += "axis(2, at=seq(1, "+str(len(subjects))+", by=1), labels = FALSE)\n"
+out += "text(y = seq(1, "+str(len(subjects))+", by=1), par(\"usr\")[1], labels = names, srt = 0, pos = 2, xpd = TRUE)\n"
+out += "title(ylab=\"\", xlab=\"%success\")\n"
+out += "dev.off()\n"
+outputR.write(out)
 outputR.close()
