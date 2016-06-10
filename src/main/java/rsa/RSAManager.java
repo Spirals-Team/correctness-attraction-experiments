@@ -32,6 +32,8 @@ public class RSAManager extends ManagerImpl<String, String> {
 
     @Override
     public String getTask(int index) {
+        if (index >= super.tasks.size())
+            super.getTask(index);
         String task = new String(String.valueOf(super.tasks.get(index)).getBytes());
         return task;
     }
@@ -54,7 +56,7 @@ public class RSAManager extends ManagerImpl<String, String> {
 
     @Override
     public String getHeader() {
-        return super.indexTasks.size() + " string of 64 bytes\nGenerated with " + super.seedForGenTask + " as seed\n"+
+        return super.indexTasks.size() + " string of "+ super.sizeOfTask  +" bytes\nGenerated with " + super.seedForGenTask + " as seed\n"+
                 super.locations.size() + " perturbations points\n";
     }
 }

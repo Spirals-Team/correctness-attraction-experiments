@@ -204,6 +204,8 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
     @Override
     public Tuple getTask(int index) {
+        if (index >= super.tasks.size())
+            super.getTask(index);
         Tuple clone = new Tuple(3);
         return clone.add(super.tasks.get(index));
     }

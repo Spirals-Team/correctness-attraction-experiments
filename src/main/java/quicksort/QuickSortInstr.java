@@ -136,7 +136,7 @@ public class QuickSortInstr {
         array[PerturbationEngine.pint(__L45, j)] = PerturbationEngine.pint(__L46, x);
     }
 
-    private static void initPerturbationLocation0() {
+    static private void initPerturbationLocation0() {
         __L0 = new PerturbationLocationImpl("QuickSort.java:9", 0, "Numerical");
         __L1 = new PerturbationLocationImpl("QuickSort.java:9", 1, "Numerical");
         __L2 = new PerturbationLocationImpl("QuickSort.java:10", 2, "Numerical");

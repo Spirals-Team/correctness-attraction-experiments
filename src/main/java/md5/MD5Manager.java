@@ -47,6 +47,8 @@ public class MD5Manager extends ManagerImpl<String, byte[]> {
 
     @Override
     public String getTask(int index) {
+        if (index >= super.tasks.size())
+            super.getTask(index);
         return new String(super.tasks.get(index));
     }
 

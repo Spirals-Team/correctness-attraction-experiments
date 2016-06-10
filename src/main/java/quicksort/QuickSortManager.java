@@ -4,8 +4,6 @@ import experiment.CallableImpl;
 import experiment.Manager;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import experiment.exploration.IntegerExplorationPlusOne;
-import experiment.explorer.CallExplorer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +33,8 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
 
     @Override
     public int[] getTask(int indexTask) {
+        if (indexTask >= super.tasks.size())
+            super.getTask(indexTask);
         int [] clone = new int[super.sizeOfTask];
         System.arraycopy(super.tasks.get(indexTask), 0, clone, 0, super.sizeOfTask);
         return clone;

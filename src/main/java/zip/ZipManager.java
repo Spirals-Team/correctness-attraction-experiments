@@ -14,7 +14,7 @@ public class ZipManager extends ManagerImpl<String,String> {
     }
 
     public ZipManager(int numberOfTask, int size, int seed) {
-        super(23);
+        super(seed);
         super.CUP = LZWInstr.class;
         super.initialize(numberOfTask, size);
     }
@@ -53,6 +53,8 @@ public class ZipManager extends ManagerImpl<String,String> {
 
     @Override
     public String getTask(int indexOfTask) {
+        if (indexOfTask >= super.tasks.size())
+            super.getTask(indexOfTask);
         return new String(super.tasks.get(indexOfTask));
     }
 }

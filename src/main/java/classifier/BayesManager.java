@@ -94,7 +94,7 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
 
     @Override
     public Experiment getTask(int index) {
-        return super.tasks.get(index);
+        return super.tasks.get(index % super.tasks.size());
     }
 
     @Override

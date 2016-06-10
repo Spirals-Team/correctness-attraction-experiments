@@ -7,6 +7,8 @@ import com.turn.ttorrent.tracker.Tracker;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
+import perturbation.location.PerturbationLocation;
+import perturbation.location.PerturbationLocationImpl;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -15,6 +17,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by spirals on 21/04/16.
@@ -43,8 +47,25 @@ public class TorrentManager extends ManagerImpl<String, String> {
         super(seed);
         super.CUP = BDecoder.class;
         super.initialize(numberOfTask, size);
-        System.out.println(super.locations);
+        super.locations = this.buildAllLocation();
         this.initTracker();
+    }
+
+    private List<PerturbationLocation> buildAllLocation() {
+        try {
+            Search.getAllClasses("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent");
+        } catch (ClassNotFoundException e) {
+            System.exit(-1);
+        }
+        final List<PerturbationLocation> locations = new ArrayList<>();
+        Search.classes.stream().forEach(clazz -> {
+                    PerturbationLocationImpl.getLocationFromClass(clazz).forEach(location -> {
+                        if (!locations.contains(location) && location.getType().equals("Numerical"))
+                            locations.add(location);
+                    });
+                }
+        );
+        return locations;
     }
 
     public void initTracker() {
@@ -69,9 +90,11 @@ public class TorrentManager extends ManagerImpl<String, String> {
 
     public static void cleanDirectory() {
         try {
-            File dire = new File(PATH_TO_SENT_FILE);
-            for (File f : dire.listFiles()) {
-                Files.delete(Paths.get(f.toURI()));
+            File dir = new File(PATH_TO_SENT_FILE);
+            if (dir.exists() && dir.isDirectory()) {
+                for (File f : dir.listFiles()) {
+                    Files.delete(Paths.get(f.toURI()));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,7 +131,7 @@ public class TorrentManager extends ManagerImpl<String, String> {
         try {
             task.createNewFile();
             FileWriter writer = new FileWriter(pathOfTheNewTask + ".txt");
-            for (int i = 0; i < super.sizeOfTask ; i++) {
+            for (int i = 0; i < super.sizeOfTask; i++) {
                 writer.write((char) randomForGenTask.nextInt(256));
             }
             writer.close();
@@ -135,6 +158,16 @@ public class TorrentManager extends ManagerImpl<String, String> {
 
     @Override
     public String getTask(int index) {
+        if (index >= super.tasks.size()) {
+            this.tasks.add(this.generateOneTask());
+            this.indexTasks.add(this.tasks.size() - 1);
+            try {
+                File file = new File(PATH_TO_TORRENT_FILE+"/"+this.tasks.get(index) + ".torrent");
+                this.tracker.announce(TrackedTorrent.load(file));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         String input = new String(super.tasks.get(index));
         return input;
     }
@@ -151,8 +184,9 @@ public class TorrentManager extends ManagerImpl<String, String> {
 
     @Override
     public String getHeader() {
-        return super.indexTasks.size()+ " files of " + super.sizeOfTask + " chararacters\n" +
+        return super.indexTasks.size() + " files of " + super.sizeOfTask + " chararacters\n" +
                 "Random characters generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
     }
+
 }
