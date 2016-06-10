@@ -57,6 +57,12 @@
             <version>1.52</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.sat4j</groupId>
+            <artifactId>core</artifactId>
+            <version>2.3.5</version>
+        </dependency>
+
         <!--Maybe we will need the two next dependencies to debug bitcoinj experiments-->
         <!--<dependency>-->
             <!--<groupId>org.slf4j</groupId>-->
