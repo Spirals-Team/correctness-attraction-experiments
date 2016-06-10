@@ -1,8 +1,10 @@
 package experiment;
 
+import canny.CannyManager;
 import gui.Window;
 import laguerre.LaguerreManager;
-import partial_mutant.MutantExplorer;
+import lcs.LCSManager;
+import sat.SATManager;
 import tea.TEAManager;
 import bitcoin.BitcoinManager;
 import classifier.BayesManager;
@@ -228,6 +230,15 @@ public class Main {
 
     private static void buildSubject(int index, String[] args) {
         switch (args[index]) {
+            case "lcs":
+                manager = new LCSManager(numberOfTask, sizeOfTask, seed);
+                break;
+            case "sat":
+                manager = new SATManager(numberOfTask, sizeOfTask, seed);
+                break;
+            case "canny":
+                manager = new CannyManager(numberOfTask, sizeOfTask, seed);
+                break;
             case "zip":
                 manager = new ZipManager(numberOfTask, sizeOfTask, seed);
                 break;
