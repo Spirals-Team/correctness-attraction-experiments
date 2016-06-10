@@ -133,6 +133,8 @@ public class BanditExplorer implements Explorer {
             if (this.manager instanceof TorrentManager)
                 ((TorrentManager) this.manager).reinit();
             return result;
+        } finally {
+            executor.shutdown();
         }
     }
 
@@ -182,14 +184,14 @@ public class BanditExplorer implements Explorer {
     public static void main(String[] args) {
         Main.numberOfSecondsToWait = 30;
         Main.verbose = true;
-        Manager manager = new QuickSortManager(100, 25);
-        Budget budget = new LapBudget(1000);
+        TorrentManager manager = new TorrentManager(100, 25);
+        Budget budget = new TimeBudget(60 * 1000 * 5);
         Policy policy = new UCBPolicy(manager.getLocations().size(), 23);
         Exploration exploration = new IntegerExplorationPlusOne();
         Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
         explorer.run();
-
-
+        manager.stop();
+        System.exit(1);
     }
 
 }

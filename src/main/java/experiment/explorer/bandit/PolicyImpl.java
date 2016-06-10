@@ -53,7 +53,8 @@ public abstract class PolicyImpl implements Policy {
             double probability = (double)this.nbSuccessPerArm[i] / (double)this.nbPull[i];
             totalSuccess += this.nbSuccessPerArm[i];
             totalPull +=  this.nbPull[i];
-            System.out.println(String.format(format, i, String.format("%.2f", probability), this.nbSuccessPerArm[i], this.nbPull[i]));
+            if (this.nbPull[i] > 0)
+                System.out.println(String.format(format, i, String.format("%.2f", probability), this.nbSuccessPerArm[i], this.nbPull[i]));
             out += String.format(format, i, String.format("%.2f", probability), this.nbSuccessPerArm[i], this.nbPull[i]) + "\n";
         }
         System.out.println(Util.getStringPerc(totalSuccess, totalPull));
