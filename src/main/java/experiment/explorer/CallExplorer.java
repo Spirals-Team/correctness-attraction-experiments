@@ -35,21 +35,23 @@ public class CallExplorer extends ExplorerImpl {
     }
 
     @Override
-    public void runReference(int indexOfTask, PerturbationLocation location) {
+    public int runReference(int indexOfTask, PerturbationLocation location) {
         //reference run : no perturbation
         PerturbationEngine.loggers.get(super.name).logOn(location);
         this.run(indexOfTask);
         int currentNbCall = PerturbationEngine.loggers.get(super.name).getCalls(location);
         this.nbCallReferencePerLocationPerTask[super.manager.getLocations().indexOf(location)][indexOfTask] = currentNbCall;
         PerturbationEngine.loggers.get(super.name).reset();
+        return currentNbCall;
     }
 
     @Override
     public void runOnePerturbator(int indexOfTask, PerturbationLocation location, Perturbator perturbator) {
         long currentNbCall = nbCallReferencePerLocationPerTask[super.manager.getLocations().indexOf(location)][indexOfTask];
         location.setPerturbator(perturbator);
+//        System.out.println(currentNbCall);
         for (int indexOfCall = 0; indexOfCall < currentNbCall; indexOfCall++) {
-            System.out.println(Util.getStringPerc(indexOfCall, currentNbCall));
+//            System.out.println(Util.getStringPerc(indexOfCall, currentNbCall));
             PerturbationEngine.loggers.get(super.name).logOn(location);
             Tuple result = runAtTheIndexOfCall(indexOfCall, indexOfTask, location);
             super.logger.log(super.manager.getLocations().indexOf(location), indexOfTask, super.perturbators.indexOf(perturbator), 0, result, super.name);

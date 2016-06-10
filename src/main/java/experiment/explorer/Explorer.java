@@ -16,7 +16,7 @@ public interface Explorer {
     /**
      * Method to run one time the subject on a task without any perturbation.
      */
-    void runReference(int indexOfTask, PerturbationLocation location);
+    int runReference(int indexOfTask, PerturbationLocation location);
 
     /**
      * Initialize the PerturbationEngine.loggers and experiment.Logger with the setup of the exp.

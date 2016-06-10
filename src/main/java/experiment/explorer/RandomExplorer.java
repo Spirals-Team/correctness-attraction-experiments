@@ -64,11 +64,12 @@ public class RandomExplorer extends ExplorerImpl {
     }
 
     @Override
-    public void runReference(int indexOfTask, PerturbationLocation location) {
+    public int runReference(int indexOfTask, PerturbationLocation location) {
         PerturbationEngine.loggers.get(super.name).logOn(location);
         Tuple result = super.run(indexOfTask);
         super.logger.log(super.manager.getLocations().indexOf(location), super.manager.getIndexTask().indexOf(indexOfTask), 0, 0, result, super.name);
         PerturbationEngine.loggers.get(super.name).reset();
+        return PerturbationEngine.loggers.get(name).getCalls(location);
     }
 
     @Override
