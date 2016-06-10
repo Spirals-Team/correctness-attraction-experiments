@@ -12,6 +12,10 @@ spoon/
 src/main/java/perturbation/
 
 #Experiment files needed
+*.jar
+*.tar.gz
+*.zip
+sat/
 bitcoin-0.12.1/
 bitcoinj/
 bc-java/
