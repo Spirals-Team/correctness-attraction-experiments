@@ -1,5 +1,7 @@
 package experiment.explorer.bandit;
 
+import java.util.List;
+
 /**
  * Created by bdanglot on 06/06/16.
  */
@@ -25,5 +27,7 @@ public interface Policy {
     /**
      * Log state of bandit : #pull #success estimated probability...
      */
-    void log();
+    String log();
+
+    void filter(List<Integer> filter);
 }

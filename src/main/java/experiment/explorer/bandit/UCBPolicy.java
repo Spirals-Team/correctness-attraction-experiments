@@ -2,6 +2,8 @@ package experiment.explorer.bandit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by bdanglot on 06/06/16.
@@ -24,9 +26,11 @@ public class UCBPolicy extends PolicyImpl {
     public int selectArm() {
         double max = Double.MIN_VALUE;
         List<Integer> indices = new ArrayList<>();
-        for (int i = 0; i < super.nbPull.length ; i++) {
-            double probability = super.nbSuccessPerArm[i] / super.nbPull [i];
-            double current = probability + Math.sqrt( (this.ALPHA * Math.log(nbLap) / nbPull[i]));
+        for (int i = 0; i < super.nbPull.length; i++) {
+            if (super.filterArm.contains(i))
+                continue;
+            double probability = super.nbPull[i] > 0 ? (double) super.nbSuccessPerArm[i] / (double) super.nbPull[i] : 0.0d;
+            double current = probability + Math.sqrt((this.ALPHA * Math.log(nbLap) / nbPull[i]));
             if (current == max)
                 indices.add(i);
             else if (current > max) {
@@ -36,6 +40,10 @@ public class UCBPolicy extends PolicyImpl {
             }
         }
         this.nbLap++;
-        return indices.isEmpty() ? super.random.nextInt(super.nbPull.length) : indices.get(super.random.nextInt(indices.size()));
+        if (indices.isEmpty()) {
+            IntStream.range(0, super.nbPull.length).filter(index -> !super.filterArm.contains(index)).forEach(indices::add);
+            return super.random.nextInt(indices.size());
+        }
+        return indices.get(super.random.nextInt(indices.size()));
     }
 }
