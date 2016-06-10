@@ -1,11 +1,14 @@
 import sys
 
-import SearchSpaceToLatex
+import LatexToolBox
 
 subject=sys.argv[1]
 
+# exploration="IntegerAddOne"
+exploration="BooleanNegation"
+
 lines = [line.rstrip('\n') for line in
-         open("results/" + subject + "/IntegerAddOne_CallExplorer_analysis_graph_data.txt")]
+         open("results/" + subject + "/"+exploration+"_CallExplorer_analysis_graph_data.txt")]
 npp = ' '.join(lines[5].split()).split(" ")[0]
 
 out = ""
@@ -16,9 +19,9 @@ for line in lines[7:]:
     out +=  tabline[1] + "&" +  tabline[2] + "&" +  tabline[3] + "&" +  tabline[4] + "&"
     out +=  tabline[5] + "&"
     if len(tabline) > 8:
-        out +=  SearchSpaceToLatex.barchart(tabline[8]) + " " +  tabline[8]
+        out +=  LatexToolBox.barchart(tabline[8]) +   LatexToolBox.simplePerc(tabline[8])
     else:
-        out += tabline[7]
+        out += LatexToolBox.simplePerc(tabline[7])
     out += "\\\\\n"
 
 print(out)
