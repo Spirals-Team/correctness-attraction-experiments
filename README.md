@@ -17,6 +17,9 @@ This project contains experiments for [jPerturb](https://github.com/Spirals-Team
 * torrent: implementation of bittorent protocol retrieve [here](https://github.com/mpetazzoni/ttorrent).
 * bitcoin: implementation of bitcoin node in java found [here](https://github.com/bitcoinj/bitcoinj).
 * classifier: a Naive bayes classifier from [Weka](http://www.cs.waikato.ac.nz/ml/weka/).
+* canny : edges detector.
+* sat : SAT4J solver find [here](http://www.sat4j.org/)
+* lcs : longuest common subsequence.
 
 If the source is not specified, sources come from [RosettaCode](http://rosettacode.org/)
 
@@ -43,14 +46,35 @@ In order to install, just launch the following script:
 ./src/script/install.sh
 ```
 
-It will install everything you will need to run experiments (nearly 7 minutes).
+It will install everything you will need to run experiments.
 
 ## Run
 
-### Commandes
+### Commands
 
 ```
 mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="<options>"
+```
+
+
+## Example of running commands
+
+Run the systematical call exploration with plus one perturbator model on quicksort, with 50 array of 200 integers with verbose mode:
+
+```
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-v -s qs -nb 50 -size 200 -exp call one"
+```
+
+Run the gui on zip:
+
+```
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s zip -run gui"
+```
+
+Run the task size exploration on md5:
+
+```
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s md5 -run tasksize"
 ```
 
 ### Options
@@ -77,23 +101,4 @@ Several options available :
 * -help display this help
 
 
-## Example of running commands
-
-Run the systematical call exploration with plus one perturbator model on quicksort, with 50 array of 200 integers with verbose mode:
-
-```
-mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-v -s qs -nb 50 -size 200 -exp call one"
-```
-
-Run the gui on zip:
-
-```
-mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s zip -run gui"
-```
-
-Run the task size exploration on md5:
-
-```
-mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s md5 -run tasksize"
-```
 
