@@ -106,6 +106,12 @@ public abstract class ManagerImpl<T, P> implements Manager<T, P> {
         this.locations = locations;
     }
 
+    @Override
+    public T getTask(int indexOfTask) {
+        this.tasks.add(this.generateOneTask());
+        this.indexTasks.add(this.tasks.size()-1);
+        return this.getTask(this.tasks.size()-1);
+    }
 
     @Override
     public List<PerturbationLocation> getLocations(String filter) {
