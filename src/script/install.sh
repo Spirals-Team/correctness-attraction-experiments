@@ -20,7 +20,7 @@ mvn package -Dmaven.test.skip=true
 cd ..
 
 #Spoon little exp
-i=(md5/MD5.java quicksort/QuickSort.java mersenne/MersenneTwister.java sudoku/Sudoku.java zip/LZW.java)
+i=(md5/MD5.java quicksort/QuickSort.java mersenne/MersenneTwister.java sudoku/Sudoku.java zip/LZW.java canny/CannyEdgeDetector.java)
 for file in "${i[@]}"
 do
     echo "java -jar $jPerturb -i src/main/java/$file:$perturbation -o src/main/java --with-imports -p $processors"
@@ -146,3 +146,33 @@ gradle core:clean
 gradle core:jar
 cd ..
 mvn install:install-file -Dfile=$jar_bc -DgroupId=org.bouncycastle -DartifactId=core -Dversion=1.52 -Dpackaging=jar
+
+#Install SAT4J
+#wget http://download.forge.ow2.org/sat4j/sat4j-core-v20130525.zip
+#unzip sat4j-core-v20130525.zip 1>/dev/null
+mkdir sat
+cp org.sat4j.core-src.jar sat/
+
+cd sat
+jar -xf org.sat4j.core-src.jar
+cd ..
+
+path=sat
+file=$path/org/sat4j/minisat/core/Solver.java
+
+echo $file
+
+echo "java -jar $jPerturb -i $file:$perturbation -o $path -x --with-imports -p $processors"
+java -cp $jPerturb:org.sat4j.core.jar spoon.Launcher -i $file:$perturbation -o $path -x --with-imports -p $processors
+
+cd sat
+
+find -name "*.java" > sources.txt
+mkdir bin
+javac @sources.txt -d bin
+cd bin
+jar cvf ../sat4j-core-2.3.5.jar org
+
+cd ../..
+
+mvn install:install-file -Dfile=sat/sat4j-core-2.3.5.jar -DgroupId=org.sat4j -DartifactId=core -Dversion=2.3.5 -Dpackaging=jar
