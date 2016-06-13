@@ -175,7 +175,7 @@ jar cvf ../sat4j-core-2.3.5.jar org
 
 cd ../..
 
-mvn install:install-file -Dfile=sat/sat4j-core-2.3.5.jar -DgroupId=org.sat4j -DartifactId=core -Dversion=2.3.5 -Dpackaging=jar
+mvn install:install-file -Dfile=sat-src/sat4j-core-2.3.5.jar -DgroupId=org.sat4j -DartifactId=core -Dversion=2.3.5 -Dpackaging=jar
 
 cd resources/sat/
 tar -xf CBS_k3_n100_m403_b10.tar.gz
