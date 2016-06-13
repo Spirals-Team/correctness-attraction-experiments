@@ -150,14 +150,14 @@ mvn install:install-file -Dfile=$jar_bc -DgroupId=org.bouncycastle -DartifactId=
 #Install SAT4J
 #wget http://download.forge.ow2.org/sat4j/sat4j-core-v20130525.zip
 #unzip sat4j-core-v20130525.zip 1>/dev/null
-mkdir sat
-cp org.sat4j.core-src.jar sat/
+mkdir sat-src
+cp org.sat4j.core-src.jar sat-src/
 
-cd sat
+cd sat-src
 jar -xf org.sat4j.core-src.jar
 cd ..
 
-path=sat
+path=sat-src
 file=$path/org/sat4j/minisat/core/Solver.java
 
 echo $file
@@ -165,7 +165,7 @@ echo $file
 echo "java -jar $jPerturb -i $file:$perturbation -o $path -x --with-imports -p $processors"
 java -cp $jPerturb:org.sat4j.core.jar spoon.Launcher -i $file:$perturbation -o $path -x --with-imports -p $processors
 
-cd sat
+cd sat-src
 
 find -name "*.java" > sources.txt
 mkdir bin
