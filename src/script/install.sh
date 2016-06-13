@@ -148,8 +148,8 @@ cd ..
 mvn install:install-file -Dfile=$jar_bc -DgroupId=org.bouncycastle -DartifactId=core -Dversion=1.52 -Dpackaging=jar
 
 #Install SAT4J
-#wget http://download.forge.ow2.org/sat4j/sat4j-core-v20130525.zip
-#unzip sat4j-core-v20130525.zip 1>/dev/null
+wget http://download.forge.ow2.org/sat4j/sat4j-core-v20130525.zip
+unzip sat4j-core-v20130525.zip 1>/dev/null
 mkdir sat-src
 cp org.sat4j.core-src.jar sat-src/
 
