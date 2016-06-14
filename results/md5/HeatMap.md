@@ -1,0 +1,6 @@
+![md5](img/heatmap_2.jpeg)
+![md5](img/heatmap_23.jpeg)
+![md5](img/heatmap_173.jpeg)
+![md5](img/heatmap_2_log.jpeg)
+![md5](img/heatmap_23_log.jpeg)
+![md5](img/heatmap_173_log.jpeg)

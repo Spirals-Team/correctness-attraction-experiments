@@ -1,0 +1,13 @@
+aggregate data per location for Perturbator = 1
+Exploration Plus One
+PONE : plus one perturbator
+2 random tx between 3 bitcoin nodes
+Random integer generated with 23 as seed
+6 perturbations points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #ExecsRef  AvgCallRefPerTask #Tasks     %Success                   
+1743       4312       21         0          8041400            1855,85            2528           0,58                     4333       4333       2166.5            2          -------------------- 99,52 
+7172       6243       74         0          11322789           1792,43            3405           0,54                     6317       6317       3158.5            2          -------------------- 98,83 
+13795      3227       5          0          7627037            2359,85            2955           0,91                     3232       3232       1616.0            2          -------------------- 99,85 
+5136       2812       146        60         8151312            2700,90            1089           0,36                     3018       3018       1509.0            2          ------------------- 93,17  
+3925       4357       91         5          9513632            2136,45            2491           0,56                     4453       4453       2226.5            2          -------------------- 97,84 
+11630      6289       159        90         9075365            1388,09            875            0,13                     6538       6538       3269.0            2          -------------------- 96,19 

@@ -1,0 +1,26 @@
+aggregate data per location for random rate = 0.002 and with Perturbator = NEGB
+Exploration Boolean Negation
+19 perturbation point.
+NEGB : negation of boolean value.
+100 string of 64 bytes
+Generated with 23 as seed
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+1          495        5          0          2000               4,00               3              0,01                     500        100        -------------------- 99,00 
+15         495        5          0          503                1,01               0              0,00                     500        100        NaN                        
+28         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+32         495        5          0          500                1,00               0              0,00                     500        100        NaN                        
+35         495        5          0          151                0,30               0              0,00                     500        100        NaN                        
+36         495        5          0          500                1,00               0              0,00                     500        100        NaN                        
+45         495        5          0          322                0,64               0              0,00                     500        100        NaN                        
+55         495        5          0          500                1,00               0              0,00                     500        100        NaN                        
+66         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+71         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+72         495        5          0          0                  0,00               0              0,00                     500        100        NaN                        
+73         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+76         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+79         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+80         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+88         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+89         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+90         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        
+91         495        5          0          1000               2,00               0              0,00                     500        100        NaN                        

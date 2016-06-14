@@ -1,0 +1,19 @@
+detail per task and per Perturbator.
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+2 random tx between 3 bitcoin nodes
+Random integer generated with 23 as seed
+6 perturbations points
+Task Perturbator  IndexLoc   #Success   #Failure   #Exception #Call      #Perturbations %Success                   
+0    NEGB         13802      323        226        267        1377699    867            -------- 39,58             
+0    NEGB         7209       2975       20         0          9231661    2153           -------------------- 99,33 
+0    NEGB         1689       2005       5          0          4645628    1670           -------------------- 99,75 
+0    NEGB         5140       371        0          0          135909     364            -------------------- 100,00
+0    NEGB         11632      9207       139        51         22735963   1142           -------------------- 97,98 
+0    NEGB         3921       84         5          0          101169     83             ------------------- 94,38  
+1    NEGB         13802      327        222        267        1387367    817            --------- 40,07            
+1    NEGB         7209       797        13         0          1003053    815            -------------------- 98,40 
+1    NEGB         1689       1992       19         0          3384622    1330           -------------------- 99,06 
+1    NEGB         5140       353        2          0          248174     356            -------------------- 99,44 
+1    NEGB         11632      3971       141        53         3616020    413            -------------------- 95,34 
+1    NEGB         3921       1854       23         0          3863714    1131           -------------------- 98,77 

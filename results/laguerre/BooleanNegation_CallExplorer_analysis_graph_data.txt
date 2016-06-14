@@ -1,0 +1,32 @@
+contains the data for build a graph for analysis.
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+25 polynomial of 50 degrees
+generated with 23 as seed
+25 perturbation points
+Perturbator IndexLoc   #Perturbations #Success   #Failure   #Exception #Call          %Success                   
+NEGB        3          249            234        13         2          6415           ------------------- 93,98  
+NEGB        12         159            9          148        2          1371           -- 5,66                    
+NEGB        15         135            0          135        0          1077            0,00                      
+NEGB        16         159            9          148        2          1371           -- 5,66                    
+NEGB        17         90             8          82         0          540            -- 8,89                    
+NEGB        18         11             0          0          11         11              0,00                      
+NEGB        24         11             0          0          11         11              0,00                      
+NEGB        31         561            0          0          561        14586           0,00                      
+NEGB        39         550            314        0          236        14025          ------------ 57,09         
+NEGB        60         14014          5533       7822       659        17344350       -------- 39,48             
+NEGB        65         563            0          0          563        14038           0,00                      
+NEGB        71         563            0          0          563        14038           0,00                      
+NEGB        89         115321         108118     1085       6118       1183792553     ------------------- 93,75  
+NEGB        101        4137           2746       1347       44         1514463        -------------- 66,38       
+NEGB        104        3589           2201       1342       46         1149221        ------------- 61,33        
+NEGB        107        3574           3523       50         1          1141070        -------------------- 98,57 
+NEGB        110        3574           3559       15         0          1136470        -------------------- 99,58 
+NEGB        127        25             0          25         0          25              0,00                      
+NEGB        134        25             0          25         0          25              0,00                      
+NEGB        140        25             10         4          11         25             -------- 40,00             
+NEGB        151        14             0          14         0          14              0,00                      
+NEGB        157        14             1          0          13         14             -- 7,14                    
+NEGB        175        24             9          13         2          24             -------- 37,50             
+NEGB        181        225            0          225        0          2996            0,00                      
+NEGB        186        225            8          217        0          3287           - 3,56                     

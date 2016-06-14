@@ -1,0 +1,2 @@
+list ids of exception fragile code : >70.0% of exceptions.
+38 40 41 42 43 45 71 107 

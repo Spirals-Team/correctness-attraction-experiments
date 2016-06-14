@@ -1,0 +1,17 @@
+aggregate data per location for random rate = 0.01 and with Perturbator = NEGB
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+20 string of 100 char
+Random char generated with 23 as seed
+10 perturbation points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+22         98         1          1          885                8,85               4              0,04                     100        20         -------------------- 98,00 
+38         98         1          1          397                3,97               2              0,02                     100        20         -------------------- 98,00 
+45         16         83         1          14323              143,23             145            1,45                     100        20         ---- 16,00                 
+51         14         0          86         8272               82,72              86             0,86                     100        20         --- 14,00                  
+75         16         83         1          14323              143,23             145            1,45                     100        20         ---- 16,00                 
+151        98         1          1          499                4,99               2              0,02                     100        20         -------------------- 98,00 
+154        98         2          0          400                4,00               2              0,02                     100        20         -------------------- 98,00 
+158        98         2          0          300                3,00               2              0,02                     100        20         -------------------- 98,00 
+162        99         1          0          200                2,00               1              0,01                     100        20         -------------------- 99,00 
+171        82         16         2          1958               19,58              19             0,19                     100        20         ----------------- 82,00    

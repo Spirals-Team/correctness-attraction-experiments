@@ -1,0 +1,2 @@
+List of ids antifragile points.
+0 1 2 7 15 17 18 19 26 29 

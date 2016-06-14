@@ -1,0 +1,2 @@
+list ids of exception fragile code : >70.0% of exceptions.
+233 235 237 238 450 451 452 644 655 991 1042 1066 1296 1297 

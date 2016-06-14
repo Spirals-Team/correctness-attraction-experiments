@@ -1,0 +1,42 @@
+aggregate data per location for random rate = 0.001 and with Perturbator = NEGB
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+10 datasets
+Picked up in the directory resources/classifier
+35 perturbations points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+308        50         0          0          50                 5,00               0              0,00                     10         10         NaN                        
+309        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+310        50         0          0          50                 5,00               0              0,00                     10         10         NaN                        
+311        50         0          0          50                 5,00               0              0,00                     10         10         NaN                        
+312        50         0          0          50                 5,00               0              0,00                     10         10         NaN                        
+315        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+319        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+323        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+329        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+330        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+331        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+1          50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+2          50         0          0          1000               100,00             0              0,00                     10         10         NaN                        
+3          50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+31         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+32         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+51         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+52         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+53         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+54         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+55         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+58         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+75         50         0          0          100                10,00              0              0,00                     10         10         NaN                        
+76         50         0          0          100                10,00              0              0,00                     10         10         NaN                        
+82         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+83         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+84         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+86         50         0          0          1000               100,00             0              0,00                     10         10         NaN                        
+87         50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+88         50         0          0          1000               100,00             0              0,00                     10         10         NaN                        
+90         50         0          0          1000               100,00             0              0,00                     10         10         NaN                        
+106        46         4          0          9973               997,30             11             1,10                     10         10         ------------------- 92,00  
+118        47         3          0          9973               997,30             11             1,10                     10         10         ------------------- 94,00  
+123        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        
+138        50         0          0          0                  0,00               0              0,00                     10         10         NaN                        

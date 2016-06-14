@@ -1,0 +1,17 @@
+aggregate data per location for random rate = 0.03 and with Perturbator = NEGB
+Exploration Boolean Negation
+10 perturbation point.
+NEGB : negation of boolean value.
+20 string of 100 char
+Random char generated with 23 as seed
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+22         88         7          5          778                7,78               30             0,30                     100        20         ------------------ 88,00   
+38         85         11         4          373                3,73               15             0,15                     100        20         ----------------- 85,00    
+45         0          100        0          8350               83,50              262            2,62                     100        20          0,00                      
+51         0          0          100        3220               32,20              100            1,00                     100        20          0,00                      
+75         0          100        0          8350               83,50              262            2,62                     100        20          0,00                      
+151        81         13         6          469                4,69               19             0,19                     100        20         ----------------- 81,00    
+154        86         14         0          400                4,00               16             0,16                     100        20         ------------------ 86,00   
+158        86         14         0          300                3,00               14             0,14                     100        20         ------------------ 86,00   
+162        91         9          0          200                2,00               9              0,09                     100        20         ------------------- 91,00  
+171        54         38         8          1881               18,81              60             0,60                     100        20         ----------- 54,00          

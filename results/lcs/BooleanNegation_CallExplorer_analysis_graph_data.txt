@@ -1,0 +1,16 @@
+contains the data for build a graph for analysis.
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+25 string of 100 char
+RNA sequence of thaliana and sativa from miRBase (mature.fa)
+9 perturbation points
+Perturbator IndexLoc   #Perturbations #Success   #Failure   #Exception #Call          %Success                   
+NEGB        9          525            0          500        25         5775            0,00                      
+NEGB        14         21160          16015      4645       500        20962380       ---------------- 75,69     
+NEGB        18         20660          8067       12593      0          20858800       -------- 39,05             
+NEGB        51         1110           37         1059       14         28585          - 3,33                     
+NEGB        54         1087           28         1059       0          27537          - 2,58                     
+NEGB        55         1110           28         1059       23         28587          - 2,52                     
+NEGB        64         1085           262        823        0          53920          ----- 24,15                
+NEGB        74         784            559        225        0          26490          --------------- 71,30      
+NEGB        82         0              0          0          0          0              NaN                        

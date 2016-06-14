@@ -1,0 +1,206 @@
+###
+#   ANTIFRAGILE
+###
+
+Location 2, 3, 4, 5, 6, 7, 8:
+int pivot = array[pint(__L8, pint(__L2, beg)
+                + pint(__L7, pint(__L5, pint(__L3, end) - pint(__L4, beg)) / pint(__L6, 2)))];
+
+Selection of pivot : In the worst case : beg == end, then beg + (beg - end) = beg, so beg / 2 can't break the algorithm.
+As we know, the value of the pivot impact the computation time, but doesn't produce wring output.
+
+Location 10  and 11:
+while (pint(__L10, left) <= pint(__L11, right)) {
+    ...
+}
+At the last iteration :
+__L10 : remove one iteration of the loop.
+__L11 : add an extra iteration.
+Anyway, then there is a recursive call and will resort it.
+
+Location 14:
+while (pint(__L14, array[left]) < pivot) {
+    left++;
+}
+a[left] > pivot then a[left] + 1 > pivot (false, false)
+a[left] == pivot then a[left] + 1 > pivot (false, false)
+a[left] == pivot - 1 then a[left] + 1 == pivot (true, false)
+In this case, the loop for left index is stopped on a wrong value (< pivot instead of >). Then it puts the value in the sub array of the right by swapping elements, and inc
+dec indices (left and right respectively). It looks after other value to be swapped. And call recursively on the two sub array. This is working, because of the input distribution.
+This value is close to the pivot and will be sorted in recursive call.
+
+Location 20:
+while (array[right] > pint(__L20, pivot)) {
+    right++;
+}
+value < pivot then value < pivot + 1 (false, false)
+value == pivot then value < pivot + 1(false, false)
+value > pivot + 1 then (true, true)
+value == pivot + 1 then (true, false) ===> stop the while loop. The right index doesn't point on the right value of the array and this lead to the same explication of Location 14.
+This points is anti fragile because of the input distribution used.
+
+Location 23:
+if (pint(__L23, left) <= right) { ... }
+left < right then left + 1 <= right (true, true)
+left > right then left + 1 > right (false, false)
+left == right then left +1 > right (true, false). In case of left == right, the swap doesn't change the array. This statement is used to
+prevent from infinite loop. So, an extra iteration will be done (without changing left or right), and then it will swap elements and update indices.
+
+Location 31:
+if (beg < pint(__L31, right)) { recursive call; }
+beg < right then beg < right + 1 (true, true)
+beg > right then if beg == right + 1 (false, false)
+                 else beg > right + 1 (false, false)
+beg == right then beg < right + 1 (false, true) then, there is a recursively call on the sub array (beg, right), which an array of one element.
+So, the algorithm return without changing anything. (Good antifragile points but can have a huge overhead)
+
+Location 34:
+QuickSortInstr.sort(array, beg, pint(__L34, right));
+However, this points is randomizable because it adds an extra element to the sub array. In that the case, the elements won't be moved, because it's already greater than every value
+because of the previously iteration of the algorithm.
+
+Location 35:
+if (pint(__L35, end) > left)
+end > left then end + 1 > left (true, true)
+end == left - 1 then end + 1 == left (false, false)
+end == left then end + 1 > left (false, true)
+This points has the same behavior than the location 31. It adds an extra recursive calls
+
+Location 17, 22, 28 and 29:
+pint(__L17, left++);
+pint(__L22, right--);
+pint(__L28, left++);
+pint(__L29, right--);
+This perturbation is fully randomizable. It has no impact on the algorithm. Locations 22, 28 and 29 are also fully randomizable because there are inc/dec operation too.
+This perturbation point doesn't impact the state of the system, but it induce call methods, so some computation in the call stack and can prevent,
+in a slightly manner(prediction of the memory for example).
+
+
+###
+#   OTHERS
+###
+
+Location 0:
+int left = pint(__L0, beg);
+this points break the oracle in the early calls, because it won't sort the first cell of the array. (starting at 1 instead of 0, in the case that we have array[0] > pivot)
+
+Location 1:
+int right = pint(__L1, end);
+this points break the algorithm when it's called with end = array.length. (throws  ArrayOutBoundException)
+
+Location 9 : Perturbation on the value of the array selected as pivot :
+        int pivot = pint(__L9, this.array[beg + ((end - beg) / 2)]);
+This point might break the algorithm with exception because of :
+	while (this.array[left] < pivot) {
+        	left = left +
+	}
+
+    while (this.array[right] > pivot) {
+	    right = right - 1;
+    }
+with this comparison, we can have an ArrayOutBoundException.
+
+
+Location 13:
+while (array[pint(__L13, left)] < pivot) {
+    left++;
+}
+This positions may break the Oracle. The value of left is incremented in the body of the loop. The perturbation might make much more
+iteration in the loop, and skip value that could make the condition false, and stop the loop in order to sort the element. In that case, elements skipped aren't
+sorted, and then produce an unsorted array.
+
+
+Location 15:
+    while (array[left)] < (pint(__L15, pivot))) {
+        left--;
+    }
+As known, the value of the pivot is randomizable. But this perturbation can throw an ArrayOutBound exception because of the extra loop iteration and the decrement of left.
+
+Location 18:
+while (array[pint(__L18, right)] > pivot) {
+    right++;
+}
+if value > pivot, then value +1 is still > pivot. In the other hand, value < pivot then we have value + 1 == pivot, in the worst case. And this perturbation doesn't change the result in the
+loop condition (false). In case of value == pivot, we got value + 1 > pivot, and that result in an extra iteration of the loop, or more if next iteration doesn't stop. That why we got this results :
+mix between success(86%) and oracle break or exception/error(error in case we have right == 0 at the perturbation call).
+
+Location 19:
+while (pint(19, array[right)]) > pivot) {
+    right++;
+}
+This perturbation point is the twin of the the location 15. It can add loop iteration, and throw an Exception.
+
+Location 24:
+    if (left <= pint(__L24, right)) { ... }
+
+left == right then left < right + 1 (true, true)
+left < right then left < right + 1 (true, true)
+left > right ::
+                * left - 1 == right then left == right + 1 (false, true) : in that case, we got a swapping while it shouldn't.
+The quicksort put in the left sub array an greater value than the pivot and vice versa for the right sub array. Even with the recursively call,
+those values aren't sort anymore, because of divide and conquest of the quicksort. But, we can see that's happening in a very specific case :
+when left is equals to right + 1 : (i.e. in the last computation round).
+
+Location 26 and 27:
+QuickSortInstr.swap(array, pint(__L26, left), pint(__L27, right));
+This perturbations points are very fragile because they are the core computation : parameters of the swap function. It will completly broke the oracle.
+However, we can note that for PONE location 27 provoke sometimes exception. For the Location 26, it works in 2.60% of execution(for this location). It can be explain by the fact that the next
+element of the current has to be sorted too, and the current element is close to the pivot.
+
+Location 30:
+if (pint(__L30, beg) < right) { recursive call; }
+beg > right then beg + 1 > right (false, false)
+beg == right then beg + 1 > right (false, false)
+beg < right + 1 then beg + 1 < right (true, true)
+
+beg < right :: beg == right - 1 then beg + 1 == right (true, false)
+This perturbation results in failures, in this case. We extract 7% of the execution done.
+
+Location 33:
+QuickSortInstr.sort(array, pint(__L33, beg), right);
+This perturbation results in failure because the recursive call won't sort the whole sub array. It drops the first elements of the sub array, at each recursive call.
+
+Location 36:
+if (end > pint(__L36, left))
+end < left then end < left + 1 (false, false)
+end == left - 1 then end < left + 1 (false, false)
+
+end > left :: end == left + 1 (true, false)
+And this is one is same a 30.
+
+Location 38:
+QuickSortInstr.sort(array, pint(__L38, left), end);
+is like location 33.
+
+Location 39:
+QuickSortInstr.sort(array, left, pint(__L39, end));
+is like location 34, but he is exception fragiler, because of the array out bound exception it occurs when end == array.length - 1.
+
+Location 40:
+int x = array[pint(__L40, i)];
+This perturbation got 65% of success.
+
+Location 41:
+int x = pint(__L41, array[i]);
+This point is very fragile because it modify element of the array. The value at the index i, is incremented by one, and put at the index j.
+The original array doesn't contain original elements anymore.
+
+Location 42:
+array[pint(__L42, i)] = array[j];
+Location 43:
+array[i] = array[pint(__L43, j])
+Location 45:
+array[pint(__L45, j)] = x;
+Those 3 are same as 40.
+
+Location 44:
+array[i] = pint(__L44, array[j]);
+Why there is 15% of success? This may be explained by the input distribution. In the last iteration of the algorithm, it switches elements that are
+very close. If the difference is +1 between elements, this points just do the next iteration before the current.
+
+Location 46:
+array[j] = pint(__L46, x);
+Same as 41.
+
+
+

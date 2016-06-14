@@ -1,0 +1,5 @@
+[quicksort](quicksort/HeatMap.md)
+[zip](zip/HeatMap.md)
+[mersenne](mersenne/HeatMap.md)
+[md5](md5/HeatMap.md)
+[sudoku](sudoku/HeatMap.md)

@@ -1,0 +1,13 @@
+aggregate data per location for random rate = 0.25 and with Perturbator = NEGB
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+20 arrays of 100 integers
+Random integer generated with 23 as seed
+6 perturbations points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+12         100        0          0          12982187           129821,87          3245506        32455,06                 100        20         -------------------- 100,00
+16         0          94         6          39942              399,42             9966           99,66                    100        20          0,00                      
+21         0          91         9          36282              362,82             9010           90,10                    100        20          0,00                      
+25         14         86         0          30771              307,71             7673           76,73                    100        20         --- 14,00                  
+32         1          99         0          4226               42,26              1058           10,58                    100        20         - 1,00                     
+37         1          94         5          4814               48,14              1208           12,08                    100        20         - 1,00                     

@@ -1,0 +1,6 @@
+detail of space for CallExplorer with Magnitude = 100
+number of Task :               7                             
+number of Locations :          130                           
+number of executions done :    34881                         
+number of successful executions done :  22129                         
+% Success :                    ------------- 63,44           

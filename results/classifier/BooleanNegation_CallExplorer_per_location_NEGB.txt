@@ -1,0 +1,44 @@
+aggregate data per location for Perturbator = NEGB
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+10 datasets
+Picked up in the directory resources/classifier
+37 perturbations points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #ExecsRef  AvgCallRefPerTask #Tasks     %Success                   
+2          0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+3          100        0          0          1000               10,00              100            1,00                     100        100        10.0              10         -------------------- 100,00
+4          0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+32         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+33         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+52         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+53         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+54         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+55         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+56         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+59         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+76         10         0          0          10                 1,00               10             1,00                     10         10         1.0               10         -------------------- 100,00
+77         0          0          10         10                 1,00               10             1,00                     10         10         1.0               10          0,00                      
+83         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+84         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+85         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+87         100        0          0          1000               10,00              100            1,00                     100        100        10.0              10         -------------------- 100,00
+88         0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+89         19         81         0          1000               10,00              100            1,00                     100        100        10.0              10         ---- 19,00                 
+91         10         90         0          1000               10,00              100            1,00                     100        100        10.0              10         -- 10,00                   
+96         322        778        0          115500             105,00             1100           1,00                     1100       1100       110.0             10         ------ 29,27               
+109        539        461        0          100000             100,00             1000           1,00                     1000       1000       100.0             10         ----------- 53,90          
+121        1000       0          0          100000             100,00             1000           1,00                     1000       1000       100.0             10         -------------------- 100,00
+126        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+130        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+143        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+146        10         0          0          10                 1,00               10             1,00                     10         10         1.0               10         -------------------- 100,00
+147        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+148        0          0          10         10                 1,00               10             1,00                     10         10         1.0               10          0,00                      
+149        0          0          10         10                 1,00               10             1,00                     10         10         1.0               10          0,00                      
+150        10         0          0          10                 1,00               10             1,00                     10         10         1.0               10         -------------------- 100,00
+153        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+157        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+161        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+167        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+168        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        
+169        0          0          0          0                  NaN                0              NaN                      0          0          0.0               10         NaN                        

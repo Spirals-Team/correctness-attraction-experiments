@@ -1,0 +1,2 @@
+list ids of oracle fragile code : >70.0% of oracle failures
+38 45 75 151 154 158 162 171 

@@ -1,0 +1,47 @@
+detail per task and per Perturbator.
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+20 string of 100 char
+Random char generated with 23 as seed
+2 perturbation points
+Task Perturbator  IndexLoc   #Success   #Failure   #Exception #Call      #Perturbations %Success                   
+0    NEGB         17         0          33         0          562        33              0,00                      
+0    NEGB         70         0          33         0          562        33              0,00                      
+1    NEGB         17         0          33         0          562        33              0,00                      
+1    NEGB         70         0          33         0          562        33              0,00                      
+2    NEGB         17         0          33         0          562        33              0,00                      
+2    NEGB         70         0          33         0          562        33              0,00                      
+3    NEGB         17         0          33         0          562        33              0,00                      
+3    NEGB         70         0          33         0          562        33              0,00                      
+4    NEGB         17         0          33         0          562        33              0,00                      
+4    NEGB         70         0          33         0          562        33              0,00                      
+5    NEGB         17         0          33         0          562        33              0,00                      
+5    NEGB         70         0          33         0          562        33              0,00                      
+6    NEGB         17         0          33         0          562        33              0,00                      
+6    NEGB         70         0          33         0          562        33              0,00                      
+7    NEGB         17         0          33         0          562        33              0,00                      
+7    NEGB         70         0          33         0          562        33              0,00                      
+8    NEGB         17         0          33         0          562        33              0,00                      
+8    NEGB         70         0          33         0          562        33              0,00                      
+9    NEGB         17         0          33         0          562        33              0,00                      
+9    NEGB         70         0          33         0          562        33              0,00                      
+10   NEGB         17         0          33         0          562        33              0,00                      
+10   NEGB         70         0          33         0          562        33              0,00                      
+11   NEGB         17         0          33         0          562        33              0,00                      
+11   NEGB         70         0          33         0          562        33              0,00                      
+12   NEGB         17         0          33         0          562        33              0,00                      
+12   NEGB         70         0          33         0          562        33              0,00                      
+13   NEGB         17         0          33         0          562        33              0,00                      
+13   NEGB         70         0          33         0          562        33              0,00                      
+14   NEGB         17         0          33         0          562        33              0,00                      
+14   NEGB         70         0          33         0          562        33              0,00                      
+15   NEGB         17         0          33         0          562        33              0,00                      
+15   NEGB         70         0          33         0          562        33              0,00                      
+16   NEGB         17         0          33         0          562        33              0,00                      
+16   NEGB         70         0          33         0          562        33              0,00                      
+17   NEGB         17         0          33         0          562        33              0,00                      
+17   NEGB         70         0          33         0          562        33              0,00                      
+18   NEGB         17         0          33         0          562        33              0,00                      
+18   NEGB         70         0          33         0          562        33              0,00                      
+19   NEGB         17         0          33         0          562        33              0,00                      
+19   NEGB         70         0          33         0          562        33              0,00                      

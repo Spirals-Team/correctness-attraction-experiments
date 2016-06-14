@@ -1,0 +1,13 @@
+aggregate data per location for Perturbator = NEGB
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+2 random tx between 3 bitcoin nodes
+Random integer generated with 23 as seed
+6 perturbations points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #ExecsRef  AvgCallRefPerTask #Tasks     %Success                   
+13802      650        448        534        2765066            1694,28            1684           1,03                     1632       1632       816.0             2          -------- 39,83             
+7209       3772       33         0          10234714           2689,81            2968           0,78                     3805       3805       1902.5            2          -------------------- 99,13 
+1689       3997       24         0          8030250            1997,08            3000           0,75                     4021       4021       2010.5            2          -------------------- 99,40 
+5140       724        2          0          384083             529,04             720            0,99                     726        726        363.0             2          -------------------- 99,72 
+11632      13178      280        104        26351983           1943,07            1555           0,11                     13562      13562      6781.0            2          -------------------- 97,17 
+3921       1938       28         0          3964883            2016,73            1214           0,62                     1966       1966       983.0             2          -------------------- 98,58 

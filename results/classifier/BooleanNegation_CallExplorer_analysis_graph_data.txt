@@ -1,0 +1,44 @@
+contains the data for build a graph for analysis.
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+10 datasets
+Picked up in the directory resources/classifier
+37 perturbations points
+Perturbator IndexLoc   #Perturbations #Success   #Failure   #Exception #Call          %Success                   
+NEGB        2          0              0          0          0          0              NaN                        
+NEGB        3          100            100        0          0          1000           -------------------- 100,00
+NEGB        4          0              0          0          0          0              NaN                        
+NEGB        32         0              0          0          0          0              NaN                        
+NEGB        33         0              0          0          0          0              NaN                        
+NEGB        52         0              0          0          0          0              NaN                        
+NEGB        53         0              0          0          0          0              NaN                        
+NEGB        54         0              0          0          0          0              NaN                        
+NEGB        55         0              0          0          0          0              NaN                        
+NEGB        56         0              0          0          0          0              NaN                        
+NEGB        59         0              0          0          0          0              NaN                        
+NEGB        76         10             10         0          0          10             -------------------- 100,00
+NEGB        77         10             0          0          10         10              0,00                      
+NEGB        83         0              0          0          0          0              NaN                        
+NEGB        84         0              0          0          0          0              NaN                        
+NEGB        85         0              0          0          0          0              NaN                        
+NEGB        87         100            100        0          0          1000           -------------------- 100,00
+NEGB        88         0              0          0          0          0              NaN                        
+NEGB        89         100            19         81         0          1000           ---- 19,00                 
+NEGB        91         100            10         90         0          1000           -- 10,00                   
+NEGB        96         1100           322        778        0          115500         ------ 29,27               
+NEGB        109        1000           539        461        0          100000         ----------- 53,90          
+NEGB        121        1000           1000       0          0          100000         -------------------- 100,00
+NEGB        126        0              0          0          0          0              NaN                        
+NEGB        130        0              0          0          0          0              NaN                        
+NEGB        143        0              0          0          0          0              NaN                        
+NEGB        146        10             10         0          0          10             -------------------- 100,00
+NEGB        147        0              0          0          0          0              NaN                        
+NEGB        148        10             0          0          10         10              0,00                      
+NEGB        149        10             0          0          10         10              0,00                      
+NEGB        150        10             10         0          0          10             -------------------- 100,00
+NEGB        153        0              0          0          0          0              NaN                        
+NEGB        157        0              0          0          0          0              NaN                        
+NEGB        161        0              0          0          0          0              NaN                        
+NEGB        167        0              0          0          0          0              NaN                        
+NEGB        168        0              0          0          0          0              NaN                        
+NEGB        169        0              0          0          0          0              NaN                        

@@ -1,0 +1,98 @@
+\begin{tikzpicture}
+\begin{axis}
+[
+ytick={1,2,3,4,5,6,7,8,9,10},
+yticklabels={bitcoin,torrent,classifier,rsa,laguerre,rc4,md5,sudoku,zip,quicksort},
+]
+\addplot+[
+boxplot prepared={
+	median=98.83,
+	upper quartile=99.52,
+	lower quartile=96.19,
+	upper whisker=99.85,
+	lower whisker=93.17
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=90.0,
+	upper quartile=100.0,
+	lower quartile=72.73,
+	upper whisker=100.0,
+	lower whisker=66.67
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=54.0,
+	upper quartile=100.0,
+	lower quartile=0.0,
+	upper whisker=100.0,
+	lower whisker=0.0
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=0.0,
+	upper quartile=100.0,
+	lower quartile=0.0,
+	upper whisker=100.0,
+	lower whisker=0.0
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=76.0,
+	upper quartile=97.19,
+	lower quartile=56.0,
+	upper whisker=100.0,
+	lower whisker=0.0
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=0.25,
+	upper quartile=35.94,
+	lower quartile=0.0,
+	upper whisker=100.0,
+	lower whisker=0.0
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=6.15,
+	upper quartile=50.0,
+	lower quartile=0.0,
+	upper whisker=100.0,
+	lower whisker=0.0
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=68.96,
+	upper quartile=84.15,
+	lower quartile=57.61,
+	upper whisker=100.0,
+	lower whisker=0.0
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=68.13,
+	upper quartile=100.0,
+	lower quartile=0.0,
+	upper whisker=100.0,
+	lower whisker=0.0
+},
+] coordinates {};
+\addplot+[
+boxplot prepared={
+	median=99.8,
+	upper quartile=100.0,
+	lower quartile=65.29,
+	upper whisker=100.0,
+	lower whisker=0.0
+},
+] coordinates {};
+\end{axis}
+\end{tikzpicture}

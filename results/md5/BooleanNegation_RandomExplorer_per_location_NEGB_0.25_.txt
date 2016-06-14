@@ -1,0 +1,17 @@
+aggregate data per location for random rate = 0.25 and with Perturbator = NEGB
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+20 string of 100 char
+Random char generated with 23 as seed
+10 perturbation points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+22         49         49         2          347                3,47               91             0,91                     100        20         ---------- 49,00           
+38         30         55         15         279                2,79               70             0,70                     100        20         ------ 30,00               
+45         0          100        0          1184               11,84              300            3,00                     100        20          0,00                      
+51         0          0          100        390                3,90               100            1,00                     100        20          0,00                      
+75         0          100        0          1184               11,84              300            3,00                     100        20          0,00                      
+151        21         72         7          299                2,99               79             0,79                     100        20         ----- 21,00                
+154        30         70         0          400                4,00               103            1,03                     100        20         ------ 30,00               
+158        40         60         0          300                3,00               79             0,79                     100        20         -------- 40,00             
+162        53         47         0          200                2,00               50             0,50                     100        20         ----------- 53,00          
+171        0          99         1          1255               12,55              313            3,13                     100        20          0,00                      

@@ -1,0 +1,17 @@
+aggregate data per location for random rate = 0.001 and with Perturbator = NEGB
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+20 string of 100 char
+Random char generated with 23 as seed
+10 perturbation points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+22         100        0          0          900                45,00              0              0,00                     20         20         NaN                        
+38         100        0          0          400                20,00              0              0,00                     20         20         NaN                        
+45         85         15         0          18868              943,40             18             0,90                     20         20         ----------------- 85,00    
+51         82         0          18         17172              858,60             18             0,90                     20         20         ----------------- 82,00    
+75         85         15         0          18868              943,40             18             0,90                     20         20         ----------------- 85,00    
+151        100        0          0          500                25,00              0              0,00                     20         20         NaN                        
+154        100        0          0          400                20,00              0              0,00                     20         20         NaN                        
+158        100        0          0          300                15,00              0              0,00                     20         20         NaN                        
+162        100        0          0          200                10,00              0              0,00                     20         20         NaN                        
+171        99         1          0          1999               99,95              1              0,05                     20         20         -------------------- 99,00 

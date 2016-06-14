@@ -1,0 +1,2 @@
+List of ids antifragile points.
+20 21 29 37 44 49 50 60 64 66 67 74 150 152 153 170 

@@ -1,0 +1,29 @@
+contains the data for the random rates analysis graph with Perturbator as perturbator.
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+random rate : 0.001 0.005 0.01 0.05 0.1 0.15 0.2 0.25 0.3 
+5 repetition
+20 string of 100 char
+Random char generated with 23 as seed
+2 perturbation points
+RandomRate Perturbator IndexLoc   #Success   #Failure   #Exception #Call      #Perturbation  %Success                   
+0.0        None        17         20         0          0          660        0              -------------------- 100,00
+0.001      NEGB        17         98         2          0          3277       2              -------------------- 98,00 
+0.005      NEGB        17         86         14         0          3091       14             ------------------ 86,00   
+0.01       NEGB        17         72         28         0          2893       28             --------------- 72,00      
+0.05       NEGB        17         23         77         0          1743       77             ----- 23,00                
+0.1        NEGB        17         4          96         0          830        96             - 4,00                     
+0.15       NEGB        17         1          99         0          607        99             - 1,00                     
+0.2        NEGB        17         0          100        0          437        100             0,00                      
+0.25       NEGB        17         0          100        0          390        100             0,00                      
+0.3        NEGB        17         0          100        0          330        100             0,00                      
+0.0        None        70         20         0          0          660        0              -------------------- 100,00
+0.001      NEGB        70         98         2          0          3277       2              -------------------- 98,00 
+0.005      NEGB        70         86         14         0          3091       14             ------------------ 86,00   
+0.01       NEGB        70         72         28         0          2893       28             --------------- 72,00      
+0.05       NEGB        70         23         77         0          1743       77             ----- 23,00                
+0.1        NEGB        70         4          96         0          830        96             - 4,00                     
+0.15       NEGB        70         1          99         0          607        99             - 1,00                     
+0.2        NEGB        70         0          100        0          437        100             0,00                      
+0.25       NEGB        70         0          100        0          390        100             0,00                      
+0.3        NEGB        70         0          100        0          330        100             0,00                      

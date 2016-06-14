@@ -1,0 +1,25 @@
+__L24 : ("MD5.java:34", 24, "Numerical");
+        paddingBytes[paddingBytes.length - (PerturbationEngine.pint(__L24, 8)) + i] = (byte)messageLenBits;
+
+ for +1 and +2 (9 and 10), 50% of success.
+
+ 8 + (5 or 10) = 13 , 18 -> +20% of success, but + (25+) drop it to 0%
+
+__L34 : ("MD5.java:42", "Numerical");
+        int[] buffer = new int[PerturbationEngine.pint(__L34, 16)];
+Size of the buffer doesn't impact the success of the algorithm.
+
+__L131 : ("MD5.java:78", 131, "Numerical");
+    int temp = b + Integer.rotateLeft(a + f + buffer[bufferIndex] + TABLE_T[j], SHIFT_AMTS[(div16 << 2) | (PerturbationEngine.pint(__L131, j) & 3)]);
+
+j & 3 <=> j & b11 so the 2 last bit are important.
+
+1   =       b1.
+5   =     b101.
+10  =    b1010.
+20  =   b10100.
+50  =  b110010.
+75  = b1001011.
+100 = b1100100.
+
+20 and 100 have 0 at the last 2 bits. Others, modify it and that's why they break oracle.

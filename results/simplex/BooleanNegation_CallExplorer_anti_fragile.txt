@@ -1,0 +1,2 @@
+List of ids antifragile points.
+27 53 63 67 92 119 

@@ -1,0 +1,793 @@
+Contains data to explore the number of task required for saturation
+Task Number Exploration (TNE)
+Number Task : 1 2 5 10 25 50 100 
+112 perturbation point
+N Execution Enactor
+PONE : Numerical Perturbator
+Each task is an arrays of 16
+Seed used for generate task is 23
+#Tasks     IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #CallRef   %Success                   
+1          0          1          0          0          1                  1,00               1              1,00                     1          1          -------------------- 100,00
+2          0          2          0          0          2                  1,00               2              1,00                     2          2          -------------------- 100,00
+5          0          5          0          0          5                  1,00               5              1,00                     5          5          -------------------- 100,00
+10         0          10         0          0          10                 1,00               10             1,00                     10         10         -------------------- 100,00
+25         0          25         0          0          25                 1,00               25             1,00                     25         25         -------------------- 100,00
+50         0          50         0          0          50                 1,00               50             1,00                     50         50         -------------------- 100,00
+100        0          100        0          0          100                1,00               100            1,00                     100        100        -------------------- 100,00
+1          1          1          0          0          1                  1,00               1              1,00                     1          1          -------------------- 100,00
+2          1          2          0          0          2                  1,00               2              1,00                     2          2          -------------------- 100,00
+5          1          5          0          0          5                  1,00               5              1,00                     5          5          -------------------- 100,00
+10         1          10         0          0          10                 1,00               10             1,00                     10         10         -------------------- 100,00
+25         1          25         0          0          25                 1,00               25             1,00                     25         25         -------------------- 100,00
+50         1          50         0          0          50                 1,00               50             1,00                     50         50         -------------------- 100,00
+100        1          100        0          0          100                1,00               100            1,00                     100        100        -------------------- 100,00
+1          2          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          2          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          2          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         2          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         2          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         2          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        2          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          3          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          3          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          3          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         3          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         3          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         3          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        3          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          4          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          4          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          4          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         4          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         4          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         4          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        4          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          5          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          5          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          5          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         5          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         5          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         5          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        5          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          6          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          6          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          6          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         6          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         6          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         6          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        6          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          7          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          7          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          7          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         7          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         7          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         7          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        7          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          8          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          8          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          8          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         8          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         8          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         8          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        8          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          9          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          9          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          9          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         9          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         9          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         9          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        9          0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          10         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          10         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          10         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         10         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         10         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         10         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        10         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          11         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          11         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          11         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         11         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         11         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         11         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        11         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          12         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          12         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          12         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         12         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         12         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         12         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        12         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          13         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          13         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          13         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         13         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         13         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         13         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        13         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          14         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          14         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          14         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         14         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         14         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         14         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        14         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          15         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          15         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          15         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         15         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         15         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         15         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        15         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          16         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          16         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          16         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         16         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         16         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         16         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        16         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          17         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          17         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          17         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         17         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         17         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         17         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        17         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          18         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          18         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          18         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         18         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         18         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         18         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        18         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          19         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          19         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          19         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         19         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         19         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         19         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        19         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          20         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          20         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          20         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         20         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         20         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         20         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        20         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          21         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          21         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          21         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         21         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         21         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         21         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        21         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          22         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          22         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          22         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         22         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         22         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         22         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        22         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          23         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          23         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          23         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         23         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         23         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         23         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        23         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          24         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          24         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          24         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         24         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         24         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         24         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        24         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          25         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          25         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          25         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         25         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         25         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         25         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        25         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          26         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          26         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          26         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         26         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         26         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         26         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        26         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          27         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          27         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          27         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         27         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         27         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         27         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        27         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          28         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          28         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          28         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         28         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         28         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         28         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        28         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          29         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+2          29         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+5          29         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+10         29         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+25         29         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+50         29         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+100        29         0          0          0          0                  NaN                0              NaN                      0          0          NaN                        
+1          30         0          0          1          1                  1,00               1              1,00                     1          1           0,00                      
+2          30         0          0          2          2                  1,00               2              1,00                     2          2           0,00                      
+5          30         0          0          5          5                  1,00               5              1,00                     5          5           0,00                      
+10         30         0          0          10         10                 1,00               10             1,00                     10         10          0,00                      
+25         30         0          0          25         25                 1,00               25             1,00                     25         25          0,00                      
+50         30         0          0          50         50                 1,00               50             1,00                     50         50          0,00                      
+100        30         0          0          100        100                1,00               100            1,00                     100        100         0,00                      
+1          31         0          0          1          1                  1,00               1              1,00                     1          1           0,00                      
+2          31         0          0          2          2                  1,00               2              1,00                     2          2           0,00                      
+5          31         0          0          5          5                  1,00               5              1,00                     5          5           0,00                      
+10         31         0          0          10         10                 1,00               10             1,00                     10         10          0,00                      
+25         31         0          0          25         25                 1,00               25             1,00                     25         25          0,00                      
+50         31         0          0          50         50                 1,00               50             1,00                     50         50          0,00                      
+100        31         0          0          100        100                1,00               100            1,00                     100        100         0,00                      
+1          32         0          0          1          1                  1,00               1              1,00                     1          1           0,00                      
+2          32         0          0          2          2                  1,00               2              1,00                     2          2           0,00                      
+5          32         0          0          5          5                  1,00               5              1,00                     5          5           0,00                      
+10         32         0          0          10         10                 1,00               10             1,00                     10         10          0,00                      
+25         32         0          0          25         25                 1,00               25             1,00                     25         25          0,00                      
+50         32         0          0          50         50                 1,00               50             1,00                     50         50          0,00                      
+100        32         0          0          100        100                1,00               100            1,00                     100        100         0,00                      
+1          33         1          0          0          1                  1,00               1              1,00                     1          1          -------------------- 100,00
+2          33         2          0          0          2                  1,00               2              1,00                     2          2          -------------------- 100,00
+5          33         5          0          0          5                  1,00               5              1,00                     5          5          -------------------- 100,00
+10         33         10         0          0          10                 1,00               10             1,00                     10         10         -------------------- 100,00
+25         33         25         0          0          25                 1,00               25             1,00                     25         25         -------------------- 100,00
+50         33         50         0          0          50                 1,00               50             1,00                     50         50         -------------------- 100,00
+100        33         100        0          0          100                1,00               100            1,00                     100        100        -------------------- 100,00
+1          35         0          0          1          1                  1,00               1              1,00                     1          1           0,00                      
+2          35         0          0          2          2                  1,00               2              1,00                     2          2           0,00                      
+5          35         0          0          5          5                  1,00               5              1,00                     5          5           0,00                      
+10         35         0          0          10         10                 1,00               10             1,00                     10         10          0,00                      
+25         35         0          0          25         25                 1,00               25             1,00                     25         25          0,00                      
+50         35         0          0          50         50                 1,00               50             1,00                     50         50          0,00                      
+100        35         0          0          100        100                1,00               100            1,00                     100        100         0,00                      
+1          36         0          0          1          1                  1,00               1              1,00                     1          1           0,00                      
+2          36         0          0          2          2                  1,00               2              1,00                     2          2           0,00                      
+5          36         0          0          5          5                  1,00               5              1,00                     5          5           0,00                      
+10         36         0          0          10         10                 1,00               10             1,00                     10         10          0,00                      
+25         36         0          0          25         25                 1,00               25             1,00                     25         25          0,00                      
+50         36         0          0          50         50                 1,00               50             1,00                     50         50          0,00                      
+100        36         0          0          100        100                1,00               100            1,00                     100        100         0,00                      
+1          37         0          0          1          1                  1,00               1              1,00                     1          1           0,00                      
+2          37         0          0          2          2                  1,00               2              1,00                     2          2           0,00                      
+5          37         0          0          5          5                  1,00               5              1,00                     5          5           0,00                      
+10         37         0          0          10         10                 1,00               10             1,00                     10         10          0,00                      
+25         37         0          0          25         25                 1,00               25             1,00                     25         25          0,00                      
+50         37         0          0          50         50                 1,00               50             1,00                     50         50          0,00                      
+100        37         0          0          100        100                1,00               100            1,00                     100        100         0,00                      
+1          38         1          0          0          1                  1,00               1              1,00                     1          1          -------------------- 100,00
+2          38         2          0          0          2                  1,00               2              1,00                     2          2          -------------------- 100,00
+5          38         5          0          0          5                  1,00               5              1,00                     5          5          -------------------- 100,00
+10         38         10         0          0          10                 1,00               10             1,00                     10         10         -------------------- 100,00
+25         38         25         0          0          25                 1,00               25             1,00                     25         25         -------------------- 100,00
+50         38         50         0          0          50                 1,00               50             1,00                     50         50         -------------------- 100,00
+100        38         100        0          0          100                1,00               100            1,00                     100        100        -------------------- 100,00
+1          40         0          1          0          1                  1,00               1              1,00                     1          1           0,00                      
+2          40         0          2          0          2                  1,00               2              1,00                     2          2           0,00                      
+5          40         0          5          0          5                  1,00               5              1,00                     5          5           0,00                      
+10         40         0          10         0          10                 1,00               10             1,00                     10         10          0,00                      
+25         40         0          25         0          25                 1,00               25             1,00                     25         25          0,00                      
+50         40         0          50         0          50                 1,00               50             1,00                     50         50          0,00                      
+100        40         0          100        0          100                1,00               100            1,00                     100        100         0,00                      
+1          41         8          1          0          80                 8,89               9              1,00                     9          9          ------------------ 88,89   
+2          41         16         2          0          160                8,89               18             1,00                     18         18         ------------------ 88,89   
+5          41         40         5          0          400                8,89               45             1,00                     45         45         ------------------ 88,89   
+10         41         80         10         0          800                8,89               90             1,00                     90         90         ------------------ 88,89   
+25         41         200        25         0          2000               8,89               225            1,00                     225        225        ------------------ 88,89   
+50         41         400        50         0          4000               8,89               450            1,00                     450        450        ------------------ 88,89   
+100        41         800        100        0          8000               8,89               900            1,00                     900        900        ------------------ 88,89   
+1          42         8          0          1          81                 9,00               9              1,00                     9          9          ------------------ 88,89   
+2          42         16         0          2          162                9,00               18             1,00                     18         18         ------------------ 88,89   
+5          42         40         0          5          405                9,00               45             1,00                     45         45         ------------------ 88,89   
+10         42         80         0          10         810                9,00               90             1,00                     90         90         ------------------ 88,89   
+25         42         200        0          25         2025               9,00               225            1,00                     225        225        ------------------ 88,89   
+50         42         400        0          50         4050               9,00               450            1,00                     450        450        ------------------ 88,89   
+100        42         800        0          100        8100               9,00               900            1,00                     900        900        ------------------ 88,89   
+1          44         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          44         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          44         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         44         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         44         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         44         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        44         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          45         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          45         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          45         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         45         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         45         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         45         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        45         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          46         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          46         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          46         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         46         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         46         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         46         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        46         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          47         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          47         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          47         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         47         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         47         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         47         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        47         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          48         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          48         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          48         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         48         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         48         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         48         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        48         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          49         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          49         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          49         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         49         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         49         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         49         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        49         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          50         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          50         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          50         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         50         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         50         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         50         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        50         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          51         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          51         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          51         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         51         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         51         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         51         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        51         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          52         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          52         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          52         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         52         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         52         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         52         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        52         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          53         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          53         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          53         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         53         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         53         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         53         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        53         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          54         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          54         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          54         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         54         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         54         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         54         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        54         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          55         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          55         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          55         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         55         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         55         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         55         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        55         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          56         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          56         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          56         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         56         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         56         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         56         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        56         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          57         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          57         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          57         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         57         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         57         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         57         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        57         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          58         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          58         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          58         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         58         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         58         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         58         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        58         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          59         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          59         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          59         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         59         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         59         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         59         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        59         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          60         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          60         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          60         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         60         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         60         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         60         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        60         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          61         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          61         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          61         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         61         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         61         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         61         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        61         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          62         0          7          1          64                 8,00               8              1,00                     8          8           0,00                      
+2          62         0          14         2          128                8,00               16             1,00                     16         16          0,00                      
+5          62         0          35         5          320                8,00               40             1,00                     40         40          0,00                      
+10         62         1          69         10         640                8,00               80             1,00                     80         80         - 1,25                     
+25         62         1          174        25         1600               8,00               200            1,00                     200        200        - 0,50                     
+50         62         1          349        50         3200               8,00               400            1,00                     400        400        - 0,25                     
+100        62         2          698        100        6400               8,00               800            1,00                     800        800        - 0,25                     
+1          63         0          7          1          64                 8,00               8              1,00                     8          8           0,00                      
+2          63         0          14         2          128                8,00               16             1,00                     16         16          0,00                      
+5          63         0          35         5          320                8,00               40             1,00                     40         40          0,00                      
+10         63         1          69         10         640                8,00               80             1,00                     80         80         - 1,25                     
+25         63         1          174        25         1600               8,00               200            1,00                     200        200        - 0,50                     
+50         63         1          349        50         3200               8,00               400            1,00                     400        400        - 0,25                     
+100        63         2          698        100        6400               8,00               800            1,00                     800        800        - 0,25                     
+1          64         0          7          1          64                 8,00               8              1,00                     8          8           0,00                      
+2          64         0          14         2          128                8,00               16             1,00                     16         16          0,00                      
+5          64         0          35         5          320                8,00               40             1,00                     40         40          0,00                      
+10         64         1          69         10         640                8,00               80             1,00                     80         80         - 1,25                     
+25         64         1          174        25         1600               8,00               200            1,00                     200        200        - 0,50                     
+50         64         1          349        50         3200               8,00               400            1,00                     400        400        - 0,25                     
+100        64         2          698        100        6400               8,00               800            1,00                     800        800        - 0,25                     
+1          65         0          7          1          64                 8,00               8              1,00                     8          8           0,00                      
+2          65         0          14         2          128                8,00               16             1,00                     16         16          0,00                      
+5          65         0          35         5          320                8,00               40             1,00                     40         40          0,00                      
+10         65         0          70         10         640                8,00               80             1,00                     80         80          0,00                      
+25         65         0          175        25         1600               8,00               200            1,00                     200        200         0,00                      
+50         65         1          349        50         3200               8,00               400            1,00                     400        400        - 0,25                     
+100        65         3          697        100        6400               8,00               800            1,00                     800        800        - 0,38                     
+1          66         0          7          1          64                 8,00               8              1,00                     8          8           0,00                      
+2          66         0          14         2          128                8,00               16             1,00                     16         16          0,00                      
+5          66         0          35         5          320                8,00               40             1,00                     40         40          0,00                      
+10         66         0          70         10         640                8,00               80             1,00                     80         80          0,00                      
+25         66         0          175        25         1600               8,00               200            1,00                     200        200         0,00                      
+50         66         1          349        50         3200               8,00               400            1,00                     400        400        - 0,25                     
+100        66         3          697        100        6400               8,00               800            1,00                     800        800        - 0,38                     
+1          67         0          7          1          64                 8,00               8              1,00                     8          8           0,00                      
+2          67         0          14         2          128                8,00               16             1,00                     16         16          0,00                      
+5          67         0          35         5          320                8,00               40             1,00                     40         40          0,00                      
+10         67         0          70         10         640                8,00               80             1,00                     80         80          0,00                      
+25         67         0          175        25         1600               8,00               200            1,00                     200        200         0,00                      
+50         67         1          349        50         3200               8,00               400            1,00                     400        400        - 0,25                     
+100        67         3          697        100        6400               8,00               800            1,00                     800        800        - 0,38                     
+1          68         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          68         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          68         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         68         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         68         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         68         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        68         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          69         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          69         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          69         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         69         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         69         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         69         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        69         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          70         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          70         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          70         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         70         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         70         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         70         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        70         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          71         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          71         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          71         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         71         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         71         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         71         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        71         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          72         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          72         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          72         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         72         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         72         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         72         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        72         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          73         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          73         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          73         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         73         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         73         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         73         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        73         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          74         0          5          3          57                 7,13               8              1,00                     8          8           0,00                      
+2          74         0          10         6          114                7,13               16             1,00                     16         16          0,00                      
+5          74         0          25         15         285                7,13               40             1,00                     40         40          0,00                      
+10         74         0          50         30         570                7,13               80             1,00                     80         80          0,00                      
+25         74         0          125        75         1425               7,13               200            1,00                     200        200         0,00                      
+50         74         0          250        150        2850               7,13               400            1,00                     400        400         0,00                      
+100        74         0          500        300        5700               7,13               800            1,00                     800        800         0,00                      
+1          75         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          75         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          75         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         75         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         75         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         75         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        75         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          76         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          76         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          76         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         76         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         76         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         76         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        76         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          77         0          8          0          64                 8,00               8              1,00                     8          8           0,00                      
+2          77         0          16         0          128                8,00               16             1,00                     16         16          0,00                      
+5          77         0          40         0          320                8,00               40             1,00                     40         40          0,00                      
+10         77         0          80         0          640                8,00               80             1,00                     80         80          0,00                      
+25         77         0          200        0          1600               8,00               200            1,00                     200        200         0,00                      
+50         77         0          400        0          3200               8,00               400            1,00                     400        400         0,00                      
+100        77         0          800        0          6400               8,00               800            1,00                     800        800         0,00                      
+1          78         1          0          0          1                  1,00               1              1,00                     1          1          -------------------- 100,00
+2          78         2          0          0          2                  1,00               2              1,00                     2          2          -------------------- 100,00
+5          78         5          0          0          5                  1,00               5              1,00                     5          5          -------------------- 100,00
+10         78         10         0          0          10                 1,00               10             1,00                     10         10         -------------------- 100,00
+25         78         25         0          0          25                 1,00               25             1,00                     25         25         -------------------- 100,00
+50         78         50         0          0          50                 1,00               50             1,00                     50         50         -------------------- 100,00
+100        78         100        0          0          100                1,00               100            1,00                     100        100        -------------------- 100,00
+1          80         0          1          0          1                  1,00               1              1,00                     1          1           0,00                      
+2          80         0          2          0          2                  1,00               2              1,00                     2          2           0,00                      
+5          80         0          5          0          5                  1,00               5              1,00                     5          5           0,00                      
+10         80         0          10         0          10                 1,00               10             1,00                     10         10          0,00                      
+25         80         0          25         0          25                 1,00               25             1,00                     25         25          0,00                      
+50         80         0          50         0          50                 1,00               50             1,00                     50         50          0,00                      
+100        80         0          100        0          100                1,00               100            1,00                     100        100         0,00                      
+1          81         0          1          0          1                  1,00               1              1,00                     1          1           0,00                      
+2          81         0          2          0          2                  1,00               2              1,00                     2          2           0,00                      
+5          81         0          5          0          5                  1,00               5              1,00                     5          5           0,00                      
+10         81         0          10         0          10                 1,00               10             1,00                     10         10          0,00                      
+25         81         0          25         0          25                 1,00               25             1,00                     25         25          0,00                      
+50         81         0          50         0          50                 1,00               50             1,00                     50         50          0,00                      
+100        81         0          100        0          100                1,00               100            1,00                     100        100         0,00                      
+1          83         1          0          0          1                  1,00               1              1,00                     1          1          -------------------- 100,00
+2          83         2          0          0          2                  1,00               2              1,00                     2          2          -------------------- 100,00
+5          83         5          0          0          5                  1,00               5              1,00                     5          5          -------------------- 100,00
+10         83         10         0          0          10                 1,00               10             1,00                     10         10         -------------------- 100,00
+25         83         25         0          0          25                 1,00               25             1,00                     25         25         -------------------- 100,00
+50         83         50         0          0          50                 1,00               50             1,00                     50         50         -------------------- 100,00
+100        83         100        0          0          100                1,00               100            1,00                     100        100        -------------------- 100,00
+1          84         1          0          0          1                  1,00               1              1,00                     1          1          -------------------- 100,00
+2          84         2          0          0          2                  1,00               2              1,00                     2          2          -------------------- 100,00
+5          84         5          0          0          5                  1,00               5              1,00                     5          5          -------------------- 100,00
+10         84         10         0          0          10                 1,00               10             1,00                     10         10         -------------------- 100,00
+25         84         25         0          0          25                 1,00               25             1,00                     25         25         -------------------- 100,00
+50         84         50         0          0          50                 1,00               50             1,00                     50         50         -------------------- 100,00
+100        84         100        0          0          100                1,00               100            1,00                     100        100        -------------------- 100,00
+1          85         257        0          0          66048              257,00             257            1,00                     257        257        -------------------- 100,00
+2          85         514        0          0          132096             257,00             514            1,00                     514        514        -------------------- 100,00
+5          85         1285       0          0          330240             257,00             1285           1,00                     1285       1285       -------------------- 100,00
+10         85         2570       0          0          660480             257,00             2570           1,00                     2570       2570       -------------------- 100,00
+25         85         6425       0          0          1651200            257,00             6425           1,00                     6425       6425       -------------------- 100,00
+50         85         12850      0          0          3302400            257,00             12850          1,00                     12850      12850      -------------------- 100,00
+100        85         25700      0          0          6604800            257,00             25700          1,00                     25700      25700      -------------------- 100,00
+1          86         256        0          1          66049              257,00             257            1,00                     257        257        -------------------- 99,61 
+2          86         512        0          2          132098             257,00             514            1,00                     514        514        -------------------- 99,61 
+5          86         1280       0          5          330245             257,00             1285           1,00                     1285       1285       -------------------- 99,61 
+10         86         2560       0          10         660490             257,00             2570           1,00                     2570       2570       -------------------- 99,61 
+25         86         6400       0          25         1651225            257,00             6425           1,00                     6425       6425       -------------------- 99,61 
+50         86         12800      0          50         3302450            257,00             12850          1,00                     12850      12850      -------------------- 99,61 
+100        86         25600      0          100        6604900            257,00             25700          1,00                     25700      25700      -------------------- 99,61 
+1          88         92         163        1          65536              256,00             256            1,00                     256        256        -------- 35,94             
+2          88         184        326        2          131072             256,00             512            1,00                     512        512        -------- 35,94             
+5          88         460        815        5          327680             256,00             1280           1,00                     1280       1280       -------- 35,94             
+10         88         920        1630       10         655360             256,00             2560           1,00                     2560       2560       -------- 35,94             
+25         88         2300       4075       25         1638400            256,00             6400           1,00                     6400       6400       -------- 35,94             
+50         88         4600       8150       50         3276800            256,00             12800          1,00                     12800      12800      -------- 35,94             
+100        88         9200       16300      100        6553600            256,00             25600          1,00                     25600      25600      -------- 35,94             
+1          89         92         164        0          65536              256,00             256            1,00                     256        256        -------- 35,94             
+2          89         184        328        0          131072             256,00             512            1,00                     512        512        -------- 35,94             
+5          89         460        820        0          327680             256,00             1280           1,00                     1280       1280       -------- 35,94             
+10         89         920        1640       0          655360             256,00             2560           1,00                     2560       2560       -------- 35,94             
+25         89         2300       4100       0          1638400            256,00             6400           1,00                     6400       6400       -------- 35,94             
+50         89         4600       8200       0          3276800            256,00             12800          1,00                     12800      12800      -------- 35,94             
+100        89         9200       16400      0          6553600            256,00             25600          1,00                     25600      25600      -------- 35,94             
+1          90         0          1          0          1                  1,00               1              1,00                     1          1           0,00                      
+2          90         0          2          0          2                  1,00               2              1,00                     2          2           0,00                      
+5          90         0          5          0          5                  1,00               5              1,00                     5          5           0,00                      
+10         90         0          10         0          10                 1,00               10             1,00                     10         10          0,00                      
+25         90         0          25         0          25                 1,00               25             1,00                     25         25          0,00                      
+50         90         0          50         0          50                 1,00               50             1,00                     50         50          0,00                      
+100        90         0          100        0          100                1,00               100            1,00                     100        100         0,00                      
+1          91         0          1          0          1                  1,00               1              1,00                     1          1           0,00                      
+2          91         0          2          0          2                  1,00               2              1,00                     2          2           0,00                      
+5          91         0          5          0          5                  1,00               5              1,00                     5          5           0,00                      
+10         91         0          10         0          10                 1,00               10             1,00                     10         10          0,00                      
+25         91         0          25         0          25                 1,00               25             1,00                     25         25          0,00                      
+50         91         0          50         0          50                 1,00               50             1,00                     50         50          0,00                      
+100        91         0          100        0          100                1,00               100            1,00                     100        100         0,00                      
+1          92         0          1          0          1                  1,00               1              1,00                     1          1           0,00                      
+2          92         0          2          0          2                  1,00               2              1,00                     2          2           0,00                      
+5          92         0          5          0          5                  1,00               5              1,00                     5          5           0,00                      
+10         92         0          10         0          10                 1,00               10             1,00                     10         10          0,00                      
+25         92         0          25         0          25                 1,00               25             1,00                     25         25          0,00                      
+50         92         0          50         0          50                 1,00               50             1,00                     50         50          0,00                      
+100        92         0          100        0          100                1,00               100            1,00                     100        100         0,00                      
+1          93         257        0          0          66048              257,00             257            1,00                     257        257        -------------------- 100,00
+2          93         514        0          0          132096             257,00             514            1,00                     514        514        -------------------- 100,00
+5          93         1285       0          0          330240             257,00             1285           1,00                     1285       1285       -------------------- 100,00
+10         93         2570       0          0          660480             257,00             2570           1,00                     2570       2570       -------------------- 100,00
+25         93         6425       0          0          1651200            257,00             6425           1,00                     6425       6425       -------------------- 100,00
+50         93         12850      0          0          3302400            257,00             12850          1,00                     12850      12850      -------------------- 100,00
+100        93         25700      0          0          6604800            257,00             25700          1,00                     25700      25700      -------------------- 100,00
+1          94         256        0          1          66049              257,00             257            1,00                     257        257        -------------------- 99,61 
+2          94         512        0          2          132098             257,00             514            1,00                     514        514        -------------------- 99,61 
+5          94         1280       0          5          330245             257,00             1285           1,00                     1285       1285       -------------------- 99,61 
+10         94         2560       0          10         660490             257,00             2570           1,00                     2570       2570       -------------------- 99,61 
+25         94         6400       0          25         1651225            257,00             6425           1,00                     6425       6425       -------------------- 99,61 
+50         94         12800      0          50         3302450            257,00             12850          1,00                     12850      12850      -------------------- 99,61 
+100        94         25600      0          100        6604900            257,00             25700          1,00                     25700      25700      -------------------- 99,61 
+1          96         9          215        32         61568              240,50             256            1,00                     256        256        - 3,52                     
+2          96         18         430        64         123136             240,50             512            1,00                     512        512        - 3,52                     
+5          96         45         1075       160        307840             240,50             1280           1,00                     1280       1280       - 3,52                     
+10         96         90         2150       320        615680             240,50             2560           1,00                     2560       2560       - 3,52                     
+25         96         225        5375       800        1539200            240,50             6400           1,00                     6400       6400       - 3,52                     
+50         96         450        10750      1600       3078400            240,50             12800          1,00                     12800      12800      - 3,52                     
+100        96         900        21500      3200       6156800            240,50             25600          1,00                     25600      25600      - 3,52                     
+1          97         6          250        0          65536              256,00             256            1,00                     256        256        - 2,34                     
+2          97         12         500        0          131072             256,00             512            1,00                     512        512        - 2,34                     
+5          97         30         1250       0          327680             256,00             1280           1,00                     1280       1280       - 2,34                     
+10         97         60         2500       0          655360             256,00             2560           1,00                     2560       2560       - 2,34                     
+25         97         150        6250       0          1638400            256,00             6400           1,00                     6400       6400       - 2,34                     
+50         97         300        12500      0          3276800            256,00             12800          1,00                     12800      12800      - 2,34                     
+100        97         600        25000      0          6553600            256,00             25600          1,00                     25600      25600      - 2,34                     
+1          98         12         244        0          65536              256,00             256            1,00                     256        256        - 4,69                     
+2          98         24         488        0          131072             256,00             512            1,00                     512        512        - 4,69                     
+5          98         60         1220       0          327680             256,00             1280           1,00                     1280       1280       - 4,69                     
+10         98         120        2440       0          655360             256,00             2560           1,00                     2560       2560       - 4,69                     
+25         98         300        6100       0          1638400            256,00             6400           1,00                     6400       6400       - 4,69                     
+50         98         600        12200      0          3276800            256,00             12800          1,00                     12800      12800      - 4,69                     
+100        98         1200       24400      0          6553600            256,00             25600          1,00                     25600      25600      - 4,69                     
+1          99         6          250        0          65536              256,00             256            1,00                     256        256        - 2,34                     
+2          99         12         500        0          131072             256,00             512            1,00                     512        512        - 2,34                     
+5          99         30         1250       0          327680             256,00             1280           1,00                     1280       1280       - 2,34                     
+10         99         60         2500       0          655360             256,00             2560           1,00                     2560       2560       - 2,34                     
+25         99         150        6250       0          1638400            256,00             6400           1,00                     6400       6400       - 2,34                     
+50         99         300        12500      0          3276800            256,00             12800          1,00                     12800      12800      - 2,34                     
+100        99         600        25000      0          6553600            256,00             25600          1,00                     25600      25600      - 2,34                     
+1          100        5          250        1          65536              256,00             256            1,00                     256        256        - 1,95                     
+2          100        10         500        2          131072             256,00             512            1,00                     512        512        - 1,95                     
+5          100        25         1250       5          327680             256,00             1280           1,00                     1280       1280       - 1,95                     
+10         100        50         2500       10         655360             256,00             2560           1,00                     2560       2560       - 1,95                     
+25         100        125        6250       25         1638400            256,00             6400           1,00                     6400       6400       - 1,95                     
+50         100        250        12500      50         3276800            256,00             12800          1,00                     12800      12800      - 1,95                     
+100        100        500        25000      100        6553600            256,00             25600          1,00                     25600      25600      - 1,95                     
+1          101        6          250        0          65536              256,00             256            1,00                     256        256        - 2,34                     
+2          101        12         500        0          131072             256,00             512            1,00                     512        512        - 2,34                     
+5          101        30         1250       0          327680             256,00             1280           1,00                     1280       1280       - 2,34                     
+10         101        60         2500       0          655360             256,00             2560           1,00                     2560       2560       - 2,34                     
+25         101        150        6250       0          1638400            256,00             6400           1,00                     6400       6400       - 2,34                     
+50         101        300        12500      0          3276800            256,00             12800          1,00                     12800      12800      - 2,34                     
+100        101        600        25000      0          6553600            256,00             25600          1,00                     25600      25600      - 2,34                     
+1          102        6          250        0          65536              256,00             256            1,00                     256        256        - 2,34                     
+2          102        12         500        0          131072             256,00             512            1,00                     512        512        - 2,34                     
+5          102        30         1250       0          327680             256,00             1280           1,00                     1280       1280       - 2,34                     
+10         102        60         2500       0          655360             256,00             2560           1,00                     2560       2560       - 2,34                     
+25         102        150        6250       0          1638400            256,00             6400           1,00                     6400       6400       - 2,34                     
+50         102        300        12500      0          3276800            256,00             12800          1,00                     12800      12800      - 2,34                     
+100        102        600        25000      0          6553600            256,00             25600          1,00                     25600      25600      - 2,34                     
+1          103        6          250        0          65536              256,00             256            1,00                     256        256        - 2,34                     
+2          103        12         500        0          131072             256,00             512            1,00                     512        512        - 2,34                     
+5          103        30         1250       0          327680             256,00             1280           1,00                     1280       1280       - 2,34                     
+10         103        60         2500       0          655360             256,00             2560           1,00                     2560       2560       - 2,34                     
+25         103        150        6250       0          1638400            256,00             6400           1,00                     6400       6400       - 2,34                     
+50         103        300        12500      0          3276800            256,00             12800          1,00                     12800      12800      - 2,34                     
+100        103        600        25000      0          6553600            256,00             25600          1,00                     25600      25600      - 2,34                     
+1          104        6          250        0          65536              256,00             256            1,00                     256        256        - 2,34                     
+2          104        12         500        0          131072             256,00             512            1,00                     512        512        - 2,34                     
+5          104        30         1250       0          327680             256,00             1280           1,00                     1280       1280       - 2,34                     
+10         104        60         2500       0          655360             256,00             2560           1,00                     2560       2560       - 2,34                     
+25         104        150        6250       0          1638400            256,00             6400           1,00                     6400       6400       - 2,34                     
+50         104        300        12500      0          3276800            256,00             12800          1,00                     12800      12800      - 2,34                     
+100        104        600        25000      0          6553600            256,00             25600          1,00                     25600      25600      - 2,34                     
+1          105        5          114        137        47500              185,55             256            1,00                     256        256        - 1,95                     
+2          105        10         228        274        95000              185,55             512            1,00                     512        512        - 1,95                     
+5          105        25         570        685        237500             185,55             1280           1,00                     1280       1280       - 1,95                     
+10         105        50         1140       1370       475000             185,55             2560           1,00                     2560       2560       - 1,95                     
+25         105        125        2850       3425       1187500            185,55             6400           1,00                     6400       6400       - 1,95                     
+50         105        250        5700       6850       2375000            185,55             12800          1,00                     12800      12800      - 1,95                     
+100        105        500        11400      13700      4750000            185,55             25600          1,00                     25600      25600      - 1,95                     
+1          106        6          249        1          65520              255,94             256            1,00                     256        256        - 2,34                     
+2          106        12         498        2          131040             255,94             512            1,00                     512        512        - 2,34                     
+5          106        30         1245       5          327600             255,94             1280           1,00                     1280       1280       - 2,34                     
+10         106        60         2490       10         655200             255,94             2560           1,00                     2560       2560       - 2,34                     
+25         106        150        6225       25         1638000            255,94             6400           1,00                     6400       6400       - 2,34                     
+50         106        300        12450      50         3276000            255,94             12800          1,00                     12800      12800      - 2,34                     
+100        106        600        24900      100        6552000            255,94             25600          1,00                     25600      25600      - 2,34                     
+1          107        147        108        1          65536              256,00             256            1,00                     256        256        ------------ 57,42         
+2          107        294        216        2          131072             256,00             512            1,00                     512        512        ------------ 57,42         
+5          107        735        540        5          327680             256,00             1280           1,00                     1280       1280       ------------ 57,42         
+10         107        1470       1080       10         655360             256,00             2560           1,00                     2560       2560       ------------ 57,42         
+25         107        3675       2700       25         1638400            256,00             6400           1,00                     6400       6400       ------------ 57,42         
+50         107        7350       5400       50         3276800            256,00             12800          1,00                     12800      12800      ------------ 57,42         
+100        107        14700      10800      100        6553600            256,00             25600          1,00                     25600      25600      ------------ 57,42         
+1          108        148        108        0          65536              256,00             256            1,00                     256        256        ------------ 57,81         
+2          108        296        216        0          131072             256,00             512            1,00                     512        512        ------------ 57,81         
+5          108        740        540        0          327680             256,00             1280           1,00                     1280       1280       ------------ 57,81         
+10         108        1480       1080       0          655360             256,00             2560           1,00                     2560       2560       ------------ 57,81         
+25         108        3700       2700       0          1638400            256,00             6400           1,00                     6400       6400       ------------ 57,81         
+50         108        7400       5400       0          3276800            256,00             12800          1,00                     12800      12800      ------------ 57,81         
+100        108        14800      10800      0          6553600            256,00             25600          1,00                     25600      25600      ------------ 57,81         
+1          109        12         243        1          65536              256,00             256            1,00                     256        256        - 4,69                     
+2          109        24         486        2          131072             256,00             512            1,00                     512        512        - 4,69                     
+5          109        60         1215       5          327680             256,00             1280           1,00                     1280       1280       - 4,69                     
+10         109        120        2430       10         655360             256,00             2560           1,00                     2560       2560       - 4,69                     
+25         109        300        6075       25         1638400            256,00             6400           1,00                     6400       6400       - 4,69                     
+50         109        600        12150      50         3276800            256,00             12800          1,00                     12800      12800      - 4,69                     
+100        109        1200       24300      100        6553600            256,00             25600          1,00                     25600      25600      - 4,69                     
+1          110        236        19         1          65520              255,94             256            1,00                     256        256        ------------------- 92,19  
+2          110        472        38         2          131040             255,94             512            1,00                     512        512        ------------------- 92,19  
+5          110        1180       95         5          327600             255,94             1280           1,00                     1280       1280       ------------------- 92,19  
+10         110        2360       190        10         655200             255,94             2560           1,00                     2560       2560       ------------------- 92,19  
+25         110        5900       475        25         1638000            255,94             6400           1,00                     6400       6400       ------------------- 92,19  
+50         110        11800      950        50         3276000            255,94             12800          1,00                     12800      12800      ------------------- 92,19  
+100        110        23600      1900       100        6552000            255,94             25600          1,00                     25600      25600      ------------------- 92,19  
+1          111        237        19         0          65536              256,00             256            1,00                     256        256        ------------------- 92,58  
+2          111        474        38         0          131072             256,00             512            1,00                     512        512        ------------------- 92,58  
+5          111        1185       95         0          327680             256,00             1280           1,00                     1280       1280       ------------------- 92,58  
+10         111        2370       190        0          655360             256,00             2560           1,00                     2560       2560       ------------------- 92,58  
+25         111        5925       475        0          1638400            256,00             6400           1,00                     6400       6400       ------------------- 92,58  
+50         111        11850      950        0          3276800            256,00             12800          1,00                     12800      12800      ------------------- 92,58  
+100        111        23700      1900       0          6553600            256,00             25600          1,00                     25600      25600      ------------------- 92,58  
+1          112        124        131        1          65520              255,94             256            1,00                     256        256        ---------- 48,44           
+2          112        248        262        2          131040             255,94             512            1,00                     512        512        ---------- 48,44           
+5          112        620        655        5          327600             255,94             1280           1,00                     1280       1280       ---------- 48,44           
+10         112        1240       1310       10         655200             255,94             2560           1,00                     2560       2560       ---------- 48,44           
+25         112        3100       3275       25         1638000            255,94             6400           1,00                     6400       6400       ---------- 48,44           
+50         112        6200       6550       50         3276000            255,94             12800          1,00                     12800      12800      ---------- 48,44           
+100        112        12400      13100      100        6552000            255,94             25600          1,00                     25600      25600      ---------- 48,44           
+1          113        148        108        0          65536              256,00             256            1,00                     256        256        ------------ 57,81         
+2          113        296        216        0          131072             256,00             512            1,00                     512        512        ------------ 57,81         
+5          113        740        540        0          327680             256,00             1280           1,00                     1280       1280       ------------ 57,81         
+10         113        1480       1080       0          655360             256,00             2560           1,00                     2560       2560       ------------ 57,81         
+25         113        3700       2700       0          1638400            256,00             6400           1,00                     6400       6400       ------------ 57,81         
+50         113        7400       5400       0          3276800            256,00             12800          1,00                     12800      12800      ------------ 57,81         
+100        113        14800      10800      0          6553600            256,00             25600          1,00                     25600      25600      ------------ 57,81         
+1          114        10         246        0          65536              256,00             256            1,00                     256        256        - 3,91                     
+2          114        20         492        0          131072             256,00             512            1,00                     512        512        - 3,91                     
+5          114        50         1230       0          327680             256,00             1280           1,00                     1280       1280       - 3,91                     
+10         114        100        2460       0          655360             256,00             2560           1,00                     2560       2560       - 3,91                     
+25         114        250        6150       0          1638400            256,00             6400           1,00                     6400       6400       - 3,91                     
+50         114        500        12300      0          3276800            256,00             12800          1,00                     12800      12800      - 3,91                     
+100        114        1000       24600      0          6553600            256,00             25600          1,00                     25600      25600      - 3,91                     
+1          115        10         246        0          65536              256,00             256            1,00                     256        256        - 3,91                     
+2          115        20         492        0          131072             256,00             512            1,00                     512        512        - 3,91                     
+5          115        50         1230       0          327680             256,00             1280           1,00                     1280       1280       - 3,91                     
+10         115        100        2460       0          655360             256,00             2560           1,00                     2560       2560       - 3,91                     
+25         115        250        6150       0          1638400            256,00             6400           1,00                     6400       6400       - 3,91                     
+50         115        500        12300      0          3276800            256,00             12800          1,00                     12800      12800      - 3,91                     
+100        115        1000       24600      0          6553600            256,00             25600          1,00                     25600      25600      - 3,91                     
+1          116        10         246        0          65536              256,00             256            1,00                     256        256        - 3,91                     
+2          116        20         492        0          131072             256,00             512            1,00                     512        512        - 3,91                     
+5          116        50         1230       0          327680             256,00             1280           1,00                     1280       1280       - 3,91                     
+10         116        100        2460       0          655360             256,00             2560           1,00                     2560       2560       - 3,91                     
+25         116        250        6150       0          1638400            256,00             6400           1,00                     6400       6400       - 3,91                     
+50         116        500        12300      0          3276800            256,00             12800          1,00                     12800      12800      - 3,91                     
+100        116        1000       24600      0          6553600            256,00             25600          1,00                     25600      25600      - 3,91                     
+1          117        225        0          31         61568              240,50             256            1,00                     256        256        ------------------ 87,89   
+2          117        450        0          62         123136             240,50             512            1,00                     512        512        ------------------ 87,89   
+5          117        1125       0          155        307840             240,50             1280           1,00                     1280       1280       ------------------ 87,89   
+10         117        2250       0          310        615680             240,50             2560           1,00                     2560       2560       ------------------ 87,89   
+25         117        5625       0          775        1539200            240,50             6400           1,00                     6400       6400       ------------------ 87,89   
+50         117        11250      0          1550       3078400            240,50             12800          1,00                     12800      12800      ------------------ 87,89   
+100        117        22500      0          3100       6156800            240,50             25600          1,00                     25600      25600      ------------------ 87,89   
+1          118        8          216        32         61536              240,38             256            1,00                     256        256        - 3,13                     
+2          118        16         432        64         123072             240,38             512            1,00                     512        512        - 3,13                     
+5          118        40         1080       160        307680             240,38             1280           1,00                     1280       1280       - 3,13                     
+10         118        80         2160       320        615360             240,38             2560           1,00                     2560       2560       - 3,13                     
+25         118        200        5400       800        1538400            240,38             6400           1,00                     6400       6400       - 3,13                     
+50         118        400        10800      1600       3076800            240,38             12800          1,00                     12800      12800      - 3,13                     
+100        118        800        21600      3200       6153600            240,38             25600          1,00                     25600      25600      - 3,13                     

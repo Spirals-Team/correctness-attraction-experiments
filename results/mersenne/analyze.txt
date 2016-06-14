@@ -1,0 +1,15 @@
+__L9 : ("MersenneTwister.java:125", 9, "Numerical");
+    if (((PerturbationEngine.pint(__L9, mti)) == N+1)   /* if init_genrand() has not been called, */
+        initGenRand(5489); /* a default initial seed is used */
+
+This condition is used if we didn't call initGenRand() before, or we do not used the construction with long parameter.
+In our case study, this constructor is used, and the long parameter (seed) is the input.
+
+The fields mti is equals N when we used this constructor, and when the perturbation is +1, mti +1 == N + 1.
+So MT is reinitialized with a default seed : 5489 instead of our input.
+
+
+__L41 : ("MersenneTwister.java:130", 41, "Numerical");
+    mt[kk] = mt[kk+M] ^ (y >> 1) ^ mag01[PerturbationEngine.pint(__L41, y) & 0x1];
+
+because of the mask 0x1, we can use a lot of different value, but the last bit of the value must be correct.

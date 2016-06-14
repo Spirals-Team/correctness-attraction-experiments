@@ -1,0 +1,13 @@
+contains the data for build a graph for analysis.
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+2 random tx between 3 bitcoin nodes
+Random integer generated with 23 as seed
+6 perturbations points
+Perturbator IndexLoc   #Perturbations #Success   #Failure   #Exception #Call          %Success                   
+NEGB        13802      1684           650        448        534        2765066        -------- 39,83             
+NEGB        7209       2968           3772       33         0          10234714       -------------------- 99,13 
+NEGB        1689       3000           3997       24         0          8030250        -------------------- 99,40 
+NEGB        5140       720            724        2          0          384083         -------------------- 99,72 
+NEGB        11632      1555           13178      280        104        26351983       -------------------- 97,17 
+NEGB        3921       1214           1938       28         0          3964883        -------------------- 98,58 

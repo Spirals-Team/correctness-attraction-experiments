@@ -1,0 +1,8 @@
+![qs](img/heatmap_1.jpeg)
+![qs](img/heatmap_4.jpeg)
+![qs](img/heatmap_5.jpeg)
+![qs](img/heatmap_13.jpeg)
+![qs](img/heatmap_1_log.jpeg)
+![qs](img/heatmap_4_log.jpeg)
+![qs](img/heatmap_5_log.jpeg)
+![qs](img/heatmap_13_log.jpeg)

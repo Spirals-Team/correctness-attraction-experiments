@@ -1,0 +1,22 @@
+Number of Execution of the reference run per location and per task 
+With the aggregation by task for each location, and the total of the execution ref
+IndexLoc   IndexTask  #ExecRef  
+13802      0          816       
+13802      1          816       
+13802      TotalExcRef 1632      
+7209       0          2995      
+7209       1          810       
+7209       TotalExcRef 3805      
+1689       0          2010      
+1689       1          2011      
+1689       TotalExcRef 4021      
+5140       0          371       
+5140       1          355       
+5140       TotalExcRef 726       
+11632      0          9397      
+11632      1          4165      
+11632      TotalExcRef 13562     
+3921       0          89        
+3921       1          1877      
+3921       TotalExcRef 1966      
+Total execution ref: 25712

@@ -1,0 +1,41 @@
+aggregate data per location for random rate = 0.001 and with Perturbator = NEGB
+Exploration Boolean Negation
+34 perturbation point.
+NEGB : negation of boolean value.
+1 files of 100 chararacters
+Random characters generated with 23 as seed
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+3          5          0          0          983                983,00             0              0,00                     1          1          NaN                        
+6          5          0          0          1035               1035,00            0              0,00                     1          1          NaN                        
+9          5          0          0          867                867,00             0              0,00                     1          1          NaN                        
+10         5          0          0          882                882,00             0              0,00                     1          1          NaN                        
+13         5          0          0          375                375,00             0              0,00                     1          1          NaN                        
+16         5          0          0          90                 90,00              0              0,00                     1          1          NaN                        
+19         5          0          0          90                 90,00              0              0,00                     1          1          NaN                        
+26         5          0          0          660                660,00             0              0,00                     1          1          NaN                        
+29         5          0          0          600                600,00             0              0,00                     1          1          NaN                        
+30         5          0          0          630                630,00             0              0,00                     1          1          NaN                        
+38         5          0          0          814                814,00             0              0,00                     1          1          NaN                        
+41         5          0          0          908                908,00             0              0,00                     1          1          NaN                        
+42         5          0          0          852                852,00             0              0,00                     1          1          NaN                        
+54         5          0          0          630                630,00             0              0,00                     1          1          NaN                        
+59         5          0          0          0                  0,00               0              0,00                     1          1          NaN                        
+64         5          0          0          0                  0,00               0              0,00                     1          1          NaN                        
+70         5          0          0          90                 90,00              0              0,00                     1          1          NaN                        
+75         5          0          0          570                570,00             0              0,00                     1          1          NaN                        
+81         5          0          0          285                285,00             0              0,00                     1          1          NaN                        
+86         5          0          0          285                285,00             0              0,00                     1          1          NaN                        
+90         5          0          0          112                112,00             0              0,00                     1          1          NaN                        
+95         5          0          0          165                165,00             0              0,00                     1          1          NaN                        
+99         5          0          0          0                  0,00               0              0,00                     1          1          NaN                        
+104        5          0          0          155                155,00             0              0,00                     1          1          NaN                        
+107        5          0          0          165                165,00             0              0,00                     1          1          NaN                        
+108        5          0          0          155                155,00             0              0,00                     1          1          NaN                        
+117        5          0          0          543                543,00             0              0,00                     1          1          NaN                        
+120        5          0          0          540                540,00             0              0,00                     1          1          NaN                        
+121        5          0          0          525                525,00             0              0,00                     1          1          NaN                        
+130        5          0          0          164                164,00             0              0,00                     1          1          NaN                        
+135        5          0          0          2506               2506,00            1              1,00                     1          1          -------------------- 100,00
+141        5          0          0          1805               1805,00            1              1,00                     1          1          -------------------- 100,00
+147        5          0          0          1200               1200,00            1              1,00                     1          1          -------------------- 100,00
+155        5          0          0          660                660,00             0              0,00                     1          1          NaN                        

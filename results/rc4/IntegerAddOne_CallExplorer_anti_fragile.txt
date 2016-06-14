@@ -1,0 +1,2 @@
+List of ids antifragile points.
+41 42 86 94 110 111 117 

@@ -1,0 +1,27 @@
+aggregate data per location for random rate = 0.005 and with Perturbator = 1
+Exploration Plus One
+PONE : plus one perturbator
+5 random tx between 3 bitcoin nodes
+Random integer generated with 23 as seed
+20 perturbations points
+IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #Tasks     %Success                   
+1588       5          0          20         36                 1,44               0              0,00                     25         5          NaN                        
+1589       5          0          20         36                 1,44               0              0,00                     25         5          NaN                        
+6751       5          0          20         69                 2,76               1              0,04                     25         5          ---- 20,00                 
+6752       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+6753       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+6755       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2286       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2295       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2296       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2298       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2309       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2310       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2311       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2312       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+2315       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+1648       0          0          50         0                  0,00               0              0,00                     50         5          NaN                        
+1648       0          0          50         0                  0,00               0              0,00                     50         5          NaN                        
+3677       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+3678       0          0          25         0                  0,00               0              0,00                     25         5          NaN                        
+12816      0          0          25         0                  0,00               0              0,00                     25         5          NaN                        

@@ -1,0 +1,2 @@
+List of ids antifragile points.
+3 76 87 121 146 150 

@@ -1,0 +1,13 @@
+contains the data for build a graph for analysis.
+Exploration Plus One
+PONE : plus one perturbator
+2 random tx between 3 bitcoin nodes
+Random integer generated with 23 as seed
+6 perturbations points
+Perturbator IndexLoc   #Perturbations #Success   #Failure   #Exception #Call          %Success                   
+1           1743       2528           4312       21         0          8041400        -------------------- 99,52 
+1           7172       3405           6243       74         0          11322789       -------------------- 98,83 
+1           13795      2955           3227       5          0          7627037        -------------------- 99,85 
+1           5136       1089           2812       146        60         8151312        ------------------- 93,17  
+1           3925       2491           4357       91         5          9513632        -------------------- 97,84 
+1           11630      875            6289       159        90         9075365        -------------------- 96,19 
