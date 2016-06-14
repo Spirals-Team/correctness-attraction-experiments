@@ -12,6 +12,7 @@ spoon/
 src/main/java/perturbation/
 
 #Experiment files needed
+*.pyc
 *.jar
 *.tar.gz
 *.zip
