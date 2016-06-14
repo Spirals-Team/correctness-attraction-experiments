@@ -57,7 +57,7 @@ public class CannyManager extends ManagerImpl<BufferedImage, BufferedImage> {
                 this.nbRow = this.reader.readInt();
                 this.nbCol = this.reader.readInt();
 
-                this.sizeUsed = (int)(this.nbRow * 0.75);
+                this.sizeUsed = (int) (this.nbRow * 0.75);
             }
 
             BufferedImage img = new BufferedImage(this.nbCol, this.nbRow, BufferedImage.TYPE_INT_RGB);
@@ -96,8 +96,8 @@ public class CannyManager extends ManagerImpl<BufferedImage, BufferedImage> {
             canny.setSourceImage(input);
             canny.process();
             BufferedImage edges = canny.getEdgesImage();
-            for (int x = 0; x < this.sizeUsed ; x++) {
-                for (int y = 0; y < this.sizeUsed ; y++) {
+            for (int x = 0; x < this.sizeUsed; x++) {
+                for (int y = 0; y < this.sizeUsed; y++) {
                     if (edges.getRGB(x, y) != output.getRGB(x, y))
                         return false;
                 }
@@ -113,7 +113,7 @@ public class CannyManager extends ManagerImpl<BufferedImage, BufferedImage> {
 
     @Override
     public String getHeader() {
-        return super.indexTasks.size() + " image of " + this.sizeUsed+"x"+this.sizeUsed + " pixels\n" +
+        return super.indexTasks.size() + " image of " + this.sizeUsed + "x" + this.sizeUsed + " pixels\n" +
                 "Images come from dataset nist, reduce by 75% (28px to 21px)\n" +
                 super.locations.size() + " perturbations points\n";
     }
@@ -141,7 +141,7 @@ public class CannyManager extends ManagerImpl<BufferedImage, BufferedImage> {
             int nbRow = reader.readInt();
             int nbCol = reader.readInt();
 
-            for (int x = 0 ; x < 10 ; x ++) {
+            for (int x = 0; x < 1; x++) {
                 BufferedImage img = new BufferedImage(nbRow, nbCol, BufferedImage.TYPE_INT_RGB);
 
                 for (int j = 0; j < nbRow; j++) {
@@ -153,16 +153,17 @@ public class CannyManager extends ManagerImpl<BufferedImage, BufferedImage> {
                     System.out.println();
                 }
 
-                 File f = new File("MyFile"+x+".png");
+                File f = new File("MyFile" + x + ".png");
 
-                img = scale(img, 0.75);
+                img = scale(img, 1.0);
 
                 ImageIO.write(img, "PNG", f);
 
                 c.setSourceImage(img);
+
                 c.process();
 
-                f = new File("MyFile-canny"+x+".png");
+                f = new File("MyFile-canny" + x + ".png");
 
                 ImageIO.write(c.getEdgesImage(), "PNG", f);
 
@@ -177,7 +178,7 @@ public class CannyManager extends ManagerImpl<BufferedImage, BufferedImage> {
         tx.scale(scaleValue, scaleValue);
         AffineTransformOp op = new AffineTransformOp(tx,
                 AffineTransformOp.TYPE_BILINEAR);
-        BufferedImage biNew = new BufferedImage( (int) (bi.getWidth() * scaleValue),
+        BufferedImage biNew = new BufferedImage((int) (bi.getWidth() * scaleValue),
                 (int) (bi.getHeight() * scaleValue),
                 bi.getType());
         return op.filter(bi, biNew);

@@ -18,19 +18,19 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
     private final double bound = 10.0;
 
     public LaguerreManager(int nbtask, int size) {
-        this(nbtask,size,23);
+        this(nbtask, size, 23);
     }
 
     public LaguerreManager(int nbtask, int size, int seed) {
         super(seed);
         super.CUP = LaguerreSolver.class;
-        super.initialize(nbtask,size);
+        super.initialize(nbtask, size);
     }
 
     @Override
     protected double[] generateOneTask() {
-        double [] coef = new double[super.sizeOfTask];
-        for (int i = 0 ; i < super.sizeOfTask ; i++)
+        double[] coef = new double[super.sizeOfTask];
+        for (int i = 0; i < super.sizeOfTask; i++)
             coef[i] = -5.0 + 10.0 * randomForGenTask.nextDouble();//TODO Should we set a bound : -5.0 <= coeff <= 5.0
         return coef;
     }
@@ -42,7 +42,7 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
             public Double call() throws Exception {
                 PolynomialFunction f = new PolynomialFunction(input);
                 LaguerreSolver solver = new LaguerreSolver();
-                return solver.solve(MaxEval, f, -bound , bound);
+                return solver.solve(MaxEval, f, -bound, bound);
             }
         };
     }
@@ -50,11 +50,12 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
     @Override
     public Oracle<double[], Double> getOracle() {
         return (input, output) -> {
-            double assertion =  0.0;
-            for (int i = input.length -1 ; i >= 0 ; i--) {
+            double assertion = 0.0;
+            for (int i = input.length - 1; i >= 0; i--) {
                 assertion += input[i] * Math.pow(output, i);
             }
-            return Math.abs(assertion) < EPSILON;
+            System.out.println(Math.abs(assertion));
+            return Math.abs(assertion) < EPSILON;//TODO Checks this oracle
         };
     }
 
@@ -73,8 +74,19 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
     public double[] getTask(int indexOfTask) {
         if (indexOfTask >= super.tasks.size())
             super.getTask(indexOfTask);
-        double [] clone = new double[super.sizeOfTask];
+        double[] clone = new double[super.sizeOfTask];
         System.arraycopy(super.tasks.get(indexOfTask), 0, clone, 0, super.sizeOfTask);
         return clone;
     }
+
+    public static void main(String[] args) {
+        LaguerreManager manager = new LaguerreManager(10, 100);
+        try {
+            for (int i = 0; i < 10; i++)
+                System.out.println(manager.getOracle().assertPerturbation(manager.getTask(i), manager.getCallable(manager.getTask(i)).call()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

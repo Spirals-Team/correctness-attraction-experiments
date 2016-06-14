@@ -2,7 +2,6 @@ package experiment.explorer;
 
 import experiment.*;
 import experiment.exploration.IntegerExplorationPlusOne;
-import laguerre.LaguerreManager;
 import perturbation.PerturbationEngine;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
@@ -20,7 +19,7 @@ import java.util.List;
  */
 public class TaskNumberExplorer extends CallExplorer {
 
-    public static int[] numberOfTask = new int[]{1, 2, 5, 10, 25, 50, 100};
+    public static int[] numberOfTask = new int[]{1, 2, 5, 10, 25};//, 50, 100};
 
     private String header;
 
@@ -141,7 +140,7 @@ public class TaskNumberExplorer extends CallExplorer {
             int nbTask = numberOfTask[i];
             System.out.println("Number of task : \t" + nbTask + "\t" +Util.getStringPerc(i, numberOfTask.length));
             try {
-                manager = (Manager) classManager.getConstructor(int.class, int.class).newInstance(nbTask, 100);
+                manager = (Manager) classManager.getConstructor(int.class, int.class).newInstance(nbTask, 50);
                 new TaskNumberExplorer(manager, i == 0, numberOfTask).run();
             } catch (Exception e) {
                 e.printStackTrace();

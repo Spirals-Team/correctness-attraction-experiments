@@ -120,4 +120,15 @@ public abstract class ManagerImpl<T, P> implements Manager<T, P> {
                 .collect(Collectors.toList());
         return this.locations;
     }
+
+    @Override
+    public void recover() {
+        //Empty method, we assume sub class will implements it if needed
+    }
+
+    @Override
+    public void stop() {
+        //Empty method, we assume sub class will implements it if needed
+
+    }
 }

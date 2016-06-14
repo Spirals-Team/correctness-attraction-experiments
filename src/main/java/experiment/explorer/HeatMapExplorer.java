@@ -1,6 +1,5 @@
 package experiment.explorer;
 
-import experiment.Logger;
 import experiment.Manager;
 import experiment.Tuple;
 import experiment.Util;

@@ -16,6 +16,7 @@ import org.bitcoinj.script.ScriptChunk;
 import org.bitcoinj.utils.BriefLogFormatter;
 import org.bitcoinj.wallet.BasicKeyChain;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         }
 
         this.initialize(numberOfTask, size);
-        initWallets();
+        recover();
     }
 
     @Override
@@ -98,6 +99,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         });
     }
 
+    @Override
     public void stop() {
         for (Integer key : this.kits.keySet()) {
             this.kits.get(key).stopAsync();
@@ -110,7 +112,8 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         return new HashMap<>();
     }
 
-    public void initWallets() {
+    @Override
+    public void recover() {
 
         long timeInit = System.currentTimeMillis();
 
@@ -161,7 +164,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
                 attempt = 0;
                 if (retry < 0) {
                     System.err.println("Recall the whole recovery procedure....");
-                    initWallets();
+                    recover();
                     return;
                 } else
                     retry--;

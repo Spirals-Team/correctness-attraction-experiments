@@ -267,10 +267,6 @@ public class Window extends JFrame implements Observer {
         }
     }
 
-    public static void main() {
-        launch(QuickSortManager.class);
-    }
-
     @Override
     public void update(Observable o, Object arg) {
         Tuple config = this.model.getConfig();

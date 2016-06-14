@@ -2,18 +2,11 @@ package experiment.explorer.bandit;
 
 import experiment.*;
 import experiment.exploration.Exploration;
-import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.Explorer;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
-import perturbation.enactor.NeverEnactorImpl;
-import perturbation.enactor.RandomEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.LoggerImpl;
-import quicksort.QuickSortManager;
-import rsa.RSAManager;
-import torrent.TorrentManager;
-import zip.ZipManager;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by bdanglot on 06/06/16.
@@ -119,15 +111,13 @@ public class BanditExplorer implements Explorer {
                 result.set(2, 1); // error computation time
                 System.err.println("Time out!");
                 executor.shutdownNow();
-                if (this.manager instanceof TorrentManager)
-                    ((TorrentManager) this.manager).reinit();
+                this.manager.stop();
                 return result;
             }
         } catch (Exception | Error e) {
             result.set(2, 1);
             executor.shutdownNow();
-            if (this.manager instanceof TorrentManager)
-                ((TorrentManager) this.manager).reinit();
+            this.manager.stop();
             return result;
         } finally {
             executor.shutdown();
@@ -188,18 +178,19 @@ public class BanditExplorer implements Explorer {
         }
     }
 
+    //TODO
     public static void main(String[] args) {
-        Main.numberOfSecondsToWait = 30;
-        Main.verbose = true;
-        TorrentManager manager = new TorrentManager(100, 25);
-        Budget budget = new TimeBudget(7200000);
-        Exploration exploration = new IntegerExplorationPlusOne();
-        manager.getLocations(exploration.getType());
-        Policy policy = new UCBPolicy(manager.getLocations().size(), 23);
-        Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
-        explorer.run();
-        manager.stop();
-        System.exit(1);
+//        Main.numberOfSecondsToWait = 30;
+//        Main.verbose = true;
+//        TorrentManager manager = new TorrentManager(100, 25);
+//        Budget budget = new TimeBudget(7200000);
+//        Exploration exploration = new IntegerExplorationPlusOne();
+//        manager.getLocations(exploration.getType());
+//        Policy policy = new UCBPolicy(manager.getLocations().size(), 23);
+//        Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
+//        explorer.run();
+//        manager.stop();
+//        System.exit(1);
     }
 
 }

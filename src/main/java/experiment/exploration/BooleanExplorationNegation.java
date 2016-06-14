@@ -1,10 +1,8 @@
 package experiment.exploration;
 
-import perturbation.location.PerturbationLocation;
 import perturbation.perturbator.InvPerturbatorImpl;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by bdanglot on 02/05/16.

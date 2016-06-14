@@ -28,4 +28,5 @@ public interface Explorer {
      */
     void log();
 
+
 }

@@ -1,12 +1,19 @@
 package quicksort;
 
-import experiment.CallableImpl;
-import experiment.Manager;
-import experiment.ManagerImpl;
-import experiment.Oracle;
+import experiment.*;
+import perturbation.enactor.NeverEnactorImpl;
+import perturbation.enactor.RandomUniqueEpsilonEnactor;
+import perturbation.location.PerturbationLocation;
+import perturbation.perturbator.AddNPerturbatorImpl;
+import perturbation.perturbator.NothingPerturbatorImpl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by spirals on 21/05/16.
@@ -17,7 +24,7 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
         this(nbTask, sizeTask, 23);
     }
 
-    public QuickSortManager(int nbTask, int sizeTask, int seed){
+    public QuickSortManager(int nbTask, int sizeTask, int seed) {
         super(seed);
         super.CUP = QuickSortInstr.class;
         super.initialize(nbTask, sizeTask);
@@ -25,8 +32,8 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
 
     @Override
     protected int[] generateOneTask() {
-        int [] task = new int[super.sizeOfTask];
-        for (int i = 0; i < super.sizeOfTask ; i++)
+        int[] task = new int[super.sizeOfTask];
+        for (int i = 0; i < super.sizeOfTask; i++)
             task[i] = randomForGenTask.nextInt();
         return task;
     }
@@ -35,7 +42,7 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
     public int[] getTask(int indexTask) {
         if (indexTask >= super.tasks.size())
             super.getTask(indexTask);
-        int [] clone = new int[super.sizeOfTask];
+        int[] clone = new int[super.sizeOfTask];
         System.arraycopy(super.tasks.get(indexTask), 0, clone, 0, super.sizeOfTask);
         return clone;
     }
@@ -45,7 +52,7 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
         return new CallableImpl<int[], int[]>(input) {
             @Override
             public int[] call() throws Exception {
-                QuickSortInstr.sort(this.input, 0, this.input.length-1);
+                QuickSortInstr.sort(this.input, 0, this.input.length - 1);
                 return this.input;
             }
         };

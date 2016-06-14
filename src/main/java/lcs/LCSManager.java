@@ -11,6 +11,8 @@ import javafx.util.Pair;
  */
 public class LCSManager extends ManagerImpl<Pair<String,String>, String> {
 
+    private static final char[] letters = new char[]{'A', 'C', 'G', 'T'};
+
     public LCSManager(int numberOfTask, int size) {
         this(numberOfTask, size, 23);
     }
@@ -25,8 +27,8 @@ public class LCSManager extends ManagerImpl<Pair<String,String>, String> {
     protected Pair<String,String> generateOneTask() {
         String p1 = "", p2 = "";
         for (int i = 0; i < super.sizeOfTask; i++) {
-            p1 += (char)randomForGenTask.nextInt(256);
-            p2 += (char)randomForGenTask.nextInt(256);
+            p1 += letters[randomForGenTask.nextInt(4)];
+            p2 += letters[randomForGenTask.nextInt(4)];
         }
         return new Pair<>(p1, p2);
     }
@@ -60,7 +62,9 @@ public class LCSManager extends ManagerImpl<Pair<String,String>, String> {
 
     @Override
     public Pair<String, String> getTask(int indexOfTask) {
-        return new Pair<>(super.tasks.get(indexOfTask).getKey(),super.tasks.get(indexOfTask).getValue());
+        if (indexOfTask >= super.tasks.size())
+            super.getTask(indexOfTask);
+        return new Pair<>(super.tasks.get(indexOfTask).getKey(), super.tasks.get(indexOfTask).getValue());
     }
 
 }

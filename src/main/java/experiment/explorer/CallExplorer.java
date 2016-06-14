@@ -20,8 +20,6 @@ public class CallExplorer extends ExplorerImpl {
 
     protected long[][] nbCallReferencePerLocationPerTask;
 
-    private int step;
-
     public CallExplorer(Manager manager, Exploration exploration) {
         super(manager, exploration, "CallExplorer");
         nbCallReferencePerLocationPerTask = new long[super.manager.getLocations().size()][super.manager.getIndexTask().size()];

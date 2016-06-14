@@ -2,25 +2,15 @@ package partial_mutant;
 
 import experiment.Manager;
 import experiment.Util;
-import md5.MD5CallableImpl;
-import md5.MD5Instr;
-import md5.MD5Manager;
 import perturbation.enactor.AlwaysEnactorImpl;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
-import perturbation.location.PerturbationLocationImpl;
 import perturbation.perturbator.AddNPerturbatorImpl;
 import perturbation.perturbator.NothingPerturbatorImpl;
-import sudoku.SudokuCallableImpl;
-import sudoku.SudokuInstr;
-import sudoku.SudokuManager;
-import zip.LZWInstr;
-import zip.ZipCallableImpl;
 import zip.ZipManager;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -198,10 +188,11 @@ public class MutantExplorer {
         }
     }
 
+    //TODO
     public static void main(String[] args) {
         //Class<?> CUP, OracleManager manager, Constructor callableConstructor, Class<?>... inputTypes
-        MutantExplorer explorer = new MutantExplorer(new ZipManager(numberOfTasks[numberOfTasks.length-1], 100));
-        explorer.run();
+//        MutantExplorer explorer = new MutantExplorer(new ZipManager(numberOfTasks[numberOfTasks.length-1], 100));
+//        explorer.run();
     }
 
 }

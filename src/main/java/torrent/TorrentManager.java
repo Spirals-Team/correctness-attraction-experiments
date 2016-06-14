@@ -135,6 +135,7 @@ public class TorrentManager extends ManagerImpl<String, String> {
         return task;
     }
 
+    @Override
     public void stop() {
         if (this.tracker != null)
             this.tracker.stop();

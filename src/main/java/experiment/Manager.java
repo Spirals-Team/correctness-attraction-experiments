@@ -61,4 +61,14 @@ public interface Manager<T, P> {
      */
     T getTask(int indexOfTask);
 
+    /**
+     * method used to recover a good state in case of errors/failure for stateful subject
+     */
+    void recover();
+
+    /**
+     * Method used to stop the subject properly
+     */
+    void stop();
+
 }
