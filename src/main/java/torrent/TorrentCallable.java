@@ -3,10 +3,13 @@ package torrent;
 import com.turn.ttorrent.client.Client;
 import com.turn.ttorrent.client.SharedTorrent;
 import com.turn.ttorrent.common.Torrent;
+import com.turn.ttorrent.tracker.TrackedTorrent;
+import com.turn.ttorrent.tracker.Tracker;
 import experiment.CallableImpl;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -25,7 +28,13 @@ public class TorrentCallable extends CallableImpl<String,String> {
     public String call() throws Exception {
         Client seeder = null;
         Client leecher = null;
+        Tracker tracker = null;
         try {
+            /* Init Tracker */
+            tracker = new Tracker(new InetSocketAddress(Tracker.DEFAULT_TRACKER_PORT));
+            tracker.announce(TrackedTorrent.load(new File(TorrentManager.PATH_TO_TORRENT_FILE + this.input+".torrent")));
+            tracker.start();
+
             /* Init Seeder */
             seeder = new Client(
                     InetAddress.getLocalHost(),
@@ -49,18 +58,22 @@ public class TorrentCallable extends CallableImpl<String,String> {
 
             leecher.stop();
             seeder.stop();
+            tracker.stop();
 
         } catch (Exception e) {
-            assert seeder != null;
-            seeder.stop();
-            assert leecher != null;
-            leecher.stop();
+            e.printStackTrace();
+            if (seeder != null)
+                seeder.stop();
+            if (leecher != null)
+                leecher.stop();
+            tracker.stop();
             this.manager.reinit();
             throw new TimeoutException();
         }
 
-        leecher.stop();
-        seeder.stop();
+//        leecher.stop();
+//        seeder.stop();
+//        tracker.stop();
 
         return input;
     }

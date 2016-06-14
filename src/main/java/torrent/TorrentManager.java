@@ -5,6 +5,7 @@ import com.turn.ttorrent.common.Torrent;
 import com.turn.ttorrent.tracker.TrackedTorrent;
 import com.turn.ttorrent.tracker.Tracker;
 import experiment.CallableImpl;
+import experiment.Main;
 import experiment.ManagerImpl;
 import experiment.Oracle;
 import perturbation.location.PerturbationLocation;
@@ -19,6 +20,7 @@ import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * Created by spirals on 21/04/16.
@@ -48,7 +50,7 @@ public class TorrentManager extends ManagerImpl<String, String> {
         super.CUP = BDecoder.class;
         super.initialize(numberOfTask, size);
         super.locations = this.buildAllLocation();
-        this.initTracker();
+//        this.initTracker();
     }
 
     private List<PerturbationLocation> buildAllLocation() {
@@ -75,24 +77,16 @@ public class TorrentManager extends ManagerImpl<String, String> {
             for (File f : parent.listFiles(filter))
                 this.tracker.announce(TrackedTorrent.load(f));
             this.tracker.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void reinit() {
-        this.stop();
-        cleanDirectory();
-        this.initTracker();
-    }
-
-    public static void cleanDirectory() {
         try {
             File dir = new File(PATH_TO_SENT_FILE);
             if (dir.exists() && dir.isDirectory()) {
-                for (File f : dir.listFiles()) {
+                for (File f : dir.listFiles((dire, name) -> name.endsWith(".part"))) {
                     Files.delete(Paths.get(f.toURI()));
                 }
             }
@@ -149,8 +143,11 @@ public class TorrentManager extends ManagerImpl<String, String> {
 
     private void createTorrent(String pathOfTheNewTask, File task) {
         try {
+            FileOutputStream stream = null;
+            stream = new FileOutputStream(PATH_TO_TORRENT_FILE + pathOfTheNewTask + ".torrent");
             Torrent torrent = Torrent.create(task, new URI(URL_ANNOUCE), CREATOR);
-            torrent.save(new FileOutputStream(PATH_TO_TORRENT_FILE + pathOfTheNewTask + ".torrent"));
+            torrent.save(stream);
+            stream.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -161,12 +158,6 @@ public class TorrentManager extends ManagerImpl<String, String> {
         if (index >= super.tasks.size()) {
             this.tasks.add(this.generateOneTask());
             this.indexTasks.add(this.tasks.size() - 1);
-            try {
-                File file = new File(PATH_TO_TORRENT_FILE+"/"+this.tasks.get(index) + ".torrent");
-                this.tracker.announce(TrackedTorrent.load(file));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
         String input = new String(super.tasks.get(index));
         return input;
@@ -187,6 +178,23 @@ public class TorrentManager extends ManagerImpl<String, String> {
         return super.indexTasks.size() + " files of " + super.sizeOfTask + " chararacters\n" +
                 "Random characters generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
+    }
+
+    public static void main(String[] args) {
+        TorrentManager manager = new TorrentManager(1, 10);
+        for (int i = 0; i < 5; i++) {
+            try {
+                ExecutorService executor = Executors.newSingleThreadExecutor();
+                Callable instanceRunner = manager.getCallable(manager.getTask(i));
+                Future future = executor.submit(instanceRunner);
+                Object output = (future.get(1000, TimeUnit.SECONDS));
+                manager.getOracle().assertPerturbation(manager.getTask(i), (String) output);
+                executor.shutdownNow();
+                manager.getCallable(manager.getTask(i)).call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
