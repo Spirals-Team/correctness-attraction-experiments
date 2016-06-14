@@ -2,10 +2,12 @@ package rsa;
 
 import experiment.*;
 
+import java.util.Arrays;
+
 /**
  * Created by bdanglot on 29/04/16.
  */
-public class RSAManager extends ManagerImpl<String, String> {
+public class RSAManager extends ManagerImpl<byte[], byte[]> {
 
     public RSAManager(int numberOfTask, int size) {
         this(numberOfTask, size, 23);
@@ -23,29 +25,33 @@ public class RSAManager extends ManagerImpl<String, String> {
     }
 
     @Override
-    protected String generateOneTask() {
+    protected byte[] generateOneTask() {
         byte [] task = new byte[super.sizeOfTask];
-        for (int i = 0 ; i < super.sizeOfTask ; i++)
-            task[i] = ((byte)(randomForGenTask.nextInt()));
-        return new String(org.bouncycastle.util.encoders.Hex.encode(task));
-    }
 
-    @Override
-    public String getTask(int index) {
-        if (index >= super.tasks.size())
-            super.getTask(index);
-        String task = new String(String.valueOf(super.tasks.get(index)).getBytes());
+        while ( (task[0] = (byte)(randomForGenTask.nextInt())) == 0 );
+        for (int i = 1 ; i < super.sizeOfTask - 1 ; i++)
+            task[i] = ((byte)(randomForGenTask.nextInt()));
+        while ( (task[super.sizeOfTask - 1] = (byte)(randomForGenTask.nextInt())) == 0 );
         return task;
     }
 
     @Override
-    public Oracle getOracle() {
-        return new RSAOracle();
+    public byte[] getTask(int index) {
+        if (index >= super.tasks.size())
+            super.getTask(index);
+        byte [] clone = new byte[super.sizeOfTask];
+        System.arraycopy(super.tasks.get(index), 0 , clone, 0, clone.length);
+        return clone;
+    }
+
+    @Override
+    public Oracle<byte[], byte[]> getOracle() {
+        return Arrays::equals;
     }
 
 
     @Override
-    public CallableImpl<String, String> getCallable(String input) {
+    public CallableImpl<byte[], byte[]> getCallable(byte[] input) {
         return new RSACallable(input);
     }
 
