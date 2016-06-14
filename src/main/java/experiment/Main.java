@@ -1,12 +1,14 @@
 package experiment;
 
 import experiment.exploration.*;
+import experiment.explorer.bandit.BanditExplorer;
 import gui.Window;
 
 import experiment.explorer.*;
 
 import md5.MD5Manager;
 import mersenne.MersenneManager;
+import partial_mutant.MutantExplorer;
 import quicksort.QuickSortManager;
 import sudoku.SudokuManager;
 import zip.ZipManager;
@@ -103,6 +105,10 @@ public class Main {
             case "gui":
                 runGui();
                 break;
+            case "bandit":
+                runBandit(args);
+            case "mutant":
+                runMutantExplorer();
             default:
                 usage();
         }
@@ -140,6 +146,14 @@ public class Main {
 
     private static void runGui() {
         Window.launch(manager.getClass());
+    }
+
+    private static void runMutantExplorer() {
+        MutantExplorer.launch(manager);
+    }
+
+    private static void runBandit(String [] args) {
+        BanditExplorer.run(manager, args);
     }
 
     private static Explorer buildHeatMap() {
@@ -286,7 +300,7 @@ public class Main {
         }
     }
 
-    private static int getIndexOfOption(String opt, String[] args) {
+    public static int getIndexOfOption(String opt, String[] args) {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals(opt))
                 return i;
