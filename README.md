@@ -37,6 +37,7 @@ In order to explore it, we use 5 campaigns:
    * Add 1 with an increasing random probability.
    * Negation of Boolean at each call of each perturbation Point.
    * Negation of Boolean with an increasing random probability.
+   * Minus 1 at each call of each perturbation Point.
 
 ## Install
 
@@ -94,9 +95,9 @@ Several options available :
 * value for \<subject> : qs zip rc4 laguerre tea torrent rsa sudoku bayes simplex mt md5 bc
 * -exp \<exp> specify the exp
 * value for \<exp> call rnd heatmap
-* for call and rnd exp you can specify which \<exploration> just after it.
-* value for \<exploration> : one magnitude boolean
-* you have to specify an array of magnitude to be used just after the key-word magnitude
+* for call and rnd exp you have to specify which \<exploration> just after it.
+* value for \<exploration> : pone mone magnitude boolean
+* you can specify an array of magnitude to be used just after the key-word magnitude
 * a list of integer separated with ":" (1:2:3 for example)
 * after the exploration, you can specify the random rates list used by rnd explorer just as for the magnitude (but with float)
 * -run tasksize tasknumber to run the exploration of the impact of the size or the number of task

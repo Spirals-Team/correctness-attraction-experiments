@@ -1,11 +1,8 @@
 package experiment;
 
+import experiment.exploration.*;
 import gui.Window;
 
-import experiment.exploration.BooleanExplorationNegation;
-import experiment.exploration.Exploration;
-import experiment.exploration.IntegerExplorationPlusMagnitude;
-import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.*;
 
 import md5.MD5Manager;
@@ -210,15 +207,17 @@ public class Main {
                     return new IntegerExplorationPlusMagnitude(magint);
                 } else
                     return new IntegerExplorationPlusMagnitude();
-            case "one":
+            case "pone":
                 typePerturbed = "Numerical";
                 return new IntegerExplorationPlusOne();
+            case "mone":
+                typePerturbed = "Numerical";
+                return new IntegerExplorationMinueOne();
             case "boolean":
                 typePerturbed = "Boolean";
                 return new BooleanExplorationNegation();
             default:
-                return new BooleanExplorationNegation();
-//                return new IntegerExplorationPlusOne();
+                return new IntegerExplorationPlusOne();
         }
     }
 
