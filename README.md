@@ -40,13 +40,18 @@ In order to explore it, we use 5 campaigns:
 
 ## Install
 
-In order to install, just launch the following script:
+You can use:
+```
+./src/script/light-install.sh
+```
+To have a quick start of jPerturb-experiments. Only little exp will remains in the project : quicksort sudoku zip md5 merseene tea canny and lcs.
+The gui is available too.
 
+In order to fully install, launch the following script:
 ```
 ./src/script/install.sh
 ```
-
-It will install everything you will need to run experiments.
+It will install everything you will need to run experiments but it will take a while and need at least gradle version 2.13 installed and in your path).
 
 ## Run
 
@@ -55,7 +60,6 @@ It will install everything you will need to run experiments.
 ```
 mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="<options>"
 ```
-
 
 ## Example of running commands
 
