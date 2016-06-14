@@ -41,7 +41,6 @@ public class TestOracle {
         //Test the quicksort oracle by sorting, shuffling, adding and removing elements.
         //The input is cloned as the OracleManager does when it use get(int index) method.
 
-        //TODO
         Oracle<int[], int[]> oracle = new QuickSortOracle();
 
         Random rnd = new Random();//w/e the seed used, it has to work
@@ -52,42 +51,31 @@ public class TestOracle {
 
         int [] test = clone(input);
 
+        //list is not sorted
         assertFalse(oracle.assertPerturbation(clone(input), test));
+
+        //sorting
         Arrays.sort(test);
-        for (int i = 0; i < test.length; i++) {
-            System.out.print(test[i] + " ");
-        }
-        System.out.println();
         assertTrue(oracle.assertPerturbation(clone(input), test));
 
-//        Oracle<List<Integer>, List<Integer>> oracle = new QuickSortOracle();
-//
-//        Random rnd = new Random();
-//        final List<Integer> input =  new ArrayList<>();
-//        for (int i = 0 ; i < 100 ; i ++) {
-//            input.add(rnd.nextInt());
-//        }
-//
-//        List<Integer> listTest = clone(input);
-//
-//        //list is not sorted
-//        assertFalse(oracle.assertPerturbation(clone(input), listTest));
-//        //sorting
-//        Collections.sort(listTest);
-//        assertTrue(oracle.assertPerturbation(clone(input), listTest));
-//        //stateless
-//        Collections.shuffle(listTest);
-//        assertFalse(oracle.assertPerturbation(clone(input), listTest));
-//        //the list is no longer as the input, it has one more element
-//        listTest.add(1);// add an element
-//        Collections.sort(listTest);
-//        assertFalse(oracle.assertPerturbation(clone(input), listTest));
-//        listTest.clear();
-//        listTest.addAll(input);
-//        //as before, but one less element
-//        listTest.remove(1);//removing one element
-//        Collections.sort(listTest);
-//        assertFalse(oracle.assertPerturbation(clone(input), listTest));
+        //add an element
+        test = new int[input.length+1];
+        System.arraycopy(input, 0 , test, 0, input.length);
+        test[input.length] = 7;
+        assertFalse(oracle.assertPerturbation(clone(input), test));
+
+        //remove an element
+        test = new int[input.length-1];
+        System.arraycopy(input, 0 , test, 0, test.length);
+        assertFalse(oracle.assertPerturbation(clone(input), test));
+
+        test = clone(input);
+        //sorting
+        Arrays.sort(test);
+        assertTrue(oracle.assertPerturbation(clone(input), test));
+        //modify one element of the array while is still sorted
+        test[0]++;
+        assertFalse(oracle.assertPerturbation(clone(input), test));
     }
 
     @Test
@@ -184,17 +172,4 @@ public class TestOracle {
 
     }
 
-    //    @Test
-//    public void testClassifier() throws Exception {
-//
-//        OracleManager<Experiment> manager = new BayesManager();
-//        Oracle<Experiment, InstancesResultListener> oracle = (BayesOracle)manager.getOracle();
-//        Experiment input = manager.get(0);
-//        input.initialize();
-//        input.runExperiment();
-//        input.postProcess();
-//        assertTrue(oracle.assertPerturbation(manager.get(0), (InstancesResultListener) input.getResultListener()));
-//
-//
-//    }
 }
