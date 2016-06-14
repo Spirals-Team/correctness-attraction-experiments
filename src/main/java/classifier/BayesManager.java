@@ -25,23 +25,23 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
 
     private static final String PATH_DIR = "resources/classifier/";
 
-    public BayesManager(int numberOfTask, int size) {
-        this(numberOfTask, size, 23);
+    public BayesManager(int numberOfTask) {
+        this(numberOfTask, 23);
     }
 
-    public BayesManager(int numberOfTask, int size, int seed) {
+    public BayesManager(int numberOfTask, int seed) {
         super(seed);
         super.CUP = CrossValidationResultProducer.class;
         initPath();
-        super.initialize(numberOfTask > this.path.length ? this.path.length : numberOfTask, size);
+        super.initialize(numberOfTask > this.path.length ? this.path.length : numberOfTask, 0);
     }
 
 
     private void initPath() {
         File directory = new File(PATH_DIR);
-        File [] files = directory.listFiles();
+        File[] files = directory.listFiles();
         path = new String[files.length];
-        for (int i = 0 ; i < files.length ; i++)
+        for (int i = 0; i < files.length; i++)
             path[i] = files[i].getName();
         oracle = new BayesOracle();
     }
@@ -51,7 +51,7 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
         Experiment input = new Experiment();
         input.setPropertyArray(new Classifier[0]);
         input.setUsePropertyIterator(true);
-        SplitEvaluator se  = new ClassifierSplitEvaluator();
+        SplitEvaluator se = new ClassifierSplitEvaluator();
         Classifier sec = ((ClassifierSplitEvaluator) se).getClassifier();
         CrossValidationResultProducer cvrp = new CrossValidationResultProducer();
         cvrp.setNumFolds(10);
@@ -68,8 +68,7 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
                     new PropertyDescriptor("classifier",
                             se.getClass()),
                     se.getClass());
-        }
-        catch (IntrospectionException e) {
+        } catch (IntrospectionException e) {
             e.printStackTrace();
         }
 
@@ -80,7 +79,7 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
         input.setRunLower(1);
         input.setRunUpper(10);
         DefaultListModel model = new DefaultListModel();
-        model.addElement(new File(PATH_DIR+path[super.tasks.size()]));
+        model.addElement(new File(PATH_DIR + path[super.tasks.size()]));
 //        model.addElement(new File(build(super.tasks.size())));
         input.setDatasets(model);
         InstancesResultListener irl = new InstancesResultListener();
@@ -121,9 +120,10 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
     public static void main(String[] args) {
         BayesManager manager = new BayesManager(1, 10);
         try {
-            for (int i = 0 ; i < 1 ; i++) {
-            InstancesResultListener output = manager.getCallable(manager.getTask(i)).call();
-            System.out.println(manager.getOracle().assertPerturbation(manager.getTask(i), output));}
+            for (int i = 0; i < 4; i++) {
+                InstancesResultListener output = manager.getCallable(manager.getTask(i)).call();
+                System.out.println(manager.getOracle().assertPerturbation(manager.getTask(i), output));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
