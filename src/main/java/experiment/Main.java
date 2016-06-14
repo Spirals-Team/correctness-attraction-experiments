@@ -231,21 +231,18 @@ public class Main {
                     break;
                 case "sat":
                     manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("sat.SATManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
-//                    manager = new SATManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "canny":
-                    manager = new CannyManager(numberOfTask, sizeOfTask, seed);
+                    manager = new CannyManager(numberOfTask, seed);
                     break;
                 case "zip":
                     manager = new ZipManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "rc4":
                     manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("rc4.RC4Manager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
-//                    manager = new RC4Manager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "torrent":
                     manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("torrent.TorrentManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
-//                    manager = new TorrentManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "mersenne":
                 case "mt":
@@ -257,12 +254,10 @@ public class Main {
                 case "bitcoin":
                 case "bc":
                     manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("bitcoin.BitcoinManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
-//                    manager = new BitcoinManager(numberOfTask, sizeOfTask, seed, typePerturbed);
                     break;
                 case "classifier":
                 case "bayes":
                     manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("classifier.BayesManager").getDeclaredConstructor(int.class, int.class).newInstance(numberOfTask, seed));
-//                    manager = new BayesManager(numberOfTask, seed);
                     break;
                 case "sudoku":
                     manager = new SudokuManager(numberOfTask, sizeOfTask, seed);
@@ -270,18 +265,15 @@ public class Main {
                 case "cipher":
                 case "rsa":
                     manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("rsa.RSAManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
-//                    manager = new RSAManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "simplex":
                     manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("optimizer.SimplexManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
-//                    manager = new SimplexManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "tea":
                     manager = new TEAManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "laguerre":
                     manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("laguerre.LaguerreManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
-//                    manager = new LaguerreManager(numberOfTask, sizeOfTask, seed);
                     break;
                 default:
                 case "qs":
