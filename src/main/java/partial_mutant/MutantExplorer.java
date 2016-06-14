@@ -1,5 +1,6 @@
 package partial_mutant;
 
+import experiment.Main;
 import experiment.Manager;
 import experiment.Util;
 import perturbation.enactor.AlwaysEnactorImpl;
@@ -120,7 +121,8 @@ public class MutantExplorer {
         this.sosies = new ArrayList<>();
         this.partialMutant = new ArrayList<>();
         this.numberOfTask = numberOfTasks[indexOfNumberOfTask];
-        System.out.println(this.numberOfTask + " " + Util.getStringPerc(indexOfNumberOfTask, numberOfTasks.length));
+        if (Main.verbose)
+            System.out.println(this.numberOfTask + " " + Util.getStringPerc(indexOfNumberOfTask, numberOfTasks.length));
         List<PerturbationLocation> locations =  this.manager.getLocations();
         locations.forEach(this::run);
         this.sosiesByTask[indexOfNumberOfTask] = this.sosies;
@@ -188,11 +190,9 @@ public class MutantExplorer {
         }
     }
 
-    //TODO
-    public static void main(String[] args) {
-        //Class<?> CUP, OracleManager manager, Constructor callableConstructor, Class<?>... inputTypes
-//        MutantExplorer explorer = new MutantExplorer(new ZipManager(numberOfTasks[numberOfTasks.length-1], 100));
-//        explorer.run();
+    public static void launch(Manager manager) {
+        MutantExplorer explorer = new MutantExplorer(manager);
+        explorer.run();
     }
 
 }
