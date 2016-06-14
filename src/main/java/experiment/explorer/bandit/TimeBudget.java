@@ -22,4 +22,9 @@ public class TimeBudget implements Budget {
         System.out.println(Util.getStringPerc(timeElpased, this.budget));
         return System.currentTimeMillis() - this.start < budget;
     }
+
+    @Override
+    public String toString() {
+        return "TimeBudget " + this.budget + " ms\n" ;
+    }
 }

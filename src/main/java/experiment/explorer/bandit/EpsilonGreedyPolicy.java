@@ -45,4 +45,10 @@ public class EpsilonGreedyPolicy extends PolicyImpl {
         }
         return indices.get(super.random.nextInt(indices.size()));
     }
+
+    @Override
+    public String toString() {
+        return "EpsilonGreedyPolicy " + this.epsilon + "\n" ;
+
+    }
 }

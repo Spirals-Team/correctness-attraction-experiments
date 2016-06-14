@@ -46,4 +46,9 @@ public class UCBPolicy extends PolicyImpl {
         }
         return indices.get(super.random.nextInt(indices.size()));
     }
+
+    @Override
+    public String toString() {
+        return "UCBPolicy alpha=" + ALPHA + "\n";
+    }
 }

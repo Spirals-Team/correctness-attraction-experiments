@@ -24,4 +24,8 @@ public class LapBudget implements Budget{
         return this.nbLap-- > 0;
     }
 
+    @Override
+    public String toString() {
+        return "LapBudget : " + this.nbLapInit + "\n";
+    }
 }

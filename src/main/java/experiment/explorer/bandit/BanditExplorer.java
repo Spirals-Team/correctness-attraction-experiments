@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by bdanglot on 06/06/16.
@@ -41,8 +42,6 @@ public class BanditExplorer implements Explorer {
 
     private Manager manager;
 
-    private RandomEnactorImpl[] enactorByArm;
-
     private int lap;
 
     private Random random;
@@ -53,12 +52,9 @@ public class BanditExplorer implements Explorer {
         this.manager = manager;
         this.random = new Random(23);
         this.exploration = exploration;
-        this.arms = manager.getLocations();
+        this.arms = this.manager.getLocations();
         this.policyLocation = policyLocation;
         this.budget = budget;
-        this.enactorByArm = new RandomEnactorImpl[manager.getIndexTask().size()];
-        for (int i = 0; i < this.enactorByArm.length; i++)
-            this.enactorByArm[i] = new RandomEnactorImpl(0.3f);
         this.lap = 0;
         this.filter = new ArrayList<>();
         this.initLogger();
@@ -165,14 +161,25 @@ public class BanditExplorer implements Explorer {
             writer.write(this.policyLocation.log());
             writer.close();
 
-            String format = "%-10s %-10s %-10s %-10s %-10s %-10s %-10s";
+            String format = "%-15s %-15s %-15s %-15s %-15s %-15s %-20s";
             writer = new FileWriter(path + "_data_graph_analysis.txt", false);
 
+            writer.write("Bandit exploration\n");
+            writer.write(this.policyLocation.toString());
+            writer.write(this.budget.toString());
+            writer.write(this.manager.getHeader());
+
+            writer.write(String.format(format, "IndexLoc", "#Perturbations",
+                    "#Success", "#Failure", "#Exception",
+                    "#Call",
+                    "%Success") + "\n");
             for (int i = 0; i < result.length; i++) {
-                writer.write(String.format(format, this.arms.get(i).getLocationIndex(), result[i][0][0][0].get(4),
-                        result[i][0][0][0].get(0), result[i][0][0][0].get(1), result[i][0][0][0].get(2),
-                        result[i][0][0][0].get(3),
-                        result[i][0][0][0].get(4) == 0 ? "NaN" : Util.getStringPerc(result[i][0][0][0].get(0), result[i][0][0][0].total(3))) + "\n");
+                if (result[i][0][0][0].get(4) != 0) {
+                    writer.write(String.format(format, this.arms.get(i).getLocationIndex(), result[i][0][0][0].get(4),
+                            result[i][0][0][0].get(0), result[i][0][0][0].get(1), result[i][0][0][0].get(2),
+                            result[i][0][0][0].get(3),
+                            result[i][0][0][0].get(4) == 0 ? "NaN" : Util.getStringPerc(result[i][0][0][0].get(0), result[i][0][0][0].total(3))) + "\n");
+                }
             }
             writer.close();
 
@@ -185,9 +192,10 @@ public class BanditExplorer implements Explorer {
         Main.numberOfSecondsToWait = 30;
         Main.verbose = true;
         TorrentManager manager = new TorrentManager(100, 25);
-        Budget budget = new TimeBudget(60 * 1000 * 5);
-        Policy policy = new UCBPolicy(manager.getLocations().size(), 23);
+        Budget budget = new TimeBudget(7200000);
         Exploration exploration = new IntegerExplorationPlusOne();
+        manager.getLocations(exploration.getType());
+        Policy policy = new UCBPolicy(manager.getLocations().size(), 23);
         Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
         explorer.run();
         manager.stop();

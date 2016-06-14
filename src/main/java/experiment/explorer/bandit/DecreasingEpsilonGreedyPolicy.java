@@ -29,4 +29,8 @@ public class DecreasingEpsilonGreedyPolicy extends EpsilonGreedyPolicy {
         return index;
     }
 
+    @Override
+    public String toString() {
+        return "DecreasingEpsilonGreedyPolicy " + super.epsilon + "\n" ;
+    }
 }
