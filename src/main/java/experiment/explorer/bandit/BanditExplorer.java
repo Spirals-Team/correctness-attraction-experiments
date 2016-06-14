@@ -2,6 +2,7 @@ package experiment.explorer.bandit;
 
 import experiment.*;
 import experiment.exploration.Exploration;
+import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.Explorer;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
@@ -178,19 +179,42 @@ public class BanditExplorer implements Explorer {
         }
     }
 
-    //TODO
-    public static void main(String[] args) {
-//        Main.numberOfSecondsToWait = 30;
-//        Main.verbose = true;
-//        TorrentManager manager = new TorrentManager(100, 25);
-//        Budget budget = new TimeBudget(7200000);
-//        Exploration exploration = new IntegerExplorationPlusOne();
-//        manager.getLocations(exploration.getType());
-//        Policy policy = new UCBPolicy(manager.getLocations().size(), 23);
-//        Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
-//        explorer.run();
-//        manager.stop();
-//        System.exit(1);
-    }
+    public static void run(Manager manager, String[] args) {
 
+        int currentIndex;
+        Budget budget = null;
+        Policy policy= null;
+
+        if ((currentIndex = Main.getIndexOfOption("-budget", args)) != -1) {
+            switch (args[currentIndex+1]) {
+                case "time":
+                    budget = new TimeBudget(Integer.parseInt(args[currentIndex+2]));
+                    break;
+                case "lap":
+                    budget = new LapBudget(Integer.parseInt(args[currentIndex+2]));
+                    break;
+                default:
+                    budget = new TimeBudget(5000 * 60);
+            }
+        }
+
+        if ((currentIndex = Main.getIndexOfOption("-policy", args)) != -1) {
+            switch (args[currentIndex+1]) {
+                case "eps":
+                    policy = new EpsilonGreedyPolicy(manager.getLocations().size(), 0.80D);
+                    break;
+                case "ucb":
+                default:
+                    policy = new UCBPolicy(manager.getLocations().size(), 23);
+                    break;
+            }
+        }
+
+        Exploration exploration = new IntegerExplorationPlusOne();
+        manager.getLocations(exploration.getType());
+        Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
+        explorer.run();
+        manager.stop();
+        System.exit(1);
+    }
 }

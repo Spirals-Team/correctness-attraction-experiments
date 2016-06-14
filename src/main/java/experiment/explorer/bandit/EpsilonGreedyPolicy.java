@@ -11,7 +11,7 @@ public class EpsilonGreedyPolicy extends PolicyImpl {
 
     protected double epsilon;
 
-    public EpsilonGreedyPolicy(int nbArm, double  epsilon) {
+    public EpsilonGreedyPolicy(int nbArm, double epsilon) {
         this(nbArm, epsilon, 23);
     }
 
@@ -24,7 +24,7 @@ public class EpsilonGreedyPolicy extends PolicyImpl {
     public int selectArm() {
         List<Integer> indices = new ArrayList<>();
         double max = Double.MIN_VALUE;
-        if (this.random.nextDouble() <= 1.0d - this.epsilon) {
+        if (this.random.nextDouble() > 1.0d - this.epsilon) {
             for (int i = 0 ; i < super.nbPull.length ; i++) {
                 if (super.filterArm.contains(i))
                     continue;
