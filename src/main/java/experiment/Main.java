@@ -261,7 +261,7 @@ public class Main {
                     break;
                 case "classifier":
                 case "bayes":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("classifier.BayesManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("classifier.BayesManager").getDeclaredConstructor(int.class, int.class).newInstance(numberOfTask, seed));
 //                    manager = new BayesManager(numberOfTask, seed);
                     break;
                 case "sudoku":
