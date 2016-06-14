@@ -3,7 +3,7 @@ import sys
 
 exploration=sys.argv[1]
 
-subjects=("quicksort", "zip", "sudoku", "md5", "rc4", "laguerre", "rsa", "classifier", "canny")[::-1]#11 project, probably remove TEA
+subjects=("quicksort", "zip", "sudoku", "md5", "rc4", "laguerre", "rsa", "classifier", "canny")[::-1] #NEED TO ADD LCS
 
 outputR = open('results/violin_boxplot'+exploration+'.R', 'w')
 
@@ -16,7 +16,10 @@ out += "\""+ subjects[-1] + "\")\n"
 
 outputR.write(out)
 
-for subject in subjects:
+points = []
+
+for i in range(len(subjects)):
+    subject = subjects[i]
     lines = [line.rstrip('\n') for line in
              open("results/" + subject + "/"+exploration+"_CallExplorer_analysis_graph_data.txt")]
 
@@ -29,6 +32,8 @@ for subject in subjects:
 
     success = sorted(success)
 
+    points.append((i, success[int(len(success) / 2)]))
+
     out = subject + " <- c("
     for s in success[:-1]:
         out += str(s) + ","
@@ -40,6 +45,8 @@ out += "vioplot("
 for s in subjects:
     out += s + ","
 out += "names=names, col=\"lightblue\", horizontal=TRUE, drawRect=FALSE)\n"
+for i in range(len(subjects)):
+    out += "points("+str(points[i][1])+","+str(i+1)+", col=\"white\", bg=\"white\", type=\"p\", pch = 21)\n"
 out += "axis(2, at=seq(1, "+str(len(subjects))+", by=1), labels = FALSE)\n"
 out += "text(y = seq(1, "+str(len(subjects))+", by=1), par(\"usr\")[1], labels = names, srt = 0, pos = 2, xpd = TRUE)\n"
 out += "title(ylab=\"\", xlab=\"%success\")\n"
