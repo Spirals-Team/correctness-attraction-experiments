@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 #Install jPerturb
-git clone http://github.com/Spirals-Team/jPerturb.git
+git clone http://github.com/Spirals-Team/jPerturb.git 2>/dev/null
+cd jPerturb
+git pull
+cd ..
+
 cp -r jPerturb/src/main/java/perturbation src/main/java/
 
 #Now RM huge packages
