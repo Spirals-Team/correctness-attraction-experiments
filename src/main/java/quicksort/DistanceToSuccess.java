@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 /**
  * Created by bdanglot on 13/06/16.
  */
-public class DistanceHamming {
+public class DistanceToSuccess {
 
     private static List<Integer> readFragile(String exploration) {
         String path = "results/quicksort/"+exploration+"_CallExplorer";
@@ -80,7 +80,7 @@ public class DistanceHamming {
         System.out.println(fragilesPoints);
         manager.getLocations().stream().filter(location
                 -> fragilesPoints.contains(location.getLocationIndex())
-        ).forEach(DistanceHamming::computeDistance);
+        ).forEach(DistanceToSuccess::computeDistance);
     }
 
 

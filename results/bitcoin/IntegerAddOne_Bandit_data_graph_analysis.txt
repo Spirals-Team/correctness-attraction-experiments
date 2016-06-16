@@ -1,0 +1,23 @@
+Bandit exploration
+UCBPolicy alpha=2
+TimeBudget 7200000 ms
+7092 random tx between 3 bitcoin nodes
+Random integer generated with 23 as seed
+8143 perturbations points
+IndexLoc        #Perturbations  #Success        #Failure        #Exception      #Call           %Success            
+7369            1               0               0               1               1                0,00               
+2529            1               1               0               0               21              -------------------- 100,00
+1456            506             0               0               506             506              0,00               
+1457            507             0               0               507             507              0,00               
+1458            507             0               0               507             507              0,00               
+1462            507             0               0               507             1014             0,00               
+1463            506             0               0               506             1012             0,00               
+1464            506             0               0               506             1012             0,00               
+1480            506             0               0               506             506              0,00               
+1481            506             0               0               506             506              0,00               
+1483            507             0               0               507             507              0,00               
+1484            507             0               0               507             507              0,00               
+1486            506             0               0               506             506              0,00               
+1487            506             0               0               506             506              0,00               
+1489            506             0               0               506             506              0,00               
+1490            507             0               0               507             507              0,00               
