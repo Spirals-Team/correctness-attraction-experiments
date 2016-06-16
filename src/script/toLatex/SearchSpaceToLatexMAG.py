@@ -4,10 +4,10 @@ import sys
 import LatexToolBox
 
 #subjects=("quicksort", "zip", "sudoku", "md5", "TEA", "rc4", "laguerre", "rsa", "classifier", "torrent", "bitcoin") #11 project, probably remove TEA
-subjects=("quicksort", "zip", "sudoku", "md5", "rc4", "laguerre", "rsa", "classifier", "canny", "lcs")#, "torrent", "bitcoin") #11 project, probably remove TEA
+subjects=("quicksort", "zip", "sudoku", "md5")#, "rc4", "laguerre", "rsa", "classifier")#, "canny")#, "lcs")#, "torrent", "bitcoin") #11 project, probably remove TEA
 
 exploration=sys.argv[1]
-perturbation=sys.argv[2]
+perturbation=sys.argv[:2]
 
 def readFilePoints(path):
     lines = [line.rstrip('\n') for line in

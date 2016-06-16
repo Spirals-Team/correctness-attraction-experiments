@@ -5,7 +5,8 @@ import LatexToolBox
 subject=sys.argv[1]
 
 # exploration="IntegerAddOne"
-exploration="BooleanNegation"
+exploration="IntegerMinusOne"
+#exploration="BooleanNegation"
 
 lines = [line.rstrip('\n') for line in
          open("results/" + subject + "/"+exploration+"_CallExplorer_analysis_graph_data.txt")]
