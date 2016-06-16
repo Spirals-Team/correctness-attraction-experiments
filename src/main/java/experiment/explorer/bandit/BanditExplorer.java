@@ -81,13 +81,11 @@ public class BanditExplorer implements Explorer {
             this.policyLocation.filter(filter);//TODO The Time Budget should not take this reference run in account imo.
         } else {
             this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef), this.arms.get(indexArm)));
-            this.policyLocation.armPulled(indexArm);
             PerturbationEngine.loggers.get(this.name).logOn(this.arms.get(indexArm));
             Tuple result = run(this.lap);
             this.logger.log(indexArm, 0, 0, 0, result, this.name);
             PerturbationEngine.loggers.get(this.name).reset();
-            if (result.get(0) == 1)
-                this.policyLocation.successOnArm(indexArm);
+            this.policyLocation.update(indexArm, (int)result.get(0));
             this.lap++;
         }
     }

@@ -32,13 +32,9 @@ public abstract class PolicyImpl implements Policy {
     }
 
     @Override
-    public void armPulled(int i) {
-        this.nbPull[i]++;
-    }
-
-    @Override
-    public void successOnArm(int i) {
-        this.nbSuccessPerArm[i]++;
+    public void update(int index, int reward) {
+        this.nbPull[index]++;
+        this.nbSuccessPerArm[index] += reward;
     }
 
     @Override

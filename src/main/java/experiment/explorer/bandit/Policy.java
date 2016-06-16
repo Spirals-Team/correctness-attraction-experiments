@@ -13,21 +13,16 @@ public interface Policy {
     int selectArm();
 
     /**
-     * Notify that the given arm has been pulled
-     * @param i
-     */
-    void armPulled(int i);
-
-    /**
-     * Notify that the given arm has been succeed
-     * @param i
-     */
-    void successOnArm(int i);
-
-    /**
      * Log state of bandit : #pull #success estimated probability...
      */
     String log();
+
+    /**
+     * Update state of bandit
+     * @param index of the arm has been pulled
+     * @param reward of the pull
+     */
+    void update(int index, int reward);
 
     void filter(List<Integer> filter);
 }

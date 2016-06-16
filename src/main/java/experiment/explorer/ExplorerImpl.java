@@ -82,7 +82,7 @@ public abstract class ExplorerImpl implements Explorer {
         @SuppressWarnings("unchecked")
         List<PerturbationLocation> locations = this.manager.getLocations(this.exploration.getType());
         for (PerturbationLocation location : locations) {
-                System.out.println(location.getLocationIndex() + " " + Util.getStringPerc(locations.indexOf(location), locations.size()));
+            System.out.println(indexTask + " " + location.getLocationIndex() + " " + Util.getStringPerc(locations.indexOf(location), locations.size()));
             this.runReference(indexTask, location);
             this.runLocation(indexTask, location);
         }
@@ -92,13 +92,10 @@ public abstract class ExplorerImpl implements Explorer {
     public void run() {
         System.out.println("Run " + this.toString() + " on " + this.manager.getCUP().getSimpleName() + " ...");
         this.initLogger();
-
         @SuppressWarnings("unchecked")
         List<Integer> indices = this.manager.getIndexTask();
-            for (Integer index : indices) {
-                this.runTask(index);
-            }
-
+        for (Integer index : indices)
+            this.runTask(index);
         log();
     }
 
