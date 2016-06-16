@@ -185,6 +185,10 @@ public class BanditExplorer implements Explorer {
         Budget budget = null;
         Policy policy= null;
 
+        //TODO add more than one exploration
+        Exploration exploration = new IntegerExplorationPlusOne();
+//        manager.getLocations(exploration.getType());
+
         if ((currentIndex = Main.getIndexOfOption("-budget", args)) != -1) {
             switch (args[currentIndex+1]) {
                 case "time":
@@ -210,8 +214,6 @@ public class BanditExplorer implements Explorer {
             }
         }
 
-        Exploration exploration = new IntegerExplorationPlusOne();
-        manager.getLocations(exploration.getType());
         Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
         explorer.run();
         manager.stop();

@@ -41,7 +41,9 @@ public class UCBPolicy extends PolicyImpl {
         this.nbLap++;
         if (indices.isEmpty()) {
             IntStream.range(0, super.nbPull.length).filter(index -> !super.filterArm.contains(index)).forEach(indices::add);
-            return super.random.nextInt(indices.size());
+            if (indices.isEmpty())
+                return super.random.nextInt(super.nbPull.length);
+            return indices.get(super.random.nextInt(indices.size()));
         }
         return indices.get(super.random.nextInt(indices.size()));
     }
