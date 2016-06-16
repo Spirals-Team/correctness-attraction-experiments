@@ -11,8 +11,6 @@ import javax.swing.*;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Created by spirals on 27/04/16.
@@ -116,18 +114,4 @@ public class BayesManager extends ManagerImpl<Experiment, InstancesResultListene
         return super.indexTasks.size() + " datasets\nPicked up in the directory resources/classifier\n" +
                 super.locations.size() + " perturbations points\n";
     }
-
-    public static void main(String[] args) {
-        BayesManager manager = new BayesManager(1, 10);
-        try {
-            for (int i = 0; i < 4; i++) {
-                InstancesResultListener output = manager.getCallable(manager.getTask(i)).call();
-                System.out.println(manager.getOracle().assertPerturbation(manager.getTask(i), output));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
 }

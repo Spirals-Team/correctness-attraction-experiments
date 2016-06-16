@@ -1,8 +1,6 @@
 package classifier;
 
 import experiment.Oracle;
-import weka.classifiers.Classifier;
-import weka.classifiers.bayes.NaiveBayes;
 import weka.core.Instances;
 import weka.core.Range;
 import weka.experiment.*;
@@ -89,8 +87,6 @@ public class BayesOracle implements Oracle<Experiment, InstancesResultListener> 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return tester.getResultMatrix();
     }
-
 }
