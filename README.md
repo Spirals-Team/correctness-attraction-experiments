@@ -13,7 +13,7 @@ This project contains experiments for [jPerturb](https://github.com/Spirals-Team
 * mersenne: an implementation of the Mersenne-Twister PRNG: [link](http://www.java2s.com/Code/Java/Development-Class/MersenneTwisterRandom.htm)
 * rsa: asymmetric cryptosystem from [Bouncy Castle](https://github.com/bcgit/bc-java.git/)
 * rc4: symetric key stream cipher from [Bouncy Castle](https://github.com/bcgit/bc-java.git/)
-* tea: tiny encription algorithm in java, translation of this [implementation](https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm))
+* tea: tiny encription algorithm in java, translation of this [implementation](https://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm)
 * torrent: implementation of bittorent protocol retrieve [here](https://github.com/mpetazzoni/ttorrent).
 * bitcoin: implementation of bitcoin node in java found [here](https://github.com/bitcoinj/bitcoinj).
 * classifier: a Naive bayes classifier from [Weka](http://www.cs.waikato.ac.nz/ml/weka/).
@@ -30,13 +30,15 @@ This package is out of the experiments because it is used to draw perturbation e
 
 The experiments are the exploration of the perturbation envelop of each project.
 
-In order to explore it, we use 5 campaigns:
+In order to explore it, we use 5 explorations:
 
    * Add 1 at each call of each perturbation Point.
    * Add N, an increasing magnitude at each call of each perturbation points.
    * Add 1 with an increasing random probability.
    * Negation of Boolean at each call of each perturbation Point.
    * Negation of Boolean with an increasing random probability.
+
+Additionnal exploration :
    * Minus 1 at each call of each perturbation Point.
 
 ## Install
