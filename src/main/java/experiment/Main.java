@@ -265,8 +265,8 @@ public class Main {
                     manager = new MD5Manager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "bitcoin":
-                case "bc":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("bitcoin.BitcoinManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                case "btc":
+                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("bitcoin.BitcoinManager").getDeclaredConstructor(int.class, int.class, int.class, String.class).newInstance(numberOfTask, sizeOfTask, seed, typePerturbed));
                     break;
                 case "classifier":
                 case "bayes":

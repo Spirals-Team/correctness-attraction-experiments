@@ -17,6 +17,9 @@ import java.util.concurrent.TimeoutException;
  */
 public class TorrentCallable extends CallableImpl<String,String> {
 
+    /**
+     * The Manager is need in case of error during the call, we have to be able to reinit the system
+     */
     private TorrentManager manager;
 
     public TorrentCallable(String input, TorrentManager manager) {
@@ -56,25 +59,18 @@ public class TorrentCallable extends CallableImpl<String,String> {
 
             leecher.waitForCompletion();
 
-            leecher.stop();
-            seeder.stop();
-            tracker.stop();
-
         } catch (Exception e) {
             e.printStackTrace();
+            this.manager.recover();
+            throw new TimeoutException();
+        } finally {
             if (seeder != null)
                 seeder.stop();
             if (leecher != null)
                 leecher.stop();
-            tracker.stop();
-            this.manager.reinit();
-            throw new TimeoutException();
+            if (tracker != null)
+                tracker.stop();
         }
-
-//        leecher.stop();
-//        seeder.stop();
-//        tracker.stop();
-
         return input;
     }
 

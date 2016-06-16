@@ -29,7 +29,7 @@ public class TorrentOracle implements Oracle<String, String> {
             return Arrays.equals(f1, f2);
         } catch (IOException e) {
             e.printStackTrace();
-            this.manager.reinit();
+            this.manager.recover();
             return false;
         }
     }

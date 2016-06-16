@@ -4,10 +4,7 @@ import com.turn.ttorrent.bcodec.BDecoder;
 import com.turn.ttorrent.common.Torrent;
 import com.turn.ttorrent.tracker.TrackedTorrent;
 import com.turn.ttorrent.tracker.Tracker;
-import experiment.CallableImpl;
-import experiment.Main;
-import experiment.ManagerImpl;
-import experiment.Oracle;
+import experiment.*;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
 
@@ -27,19 +24,16 @@ import java.util.concurrent.*;
  */
 public class TorrentManager extends ManagerImpl<String, String> {
 
-    public static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
+    static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
 
-    public static final String PATH_TO_SENT_FILE = "resources/output_torrent/";
+    static final String PATH_TO_SENT_FILE = "resources/output_torrent/";
 
-    private final String URL_ANNOUCE = "http://0.0.0.0:6969/announce";
+    final String URL_ANNOUCE = "http://0.0.0.0:6969/announce";
 
-    private final String PREFIX_FILE = "test_file_";
+    final String PREFIX_FILE = "test_file_";
 
-    private final String CREATOR = "spirals";
+    final String CREATOR = "spirals";
 
-    private Tracker tracker;
-
-    private static FilenameFilter filter = (dir, name) -> name.endsWith(".torrent");
 
     public TorrentManager(int numberOfTask, int size) {
         this(numberOfTask, size, 23);
@@ -49,40 +43,11 @@ public class TorrentManager extends ManagerImpl<String, String> {
         super(seed);
         super.CUP = BDecoder.class;
         super.initialize(numberOfTask, size);
-        super.locations = this.buildAllLocation();
-//        this.initTracker();
+        super.locations = Util.getAllLocations("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent", "Numerical");//TODO Change type in function of the exploration
     }
 
-    private List<PerturbationLocation> buildAllLocation() {
-        try {
-            Search.getAllClasses("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent");
-        } catch (ClassNotFoundException e) {
-            System.exit(-1);
-        }
-        final List<PerturbationLocation> locations = new ArrayList<>();
-        Search.classes.stream().forEach(clazz -> {
-                    PerturbationLocationImpl.getLocationFromClass(clazz).forEach(location -> {
-                        if (!locations.contains(location) && location.getType().equals("Numerical"))
-                            locations.add(location);
-                    });
-                }
-        );
-        return locations;
-    }
-
-    public void initTracker() {
-        try {
-            this.tracker = new Tracker(new InetSocketAddress(Tracker.DEFAULT_TRACKER_PORT));
-            File parent = new File(PATH_TO_TORRENT_FILE);
-            for (File f : parent.listFiles(filter))
-                this.tracker.announce(TrackedTorrent.load(f));
-            this.tracker.start();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void reinit() {
+    @Override
+    public void recover() {
         try {
             File dir = new File(PATH_TO_SENT_FILE);
             if (dir.exists() && dir.isDirectory()) {
@@ -133,13 +98,6 @@ public class TorrentManager extends ManagerImpl<String, String> {
             e.printStackTrace();
         }
         return task;
-    }
-
-    @Override
-    public void stop() {
-        if (this.tracker != null)
-            this.tracker.stop();
-        this.tracker = null;
     }
 
     private void createTorrent(String pathOfTheNewTask, File task) {

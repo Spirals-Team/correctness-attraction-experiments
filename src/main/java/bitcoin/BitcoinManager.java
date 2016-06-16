@@ -1,22 +1,12 @@
 package bitcoin;
 
 
-import experiment.CallableImpl;
-import experiment.ManagerImpl;
-import experiment.Oracle;
-import experiment.Tuple;
-import org.bitcoinj.core.ECKey;
+import experiment.*;
 import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Sha256Hash;
-import org.bitcoinj.core.*;
-import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.RegTestParams;
-import org.bitcoinj.script.ScriptChunk;
 import org.bitcoinj.utils.BriefLogFormatter;
-import org.bitcoinj.wallet.BasicKeyChain;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,42 +39,24 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
     public BitcoinManager(int numberOfTask, int size, int seed, String typePerturbed) {
         super(seed);
         super.CUP = this.getClass();//CUP is unused for bitcoin
-        super.locations = new ArrayList<>();
-        //TODO spoon only class used, and so get new indices of the same location.
+        super.locations = Util.getAllLocations("./bitcoinj/core/src/main/java/org/bitcoinj/", "org.bitcoinj", "Numerical");//TODO Change type in function of the exploration
 //        if (typePerturbed.equals("Numerical")) {
-//            super.locations.add(ECKey.__L1743);//813
-//            super.locations.add(DeterministicKey.__L7172);//813
-//            super.locations.add(BasicKeyChain.__L13795);//816
-//            super.locations.add(UnsafeByteArrayOutputStream.__L5136);//463
-//            super.locations.add(Sha256Hash.__L3925);//168
-//            super.locations.add(ScriptChunk.__L11630);//168
+//            super.locations.add(ECKey.__L149);//813
+//            super.locations.add(DeterministicKey.__L607);//813
+//            super.locations.add(BasicKeyChain.__L1011);//816
+//            super.locations.add(UnsafeByteArrayOutputStream.__L544);//463
+//            super.locations.add(Sha256Hash.__L473);//168
+//            super.locations.add(ScriptChunk.__L785);//168
 //        } else if (typePerturbed.equals("Boolean")) {
-//            super.locations.add(BasicKeyChain.__L13802);//816
-//            super.locations.add(DeterministicKey.__L7209);//813
-//            super.locations.add(ECKey.__L1689);//805
-//            super.locations.add(UnsafeByteArrayOutputStream.__L5140);//462
-//            super.locations.add(ScriptChunk.__L11632);//281
-//            super.locations.add(Sha256Hash.__L3921);//105
+//            super.locations.add(BasicKeyChain.__L1018);//816
+//            super.locations.add(DeterministicKey.__L644);//813
+//            super.locations.add(ECKey.__L95);//805
+//            super.locations.add(UnsafeByteArrayOutputStream.__L548);//462
+//            super.locations.add(ScriptChunk.__L787);//281
+//            super.locations.add(Sha256Hash.__L469);//105
 //        }
-
-        if (typePerturbed.equals("Numerical")) {
-            super.locations.add(ECKey.__L149);//813
-            super.locations.add(DeterministicKey.__L607);//813
-            super.locations.add(BasicKeyChain.__L1011);//816
-            super.locations.add(UnsafeByteArrayOutputStream.__L544);//463
-            super.locations.add(Sha256Hash.__L473);//168
-            super.locations.add(ScriptChunk.__L785);//168
-        } else if (typePerturbed.equals("Boolean")) {
-            super.locations.add(BasicKeyChain.__L1018);//816
-            super.locations.add(DeterministicKey.__L644);//813
-            super.locations.add(ECKey.__L95);//805
-            super.locations.add(UnsafeByteArrayOutputStream.__L548);//462
-            super.locations.add(ScriptChunk.__L787);//281
-            super.locations.add(Sha256Hash.__L469);//105
-        }
-
         this.initialize(numberOfTask, size);
-        recover();
+        this.recover();
     }
 
     @Override

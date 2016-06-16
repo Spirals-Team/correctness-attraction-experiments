@@ -1,5 +1,6 @@
 package quicksort;
 
+import lcs.LCS;
 import perturbation.enactor.NeverEnactorImpl;
 import perturbation.enactor.RandomUniqueEpsilonEnactor;
 import perturbation.location.PerturbationLocation;
@@ -19,7 +20,7 @@ import java.util.stream.IntStream;
 public class DistanceToSuccess {
 
     private static List<Integer> readFragile(String exploration) {
-        String path = "results/quicksort/"+exploration+"_CallExplorer";
+        String path = "results/quicksort/" + exploration + "_CallExplorer";
         try {
             List<Integer> indexFragilePoints = new ArrayList<>();
             BufferedReader br = new BufferedReader(new FileReader(path + "_oracle_fragile" + ".txt"));
@@ -38,7 +39,7 @@ public class DistanceToSuccess {
                 .reduce(0, (acc, indexTask) ->
                         acc + runTask(indexTask, location)
                 )
-                / (double)20 + "\\\\");
+                / (double) 20 + "\\\\");
     }
 
     private static int runTask(int indexTask, PerturbationLocation location) {
@@ -48,11 +49,13 @@ public class DistanceToSuccess {
             int[] output = manager.getTask(indexTask);
             try {
                 output = manager.getCallable(manager.getTask(indexTask)).call();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
             int distance = computeDistance(indexTask, output);
             location.setEnactor(new NeverEnactorImpl());
             location.setPerturbator(new NothingPerturbatorImpl());
-            return distance;
+            int distanceRef = LCS.lcs(arrayToSTring(manager.getTask(indexTask)), arrayToSTring(manager.getTask(indexTask))).length();
+            return 100 - (int) (( (double) distance / (double) distanceRef) * 100);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,22 +63,27 @@ public class DistanceToSuccess {
     }
 
     private static int computeDistance(int indexTask, int[] output) {
-        if (manager.getOracle().assertPerturbation(manager.getTask(indexTask), output))
-            return 0;
-        else {
             int[] input = manager.getTask(indexTask);
             QuickSort.sort(input, 0, input.length - 1);
-            return IntStream.range(0, input.length).reduce(0, (acc, index) ->
-                    acc + (input[index] != output[index] ? 1 : 0)
-            );
+            return LCS.lcs(arrayToSTring(input), arrayToSTring(output)).length();
+//            return IntStream.range(0, input.length).reduce(0, (acc, index) ->
+//                    acc + (input[index] != output[index] ? 1 : 0)
+//            );
+    }
+
+    private static String arrayToSTring(int[] array) {
+        String str = "";
+        for (int anArray : array) {
+            str += anArray;
         }
+        return str;
     }
 
     private static QuickSortManager manager = new QuickSortManager(20, 100);
 
     public static void main(String[] args) {
-        String exploration = "BooleanNegation";
-//        String exploration = "IntegerAddOne";
+//        String exploration = "BooleanNegation";
+        String exploration = "IntegerAddOne";
         List<Integer> fragilesPoints = readFragile(exploration);
         System.out.println(fragilesPoints);
         manager.getLocations().stream().filter(location
