@@ -29,12 +29,6 @@ public class TestOracle {
         return clone;
     }
 
-    private List<Integer> clone(List<Integer> lst) {
-        List<Integer> clone = new ArrayList<>();
-        clone.addAll(lst);
-        return clone;
-    }
-
     @Test
     public void testQuickSort() throws Exception {
 
