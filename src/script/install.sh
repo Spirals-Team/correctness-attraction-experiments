@@ -68,8 +68,9 @@ path_weka=weka-3-8-0/src/src/main/java/
 
 #Spooning Weka
 i=weka/experiment/CrossValidationResultProducer.java
+i=$path_weka/weka/experiment/CrossValidationResultProducer.java:$path_weka/weka/core/matrix/LinearRegression.java
 echo "java -classpath $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb spoon.Launcher -i $path_weka/$i:$perturbation -o $path_weka --with-imports -p $processors"
-java -classpath $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb spoon.Launcher -i $path_weka/$i:$perturbation -o $path_weka --with-imports -p $processors
+java -classpath $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb spoon.Launcher -i $i:$perturbation -o $path_weka --with-imports -p $processors
 cd weka-3-8-0/src
 mvn install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 cd ../../
