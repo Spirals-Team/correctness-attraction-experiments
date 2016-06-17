@@ -10,6 +10,7 @@ import md5.MD5Manager;
 import mersenne.MersenneManager;
 import partial_mutant.MutantExplorer;
 import quicksort.QuickSortManager;
+import regression.LinearRegressionManager;
 import sudoku.SudokuManager;
 import zip.ZipManager;
 import lcs.LCSManager;
@@ -84,7 +85,9 @@ public class Main {
 
         if ((currentIndex = getIndexOfOption("-exp", args)) != -1) {
             Explorer explorer = buildExp(currentIndex + 1, args);
+            long time = System.currentTimeMillis();
             explorer.run();
+            System.out.println(System.currentTimeMillis() - time + " ms");
         } else if ((currentIndex = getIndexOfOption("-run", args)) != -1) {
             run(currentIndex + 1, args);
         }
@@ -239,6 +242,11 @@ public class Main {
         try {
 
             switch (args[index]) {
+                case "lr":
+                case "linear":
+                case "regression":
+                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("regression.LinearRegressionManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    break;
                 case "lcs":
                     manager = new LCSManager(numberOfTask, sizeOfTask, seed);
                     break;
