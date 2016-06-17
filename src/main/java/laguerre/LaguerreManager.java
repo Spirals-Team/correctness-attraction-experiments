@@ -3,8 +3,13 @@ package laguerre;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
+import javafx.util.Pair;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by bdanglot on 26/05/16.
@@ -29,10 +34,10 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
 
     @Override
     protected double[] generateOneTask() {
-        double[] coef = new double[super.sizeOfTask];
+        double[] task = new double[super.sizeOfTask];
         for (int i = 0; i < super.sizeOfTask; i++)
-            coef[i] = -5.0 + 10.0 * randomForGenTask.nextDouble();//TODO Should we set a bound : -5.0 <= coeff <= 5.0
-        return coef;
+            task[i] = Math.floor(-5.0 + 10.0 * randomForGenTask.nextDouble());//TODO Should we set a bound : -5.0 <= coeff <= 5.0
+        return task;
     }
 
     @Override
@@ -46,16 +51,14 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
             }
         };
     }
-
+    
     @Override
     public Oracle<double[], Double> getOracle() {
         return (input, output) -> {
             double assertion = 0.0;
-            for (int i = input.length - 1; i >= 0; i--) {
+            for (int i = input.length - 1; i >= 0; i--)
                 assertion += input[i] * Math.pow(output, i);
-            }
-            System.out.println(Math.abs(assertion));
-            return Math.abs(assertion) < EPSILON;//TODO Checks this oracle
+            return Math.floor(assertion) <= this.EPSILON;
         };
     }
 
@@ -77,16 +80,6 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
         double[] clone = new double[super.sizeOfTask];
         System.arraycopy(super.tasks.get(indexOfTask), 0, clone, 0, super.sizeOfTask);
         return clone;
-    }
-
-    public static void main(String[] args) {
-        LaguerreManager manager = new LaguerreManager(10, 100);
-        try {
-            for (int i = 0; i < 10; i++)
-                System.out.println(manager.getOracle().assertPerturbation(manager.getTask(i), manager.getCallable(manager.getTask(i)).call()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 }
