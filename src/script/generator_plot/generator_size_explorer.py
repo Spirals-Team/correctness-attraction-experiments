@@ -78,7 +78,7 @@ def plot_increasingSize_percentageSuccess(path, filename, output, subject, logsc
         #cut = min(indexToCut, len(percAll[i]))
         plt.plot(nAll[i][:cut], percAll[i][:cut], marker='x', label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"))
     plt.xlabel(labelOfN)
-    plt.ylabel("% success")
+    plt.ylabel("Correctness ratio")
     box = ax.get_position()
     txt = ""
     for line in lines[0:7]:

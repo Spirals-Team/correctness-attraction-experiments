@@ -49,7 +49,7 @@ for i in range(len(subjects)):
     out += "points("+str(points[i][1])+","+str(i+1)+", col=\"white\", bg=\"white\", type=\"p\", pch = 21)\n"
 out += "axis(2, at=seq(1, "+str(len(subjects))+", by=1), labels = FALSE)\n"
 out += "text(y = seq(1, "+str(len(subjects))+", by=1), par(\"usr\")[1], labels = names, srt = 0, pos = 2, xpd = TRUE)\n"
-out += "title(ylab=\"\", xlab=\"%success\")\n"
+out += "title(ylab=\"\", xlab=\"Correctness ratio\")\n"
 out += "dev.off()\n"
 outputR.write(out)
 outputR.close()

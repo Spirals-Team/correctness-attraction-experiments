@@ -40,7 +40,7 @@ ax.set_xticklabels(subjects, rotation=-45)
 for tick in ax.xaxis.get_minor_ticks():
     tick.label1.set_horizontalalignment('left')
 
-lgd = ax.legend((rects1[0],), ('% Success',), loc='center left', bbox_to_anchor=(1, 0.5))
+lgd = ax.legend((rects1[0],), ('Correctness ratio',), loc='center left', bbox_to_anchor=(1, 0.5))
 
 def autolabel(rects, nbexecs):
     # attach some text labels

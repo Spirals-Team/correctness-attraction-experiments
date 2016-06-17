@@ -73,7 +73,7 @@ def plot(subject, type):
         color = colors_manager.getColor(int(indicesLocation[i]))
         plt.plot(xaxis[i], percAll[i], marker='x', label=str(indicesLocation[i]+ " " + str(int(percAll[i][0])) + " %"), color=color)
     plt.xlabel("#perturbation per exec")
-    plt.ylabel("% success")
+    plt.ylabel("Correctness ratio")
     box = ax.get_position()
     txt = ""
     for line in lines[0:7]:
