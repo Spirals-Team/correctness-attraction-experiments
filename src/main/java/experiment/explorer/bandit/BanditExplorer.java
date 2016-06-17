@@ -185,7 +185,7 @@ public class BanditExplorer implements Explorer {
 
         //TODO add more than one exploration
         Exploration exploration = new IntegerExplorationPlusOne();
-//        manager.getLocations(exploration.getType());
+        manager.getLocations(exploration.getType());
 
         if ((currentIndex = Main.getIndexOfOption("-budget", args)) != -1) {
             switch (args[currentIndex+1]) {
