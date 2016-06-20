@@ -155,7 +155,7 @@ public class Main {
         MutantExplorer.launch(manager);
     }
 
-    private static void runBandit(String [] args) {
+    private static void runBandit(String[] args) {
         BanditExplorer.run(manager, args);
     }
 
@@ -245,13 +245,13 @@ public class Main {
                 case "lr":
                 case "linear":
                 case "regression":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("regression.LinearRegressionManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("regression.LinearRegressionManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "lcs":
                     manager = new LCSManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "sat":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("sat.SATManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("sat.SATManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "canny":
                     manager = new CannyManager(numberOfTask, seed);
@@ -260,10 +260,10 @@ public class Main {
                     manager = new ZipManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "rc4":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("rc4.RC4Manager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("rc4.RC4Manager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "torrent":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("torrent.TorrentManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("torrent.TorrentManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "mersenne":
                 case "mt":
@@ -274,27 +274,27 @@ public class Main {
                     break;
                 case "bitcoin":
                 case "btc":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("bitcoin.BitcoinManager").getDeclaredConstructor(int.class, int.class, int.class, String.class).newInstance(numberOfTask, sizeOfTask, seed, typePerturbed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("bitcoin.BitcoinManager").getDeclaredConstructor(int.class, int.class, int.class, String.class).newInstance(numberOfTask, sizeOfTask, seed, typePerturbed);
                     break;
                 case "classifier":
                 case "bayes":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("classifier.BayesManager").getDeclaredConstructor(int.class, int.class).newInstance(numberOfTask, seed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("classifier.BayesManager").getDeclaredConstructor(int.class, int.class).newInstance(numberOfTask, seed);
                     break;
                 case "sudoku":
                     manager = new SudokuManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "cipher":
                 case "rsa":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("rsa.RSAManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("rsa.RSAManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "simplex":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("optimizer.SimplexManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("optimizer.SimplexManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "tea":
                     manager = new TEAManager(numberOfTask, sizeOfTask, seed);
                     break;
                 case "laguerre":
-                    manager = (Manager) (ClassLoader.getSystemClassLoader().loadClass("laguerre.LaguerreManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed));
+                    manager = (Manager) Main.class.getClassLoader().loadClass("laguerre.LaguerreManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 default:
                 case "qs":
