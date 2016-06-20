@@ -82,7 +82,8 @@ public abstract class ExplorerImpl implements Explorer {
         @SuppressWarnings("unchecked")
         List<PerturbationLocation> locations = this.manager.getLocations(this.exploration.getType());
         for (PerturbationLocation location : locations) {
-            System.out.println(indexTask + " " + location.getLocationIndex() + " " + Util.getStringPerc(locations.indexOf(location), locations.size()));
+            if (Main.verbose)
+                System.out.println(indexTask + " " + location.getLocationIndex() + " " + Util.getStringPerc(locations.indexOf(location), locations.size()));
             this.runReference(indexTask, location);
             this.runLocation(indexTask, location);
         }
