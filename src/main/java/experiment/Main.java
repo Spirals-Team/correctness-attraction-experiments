@@ -10,7 +10,6 @@ import md5.MD5Manager;
 import mersenne.MersenneManager;
 import partial_mutant.MutantExplorer;
 import quicksort.QuickSortManager;
-import regression.LinearRegressionManager;
 import sudoku.SudokuManager;
 import zip.ZipManager;
 import lcs.LCSManager;
