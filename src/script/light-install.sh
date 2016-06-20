@@ -10,7 +10,7 @@ cp -r jPerturb/src/main/java/perturbation src/main/java/
 
 #Now RM huge packages
 path=src/main/java
-packages=(bitcoin classifier laguerre rc4 rsa sat simplex torrent)
+packages=(bitcoin classifier laguerre rc4 regression rsa sat simplex torrent)
 for file in "${packages[@]}"
 do
     echo "rm -rf $path/$file"
