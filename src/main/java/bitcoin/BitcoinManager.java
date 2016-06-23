@@ -39,22 +39,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
     public BitcoinManager(int numberOfTask, int size, int seed, String typePerturbed) {
         super(seed);
         super.CUP = this.getClass();//CUP is unused for bitcoin
-        super.locations = Util.getAllLocations("./bitcoinj/core/src/main/java/org/bitcoinj/", "org.bitcoinj", "Numerical");//TODO Change type in function of the exploration
-//        if (typePerturbed.equals("Numerical")) {
-//            super.locations.add(ECKey.__L149);//813
-//            super.locations.add(DeterministicKey.__L607);//813
-//            super.locations.add(BasicKeyChain.__L1011);//816
-//            super.locations.add(UnsafeByteArrayOutputStream.__L544);//463
-//            super.locations.add(Sha256Hash.__L473);//168
-//            super.locations.add(ScriptChunk.__L785);//168
-//        } else if (typePerturbed.equals("Boolean")) {
-//            super.locations.add(BasicKeyChain.__L1018);//816
-//            super.locations.add(DeterministicKey.__L644);//813
-//            super.locations.add(ECKey.__L95);//805
-//            super.locations.add(UnsafeByteArrayOutputStream.__L548);//462
-//            super.locations.add(ScriptChunk.__L787);//281
-//            super.locations.add(Sha256Hash.__L469);//105
-//        }
+        super.locations = Util.getAllLocations("./bitcoinj/core/src/main/java/org/bitcoinj/", "org.bitcoinj", typePerturbed);
         this.initialize(numberOfTask, size);
         this.recover();
     }
