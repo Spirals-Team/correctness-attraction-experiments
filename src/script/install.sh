@@ -23,8 +23,8 @@ cd ..
 i=(md5/MD5.java quicksort/QuickSort.java mersenne/MersenneTwister.java sudoku/Sudoku.java zip/LZW.java canny/CannyEdgeDetector.java)
 for file in "${i[@]}"
 do
-    echo "java -jar $jPerturb -i src/main/java/$file:$perturbation -o src/main/java --with-imports -p $processors"
-    java -jar $jPerturb -i src/main/java/$file:$perturbation -o src/main/java --with-imports -p processor.RenameProcessor:$processors
+    echo "java -cp $jPerturb main.Main -type IntNum:boolean -r -i src/main/java/$file:$perturbation -o src/main/java --with-imports"
+    java -cp $jPerturb main.Main -type IntNum:boolean -r -i src/main/java/$file:$perturbation -o src/main/java --with-imports
 done
 
 #Install Commons Math
@@ -39,10 +39,10 @@ cd ..
 #Spooning math
 simplex=org/apache/commons/math3/optim/linear/SimplexSolver.java
 laguerre=org/apache/commons/math3/analysis/solvers/LaguerreSolver.java
-echo "java -cp $jar_math:$jPerturb spoon.Launcher -i $path_math/$simplex:$perturbation -o $path_math --with-imports -p processor.RenameProcessor:$processors"
-java -cp $jar_math:$jPerturb spoon.Launcher -i $path_math/$simplex:$perturbation -o $path_math --with-imports -p processor.RenameProcessor:$processors
-echo "java -cp $jar_math:$jPerturb spoon.Launcher -i $path_math/$laguerre:$perturbation -o $path_math --with-imports -p $processors"
-java -cp $jar_math:$jPerturb spoon.Launcher -i $path_math/$laguerre:$perturbation -o $path_math --with-imports -p $processors
+echo "java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -r -spoon -i $path_math/$simplex:$perturbation -o $path_math --with-imports"
+java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -r -spoon -i $path_math/$simplex:$perturbation -o $path_math --with-imports
+echo "java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -spoon -i $path_math/$laguerre:$perturbation -o $path_math --with-imports"
+java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -spoon -i $path_math/$laguerre:$perturbation -o $path_math --with-imports
 
 #Install Instrumented Math
 cd commons-math3-3.6.1-src
@@ -67,10 +67,11 @@ jar_weka=weka-3-8-0/weka.jar
 path_weka=weka-3-8-0/src/src/main/java/
 
 #Spooning Weka
-i=weka/experiment/CrossValidationResultProducer.java
+#i=weka/experiment/CrossValidationResultProducer.java
 i=$path_weka/weka/experiment/CrossValidationResultProducer.java:$path_weka/weka/core/matrix/LinearRegression.java
-echo "java -classpath $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb spoon.Launcher -i $path_weka/$i:$perturbation -o $path_weka --with-imports -p $processors"
-java -classpath $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb spoon.Launcher -i $i:$perturbation -o $path_weka --with-imports -p $processors
+echo "java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.Main -type IntNum:boolean -spoon -i $i:$perturbation -o $path_weka --with-imports"
+java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.Main -type IntNum:boolean -spoon -i $i:$perturbation -o $path_weka --with-imports
+
 cd weka-3-8-0/src
 mvn install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
 cd ../../
@@ -87,8 +88,8 @@ cd ..
 path_torrent=ttorrent/core/src/main/java/
 i=com/turn/ttorrent/
 jar_torrent=ttorrent/core/target/ttorrent-core-1.6-SNAPSHOT.jar
-echo "java -classpath $mvn_dep_torrent:$jar_torrent:$jPerturb spoon.Launcher -i $path_torrent/$i:$perturbation -o $path_torrent --with-imports -p $processors"
-java -classpath $mvn_dep_torrent:$jar_torrent:$jPerturb spoon.Launcher -i $path_torrent/$i:$perturbation -o $path_torrent --with-imports -p $processors
+echo "java -cp $mvn_dep_torrent:$jar_torrent:$jPerturb main.Main -type IntNum:boolean -spoon -i $path_torrent/$i:$perturbation -o $path_torrent --with-imports"
+java -cp $mvn_dep_torrent:$jar_torrent:$jPerturb main.Main -type IntNum:boolean -spoon -i $path_torrent/$i:$perturbation -o $path_torrent --with-imports
 
 cd ttorrent
 mvn install -Dmaven.javadoc.skip=true -DskipTests
@@ -106,10 +107,10 @@ cd ..
 mvn_dep_bitcoin=$m2_repo/junit/junit/4.12/junit-4.12.jar:$m2_repo/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:$m2_repo/org/easymock/easymock/3.2/easymock-3.2.jar:$m2_repo/cglib/cglib-nodep/2.2.2/cglib-nodep-2.2.2.jar:$m2_repo/org/objenesis/objenesis/1.3/objenesis-1.3.jar:$m2_repo/org/slf4j/slf4j-jdk14/1.7.7/slf4j-jdk14-1.7.7.jar:$m2_repo/com/fasterxml/jackson/core/jackson-databind/2.5.2/jackson-databind-2.5.2.jar:$m2_repo/com/fasterxml/jackson/core/jackson-annotations/2.5.0/jackson-annotations-2.5.0.jar:$m2_repo/com/fasterxml/jackson/core/jackson-core/2.5.1/jackson-core-2.5.1.jar:$m2_repo/com/h2database/h2/1.3.167/h2-1.3.167.jar:$m2_repo/com/madgag/spongycastle/core/1.51.0.0/core-1.51.0.0.jar:$m2_repo/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0.jar:$m2_repo/com/google/guava/guava/16.0.1/guava-16.0.1.jar:$m2_repo/com/google/code/findbugs/jsr305/2.0.1/jsr305-2.0.1.jar:$m2_repo/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar:$m2_repo/com/lambdaworks/scrypt/1.4.0/scrypt-1.4.0.jar:$m2_repo/postgresql/postgresql/9.1-901.jdbc4/postgresql-9.1-901.jdbc4.jar:$m2_repo/mysql/mysql-connector-java/5.1.33/mysql-connector-java-5.1.33.jar:$m2_repo/org/fusesource/leveldbjni/leveldbjni-all/1.8/leveldbjni-all-1.8.jar:$m2_repo/org/bitcoinj/orchid/1.1.1/orchid-1.1.1.jar:$m2_repo/com/squareup/okhttp/okhttp/2.2.0/okhttp-2.2.0.jar:$m2_repo/com/squareup/okio/okio/1.2.0/okio-1.2.0.jar:$m2_repo/org/slf4j/slf4j-api/1.7.7/slf4j-api-1.7.7.jar
 jar_bitcoin=bitcoinj/core/target/bitcoinj-core-0.13.6.jar
 path_bitcoin=bitcoinj/core/src/main/java/
-i=$path_bitcoin/org/bitcoinj/core/ECKey.java:$path_bitcoin/org/bitcoinj/crypto/DeterministicKey.java:$path_bitcoin/org/bitcoinj/core/Sha256Hash.java:$path_bitcoin/org/bitcoinj/wallet/BasicKeyChain.java:$path_bitcoin/org/bitcoinj/core/UnsafeByteArrayOutputStream.java:$path_bitcoin/org/bitcoinj/script/ScriptChunk.java
-#i=$path_bitcoin/org/bitcoinj
-echo "java -classpath $mvn_dep_bitcoin:$jar_bitcoin:$jPerturb spoon.Launcher --with-imports -i $path_bitcoin/$i:$perturbation -o $path_bitcoin -p $processors"
-java -classpath $mvn_dep_bitcoin:$jar_bitcoin:$jPerturb spoon.Launcher --with-imports -x -i $i:$perturbation -o $path_bitcoin -p $processors
+#i=$path_bitcoin/org/bitcoinj/core/ECKey.java:$path_bitcoin/org/bitcoinj/crypto/DeterministicKey.java:$path_bitcoin/org/bitcoinj/core/Sha256Hash.java:$path_bitcoin/org/bitcoinj/wallet/BasicKeyChain.java:$path_bitcoin/org/bitcoinj/core/UnsafeByteArrayOutputStream.java:$path_bitcoin/org/bitcoinj/script/ScriptChunk.java
+i=$path_bitcoin/org/bitcoinj
+echo "java -cp $mvn_dep_bitcoin:$jar_bitcoin:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -x -i $i:$perturbation -o $path_bitcoin"
+java -cp $mvn_dep_bitcoin:$jar_bitcoin:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -x -i $i:$perturbation -o $path_bitcoin
 
 #Install instrumented Bitcoinj
 cd bitcoinj
@@ -139,8 +140,8 @@ mvn_dep_bitcoin=$m2_repo/junit/junit/4.12/junit-4.12.jar:$m2_repo/org/hamcrest/h
 jar_bc=bc-java/core/build/libs/core-1.52.jar
 path_bc=bc-java/core/src/main/java/
 i=$path_bc/org/bouncycastle/crypto/engines/RSACoreEngine.java:$path_bc/org/bouncycastle/crypto/engines/RC4Engine.java
-echo "java -classpath $jar_bc:$jPerturb spoon.Launcher --with-imports -i $path_bc/$i:$perturbation -o $path_bc -p $processors"
-java -classpath $jar_bc:$jPerturb spoon.Launcher --with-imports -i $i:$perturbation -o $path_bc -p $processors
+echo "java -cp $jar_bc:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -i $i:$perturbation -o $path_bc"
+java -cp $jar_bc:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -i $i:$perturbation -o $path_bc
 
 cd bc-java
 gradle core:clean
@@ -163,8 +164,8 @@ file=$path/org/sat4j/minisat/core/Solver.java
 
 echo $file
 
-echo "java -jar $jPerturb -i $file:$perturbation -o $path -x --with-imports -p $processors"
-java -cp $jPerturb:org.sat4j.core.jar spoon.Launcher -i $file:$perturbation -o $path -x --with-imports -p $processors
+echo "java -cp $jPerturb:org.sat4j.core.jar main.Main -type IntNum:boolean -spoon -i $file:$perturbation -o $path -x --with-imports"
+java -cp $jPerturb:org.sat4j.core.jar main.Main -type IntNum:boolean -spoon -i $file:$perturbation -o $path -x --with-imports
 
 cd sat-src
 
