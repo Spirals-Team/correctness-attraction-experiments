@@ -3,7 +3,7 @@ import sys
 
 import LatexToolBox
 
-subjects=("quicksort", "zip", "sudoku", "md5", "rsa", "rc4", "canny", "lcs", "laguerre", "classifier", )
+subjects=("quicksort", "zip", "sudoku", "md5", "rsa", "rc4", "canny", "lcs", "laguerre", "regression" )
 
 exploration=sys.argv[1]
 perturbation=sys.argv[2]
