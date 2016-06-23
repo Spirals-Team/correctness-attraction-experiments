@@ -26,9 +26,13 @@ public class Window extends JFrame implements Observer {
     private final int cy;
     private final int r = 100;
 
-    private JLabel labelAccExec;
+    private JLabel labelAvgExecPerSecond;
 
-    private JLabel labelAccExecSuccess;
+//    private JLabel labelAvgExecSuccessPerSecond;
+
+//    private JLabel labelAccExec;
+
+//    private JLabel labelAccExecSuccess;
 
     private JLabel labelavgPertubationPerExecution;
 
@@ -62,9 +66,12 @@ public class Window extends JFrame implements Observer {
         this.rand = new JTextArea(String.format("%.2f", this.model.getRnd()));
         this.rand.setEditable(false);
 
-        this.labelAccExec = new JLabel(String.valueOf(this.model.getAccExec()));
-        this.labelAccExecSuccess = new JLabel(String.valueOf(this.model.getAccExecSuccess()));
-        this.labelavgPertubationPerExecution = new JLabel(String.valueOf(this.model.getAvgPerturbationPerExec()));
+//        this.labelAccExec = new JLabel(String.valueOf(this.model.getAccExec()));
+//        this.labelAccExecSuccess = new JLabel(String.valueOf(this.model.getAccExecSuccess()));
+//        this.labelavgPertubationPerExecution = new JLabel(String.valueOf(this.model.getAvgPerturbationPerExec()));
+//        this.labelAvgExecSuccessPerSecond = new JLabel(String.format("%.2f", String.valueOf(this.model.getAvgExecSuccessPerSecond())));
+
+        this.labelAvgExecPerSecond = new JLabel(String.format("%.2f", this.model.getAvgExecPerSecond()));
 
         try {
             this.img = ImageIO.read(new File("resources/img/success_meter.png"));
@@ -106,7 +113,11 @@ public class Window extends JFrame implements Observer {
         this.addListeners();
     }
 
+    /**
+     * add Listener to modify the probability to perturb
+     */
     private void addListeners() {
+        //Mouse Wheel
         this.addMouseWheelListener(new MouseAdapter() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
@@ -122,6 +133,7 @@ public class Window extends JFrame implements Observer {
             }
         });
 
+        //Hardcoding for the volume knob
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -144,19 +156,20 @@ public class Window extends JFrame implements Observer {
 
     private JPanel buildPanelLabel() {
         JPanel panelLabel = new JPanel();
-        panelLabel.setLayout(new GridLayout(3, 3));
+        panelLabel.setLayout(new GridLayout(3, 2));
 
         panelLabel.add(new JLabel());
         panelLabel.add(this.rand);
         panelLabel.add(new JLabel());
 
-        panelLabel.add(this.labelavgPertubationPerExecution);
+//        panelLabel.add(this.labelavgPertubationPerExecution);
         panelLabel.add(new JLabel());
-        panelLabel.add(this.labelAccExec);
+        panelLabel.add(new JLabel());
+        panelLabel.add(this.labelAvgExecPerSecond);
 
-        panelLabel.add(new JLabel());
-        panelLabel.add(new JLabel());
-        panelLabel.add(this.labelAccExecSuccess);
+//        panelLabel.add(new JLabel());
+//        panelLabel.add(new JLabel());
+//        panelLabel.add(this.labelAccExecSuccess);
         return panelLabel;
     }
 
@@ -237,9 +250,11 @@ public class Window extends JFrame implements Observer {
     public void run() {
         Graphics2D g2D = (Graphics2D) this.panel.getGraphics();
 
-        this.labelAccExec.setText(String.valueOf(this.model.getAccExec()));
-        this.labelAccExecSuccess.setText(String.valueOf(this.model.getAccExecSuccess()));
-        this.labelavgPertubationPerExecution.setText(String.format("%.2f", this.model.getAvgPerturbationPerExec()));
+//        this.labelAccExec.setText(String.valueOf(this.model.getAccExec()));
+//        this.labelAccExecSuccess.setText(String.valueOf(this.model.getAccExecSuccess()));
+//        this.labelavgPertubationPerExecution.setText(String.format("%.2f", this.model.getAvgPerturbationPerExec()));
+
+        this.labelAvgExecPerSecond.setText(String.format("%.2f", this.model.getAvgExecPerSecond()));
         this.labelSize.setText(String.valueOf(this.model.getSize()));
         this.labelNbTask.setText(String.valueOf(this.model.getNumberOfTask()));
 

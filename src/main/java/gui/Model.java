@@ -1,5 +1,6 @@
 package gui;
 
+import experiment.Main;
 import experiment.Manager;
 import experiment.Tuple;
 import perturbation.PerturbationEngine;
@@ -38,6 +39,10 @@ public class Model extends Observable {
 
     private Class<?> classManager;
 
+    private double avgExecPerSecond;
+
+    private double avgExecSuccessPerSecond;
+
     private int accExec;
 
     private int accExecSuccess;
@@ -53,6 +58,14 @@ public class Model extends Observable {
     private List<Integer> robustLocation;//100% to 50%
 
     private List<Integer> weakLocation;//<50%
+
+    public double getAvgExecPerSecond() {
+        return this.avgExecPerSecond;
+    }
+
+    public double getAvgExecSuccessPerSecond() {
+        return avgExecSuccessPerSecond;
+    }
 
     public int getAccExec() {
         return accExec;
@@ -103,12 +116,12 @@ public class Model extends Observable {
     }
 
     public void addRand(float value) {
-        this.rnd = this.rnd + value >= 1.0f? 1.0f : this.rnd + value;
+        this.rnd = this.rnd + value >= 1.0f ? 1.0f : this.rnd + value;
         this.setUpLocations();
     }
 
     public void minusRand(float value) {
-        this.rnd = this.rnd - value <= 0.0f? 0.0f : this.rnd - value;
+        this.rnd = this.rnd - value <= 0.0f ? 0.0f : this.rnd - value;
         this.setUpLocations();
     }
 
@@ -132,6 +145,7 @@ public class Model extends Observable {
     }
 
     public Model(Class<?> manager) {
+        this.avgExecPerSecond = 0.0D;
         this.accExec = 0;
         this.accExecSuccess = 0;
         this.size = 100;
@@ -236,9 +250,11 @@ public class Model extends Observable {
         this.locations.stream().filter(location -> this.currentTypeOfLocation.contains(location.getType()) && indices.contains(location.getLocationIndex()))
                 .forEach(location -> {
                     location.setEnactor(new RandomEnactorImpl(rnd));
-                    System.out.print(location.getLocationIndex() + " ");
+                    if (Main.verbose)
+                        System.out.print(location.getLocationIndex() + " ");
                 });
-        System.out.println();
+        if (Main.verbose)
+            System.out.println();
 
         this.setChanged();
         this.notifyObservers();
@@ -269,7 +285,11 @@ public class Model extends Observable {
             System.exit(-1);
         }
 
+        long time = System.currentTimeMillis();
         int nbSuccess = IntStream.range(0, numberOfTask).reduce(0, (acc, indexTask) -> acc + runPerturbation(indexTask));
+        double timeElapsed = (double) (System.currentTimeMillis() - time) / 1000.0D;//convert directly in second by dividing by 1000
+
+        this.avgExecPerSecond = (double)numberOfTask / timeElapsed;
 
         this.avgPerturbationPerExec = (double) IntStream.range(0, locations.size())
                 .reduce(0, (acc, indexLocation) ->
