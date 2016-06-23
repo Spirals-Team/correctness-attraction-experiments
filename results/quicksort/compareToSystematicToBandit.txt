@@ -1,0 +1,24 @@
+avg deviation per point: 4,01
+deviation % success: 16,93
+diff (in %) if time : 94,96
+====================================================================
+avg deviation per point: 1,98
+deviation % success: 23,90
+diff (in %) if time : 75,00
+====================================================================
+avg deviation per point: 1,89
+deviation % success: 25,50
+diff (in %) if time : 50,04
+====================================================================
+avg deviation per point: 1,94
+deviation % success: 26,70
+diff (in %) if time : 0,09
+====================================================================
+avg deviation per point: 1,53
+deviation % success: 27,27
+diff (in %) if time : -49,79
+====================================================================
+avg deviation per point: 1,62
+deviation % success: 28,00
+diff (in %) if time : -398,47
+====================================================================

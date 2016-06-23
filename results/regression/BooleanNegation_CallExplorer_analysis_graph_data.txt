@@ -1,0 +1,22 @@
+contains the data for build a graph for analysis.
+Exploration Boolean Negation
+NEGB : negation of boolean value.
+10 dataset of 10 dimensions, 100 points per datasets -10 <= x  <=10 with 2.5 noise
+Random integer generated with 23 as seed
+15 perturbations points
+Perturbator IndexLoc   #Perturbations #Success   #Failure   #Exception #Call          %Success                   
+NEGB        4          10             0          0          10         10              0,00                      
+NEGB        7          10             10         0          0          10             -------------------- 100,00
+NEGB        8          10             10         0          0          20             -------------------- 100,00
+NEGB        9          10             10         0          0          20             -------------------- 100,00
+NEGB        13         110            100        0          10         660            ------------------- 90,91  
+NEGB        22         110            12         98         0          770            --- 10,91                  
+NEGB        27         10             10         0          0          20             -------------------- 100,00
+NEGB        29         0              0          0          0          0              NaN                        
+NEGB        37         110            0          100        10         660             0,00                      
+NEGB        42         10100          1803       8197       100        9650550        ---- 17,85                 
+NEGB        51         10100          2080       7920       100        9650550        ----- 20,59                
+NEGB        57         65000          54994      6          10000      398062500      ----------------- 84,61    
+NEGB        67         550            335        115        100        26950          ------------- 60,91        
+NEGB        77         1010           72         928        10         51510          -- 7,13                    
+NEGB        84         11000          9954       46         1000       11500500       ------------------- 90,49  

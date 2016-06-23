@@ -1,0 +1,2 @@
+List of ids antifragile points.
+10 15 53 65 75 86 87 

@@ -1,17 +1,7 @@
 Bandit exploration
 UCBPolicy alpha=2
-LapBudget : 10
+TimeBudget 7200000 ms
 20 sat problems of 100 variables, 403 clauses
 download http://www.cs.ubc.ca/~hoos/SATLIB/benchm.html
 888 perturbations points
 IndexLoc        #Perturbations  #Success        #Failure        #Exception      #Call           %Success            
-5               1               0               0               1               1                0,00               
-6               1               0               0               1               1                0,00               
-52              1               0               0               1               1                0,00               
-53              1               0               0               1               1                0,00               
-58              1               0               0               1               1                0,00               
-59              1               0               0               1               1                0,00               
-62              1               0               0               1               1                0,00               
-1228            1               0               0               1               1                0,00               
-1229            1               0               0               1               1                0,00               
-1230            1               0               0               1               1                0,00               

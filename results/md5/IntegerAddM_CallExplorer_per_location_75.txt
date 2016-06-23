@@ -1,10 +1,10 @@
 aggregate data per location for Magnitude = 75
 Exploration Plus Magnitude
 magnitude value : 1 5 10 20 50 75 100 
-164 perturbation point
 PM : Numerical Perturbator
 20 string of 100 char
 Random char generated with 23 as seed
+164 perturbation points
 IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #ExecsRef  AvgCallRefPerTask #Tasks     %Success                   
 0          0          0          20         20                 1,00               20             1,00                     20         20         1.0               20          0,00                      
 1          0          20         0          20                 1,00               20             1,00                     20         20         1.0               20          0,00                      
