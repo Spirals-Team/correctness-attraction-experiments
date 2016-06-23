@@ -35,15 +35,15 @@ public class TorrentManager extends ManagerImpl<String, String> {
     final String CREATOR = "spirals";
 
 
-    public TorrentManager(int numberOfTask, int size) {
-        this(numberOfTask, size, 23);
+    public TorrentManager(int numberOfTask, int size, String perturbedType) {
+        this(numberOfTask, size, 23, perturbedType);
     }
 
-    public TorrentManager(int numberOfTask, int size, int seed) {
+    public TorrentManager(int numberOfTask, int size, int seed, String perturbedType) {
         super(seed);
         super.CUP = BDecoder.class;
         super.initialize(numberOfTask, size);
-        super.locations = Util.getAllLocations("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent", "Numerical");//TODO Change type in function of the exploration
+        super.locations = Util.getAllLocations("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent", perturbedType);
     }
 
     @Override
@@ -138,22 +138,4 @@ public class TorrentManager extends ManagerImpl<String, String> {
                 "Random characters generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
     }
-
-    public static void main(String[] args) {
-        TorrentManager manager = new TorrentManager(1, 10);
-        for (int i = 0; i < 5; i++) {
-            try {
-                ExecutorService executor = Executors.newSingleThreadExecutor();
-                Callable instanceRunner = manager.getCallable(manager.getTask(i));
-                Future future = executor.submit(instanceRunner);
-                Object output = (future.get(1000, TimeUnit.SECONDS));
-                manager.getOracle().assertPerturbation(manager.getTask(i), (String) output);
-                executor.shutdownNow();
-                manager.getCallable(manager.getTask(i)).call();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

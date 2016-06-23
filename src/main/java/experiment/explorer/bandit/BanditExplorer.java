@@ -177,15 +177,14 @@ public class BanditExplorer implements Explorer {
         }
     }
 
-    public static void run(Manager manager, String[] args) {
+    public static void run(String[] args) {
 
         int currentIndex;
         Budget budget = null;
         Policy policy= null;
 
-        //TODO add more than one exploration
-        Exploration exploration = new IntegerExplorationPlusOne();
-        manager.getLocations(exploration.getType());
+//        Exploration exploration = new IntegerExplorationPlusOne();
+        Main.manager.getLocations(Main.exploration.getType());
 
         if ((currentIndex = Main.getIndexOfOption("-budget", args)) != -1) {
             switch (args[currentIndex+1]) {
@@ -203,18 +202,18 @@ public class BanditExplorer implements Explorer {
         if ((currentIndex = Main.getIndexOfOption("-policy", args)) != -1) {
             switch (args[currentIndex+1]) {
                 case "eps":
-                    policy = new EpsilonGreedyPolicy(manager.getLocations().size(), 0.80D);
+                    policy = new EpsilonGreedyPolicy(Main.manager.getLocations().size(), 0.80D);
                     break;
                 case "ucb":
                 default:
-                    policy = new UCBPolicy(manager.getLocations().size(), 23);
+                    policy = new UCBPolicy(Main.manager.getLocations().size(), 23);
                     break;
             }
         }
 
-        Explorer explorer = new BanditExplorer(exploration, manager, policy, budget);
+        Explorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
         explorer.run();
-        manager.stop();
+        Main.manager.stop();
         System.exit(1);
     }
 }

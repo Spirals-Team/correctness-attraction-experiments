@@ -21,6 +21,9 @@ import canny.CannyManager;
  */
 public class Main {
 
+    public static Exploration exploration;
+
+    //TODO remove all parameters manager in experiments
     public static Manager manager;
 
     public static int numberOfTask = 20;
@@ -155,7 +158,7 @@ public class Main {
     }
 
     private static void runBandit(String[] args) {
-        BanditExplorer.run(manager, args);
+        BanditExplorer.run(args);
     }
 
     private static Explorer buildHeatMap() {
@@ -163,7 +166,7 @@ public class Main {
     }
 
     private static Explorer buildCall(int i, String[] args) {
-        Exploration exploration = getExploration(i, args);
+        exploration = getExploration(i, args);
         if (magnitude)
             i++;
         i++;
@@ -171,7 +174,7 @@ public class Main {
     }
 
     private static Explorer buildRnd(int i, String[] args) {
-        Exploration exploration = getExploration(i, args);
+        exploration = getExploration(i, args);
         if (magnitude)
             i++;
         i++;
@@ -207,7 +210,6 @@ public class Main {
         return new RandomExplorer(manager, exploration, repeat, randomRate);
     }
 
-    //@TODO
     private static boolean magnitude = false;
 
     private static Exploration getExploration(int i, String[] args) {
