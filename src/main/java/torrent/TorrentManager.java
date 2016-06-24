@@ -5,6 +5,7 @@ import com.turn.ttorrent.common.Torrent;
 import com.turn.ttorrent.tracker.TrackedTorrent;
 import com.turn.ttorrent.tracker.Tracker;
 import experiment.*;
+import org.slf4j.LoggerFactory;
 import perturbation.location.PerturbationLocation;
 import perturbation.location.PerturbationLocationImpl;
 
@@ -138,4 +139,5 @@ public class TorrentManager extends ManagerImpl<String, String> {
                 "Random characters generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
     }
+
 }
