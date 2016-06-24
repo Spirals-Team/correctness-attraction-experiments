@@ -111,7 +111,7 @@ public class Main {
                 runGui();
                 break;
             case "bandit":
-                runBandit(args);
+                runBandit(index+1, args);
             case "mutant":
                 runMutantExplorer();
             default:
@@ -157,7 +157,8 @@ public class Main {
         MutantExplorer.launch(manager);
     }
 
-    private static void runBandit(String[] args) {
+    private static void runBandit(int i, String[] args) {
+        exploration = getExploration(i, args);
         BanditExplorer.run(args);
     }
 
@@ -264,7 +265,7 @@ public class Main {
                     manager = (Manager) Main.class.getClassLoader().loadClass("rc4.RC4Manager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "torrent":
-                    manager = (Manager) Main.class.getClassLoader().loadClass("torrent.TorrentManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
+                    manager = (Manager) Main.class.getClassLoader().loadClass("torrent.TorrentManager").getDeclaredConstructor(int.class, int.class, int.class, String.class).newInstance(numberOfTask, sizeOfTask, seed, typePerturbed);
                     break;
                 case "mersenne":
                 case "mt":
