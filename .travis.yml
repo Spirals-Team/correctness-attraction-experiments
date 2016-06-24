@@ -13,9 +13,8 @@ cache:
 sudo: true
 install:
   - chmod +x ./src/script/*.sh
-  - ./src/script/install.sh
-  - mvn compile
+  - ./src/script/light-install.sh
 script:
-   - mvn test
+  - mvn test
 #after_success:
 #- ./src/script/commit.sh
