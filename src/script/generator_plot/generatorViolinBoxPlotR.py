@@ -3,7 +3,7 @@ import sys
 
 exploration=sys.argv[1]
 
-subjects=("quicksort", "zip", "sudoku", "md5", "rc4", "laguerre", "rsa", "classifier", "canny")[::-1] #NEED TO ADD LCS
+subjects=("quicksort", "zip", "sudoku", "md5", "rsa", "rc4", "canny", "lcs", "laguerre", "regression" )[::-1] #NEED TO ADD LCS
 
 outputR = open('results/violin_boxplot'+exploration+'.R', 'w')
 
@@ -44,7 +44,7 @@ out = "par(yaxt=\"n\")\n"
 out += "vioplot("
 for s in subjects:
     out += s + ","
-out += "names=names, col=\"lightblue\", horizontal=TRUE, drawRect=FALSE)\n"
+out += "names=names, col=\"lightblue\", horizontal=TRUE, drawRect=FALSE, h=5)\n"
 for i in range(len(subjects)):
     out += "points("+str(points[i][1])+","+str(i+1)+", col=\"white\", bg=\"white\", type=\"p\", pch = 21)\n"
 out += "axis(2, at=seq(1, "+str(len(subjects))+", by=1), labels = FALSE)\n"
