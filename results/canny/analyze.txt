@@ -1,0 +1,20 @@
+Location 13:
+(PerturbationEngine.pint(__L13, kwidth) >= 2)
+
+if kwidth >= 2, kwidth + 1 > 2.
+
+if kwidth < 2, kwidth + 1 == 2. In that case, an iteration of the loop is skipped.
+
+Location 63 67 72 76:
+sumY += kernel[xOffset] * PerturbationEngine.pint(__L63,(data[index - yOffset] + PerturbationEngine.pint(__L67,data[index + yOffset])));
+sumX += kernel[xOffset] * PerturbationEngine.pint(__L72,(data[index - xOffset] + PerturbationEngine.pint(__L76,data[index + xOffset])));
+
+4 pp which results with the same : kernel * (x+1) instead of kernel * x (same for MONE).
+
+
+
+
+
+
+
+
