@@ -55,51 +55,75 @@ public class BanditExplorer implements Explorer {
 
     @Override
     public void run() {
-        this.arms.forEach(location -> location.setPerturbator(this.exploration.getPerturbators().get(0)));
+//        this.arms.forEach(location -> location.setPerturbator(this.exploration.getPerturbators().get(0)));
+        int[] nbCallRef = this.filterLocation();
         while (this.budget.shouldRun()) {
             int armSelected = this.policyLocation.selectArm();
-            this.pullArm(armSelected);
-            this.filterLocation();
+            this.pullArm(armSelected, nbCallRef[armSelected]);
+            nbCallRef = this.filterLocation();
         }
         this.log();
     }
 
-    private void filterLocation() {
+    private int[] filterLocation() {
+        this.arms.forEach(PerturbationEngine.loggers.get("filterLocation")::logOn);
+        int[] nbCallRef = new int[this.arms.size()];
+        this.run(this.lap);
         for (int i = 0; i < this.arms.size(); i++) {
             if (PerturbationEngine.loggers.get("filterLocation").getCalls(this.arms.get(i)) == 0)
                 this.filter.add(i);
+            else
+                nbCallRef[i] = PerturbationEngine.loggers.get("filterLocation").getCalls(this.arms.get(i));
         }
         PerturbationEngine.loggers.get("filterLocation").reset();
         this.policyLocation.filter(filter);
         this.arms.forEach(PerturbationEngine.loggers.get("filterLocation")::logOn);
+        return nbCallRef;
     }
 
-    private void pullArm(int indexArm) {
-        int nbCallRef = this.runReference(this.lap, this.arms.get(indexArm));
-        if (nbCallRef == 0) {
-            this.filter.add(indexArm);
-            this.policyLocation.filter(filter);//TODO The Time Budget should not take this reference run in account imo.
-        } else {
-            this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef), this.arms.get(indexArm)));
-            PerturbationEngine.loggers.get(this.name).logOn(this.arms.get(indexArm));
-            Tuple result = run(this.lap);
-            this.logger.log(indexArm, 0, 0, 0, result, this.name);
-            PerturbationEngine.loggers.get(this.name).reset();
-            this.policyLocation.update(indexArm, (int)result.get(0));
-            this.lap++;
-        }
+    private void pullArm(int indexArm, int nbCallRef) {
+//        this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef+1), this.arms.get(indexArm)));
+        PerturbationEngine.loggers.get(this.name).logOn(this.arms.get(indexArm));
+        Tuple result = run(this.lap);
+        this.logger.log(indexArm, 0, 0, 0, result, this.name);
+        PerturbationEngine.loggers.get(this.name).reset();
+        this.policyLocation.update(indexArm, (int) result.get(0));
+        this.lap++;
     }
 
     private Tuple run(int indexOfTask) {
         Tuple result = new Tuple(3);
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        ExecutorService executor = Executors.newFixedThreadPool(8);
         try {
-            Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
+            List<Future> futures = new ArrayList<>();
+            for (int i = 0; i < 8; i++) {
+                Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
+                Future future = executor.submit(instanceRunner);
+                futures.add(future);
+            }
+            executor.shutdown();
+            executor.awaitTermination(Main.numberOfSecondsToWait, TimeUnit.SECONDS);
+            for (int i = 0; i < futures.size(); i++) {
+                Future future = futures.get(i);
+                try {
+                    Object output = (future.get(Main.numberOfSecondsToWait, TimeUnit.SECONDS));
+                    boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexOfTask), output);
+                    if (assertion)
+                        result.set(0, 1); // success
+                    else
+                        result.set(1, 1);
+                } catch (TimeoutException e) {
+                    future.cancel(true);
+                    result.set(2, 1); // error computation time
+                    System.err.println("Time out!");
+                    this.manager.stop();
+                }
+            }
+            /*Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
             Future future = executor.submit(instanceRunner);
             try {
                 Object output = (future.get(Main.numberOfSecondsToWait, TimeUnit.SECONDS));
                 boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexOfTask), output);
-                executor.shutdownNow();
                 if (assertion)
                     result.set(0, 1); // success
                 else
@@ -109,27 +133,21 @@ public class BanditExplorer implements Explorer {
                 future.cancel(true);
                 result.set(2, 1); // error computation time
                 System.err.println("Time out!");
-                executor.shutdownNow();
                 this.manager.stop();
                 return result;
-            }
+            }*/
         } catch (Exception | Error e) {
             result.set(2, 1);
-            executor.shutdownNow();
             this.manager.stop();
-            return result;
         } finally {
             executor.shutdown();
         }
+        return result;
     }
 
     @Override
     public int runReference(int indexOfTask, PerturbationLocation location) {
-        PerturbationEngine.loggers.get(this.name).logOn(location);
-        this.run(indexOfTask);
-        int currentNbCall = PerturbationEngine.loggers.get(this.name).getCalls(location);
-        PerturbationEngine.loggers.get(this.name).reset();
-        return currentNbCall;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -181,18 +199,18 @@ public class BanditExplorer implements Explorer {
 
         int currentIndex;
         Budget budget = null;
-        Policy policy= null;
+        Policy policy = null;
 
 //        Exploration exploration = new IntegerExplorationPlusOne();
         Main.manager.getLocations(Main.exploration.getType());
 
         if ((currentIndex = Main.getIndexOfOption("-budget", args)) != -1) {
-            switch (args[currentIndex+1]) {
+            switch (args[currentIndex + 1]) {
                 case "time":
-                    budget = new TimeBudget(Integer.parseInt(args[currentIndex+2]));
+                    budget = new TimeBudget(Integer.parseInt(args[currentIndex + 2]));
                     break;
                 case "lap":
-                    budget = new LapBudget(Integer.parseInt(args[currentIndex+2]));
+                    budget = new LapBudget(Integer.parseInt(args[currentIndex + 2]));
                     break;
                 default:
                     budget = new TimeBudget(5000 * 60);
@@ -200,7 +218,7 @@ public class BanditExplorer implements Explorer {
         }
 
         if ((currentIndex = Main.getIndexOfOption("-policy", args)) != -1) {
-            switch (args[currentIndex+1]) {
+            switch (args[currentIndex + 1]) {
                 case "eps":
                     policy = new EpsilonGreedyPolicy(Main.manager.getLocations().size(), 0.80D);
                     break;

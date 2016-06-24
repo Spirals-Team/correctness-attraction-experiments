@@ -19,9 +19,9 @@ public class TimeBudget implements Budget {
 
     @Override
     public boolean shouldRun() {
-        long timeElpased = System.currentTimeMillis() - this.start;
+        long timeElapsed = System.currentTimeMillis() - this.start;
         if (Main.verbose)
-            System.out.println(Util.getStringPerc(timeElpased, this.budget));
+            System.out.println(Util.getStringPerc(timeElapsed, this.budget));
         return System.currentTimeMillis() - this.start < budget;
     }
 
