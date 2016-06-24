@@ -41,12 +41,6 @@ public class Model extends Observable {
 
     private double avgExecPerSecond;
 
-    private double avgExecSuccessPerSecond;
-
-    private int accExec;
-
-    private int accExecSuccess;
-
     private double avgPerturbationPerExec;
 
     private List<String> classOfLocation;
@@ -61,18 +55,6 @@ public class Model extends Observable {
 
     public double getAvgExecPerSecond() {
         return this.avgExecPerSecond;
-    }
-
-    public double getAvgExecSuccessPerSecond() {
-        return avgExecSuccessPerSecond;
-    }
-
-    public int getAccExec() {
-        return accExec;
-    }
-
-    public int getAccExecSuccess() {
-        return accExecSuccess;
     }
 
     public double getAvgPerturbationPerExec() {
@@ -146,8 +128,6 @@ public class Model extends Observable {
 
     public Model(Class<?> manager) {
         this.avgExecPerSecond = 0.0D;
-        this.accExec = 0;
-        this.accExecSuccess = 0;
         this.size = 100;
         this.numberOfTask = 40;
         this.avgPerturbationPerExec = 0.0d;
@@ -299,16 +279,8 @@ public class Model extends Observable {
         return (float) nbSuccess / (float) (numberOfTask) * 100;
     }
 
-    private int runLocation(int indexTask, PerturbationLocation location) {
-        location.setEnactor(new RandomEnactorImpl(rnd));
-        int assertion = runPerturbation(indexTask);
-        location.setEnactor(new NeverEnactorImpl());
-        return assertion;
-    }
-
     private int runPerturbation(int indexTask) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-        accExec++;
         try {
             Callable instanceRunner = this.manager.getCallable(manager.getTask(indexTask));
             Future future = executor.submit(instanceRunner);
@@ -316,7 +288,6 @@ public class Model extends Observable {
                 Object output = future.get(15, TimeUnit.SECONDS);
                 if (this.manager.getOracle().assertPerturbation(manager.getTask(indexTask), output)) {
                     executor.shutdownNow();
-                    accExecSuccess++;
                     return 1;
                 } else {
                     executor.shutdownNow();

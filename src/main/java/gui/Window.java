@@ -28,12 +28,6 @@ public class Window extends JFrame implements Observer {
 
     private JLabel labelAvgExecPerSecond;
 
-//    private JLabel labelAvgExecSuccessPerSecond;
-
-//    private JLabel labelAccExec;
-
-//    private JLabel labelAccExecSuccess;
-
     private JLabel labelavgPertubationPerExecution;
 
     private JLabel labelNbTask;
@@ -58,7 +52,6 @@ public class Window extends JFrame implements Observer {
 
     private JLabel labelWeak;
 
-
     public Window(Model m) {
         super();
         this.model = m;
@@ -66,11 +59,7 @@ public class Window extends JFrame implements Observer {
         this.rand = new JTextArea(String.format("%.2f", this.model.getRnd()));
         this.rand.setEditable(false);
 
-//        this.labelAccExec = new JLabel(String.valueOf(this.model.getAccExec()));
-//        this.labelAccExecSuccess = new JLabel(String.valueOf(this.model.getAccExecSuccess()));
-//        this.labelavgPertubationPerExecution = new JLabel(String.valueOf(this.model.getAvgPerturbationPerExec()));
-//        this.labelAvgExecSuccessPerSecond = new JLabel(String.format("%.2f", String.valueOf(this.model.getAvgExecSuccessPerSecond())));
-
+        this.labelavgPertubationPerExecution = new JLabel(String.valueOf(this.model.getAvgPerturbationPerExec()));
         this.labelAvgExecPerSecond = new JLabel(String.format("%.2f", this.model.getAvgExecPerSecond()));
 
         try {
@@ -156,20 +145,16 @@ public class Window extends JFrame implements Observer {
 
     private JPanel buildPanelLabel() {
         JPanel panelLabel = new JPanel();
-        panelLabel.setLayout(new GridLayout(3, 2));
+        panelLabel.setLayout(new GridLayout(2, 3));
 
         panelLabel.add(new JLabel());
         panelLabel.add(this.rand);
         panelLabel.add(new JLabel());
 
-//        panelLabel.add(this.labelavgPertubationPerExecution);
-        panelLabel.add(new JLabel());
+        panelLabel.add(this.labelavgPertubationPerExecution);
         panelLabel.add(new JLabel());
         panelLabel.add(this.labelAvgExecPerSecond);
 
-//        panelLabel.add(new JLabel());
-//        panelLabel.add(new JLabel());
-//        panelLabel.add(this.labelAccExecSuccess);
         return panelLabel;
     }
 
@@ -250,9 +235,7 @@ public class Window extends JFrame implements Observer {
     public void run() {
         Graphics2D g2D = (Graphics2D) this.panel.getGraphics();
 
-//        this.labelAccExec.setText(String.valueOf(this.model.getAccExec()));
-//        this.labelAccExecSuccess.setText(String.valueOf(this.model.getAccExecSuccess()));
-//        this.labelavgPertubationPerExecution.setText(String.format("%.2f", this.model.getAvgPerturbationPerExec()));
+        this.labelavgPertubationPerExecution.setText(String.format("%.2f", this.model.getAvgPerturbationPerExec()));
 
         this.labelAvgExecPerSecond.setText(String.format("%.2f", this.model.getAvgExecPerSecond()));
         this.labelSize.setText(String.valueOf(this.model.getSize()));
