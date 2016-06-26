@@ -2,23 +2,18 @@ package torrent;
 
 import com.turn.ttorrent.bcodec.BDecoder;
 import com.turn.ttorrent.common.Torrent;
-import com.turn.ttorrent.tracker.TrackedTorrent;
-import com.turn.ttorrent.tracker.Tracker;
-import experiment.*;
-import org.slf4j.LoggerFactory;
-import perturbation.location.PerturbationLocation;
-import perturbation.location.PerturbationLocationImpl;
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
+import experiment.Oracle;
+import experiment.Util;
 
-import java.io.*;
-import java.net.InetSocketAddress;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.*;
 
 /**
  * Created by spirals on 21/04/16.
@@ -81,8 +76,12 @@ public class TorrentManager extends ManagerImpl<String, String> {
 
     private void createDirectories() {
         File directory = new File(PATH_TO_SENT_FILE);
+        if (directory.exists())
+            directory.delete();
         directory.mkdir();
         directory = new File(PATH_TO_TORRENT_FILE);
+        if (directory.exists())
+            directory.delete();
         directory.mkdir();
     }
 
@@ -139,5 +138,4 @@ public class TorrentManager extends ManagerImpl<String, String> {
                 "Random characters generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
     }
-
 }
