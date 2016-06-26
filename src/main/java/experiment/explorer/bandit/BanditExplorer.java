@@ -2,7 +2,6 @@ package experiment.explorer.bandit;
 
 import experiment.*;
 import experiment.exploration.Exploration;
-import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.Explorer;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
@@ -55,7 +54,7 @@ public class BanditExplorer implements Explorer {
 
     @Override
     public void run() {
-//        this.arms.forEach(location -> location.setPerturbator(this.exploration.getPerturbators().get(0)));
+        this.arms.forEach(location -> location.setPerturbator(this.exploration.getPerturbators().get(0)));
         int[] nbCallRef = this.filterLocation();
         while (this.budget.shouldRun()) {
             int armSelected = this.policyLocation.selectArm();
@@ -82,7 +81,7 @@ public class BanditExplorer implements Explorer {
     }
 
     private void pullArm(int indexArm, int nbCallRef) {
-//        this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef+1), this.arms.get(indexArm)));
+        this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef + 1), this.arms.get(indexArm)));
         PerturbationEngine.loggers.get(this.name).logOn(this.arms.get(indexArm));
         Tuple result = run(this.lap);
         this.logger.log(indexArm, 0, 0, 0, result, this.name);
@@ -93,54 +92,29 @@ public class BanditExplorer implements Explorer {
 
     private Tuple run(int indexOfTask) {
         Tuple result = new Tuple(3);
-        ExecutorService executor = Executors.newFixedThreadPool(8);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         try {
-            List<Future> futures = new ArrayList<>();
-            for (int i = 0; i < 8; i++) {
-                Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
-                Future future = executor.submit(instanceRunner);
-                futures.add(future);
-            }
+            Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
+            Future future = executor.submit(instanceRunner);
             executor.shutdown();
             executor.awaitTermination(Main.numberOfSecondsToWait, TimeUnit.SECONDS);
-            for (int i = 0; i < futures.size(); i++) {
-                Future future = futures.get(i);
-                try {
-                    Object output = (future.get(Main.numberOfSecondsToWait, TimeUnit.SECONDS));
-                    boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexOfTask), output);
-                    if (assertion)
-                        result.set(0, 1); // success
-                    else
-                        result.set(1, 1);
-                } catch (TimeoutException e) {
-                    future.cancel(true);
-                    result.set(2, 1); // error computation time
-                    System.err.println("Time out!");
-                    this.manager.stop();
-                }
-            }
-            /*Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
-            Future future = executor.submit(instanceRunner);
             try {
                 Object output = (future.get(Main.numberOfSecondsToWait, TimeUnit.SECONDS));
                 boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexOfTask), output);
                 if (assertion)
                     result.set(0, 1); // success
                 else
-                    result.set(1, 1); // failures
-                return result;
+                    result.set(1, 1);
             } catch (TimeoutException e) {
                 future.cancel(true);
                 result.set(2, 1); // error computation time
                 System.err.println("Time out!");
                 this.manager.stop();
-                return result;
-            }*/
-        } catch (Exception | Error e) {
-            result.set(2, 1);
-            this.manager.stop();
-        } finally {
-            executor.shutdown();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
         return result;
     }
