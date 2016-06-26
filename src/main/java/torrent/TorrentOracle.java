@@ -26,7 +26,9 @@ public class TorrentOracle implements Oracle<String, String> {
         try {
             byte[] f1 = Files.readAllBytes(Paths.get(PATH_TO_TORRENT_FILE+"/"+input+".txt"));
             byte[] f2 = Files.readAllBytes(Paths.get(PATH_TO_SENT_FILE+"/"+output+".txt"));
-            return Arrays.equals(f1, f2);
+            boolean assertion = Arrays.equals(f1, f2);
+            Files.delete(Paths.get(PATH_TO_SENT_FILE+"/"+output+".txt"));//After assertion, we remove the downloaded file in order to redo it.
+            return assertion;
         } catch (IOException e) {
             e.printStackTrace();
             this.manager.recover();
