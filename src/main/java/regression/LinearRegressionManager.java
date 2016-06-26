@@ -3,17 +3,17 @@ package regression;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import javafx.util.Pair;
 import weka.core.matrix.LinearRegression;
 import weka.core.matrix.Matrix;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Created by bdanglot on 16/06/16.
  */
-public class LinearRegressionManager extends ManagerImpl<Pair<Matrix, Matrix>, double[]> {
+public class LinearRegressionManager extends ManagerImpl<Matrix[], double[]> {
 
     private static final double RIDGE = 0.5D;
 
@@ -36,7 +36,7 @@ public class LinearRegressionManager extends ManagerImpl<Pair<Matrix, Matrix>, d
     }
 
     @Override
-    protected Pair<Matrix, Matrix> generateOneTask() {
+    protected Matrix[] generateOneTask() {
         double[][] x = new double[NB_POINT][super.sizeOfTask];
         double[][] y = new double[NB_POINT][1];
         double[] function = new double[super.sizeOfTask];
@@ -47,7 +47,7 @@ public class LinearRegressionManager extends ManagerImpl<Pair<Matrix, Matrix>, d
         Matrix a = new Matrix(x);
         Matrix b = new Matrix(y);
         this.reference.add(a.regression(b, RIDGE).getCoefficients());
-        return new Pair<>(a, b);
+        return new Matrix[]{a, b};
     }
 
     private void buildTask(double[] x, double[] y, double[] function) {
@@ -100,31 +100,31 @@ public class LinearRegressionManager extends ManagerImpl<Pair<Matrix, Matrix>, d
     }
 
     @Override
-    public Pair<Matrix, Matrix> getTask(int indexTask) {
+    public Matrix[] getTask(int indexTask) {
         if (indexTask >= super.tasks.size())
             super.getTask(indexTask);
         return super.tasks.get(indexTask);
     }
 
     @Override
-    public CallableImpl<Pair<Matrix, Matrix>, double[]> getCallable(Pair<Matrix, Matrix> input) {
-        return new CallableImpl<Pair<Matrix, Matrix>, double[]>(input) {
+    public CallableImpl<Matrix[], double[]> getCallable(Matrix[] input) {
+        return new CallableImpl<Matrix[], double[]>(input) {
             @Override
             public double[] call() throws Exception {
-                return input.getKey().regression(input.getValue(), RIDGE).getCoefficients();
+                return input[0].regression(input[1], RIDGE).getCoefficients();
             }
         };
     }
 
     @Override
-    public Oracle<Pair<Matrix, Matrix>, double[]> getOracle() {
+    public Oracle<Matrix[], double[]> getOracle() {
         return (input, output) -> {
             double[] realFunction = reference.get(super.tasks.indexOf(input));
-            boolean assertion = true;
             for (int i = 0; i < realFunction.length; i++) {
-                assertion &= Math.abs(realFunction[i] - output[i]) < EPSILON;
+                if (realFunction[i] != output[i])
+                    return false;
             }
-            return assertion;
+            return true;
         };
     }
 

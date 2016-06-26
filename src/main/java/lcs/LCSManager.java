@@ -1,18 +1,17 @@
 package lcs;
 
 import experiment.CallableImpl;
-import experiment.Manager;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import javafx.util.Pair;
 
-import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Created by bdanglot on 10/06/16.
  */
-public class LCSManager extends ManagerImpl<Pair<String, String>, String> {
+public class LCSManager extends ManagerImpl<String[], String> {
 
     private BufferedReader sativa;
     private BufferedReader thaliana;
@@ -38,7 +37,7 @@ public class LCSManager extends ManagerImpl<Pair<String, String>, String> {
     }
 
     @Override
-    protected Pair<String, String> generateOneTask() {
+    protected String[] generateOneTask() {
         try {
             if (thaliana.readLine() == null) {
                 thaliana.close();
@@ -50,27 +49,27 @@ public class LCSManager extends ManagerImpl<Pair<String, String>, String> {
                 currentSativa = sativa.readLine();
             }
             thaliana.readLine();
-            return new Pair<>(currentSativa, thaliana.readLine());
+            return new String[] {currentSativa, thaliana.readLine()};
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
         }
-        return new Pair<>("","");
+        return null;
     }
 
     @Override
-    public CallableImpl<Pair<String, String>, String> getCallable(Pair<String, String> input) {
-        return new CallableImpl<Pair<String, String>, String>(input) {
+    public CallableImpl<String[], String> getCallable(String[] input) {
+        return new CallableImpl<String[], String>(input) {
             @Override
             public String call() throws Exception {
-                return LCSInstr.lcs(input.getKey(), input.getValue());
+                return LCSInstr.lcs(input[0], input[1]);
             }
         };
     }
 
     @Override
-    public Oracle<Pair<String, String>, String> getOracle() {
-        return (input, output) -> LCS.lcs(input.getKey(), input.getValue()).equals(output);
+    public Oracle<String[], String> getOracle() {
+        return (input, output) -> LCS.lcs(input[0], input[1]).equals(output);
     }
 
     @Override
@@ -86,10 +85,10 @@ public class LCSManager extends ManagerImpl<Pair<String, String>, String> {
     }
 
     @Override
-    public Pair<String, String> getTask(int indexOfTask) {
+    public String[] getTask(int indexOfTask) {
         if (indexOfTask >= super.tasks.size())
             super.getTask(indexOfTask);
-        return new Pair<>(super.tasks.get(indexOfTask).getKey(), super.tasks.get(indexOfTask).getValue());
+        return new String [] {super.tasks.get(indexOfTask)[0], super.tasks.get(indexOfTask)[1]};
     }
 
     @Override

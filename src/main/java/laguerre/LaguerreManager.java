@@ -3,13 +3,8 @@ package laguerre;
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
 import experiment.Oracle;
-import javafx.util.Pair;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.analysis.solvers.LaguerreSolver;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by bdanglot on 26/05/16.
