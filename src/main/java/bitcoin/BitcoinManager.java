@@ -198,4 +198,13 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         }
     }
 
+    public static void main(String[] args) {
+        BitcoinManager manager = new BitcoinManager(1,3,"Numerical");
+        try {
+            System.out.println(manager.getOracle().assertPerturbation(manager.getTask(0), manager.getCallable(manager.getTask(0)).call()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
