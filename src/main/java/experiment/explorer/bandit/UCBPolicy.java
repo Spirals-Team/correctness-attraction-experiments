@@ -33,12 +33,12 @@ public class UCBPolicy extends PolicyImpl {
         List<Integer> indices = new ArrayList<>();
 
         /* This ensure that we have at least pulled one time every arms */ // TODO Look if this is needed and it's not too expensive.
-        if (!this.allArmsHasBeenPulledOneTime) {
-            for (int i = 0; i < super.nbPull.length; i++) {
-                if (super.nbPull[i] == 0)
-                    return i;
-            }
-        }
+//        if (!this.allArmsHasBeenPulledOneTime) {
+//            for (int i = 0; i < super.nbPull.length; i++) {
+//                if (super.nbPull[i] == 0)
+//                    return i;
+//            }
+//        }
 
         this.allArmsHasBeenPulledOneTime = true;
 

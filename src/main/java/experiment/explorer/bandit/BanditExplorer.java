@@ -3,6 +3,7 @@ package experiment.explorer.bandit;
 import experiment.*;
 import experiment.exploration.Exploration;
 import experiment.explorer.Explorer;
+import okio.Timeout;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
 import perturbation.location.PerturbationLocation;
@@ -96,27 +97,31 @@ public class BanditExplorer implements Explorer {
         try {
             Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
             Future future = executor.submit(instanceRunner);
-            executor.shutdown();
-            executor.awaitTermination(Main.numberOfSecondsToWait, TimeUnit.SECONDS);
             try {
                 Object output = (future.get(Main.numberOfSecondsToWait, TimeUnit.SECONDS));
                 boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexOfTask), output);
+                executor.shutdownNow();
                 if (assertion)
                     result.set(0, 1); // success
-                else
-                    result.set(1, 1);
+                else {
+                    result.set(1, 1); // failures
+                    this.manager.recover();
+                }
+                return result;
             } catch (TimeoutException e) {
                 future.cancel(true);
                 result.set(2, 1); // error computation time
                 System.err.println("Time out!");
-                this.manager.stop();
+                executor.shutdownNow();
+                this.manager.recover();
+                return result;
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        } catch (Exception | Error e) {
+            result.set(2, 1);
+            executor.shutdownNow();
+            this.manager.recover();
+            return result;
         }
-        return result;
     }
 
     @Override
