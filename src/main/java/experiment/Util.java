@@ -20,6 +20,7 @@ public class Util {
     public static List<PerturbationLocation> getAllLocations(String project, String packagaPath, String type) {
         final List<PerturbationLocation> locations = new ArrayList<>();
         iterateFolders(project, packagaPath);
+        System.out.println("Number of classes " +  classes.size());
         classes.stream().forEach(clazz -> {
                     PerturbationLocationImpl.getLocationFromClass(clazz).forEach(location -> {
                         if (!locations.contains(location))
