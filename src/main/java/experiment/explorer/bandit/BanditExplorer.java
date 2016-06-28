@@ -3,7 +3,6 @@ package experiment.explorer.bandit;
 import experiment.*;
 import experiment.exploration.Exploration;
 import experiment.explorer.Explorer;
-import okio.Timeout;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
 import perturbation.location.PerturbationLocation;
