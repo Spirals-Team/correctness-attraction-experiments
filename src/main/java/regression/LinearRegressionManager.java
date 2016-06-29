@@ -120,6 +120,8 @@ public class LinearRegressionManager extends ManagerImpl<Matrix[], double[]> {
     public Oracle<Matrix[], double[]> getOracle() {
         return (input, output) -> {
             double[] realFunction = reference.get(super.tasks.indexOf(input));
+            if (realFunction.length != output.length)
+                return false;
             for (int i = 0; i < realFunction.length; i++) {
                 if (realFunction[i] != output[i])
                     return false;
