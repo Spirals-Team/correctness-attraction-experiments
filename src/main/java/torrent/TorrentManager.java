@@ -7,18 +7,17 @@ import experiment.ManagerImpl;
 import experiment.Oracle;
 import experiment.Util;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
  * Created by spirals on 21/04/16.
  */
-public class TorrentManager extends ManagerImpl<String, String> {
+public class TorrentManager extends ManagerImpl<String, Process> {
 
     static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
 
@@ -123,13 +122,13 @@ public class TorrentManager extends ManagerImpl<String, String> {
     }
 
     @Override
-    public Oracle<String, String> getOracle() {
+    public Oracle<String, Process> getOracle() {
         return new TorrentOracle(this);
     }
 
     @Override
-    public CallableImpl<String, String> getCallable(String input) {
-        return new TorrentCallable(input, this);
+    public CallableImpl<String, Process> getCallable(String input) {
+        return new TorrentCallable(input);
     }
 
     @Override
@@ -138,4 +137,14 @@ public class TorrentManager extends ManagerImpl<String, String> {
                 "Random characters generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
     }
+
+    public static void main(String[] args) {
+        TorrentManager manager = new TorrentManager(1 , 100, "");
+        try {
+            System.out.println(manager.getOracle().assertPerturbation(manager.getTask(0), manager.getCallable(manager.getTask(0)).call()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

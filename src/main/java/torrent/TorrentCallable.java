@@ -8,27 +8,39 @@ import com.turn.ttorrent.tracker.Tracker;
 import experiment.CallableImpl;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.concurrent.TimeoutException;
 
 /**
  * Created by spirals on 21/04/16.
  */
-public class TorrentCallable extends CallableImpl<String, String> {
+public class TorrentCallable extends CallableImpl<String, Process> {
 
-    /**
-     * The Manager is need in case of error during the call, we have to be able to reinit the system
-     */
-    private TorrentManager manager;
+    private static final String CMD_TO_RUN;
 
-    public TorrentCallable(String input, TorrentManager manager) {
+    static {
+        String classpath = "";
+        for (URL url : ((URLClassLoader) (Thread.currentThread().getContextClassLoader())).getURLs())
+            classpath += url + ":";
+        CMD_TO_RUN = "java -cp " + classpath + " torrent.TorrentCallable ";
+    }
+
+    public TorrentCallable(String input) {
         super(input);
-        this.manager = manager;
     }
 
     @Override
-    public String call() throws Exception {
+    public Process call() throws Exception {
+        return Runtime.getRuntime().exec(CMD_TO_RUN + this.input);
+    }
+
+    public static void main(String[] args) {
+        String input = args[0];
         Client seeder = null;
         Client leecher = null;
         Tracker tracker = null;
@@ -37,7 +49,7 @@ public class TorrentCallable extends CallableImpl<String, String> {
         TrackedTorrent trackedTorrent;
         try {
             /* Init Tracker */
-            trackedTorrent = TrackedTorrent.load(new File(TorrentManager.PATH_TO_TORRENT_FILE + this.input+".torrent"));
+            trackedTorrent = TrackedTorrent.load(new File(TorrentManager.PATH_TO_TORRENT_FILE + input+".torrent"));
             tracker = new Tracker(new InetSocketAddress(Tracker.DEFAULT_TRACKER_PORT));
             tracker.announce(trackedTorrent);
             tracker.start();
@@ -64,8 +76,7 @@ public class TorrentCallable extends CallableImpl<String, String> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            this.manager.recover();
-            throw new TimeoutException();
+            System.exit(1);
         } finally {
             if (seederTorrent != null) {
                 seederTorrent.close();
@@ -82,7 +93,8 @@ public class TorrentCallable extends CallableImpl<String, String> {
             if (tracker != null)
                 tracker.stop();
         }
-        return input;
+        System.out.println(input);
+        System.exit(0);
     }
 
 }
