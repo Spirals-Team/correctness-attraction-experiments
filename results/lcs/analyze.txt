@@ -1,0 +1,11 @@
+Location 0 to 5
+    int[][] lengths = new int[a.length()+1][b.length()+1];
+
+These locations add one column/row to the array of computing the lengths. This results in extra iteration but doesn't change the final output.
+
+Location 52 :
+    for (int x = a.length(), y = b.length(); x != 0 && y != 0; )  { ... }
+
+Introduce an extra loop iteration, but can't produce ArrayOutBoundException. There is an impact only at the last iteration, i.e. when y == 0, but under conditions:
+       x != 0, so y == 0.
+
