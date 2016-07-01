@@ -1,14 +1,14 @@
 aggregate data per location for Perturbator = NEGB
 Exploration Boolean Negation
 NEGB : negation of boolean value.
-100 hex string of 16 byte
+20 hex string of 16 byte
 Random byte generated with 23 as seed
 7 perturbation points
 IndexLoc   #Success   #Failure   #Exception #CallAllExecs      AvgCallPerExec     #Perturbations AvgPerturbationPerExec   #Execs     #ExecsRef  AvgCallRefPerTask #Tasks     %Success                   
-34         0          0          100        100                1,00               100            1,00                     100        100        1.0               100         0,00                      
-39         0          0          100        100                1,00               100            1,00                     100        100        1.0               100         0,00                      
-43         0          800        100        4500               5,00               900            1,00                     900        900        9.0               100         0,00                      
-80         0          0          100        100                1,00               100            1,00                     100        100        1.0               100         0,00                      
-83         0          0          100        100                1,00               100            1,00                     100        100        1.0               100         0,00                      
-88         1600       24000      100        3315300            129,00             25700          1,00                     25700      25700      257.0             100        -- 6,23                    
-97         2400       23200      100        3315300            129,00             25700          1,00                     25700      25700      257.0             100        -- 9,34                    
+34         0          0          20         20                 1,00               20             1,00                     20         20         1.0               20          0,00                      
+39         0          0          20         20                 1,00               20             1,00                     20         20         1.0               20          0,00                      
+43         0          160        20         900                5,00               180            1,00                     180        180        9.0               20          0,00                      
+80         0          0          20         20                 1,00               20             1,00                     20         20         1.0               20          0,00                      
+83         0          0          20         20                 1,00               20             1,00                     20         20         1.0               20          0,00                      
+88         320        4800       20         663060             129,00             5140           1,00                     5140       5140       257.0             20         -- 6,23                    
+97         480        4640       20         663060             129,00             5140           1,00                     5140       5140       257.0             20         -- 9,34                    
