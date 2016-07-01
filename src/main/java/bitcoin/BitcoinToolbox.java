@@ -19,11 +19,16 @@ public class BitcoinToolbox {
 
     static void launchShellCmd(String command, String args) {
         StringBuffer output = new StringBuffer();
-        Process p;
+        Process p = null;
+        int exitedValue = -1;
         try {
-            System.out.println(command+args);
-            p = Runtime.getRuntime().exec(command+args);
-            p.waitFor();
+            while (exitedValue != 0) {
+                System.out.println(command + args);
+                p = Runtime.getRuntime().exec(command + args);
+                p.waitFor();
+                exitedValue = p.exitValue();
+                Thread.sleep(100);
+            }
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = "";
