@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 /**
  * Created by spirals on 21/04/16.
  */
-public class TorrentManager extends ManagerImpl<String, Process> {
+public class TorrentManager extends ManagerImpl<String, String> {
 
     static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
 
@@ -122,12 +122,12 @@ public class TorrentManager extends ManagerImpl<String, Process> {
     }
 
     @Override
-    public Oracle<String, Process> getOracle() {
+    public Oracle<String, String> getOracle() {
         return new TorrentOracle(this);
     }
 
     @Override
-    public CallableImpl<String, Process> getCallable(String input) {
+    public CallableImpl<String, String> getCallable(String input) {
         return new TorrentCallable(input);
     }
 
@@ -139,7 +139,7 @@ public class TorrentManager extends ManagerImpl<String, Process> {
     }
 
     public static void main(String[] args) {
-        TorrentManager manager = new TorrentManager(1 , 100, "");
+        TorrentManager manager = new TorrentManager(1, 100, "");
         try {
             System.out.println(manager.getOracle().assertPerturbation(manager.getTask(0), manager.getCallable(manager.getTask(0)).call()));
         } catch (Exception e) {
