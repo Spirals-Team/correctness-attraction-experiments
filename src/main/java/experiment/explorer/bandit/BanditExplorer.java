@@ -1,12 +1,15 @@
 package experiment.explorer.bandit;
 
 import experiment.*;
+import experiment.Logger;
 import experiment.exploration.Exploration;
+import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.Explorer;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
 import perturbation.location.PerturbationLocation;
-import perturbation.log.LoggerImpl;
+import perturbation.log.*;
+import quicksort.QuickSortManager;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -116,6 +119,8 @@ public class BanditExplorer implements Explorer {
                 return result;
             }
         } catch (Exception | Error e) {
+            if (e.getMessage().endsWith("(Too many open files)"))
+                outStateBandit();
             result.set(2, 1);
             executor.shutdownNow();
             this.manager.recover();
@@ -130,7 +135,7 @@ public class BanditExplorer implements Explorer {
 
     @Override
     public void initLogger() {
-        this.logger = new Logger(this.manager, this.manager.getLocations().size(), this.manager.getIndexTask().size(), this.exploration.getPerturbators().size());
+        this.logger = new Logger(this.manager, this.manager.getLocations().size(), 1, 1, 1);
         PerturbationEngine.loggers.put(name, new LoggerImpl());
         PerturbationEngine.loggers.put("filterLocation", new LoggerImpl());
         this.logger = new Logger(this.manager, this.manager.getLocations().size(), 1, 1);
@@ -171,6 +176,88 @@ public class BanditExplorer implements Explorer {
         } catch (IOException e) {
 
         }
+    }
+
+    /**
+     * Print on the stderr the current state of the bandit to reload it.
+     * This method leave the current program with 23 as exit code.
+     * It means that the bandit did not  end its exploration.
+     */
+    public void outStateBandit() {
+        String outErr = "";
+        /* policy state */
+        outErr += this.policyLocation.outStateAsString();
+
+        /* budget state */
+        outErr += this.budget.outStateAsString();
+
+        /* lap */
+        outErr += lap + "\n";
+
+        /* inner logger */
+        Tuple[][][][] results = this.logger.getResults();
+        for (Tuple[][][] result : results)
+            outErr += result[0][0][0].toString() + "\n";
+
+        buildBanditFromString(outErr);
+
+//        Main.manager.stop();
+        System.exit(23);
+    }
+
+    /**
+     * Build a bandit from the given String.
+     *
+     * @param state
+     * @return
+     */
+    public static BanditExplorer buildBanditFromString(String state) {
+        int numberOfLocations = Main.manager.getLocations().size();
+        int position = 0;
+
+        String[] states = state.split("\n");
+
+        Policy policy;
+        if (states[position].split(" ").length > 2) {
+            position += 1 + numberOfLocations;
+            policy = UCBPolicy.buildFromString(states, numberOfLocations);
+        } else {
+            position += numberOfLocations;
+            policy = EpsilonGreedyPolicy.buildFromString(states, numberOfLocations);
+        }
+
+        Budget budget;
+        if (states[position].split(" ").length > 1) {
+            budget = LapBudget.buildFromString(states[position]);
+        } else {
+            budget = TimeBudget.buildFromString(states[position]);
+        }
+        position++;
+
+        BanditExplorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
+
+        explorer.lap = Integer.parseInt(states[position]);
+        position++;
+
+        for (int i = 0; i < numberOfLocations; i++) {
+            String[] tupleAsStr = states[position + i].split(" ");
+            Tuple current = new Tuple(tupleAsStr.length);
+            for (int indexTuple = 0; indexTuple < tupleAsStr.length; indexTuple++)
+                current.set(0, Integer.parseInt(tupleAsStr[indexTuple]));
+            explorer.logger.getResults()[i][0][0][0].add(current);
+        }
+
+        return explorer;
+    }
+
+    public static void main(String[] args) {
+        Main.manager = new QuickSortManager(1, 20);
+        BanditExplorer banditExplorer = new BanditExplorer(new IntegerExplorationPlusOne(), Main.manager, new UCBPolicy(Main.manager.getLocations().size()), new TimeBudget(5000 * 60));
+        banditExplorer.outStateBandit();
+//        BanditExplorer bandit = buildBanditFromString(args[0]);
+//        bandit.run();
+//        Main.manager.stop();
+//        System.exit(1);
     }
 
     public static void run(String[] args) {

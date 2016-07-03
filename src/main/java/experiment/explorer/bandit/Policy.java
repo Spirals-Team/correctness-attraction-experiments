@@ -25,4 +25,9 @@ public interface Policy {
     void update(int index, int reward);
 
     void filter(List<Integer> filter);
+
+    /**
+     * @return a string representing the current state of the policy
+     */
+    String outStateAsString();
 }

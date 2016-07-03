@@ -28,4 +28,15 @@ public class LapBudget implements Budget{
     public String toString() {
         return "LapBudget : " + this.nbLapInit + "\n";
     }
+
+    @Override
+    public String outStateAsString() {
+        return this.nbLap + " " + this.nbLapInit + "\n";
+    }
+
+    public static Budget buildFromString(String budget) {
+        LapBudget lapBudget = new LapBudget(Integer.parseInt(budget.split(" ")[1]));
+        lapBudget.nbLap = Integer.parseInt(budget.split(" ")[0]);
+        return lapBudget;
+    }
 }

@@ -11,4 +11,9 @@ public interface Budget {
      */
     boolean shouldRun();
 
+    /**
+     * @return a String representing the state of the budget
+     */
+    String outStateAsString();
+
 }

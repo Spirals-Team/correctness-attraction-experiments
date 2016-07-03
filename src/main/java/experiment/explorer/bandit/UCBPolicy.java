@@ -72,7 +72,21 @@ public class UCBPolicy extends PolicyImpl {
     }
 
     @Override
+    public String outStateAsString() {
+        String out = "";
+        for (double value : this.values)
+            out += value + " ";
+        return out + "\n" + super.outStateAsString();
+    }
+
+    @Override
     public String toString() {
         return "UCBPolicy alpha=" + this.ALPHA + "\n";
     }
+
+    //TODO
+    public static Policy buildFromString(String [] policy, int numberOfArms) {
+        return new UCBPolicy(0,0);
+    }
+
 }

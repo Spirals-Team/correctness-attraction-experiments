@@ -22,11 +22,20 @@ public class TimeBudget implements Budget {
         long timeElapsed = System.currentTimeMillis() - this.start;
         if (Main.verbose)
             System.out.println(Util.getStringPerc(timeElapsed, this.budget));
-        return System.currentTimeMillis() - this.start < budget;
+        return timeElapsed < this.budget;
     }
 
     @Override
     public String toString() {
         return "TimeBudget " + this.budget + " ms\n" ;
+    }
+
+    @Override
+    public String outStateAsString() {
+        return (this.budget - (System.currentTimeMillis() - this.start)) + "\n";
+    }
+
+    public static Budget buildFromString(String budget) {
+        return new TimeBudget(Integer.parseInt(budget));
     }
 }

@@ -49,6 +49,10 @@ public class EpsilonGreedyPolicy extends PolicyImpl {
     @Override
     public String toString() {
         return "EpsilonGreedyPolicy " + this.epsilon + "\n" ;
+    }
 
+    //TODO
+    public static Policy buildFromString(String [] policy, int numberOfArms) {
+        return new EpsilonGreedyPolicy(0,0.0f);
     }
 }

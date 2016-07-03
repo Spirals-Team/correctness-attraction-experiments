@@ -60,4 +60,15 @@ public abstract class PolicyImpl implements Policy {
         out += Util.getStringPerc(totalSuccess, totalPull) + "\n";
         return out;
     }
+
+    @Override
+    public String outStateAsString() {
+        String out = "";
+        for (int i = 0; i < this.nbPull.length; i++)
+            out += this.nbPull[i] + " " + this.nbSuccessPerArm[i] + "\n";
+        return out;
+    }
+
+
+
 }
