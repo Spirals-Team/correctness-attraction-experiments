@@ -7,17 +7,18 @@ import experiment.ManagerImpl;
 import experiment.Oracle;
 import experiment.Util;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
  * Created by spirals on 21/04/16.
  */
-public class TorrentManager extends ManagerImpl<String, Process> {
+public class TorrentManager extends ManagerImpl<String, String> {
 
     static final String PATH_TO_TORRENT_FILE = "resources/input_torrent/";
 
@@ -122,12 +123,12 @@ public class TorrentManager extends ManagerImpl<String, Process> {
     }
 
     @Override
-    public Oracle<String, Process> getOracle() {
+    public Oracle<String, String> getOracle() {
         return new TorrentOracle(this);
     }
 
     @Override
-    public CallableImpl<String, Process> getCallable(String input) {
+    public CallableImpl<String, String> getCallable(String input) {
         return new TorrentCallable(input);
     }
 

@@ -8,39 +8,24 @@ import com.turn.ttorrent.tracker.Tracker;
 import experiment.CallableImpl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.concurrent.TimeoutException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by spirals on 21/04/16.
  */
-public class TorrentCallable extends CallableImpl<String, Process> {
-
-    private static final String CMD_TO_RUN;
-
-    static {
-        String classpath = "";
-        for (URL url : ((URLClassLoader) (Thread.currentThread().getContextClassLoader())).getURLs())
-            classpath += url + ":";
-        CMD_TO_RUN = "java -cp " + classpath + " torrent.TorrentCallable ";
-    }
+public class TorrentCallable extends CallableImpl<String, String> {
 
     public TorrentCallable(String input) {
         super(input);
     }
 
     @Override
-    public Process call() throws Exception {
-        return Runtime.getRuntime().exec(CMD_TO_RUN + this.input);
-    }
-
-    public static void main(String[] args) {
-        String input = args[0];
+    public String call() throws Exception {
         Client seeder = null;
         Client leecher = null;
         Tracker tracker = null;
@@ -93,8 +78,23 @@ public class TorrentCallable extends CallableImpl<String, Process> {
             if (tracker != null)
                 tracker.stop();
         }
-        System.out.println(input);
-        System.exit(0);
+        return input;
+    }
+
+    public static void main(String[] args) {
+        List<InputStream> streams = new ArrayList<>();
+       int cpt = 0;
+        while (true) {
+           try {
+                cpt++;
+               streams.add(new FileInputStream("pom.xml"));
+           } catch (java.io.FileNotFoundException e) {
+               e.printStackTrace();
+               System.exit(-1);
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+       }
     }
 
 }
