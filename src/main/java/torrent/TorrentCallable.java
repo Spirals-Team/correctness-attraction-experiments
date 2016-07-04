@@ -8,13 +8,12 @@ import com.turn.ttorrent.tracker.Tracker;
 import experiment.CallableImpl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.concurrent.TimeoutException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by spirals on 21/04/16.
@@ -27,7 +26,6 @@ public class TorrentCallable extends CallableImpl<String, String> {
 
     @Override
     public String call() throws Exception {
-
         Client seeder = null;
         Client leecher = null;
         Tracker tracker = null;
