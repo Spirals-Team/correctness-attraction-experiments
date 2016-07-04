@@ -29,7 +29,7 @@ public class MersenneManager extends ManagerImpl<Long, List<Long>> {
     @Override
     public Long getTask(int index) {
         if (index >= super.tasks.size())
-            super.getTask(index);
+            return super.getTask(index);
         return new Long(super.tasks.get(index));
     }
 

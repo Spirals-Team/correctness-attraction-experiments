@@ -102,7 +102,7 @@ public class LinearRegressionManager extends ManagerImpl<Matrix[], double[]> {
     @Override
     public Matrix[] getTask(int indexTask) {
         if (indexTask >= super.tasks.size())
-            super.getTask(indexTask);
+            return super.getTask(indexTask);
         return super.tasks.get(indexTask);
     }
 

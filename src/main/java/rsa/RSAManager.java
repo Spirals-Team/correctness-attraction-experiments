@@ -27,7 +27,6 @@ public class RSAManager extends ManagerImpl<byte[], byte[]> {
     @Override
     protected byte[] generateOneTask() {
         byte [] task = new byte[super.sizeOfTask];
-
         while ( (task[0] = (byte)(randomForGenTask.nextInt())) == 0 );
         for (int i = 1 ; i < super.sizeOfTask - 1 ; i++)
             task[i] = ((byte)(randomForGenTask.nextInt()));
@@ -38,7 +37,7 @@ public class RSAManager extends ManagerImpl<byte[], byte[]> {
     @Override
     public byte[] getTask(int index) {
         if (index >= super.tasks.size())
-            super.getTask(index);
+            return super.getTask(index);
         byte [] clone = new byte[super.sizeOfTask];
         System.arraycopy(super.tasks.get(index), 0 , clone, 0, clone.length);
         return clone;

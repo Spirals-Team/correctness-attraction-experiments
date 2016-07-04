@@ -76,7 +76,7 @@ public class SudokuManager extends ManagerImpl<int[][],int[][]> {
     @Override
     public int[][] getTask(int index) {
         if (index >= super.tasks.size())
-            super.getTask(index);
+            return super.getTask(index);
         int[][] clone = new int[9][9];
         int[][] originalValue = super.tasks.get(index);
         for (int row = 0; row < originalValue.length; row++) {

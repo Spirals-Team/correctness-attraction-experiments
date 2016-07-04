@@ -109,7 +109,7 @@ public class SimplexManager extends ManagerImpl<OptimizationData[], PointValuePa
     @Override
     public OptimizationData[] getTask(int index) {
         if (index >= super.tasks.size())
-            super.getTask(index);
+            return super.getTask(index);
         return super.tasks.get(index);
     }
 

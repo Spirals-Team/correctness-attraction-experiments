@@ -138,14 +138,4 @@ public class TorrentManager extends ManagerImpl<String, String> {
                 "Random characters generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
     }
-
-    public static void main(String[] args) {
-        TorrentManager manager = new TorrentManager(1 , 100, "");
-        try {
-            System.out.println(manager.getOracle().assertPerturbation(manager.getTask(0), manager.getCallable(manager.getTask(0)).call()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }
