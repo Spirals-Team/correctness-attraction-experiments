@@ -240,9 +240,8 @@ public class Main {
         }
     }
 
-    private static void buildSubject(int index, String[] args) {
+    public static void buildSubject(int index, String[] args) {
         try {
-
             switch (args[index]) {
                 case "lr":
                 case "linear":

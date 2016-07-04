@@ -65,10 +65,7 @@ public abstract class PolicyImpl implements Policy {
     public String outStateAsString() {
         String out = "";
         for (int i = 0; i < this.nbPull.length; i++)
-            out += this.nbPull[i] + " " + this.nbSuccessPerArm[i] + "\n";
+            out += this.nbPull[i] + " " + this.nbSuccessPerArm[i] + " ";
         return out;
     }
-
-
-
 }

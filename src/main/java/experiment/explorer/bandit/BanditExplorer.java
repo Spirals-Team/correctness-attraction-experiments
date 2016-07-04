@@ -10,9 +10,12 @@ import perturbation.enactor.NCallEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.*;
 import quicksort.QuickSortManager;
+import sun.plugin2.ipc.InProcEvent;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import javax.print.DocFlavor;
+import java.io.*;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -65,6 +68,7 @@ public class BanditExplorer implements Explorer {
             nbCallRef = this.filterLocation();
         }
         this.log();
+        System.exit(0);
     }
 
     private int[] filterLocation() {
@@ -119,8 +123,10 @@ public class BanditExplorer implements Explorer {
                 return result;
             }
         } catch (Exception | Error e) {
-            if (e.getMessage().endsWith("(Too many open files)"))
-                outStateBandit();
+            if (e.getMessage().endsWith("(Too many open files)")) {
+                System.err.println(outStateBandit());
+                System.exit(23);
+            }
             result.set(2, 1);
             executor.shutdownNow();
             this.manager.recover();
@@ -174,7 +180,7 @@ public class BanditExplorer implements Explorer {
             writer.close();
 
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -183,7 +189,7 @@ public class BanditExplorer implements Explorer {
      * This method leave the current program with 23 as exit code.
      * It means that the bandit did not  end its exploration.
      */
-    public void outStateBandit() {
+    public String outStateBandit() {
         String outErr = "";
         /* policy state */
         outErr += this.policyLocation.outStateAsString();
@@ -192,46 +198,29 @@ public class BanditExplorer implements Explorer {
         outErr += this.budget.outStateAsString();
 
         /* lap */
-        outErr += lap + "\n";
+        outErr += lap + " ";// + "\n";
 
         /* inner logger */
         Tuple[][][][] results = this.logger.getResults();
         for (Tuple[][][] result : results)
-            outErr += result[0][0][0].toString() + "\n";
+            outErr += result[0][0][0].toString() + " ";// + "\n";
 
-        buildBanditFromString(outErr);
-
-//        Main.manager.stop();
-        System.exit(23);
+        return outErr;
     }
 
     /**
      * Build a bandit from the given String.
      *
-     * @param state
+     * @param states
      * @return
      */
-    public static BanditExplorer buildBanditFromString(String state) {
+    public static BanditExplorer buildBanditFromString(int position, String[] states) {
         int numberOfLocations = Main.manager.getLocations().size();
-        int position = 0;
 
-        String[] states = state.split("\n");
+        Policy policy = UCBPolicy.buildFromString(states, numberOfLocations, position);
+        position += 1 + 3 * numberOfLocations;
 
-        Policy policy;
-        if (states[position].split(" ").length > 2) {
-            position += 1 + numberOfLocations;
-            policy = UCBPolicy.buildFromString(states, numberOfLocations);
-        } else {
-            position += numberOfLocations;
-            policy = EpsilonGreedyPolicy.buildFromString(states, numberOfLocations);
-        }
-
-        Budget budget;
-        if (states[position].split(" ").length > 1) {
-            budget = LapBudget.buildFromString(states[position]);
-        } else {
-            budget = TimeBudget.buildFromString(states[position]);
-        }
+        Budget budget = TimeBudget.buildFromString(states[position]);
         position++;
 
         BanditExplorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
@@ -251,13 +240,12 @@ public class BanditExplorer implements Explorer {
     }
 
     public static void main(String[] args) {
-        Main.manager = new QuickSortManager(1, 20);
-        BanditExplorer banditExplorer = new BanditExplorer(new IntegerExplorationPlusOne(), Main.manager, new UCBPolicy(Main.manager.getLocations().size()), new TimeBudget(5000 * 60));
-        banditExplorer.outStateBandit();
-//        BanditExplorer bandit = buildBanditFromString(args[0]);
-//        bandit.run();
-//        Main.manager.stop();
-//        System.exit(1);
+        Main.buildSubject(Main.getIndexOfOption("-s", args) , args);
+        Main.exploration = new IntegerExplorationPlusOne();
+        Main.manager.getLocations(Main.exploration.getType());
+
+        Explorer bandit = buildBanditFromString(Main.getIndexOfOption("-bandit", args) + 1, args);
+        bandit.run();
     }
 
     public static void run(String[] args) {
@@ -266,7 +254,8 @@ public class BanditExplorer implements Explorer {
         Budget budget = null;
         Policy policy = null;
 
-//        Exploration exploration = new IntegerExplorationPlusOne();
+        int indexSubject = Main.getIndexOfOption("-s", args);
+
         Main.manager.getLocations(Main.exploration.getType());
 
         if ((currentIndex = Main.getIndexOfOption("-budget", args)) != -1) {
@@ -277,26 +266,78 @@ public class BanditExplorer implements Explorer {
                 case "lap":
                     budget = new LapBudget(Integer.parseInt(args[currentIndex + 2]));
                     break;
-                default:
-                    budget = new TimeBudget(5000 * 60);
             }
-        }
+        } else
+            budget = new TimeBudget(5000 * 60);
 
         if ((currentIndex = Main.getIndexOfOption("-policy", args)) != -1) {
             switch (args[currentIndex + 1]) {
                 case "eps":
                     policy = new EpsilonGreedyPolicy(Main.manager.getLocations().size(), 0.80D);
                     break;
-                case "ucb":
-                default:
-                    policy = new UCBPolicy(Main.manager.getLocations().size(), 23);
-                    break;
+            }
+        } else
+            policy = new UCBPolicy(Main.manager.getLocations().size(), 23);
+
+        String bandit = buildArgsFromArray(new BanditExplorer(Main.exploration, Main.manager, policy, budget).outStateBandit().split("\n"));
+
+        long time = System.currentTimeMillis();
+
+        int code = 23;
+        while (code == 23) {
+            try {
+                Process p = Runtime.getRuntime().exec(CMD_EXEC_BANDIT + "-s "  + args[indexSubject + 1] + " -bandit " + bandit);
+                p.waitFor();
+                code = p.exitValue();
+                bandit = buildArgsFromArray(readInput(p.getErrorStream()).split(" "));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
-        Explorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
-        explorer.run();
+        System.out.println(System.currentTimeMillis() - time );
         Main.manager.stop();
-        System.exit(1);
+        System.exit(32);
     }
+
+    private static final String CMD_EXEC_BANDIT;
+
+    static {
+        URL [] urls = ((URLClassLoader) BanditExplorer.class.getClassLoader()).getURLs();
+        String classpath = urls[0].getPath();
+        for (int i = 1; i < urls.length; i++)
+            classpath += ":" + urls[i].getPath();
+        CMD_EXEC_BANDIT = "java -cp " + classpath + " experiment.explorer.bandit.BanditExplorer ";
+    }
+
+    /**
+     * Convert an array of String into a single String
+     *
+     * @param array
+     * @return
+     */
+    private static String buildArgsFromArray(String[] array) {
+        String argsBandit = "";
+        for (String s : array)
+            argsBandit += s + " ";
+        return argsBandit;
+    }
+
+    /**
+     * return the content of the the given input stream
+     *
+     * @param in
+     * @return
+     */
+    private static String readInput(InputStream in) {
+        String out = "";
+        try {
+            while (in.available() != 0)
+                out += (char)in.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out;
+    }
+
 }

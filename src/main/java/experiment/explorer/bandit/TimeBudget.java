@@ -32,10 +32,10 @@ public class TimeBudget implements Budget {
 
     @Override
     public String outStateAsString() {
-        return (this.budget - (System.currentTimeMillis() - this.start)) + "\n";
+        return (this.budget - (System.currentTimeMillis() - this.start)) + " ";
     }
 
-    public static Budget buildFromString(String budget) {
+    static Budget buildFromString(String budget) {
         return new TimeBudget(Integer.parseInt(budget));
     }
 }
