@@ -73,9 +73,10 @@ public class UCBPolicy extends PolicyImpl {
 
     @Override
     public String outStateAsString() {
-        String out = "";
-        for (double value : this.values)
-            out += value + " ";
+        String out = String.valueOf(this.values[0]);
+        for (int i = 1; i < this.values.length; i++) {
+            out += " " + this.values[i];
+        }
         return out + " " + this.nbLap + " " + super.outStateAsString();
     }
 
@@ -86,12 +87,18 @@ public class UCBPolicy extends PolicyImpl {
 
     static Policy buildFromString(String [] states, int numberOfArms, int position) {
         UCBPolicy policy = new UCBPolicy(numberOfArms);
-        for (int i = 0; i < numberOfArms; i++)
+        for (int i = 0; i < numberOfArms; i++) {
             policy.values[i] = Double.parseDouble(states[position + i]);
+        }
+        position += numberOfArms;
         policy.nbLap = Integer.parseInt(states[position + numberOfArms + 1]);
-        for (int indexState = 0, indexPolicy = 0; indexState < 2 * numberOfArms; indexState += 2, indexPolicy++) {
-            policy.nbPull[indexPolicy] = Integer.parseInt(states[indexState + numberOfArms + position]);
-            policy.nbSuccessPerArm[indexPolicy] = Integer.parseInt(states[1 + indexState + numberOfArms + position]);
+        position++;
+        for (int i = 0; i < numberOfArms; i++) {
+            policy.nbPull[i] = Integer.parseInt(states[i + position]);
+        }
+        position += numberOfArms;
+        for (int i = 0; i < numberOfArms; i++) {
+            policy.nbSuccessPerArm[i] = Integer.parseInt(states[i + position]);
         }
         return policy;
     }

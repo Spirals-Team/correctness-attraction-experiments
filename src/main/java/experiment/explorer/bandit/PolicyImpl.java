@@ -12,9 +12,9 @@ import java.util.Random;
  */
 public abstract class PolicyImpl implements Policy {
 
-    protected int [] nbPull;
+    protected int[] nbPull;
 
-    protected int [] nbSuccessPerArm;
+    protected int[] nbSuccessPerArm;
 
     protected Random random;
 
@@ -48,9 +48,9 @@ public abstract class PolicyImpl implements Policy {
             System.out.println(String.format(format, "Loc", "P", "Succ", "Pull"));
         out += String.format(format, "Loc", "P", "Succ", "Pull") + "\n";
         for (int i = 0; i < this.nbPull.length; i++) {
-            double probability = (double)this.nbSuccessPerArm[i] / (double)this.nbPull[i];
+            double probability = (double) this.nbSuccessPerArm[i] / (double) this.nbPull[i];
             totalSuccess += this.nbSuccessPerArm[i];
-            totalPull +=  this.nbPull[i];
+            totalPull += this.nbPull[i];
             if (Main.verbose && this.nbPull[i] > 0)
                 System.out.println(String.format(format, i, String.format("%.2f", probability), this.nbSuccessPerArm[i], this.nbPull[i]));
             out += String.format(format, i, String.format("%.2f", probability), this.nbSuccessPerArm[i], this.nbPull[i]) + "\n";
@@ -63,9 +63,12 @@ public abstract class PolicyImpl implements Policy {
 
     @Override
     public String outStateAsString() {
-        String out = "";
-        for (int i = 0; i < this.nbPull.length; i++)
-            out += this.nbPull[i] + " " + this.nbSuccessPerArm[i] + " ";
+        String out = String.valueOf(this.nbPull[0]);
+        for (int i = 1; i < this.nbPull.length; i++)
+            out += " " + this.nbPull[i];
+        out += " " + this.nbSuccessPerArm[0];
+        for (int i = 1; i < this.nbSuccessPerArm.length; i++)
+            out += " " + this.nbSuccessPerArm[i];
         return out;
     }
 }

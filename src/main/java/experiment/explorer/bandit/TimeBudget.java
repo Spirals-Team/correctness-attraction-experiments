@@ -12,9 +12,12 @@ public class TimeBudget implements Budget {
 
     private final long budget;
 
+    private long timeRemaining;
+
     public TimeBudget(long time) {
         this.budget = time;
         this.start = System.currentTimeMillis();
+        this.timeRemaining = this.budget;
     }
 
     @Override
@@ -22,7 +25,8 @@ public class TimeBudget implements Budget {
         long timeElapsed = System.currentTimeMillis() - this.start;
         if (Main.verbose)
             System.out.println(Util.getStringPerc(timeElapsed, this.budget));
-        return timeElapsed < this.budget;
+        this.timeRemaining = this.budget - timeElapsed;
+        return this.timeRemaining > 0;
     }
 
     @Override
@@ -32,10 +36,10 @@ public class TimeBudget implements Budget {
 
     @Override
     public String outStateAsString() {
-        return (this.budget - (System.currentTimeMillis() - this.start)) + " ";
+        return String .valueOf(this.timeRemaining);
     }
 
     static Budget buildFromString(String budget) {
-        return new TimeBudget(Integer.parseInt(budget));
+        return new TimeBudget(Long.parseLong(budget));
     }
 }

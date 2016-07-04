@@ -13,6 +13,7 @@ import quicksort.QuickSortManager;
 import sun.plugin2.ipc.InProcEvent;
 
 import javax.print.DocFlavor;
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -66,9 +67,12 @@ public class BanditExplorer implements Explorer {
             int armSelected = this.policyLocation.selectArm();
             this.pullArm(armSelected, nbCallRef[armSelected]);
             nbCallRef = this.filterLocation();
+            if (this.lap % 10 == 0) {
+                System.err.println(this.outStateBandit());
+                System.exit(23);
+            }
         }
         this.log();
-        System.exit(0);
     }
 
     private int[] filterLocation() {
@@ -110,6 +114,7 @@ public class BanditExplorer implements Explorer {
                 if (assertion)
                     result.set(0, 1); // success
                 else {
+//                    System.out.println("FAIL");
                     result.set(1, 1); // failures
                     this.manager.recover();
                 }
@@ -117,7 +122,7 @@ public class BanditExplorer implements Explorer {
             } catch (TimeoutException e) {
                 future.cancel(true);
                 result.set(2, 1); // error computation time
-                System.err.println("Time out!");
+//                System.err.println("Time out!");
                 executor.shutdownNow();
                 this.manager.recover();
                 return result;
@@ -170,12 +175,12 @@ public class BanditExplorer implements Explorer {
                     "#Call",
                     "%Success") + "\n");
             for (int i = 0; i < result.length; i++) {
-                if (result[i][0][0][0].get(4) != 0) {
-                    writer.write(String.format(format, this.arms.get(i).getLocationIndex(), result[i][0][0][0].get(4),
-                            result[i][0][0][0].get(0), result[i][0][0][0].get(1), result[i][0][0][0].get(2),
-                            result[i][0][0][0].get(3),
-                            result[i][0][0][0].get(4) == 0 ? "NaN" : Util.getStringPerc(result[i][0][0][0].get(0), result[i][0][0][0].total(3))) + "\n");
-                }
+//                if (result[i][0][0][0].get(4) != 0) {
+                writer.write(String.format(format, this.arms.get(i).getLocationIndex(), result[i][0][0][0].get(4),
+                        result[i][0][0][0].get(0), result[i][0][0][0].get(1), result[i][0][0][0].get(2),
+                        result[i][0][0][0].get(3),
+                        result[i][0][0][0].get(4) == 0 ? "NaN" : Util.getStringPerc(result[i][0][0][0].get(0), result[i][0][0][0].total(3))) + "\n");
+//                }
             }
             writer.close();
 
@@ -189,22 +194,18 @@ public class BanditExplorer implements Explorer {
      * This method leave the current program with 23 as exit code.
      * It means that the bandit did not  end its exploration.
      */
-    public String outStateBandit() {
+    String outStateBandit() {
         String outErr = "";
-        /* policy state */
-        outErr += this.policyLocation.outStateAsString();
-
-        /* budget state */
-        outErr += this.budget.outStateAsString();
-
         /* lap */
-        outErr += lap + " ";// + "\n";
-
+        outErr += this.lap + " ";
+        /* policy state */
+        outErr += this.policyLocation.outStateAsString() + " ";
+        /* budget state */
+        outErr += this.budget.outStateAsString() + " ";
         /* inner logger */
         Tuple[][][][] results = this.logger.getResults();
         for (Tuple[][][] result : results)
-            outErr += result[0][0][0].toString() + " ";// + "\n";
-
+            outErr += result[0][0][0].toString();
         return outErr;
     }
 
@@ -214,42 +215,41 @@ public class BanditExplorer implements Explorer {
      * @param states
      * @return
      */
-    public static BanditExplorer buildBanditFromString(int position, String[] states) {
+    static BanditExplorer buildBanditFromString(int position, String[] states) {
         int numberOfLocations = Main.manager.getLocations().size();
-
+        int lap = Integer.parseInt(states[position]);
+        position++;
+        /* Policy UCB */
         Policy policy = UCBPolicy.buildFromString(states, numberOfLocations, position);
         position += 1 + 3 * numberOfLocations;
-
+        /* Budget */
         Budget budget = TimeBudget.buildFromString(states[position]);
         position++;
-
         BanditExplorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
-
-        explorer.lap = Integer.parseInt(states[position]);
-        position++;
-
+        /* Lap */
+        explorer.lap = lap;
+        int sizeOfTuple = explorer.logger.getResults()[0][0][0][0].length();
+        /* explorer logger */
         for (int i = 0; i < numberOfLocations; i++) {
-            String[] tupleAsStr = states[position + i].split(" ");
-            Tuple current = new Tuple(tupleAsStr.length);
-            for (int indexTuple = 0; indexTuple < tupleAsStr.length; indexTuple++)
-                current.set(0, Integer.parseInt(tupleAsStr[indexTuple]));
-            explorer.logger.getResults()[i][0][0][0].add(current);
+            Tuple current = new Tuple(sizeOfTuple);
+            for (int indexTuple = 0; indexTuple < sizeOfTuple; indexTuple++)
+                current.set(indexTuple, Integer.parseInt(states[position + (i * sizeOfTuple) + indexTuple]));
+            explorer.logger.getResults()[i][0][0][0] = current;
         }
-
         return explorer;
     }
 
     public static void main(String[] args) {
-        Main.buildSubject(Main.getIndexOfOption("-s", args) , args);
         Main.exploration = new IntegerExplorationPlusOne();
+        int index = (Main.getIndexOfOption("-bandit", args) + 1);
+        Main.numberOfTask = Integer.parseInt(args[index]);
+        Main.buildSubject(Main.getIndexOfOption("-s", args) + 1, args);
         Main.manager.getLocations(Main.exploration.getType());
-
-        Explorer bandit = buildBanditFromString(Main.getIndexOfOption("-bandit", args) + 1, args);
+        BanditExplorer bandit = buildBanditFromString(index, args);
         bandit.run();
     }
 
     public static void run(String[] args) {
-
         int currentIndex;
         Budget budget = null;
         Policy policy = null;
@@ -279,23 +279,28 @@ public class BanditExplorer implements Explorer {
         } else
             policy = new UCBPolicy(Main.manager.getLocations().size(), 23);
 
-        String bandit = buildArgsFromArray(new BanditExplorer(Main.exploration, Main.manager, policy, budget).outStateBandit().split("\n"));
+        BanditExplorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
 
-        long time = System.currentTimeMillis();
-
-        int code = 23;
-        while (code == 23) {
-            try {
-                Process p = Runtime.getRuntime().exec(CMD_EXEC_BANDIT + "-s "  + args[indexSubject + 1] + " -bandit " + bandit);
-                p.waitFor();
-                code = p.exitValue();
-                bandit = buildArgsFromArray(readInput(p.getErrorStream()).split(" "));
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (Main.getIndexOfOption("-f", args) == -1) {
+            explorer.run();
+        } else {
+            String bandit = buildArgsFromArray(explorer.outStateBandit().split("\n"));
+            long time = System.currentTimeMillis();
+            int code = 23;
+            while (code == 23) {
+                try {
+//                    System.out.println(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
+                    Process p = Runtime.getRuntime().exec(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
+                    p.waitFor();
+                    code = p.exitValue();
+//                    System.out.println(readInput(p.getInputStream()));
+                    bandit = buildArgsFromArray(readInput(p.getErrorStream()).split(" "));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+            System.out.println(System.currentTimeMillis() - time);
         }
-
-        System.out.println(System.currentTimeMillis() - time );
         Main.manager.stop();
         System.exit(32);
     }
@@ -303,7 +308,7 @@ public class BanditExplorer implements Explorer {
     private static final String CMD_EXEC_BANDIT;
 
     static {
-        URL [] urls = ((URLClassLoader) BanditExplorer.class.getClassLoader()).getURLs();
+        URL[] urls = ((URLClassLoader) BanditExplorer.class.getClassLoader()).getURLs();
         String classpath = urls[0].getPath();
         for (int i = 1; i < urls.length; i++)
             classpath += ":" + urls[i].getPath();
@@ -317,10 +322,10 @@ public class BanditExplorer implements Explorer {
      * @return
      */
     private static String buildArgsFromArray(String[] array) {
-        String argsBandit = "";
+        String args = "";
         for (String s : array)
-            argsBandit += s + " ";
-        return argsBandit;
+            args += s + " ";
+        return args;
     }
 
     /**
@@ -333,7 +338,7 @@ public class BanditExplorer implements Explorer {
         String out = "";
         try {
             while (in.available() != 0)
-                out += (char)in.read();
+                out += (char) in.read();
         } catch (IOException e) {
             e.printStackTrace();
         }
