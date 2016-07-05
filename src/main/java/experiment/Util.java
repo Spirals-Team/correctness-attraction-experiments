@@ -20,7 +20,7 @@ public class Util {
     public static List<PerturbationLocation> getAllLocations(String project, String packagaPath, String type) {
         final List<PerturbationLocation> locations = new ArrayList<>();
         iterateFolders(project, packagaPath);
-        System.out.println("Number of classes " +  classes.size());
+//        System.out.println("Number of classes " +  classes.size());
         classes.stream().forEach(clazz -> {
                     PerturbationLocationImpl.getLocationFromClass(clazz).forEach(location -> {
                         if (!locations.contains(location))
@@ -40,7 +40,7 @@ public class Util {
             else if (isJava(subFile.getName())) {
                 try {
                     Class<?> clazz = loader.loadClass(currentPackage + "." + removeExt(subFile.getName()));
-                    System.out.println(currentPackage + "." + removeExt(subFile.getName()));
+//                    System.out.println(currentPackage + "." + removeExt(subFile.getName()));
                     classes.add(clazz);
                 } catch (ClassNotFoundException e) {
                     continue;

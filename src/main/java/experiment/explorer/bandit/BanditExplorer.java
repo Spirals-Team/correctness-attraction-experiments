@@ -9,11 +9,7 @@ import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.*;
-import quicksort.QuickSortManager;
-import sun.plugin2.ipc.InProcEvent;
 
-import javax.print.DocFlavor;
-import javax.xml.bind.SchemaOutputResolver;
 import java.io.*;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -67,10 +63,10 @@ public class BanditExplorer implements Explorer {
             int armSelected = this.policyLocation.selectArm();
             this.pullArm(armSelected, nbCallRef[armSelected]);
             nbCallRef = this.filterLocation();
-            if (this.lap % 10 == 0) {
-                System.err.println(this.outStateBandit());
-                System.exit(23);
-            }
+//            if (this.lap % 2 == 0) {
+//                System.out.println(this.outStateBandit());
+//                System.exit(23);
+//            }
         }
         this.log();
     }
@@ -114,7 +110,7 @@ public class BanditExplorer implements Explorer {
                 if (assertion)
                     result.set(0, 1); // success
                 else {
-//                    System.out.println("FAIL");
+                    System.err.println("FAIL");
                     result.set(1, 1); // failures
                     this.manager.recover();
                 }
@@ -122,14 +118,14 @@ public class BanditExplorer implements Explorer {
             } catch (TimeoutException e) {
                 future.cancel(true);
                 result.set(2, 1); // error computation time
-//                System.err.println("Time out!");
+                System.err.println("Time out!");
                 executor.shutdownNow();
                 this.manager.recover();
                 return result;
             }
         } catch (Exception | Error e) {
             if (e.getMessage().endsWith("(Too many open files)")) {
-                System.err.println(outStateBandit());
+                System.out.println(outStateBandit());
                 System.exit(23);
             }
             result.set(2, 1);
@@ -289,12 +285,13 @@ public class BanditExplorer implements Explorer {
             int code = 23;
             while (code == 23) {
                 try {
-//                    System.out.println(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
+                    System.out.println(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
                     Process p = Runtime.getRuntime().exec(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
                     p.waitFor();
                     code = p.exitValue();
-//                    System.out.println(readInput(p.getInputStream()));
-                    bandit = buildArgsFromArray(readInput(p.getErrorStream()).split(" "));
+                    System.out.println(code);
+                    System.out.println(readInput(p.getErrorStream()));
+                    bandit = buildArgsFromArray(readInput(p.getInputStream()).split(" "));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
