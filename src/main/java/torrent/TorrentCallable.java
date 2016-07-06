@@ -61,7 +61,6 @@ public class TorrentCallable extends CallableImpl<String, String> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.exit(1);
         } finally {
             if (seederTorrent != null) {
                 seederTorrent.close();
@@ -79,22 +78,6 @@ public class TorrentCallable extends CallableImpl<String, String> {
                 tracker.stop();
         }
         return input;
-    }
-
-    public static void main(String[] args) {
-        List<InputStream> streams = new ArrayList<>();
-       int cpt = 0;
-        while (true) {
-           try {
-                cpt++;
-               streams.add(new FileInputStream("pom.xml"));
-           } catch (java.io.FileNotFoundException e) {
-               e.printStackTrace();
-               System.exit(-1);
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
-       }
     }
 
 }
