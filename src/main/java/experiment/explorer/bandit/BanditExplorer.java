@@ -7,6 +7,7 @@ import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.Explorer;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
+import perturbation.enactor.NeverEnactorImpl;
 import perturbation.location.PerturbationLocation;
 import perturbation.log.*;
 
@@ -91,10 +92,15 @@ public class BanditExplorer implements Explorer {
         this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef + 1), this.arms.get(indexArm)));
         PerturbationEngine.loggers.get(this.name).logOn(this.arms.get(indexArm));
         Tuple result = run(this.lap);
-        this.logger.log(indexArm, 0, 0, 0, result, this.name);
+        if (PerturbationEngine.loggers.get(this.name).getEnactions(this.arms.get(indexArm)) > 1)
+            System.out.println("PERTURBED MORE THAN ONE TIME");
+        if (PerturbationEngine.loggers.get(this.name).getEnactions(this.arms.get(indexArm)) != 0 || result.total() == 0) {
+            this.logger.log(indexArm, 0, 0, 0, result, this.name);
+            this.policyLocation.update(indexArm, (int) result.get(0));
+            this.lap++;
+        }
+        this.arms.get(indexArm).setEnactor(new NeverEnactorImpl());
         PerturbationEngine.loggers.get(this.name).reset();
-        this.policyLocation.update(indexArm, (int) result.get(0));
-        this.lap++;
     }
 
     private Tuple run(int indexOfTask) {
@@ -171,12 +177,12 @@ public class BanditExplorer implements Explorer {
                     "#Call",
                     "%Success") + "\n");
             for (int i = 0; i < result.length; i++) {
-//                if (result[i][0][0][0].get(4) != 0) {
+                if (result[i][0][0][0].get(4) != 0) {
                 writer.write(String.format(format, this.arms.get(i).getLocationIndex(), result[i][0][0][0].get(4),
                         result[i][0][0][0].get(0), result[i][0][0][0].get(1), result[i][0][0][0].get(2),
                         result[i][0][0][0].get(3),
                         result[i][0][0][0].get(4) == 0 ? "NaN" : Util.getStringPerc(result[i][0][0][0].get(0), result[i][0][0][0].total(3))) + "\n");
-//                }
+                }
             }
             writer.close();
 
@@ -190,7 +196,7 @@ public class BanditExplorer implements Explorer {
      * This method leave the current program with 23 as exit code.
      * It means that the bandit did not  end its exploration.
      */
-    String outStateBandit() {
+    public String outStateBandit() {
         String outErr = "";
         /* lap */
         outErr += this.lap + " ";
@@ -211,7 +217,7 @@ public class BanditExplorer implements Explorer {
      * @param states
      * @return
      */
-    static BanditExplorer buildBanditFromString(int position, String[] states) {
+    public static BanditExplorer buildBanditFromString(int position, String[] states) {
         int numberOfLocations = Main.manager.getLocations().size();
         int lap = Integer.parseInt(states[position]);
         position++;
@@ -257,7 +263,7 @@ public class BanditExplorer implements Explorer {
         if ((currentIndex = Main.getIndexOfOption("-budget", args)) != -1) {
             switch (args[currentIndex + 1]) {
                 case "time":
-                    budget = new TimeBudget(Integer.parseInt(args[currentIndex + 2]));
+                    budget = new TimeBudget(Integer.parseInt(args[currentIndex + 2]) * 1000 * 60);
                     break;
                 case "lap":
                     budget = new LapBudget(Integer.parseInt(args[currentIndex + 2]));
