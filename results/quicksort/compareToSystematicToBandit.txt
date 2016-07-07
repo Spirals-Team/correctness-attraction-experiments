@@ -22,3 +22,7 @@ avg deviation per point: 1,62
 deviation % success: 28,00
 diff (in %) if time : -398,47
 ====================================================================
+avg deviation per point: NaN
+deviation % success: 24,07
+diff (in %) if time : 94,99
+====================================================================

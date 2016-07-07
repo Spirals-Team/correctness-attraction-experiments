@@ -1,4 +1,4 @@
-package experiment.explorer.bandit;
+package experiment.explorer.bandit.policy;
 
 import experiment.Main;
 import experiment.Util;

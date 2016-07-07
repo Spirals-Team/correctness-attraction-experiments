@@ -1,4 +1,4 @@
-package experiment.explorer.bandit;
+package experiment.explorer.bandit.budget;
 
 /**
  * Created by bdanglot on 06/06/16.
