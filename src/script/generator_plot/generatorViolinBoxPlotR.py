@@ -8,6 +8,8 @@ subjects=("quicksort", "zip", "sudoku", "md5", "rsa", "rc4", "canny", "lcs", "la
 outputR = open('results/violin_boxplot'+exploration+'.R', 'w')
 
 outputR.write("pdf(\"violinboxplot_"+exploration+".pdf\")\n")
+outputR.write("mar.default <- c(5,4,4,2) + 0.1\n")
+outputR.write("par(mar = mar.default + c(0, 4, 0, 0))\n")
 
 out = "names <- c("
 for s in subjects[:-1]:
