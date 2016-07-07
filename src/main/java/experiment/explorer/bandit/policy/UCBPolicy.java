@@ -85,7 +85,7 @@ public class UCBPolicy extends PolicyImpl {
 		return "UCBPolicy alpha=" + this.ALPHA + "\n";
 	}
 
-	static Policy buildFromString(String[] states, int numberOfArms, int position) {
+	public static Policy buildFromString(String[] states, int numberOfArms, int position) {
 		UCBPolicy policy = new UCBPolicy(numberOfArms);
 		for (int i = 0; i < numberOfArms; i++)
 			policy.values[i] = Double.parseDouble(states[position + i]);

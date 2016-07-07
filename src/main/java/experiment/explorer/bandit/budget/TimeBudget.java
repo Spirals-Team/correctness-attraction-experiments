@@ -39,7 +39,7 @@ public class TimeBudget implements Budget {
         return String .valueOf(this.timeRemaining);
     }
 
-    static Budget buildFromString(String budget) {
+    public static Budget buildFromString(String budget) {
         return new TimeBudget(Long.parseLong(budget));
     }
 }
