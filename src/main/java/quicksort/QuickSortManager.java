@@ -1,19 +1,9 @@
 package quicksort;
 
-import experiment.*;
-import perturbation.enactor.NeverEnactorImpl;
-import perturbation.enactor.RandomUniqueEpsilonEnactor;
-import perturbation.location.PerturbationLocation;
-import perturbation.perturbator.AddNPerturbatorImpl;
-import perturbation.perturbator.NothingPerturbatorImpl;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
+import experiment.Oracle;
 
 /**
  * Created by spirals on 21/05/16.
@@ -41,7 +31,7 @@ public class QuickSortManager extends ManagerImpl<int[], int[]> {
     @Override
     public int[] getTask(int indexTask) {
         if (indexTask >= super.tasks.size())
-            super.getTask(indexTask);
+            return super.getTask(indexTask);
         int[] clone = new int[super.sizeOfTask];
         System.arraycopy(super.tasks.get(indexTask), 0, clone, 0, super.sizeOfTask);
         return clone;

@@ -118,7 +118,7 @@ public class CannyManager extends ManagerImpl<BufferedImage, BufferedImage> {
     @Override
     public BufferedImage getTask(int indexOfTask) {
         if (indexOfTask >= super.tasks.size())
-            super.getTask(indexOfTask);
+            return super.getTask(indexOfTask);
         return super.tasks.get(indexOfTask);
     }
 

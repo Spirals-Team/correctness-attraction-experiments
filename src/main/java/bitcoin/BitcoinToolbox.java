@@ -23,7 +23,7 @@ public class BitcoinToolbox {
         int exitedValue = -1;
         try {
             while (exitedValue != 0) {
-                System.out.println(command + args);
+//                System.out.println(command + args);
                 p = Runtime.getRuntime().exec(command + args);
                 p.waitFor();
                 exitedValue = p.exitValue();
@@ -36,7 +36,7 @@ public class BitcoinToolbox {
                 output.append(line + "\n");
             }
 
-            System.out.println(output);
+//            System.out.println(output);
 
         } catch (Exception e) {
             e.printStackTrace();

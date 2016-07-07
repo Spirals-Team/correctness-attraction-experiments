@@ -55,7 +55,7 @@ public class TEAManager extends ManagerImpl<int[], int[]> {
     @Override
     public int[] getTask(int indexOfTask) {
         if (indexOfTask >= super.tasks.size())
-            super.getTask(indexOfTask);
+            return super.getTask(indexOfTask);
         return new int[]{super.tasks.get(indexOfTask)[0],super.tasks.get(indexOfTask)[1]};
     }
 }

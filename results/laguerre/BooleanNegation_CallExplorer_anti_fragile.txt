@@ -1,2 +1,2 @@
 List of ids antifragile points.
-3 12 15 16 17 89 107 110 127 175 186 
+0 1 2 3 4 71 76 77 78 84 91 

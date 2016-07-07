@@ -1,18 +1,20 @@
 package bitcoin;
 
 
-import experiment.*;
+import experiment.CallableImpl;
+import experiment.ManagerImpl;
+import experiment.Oracle;
+import experiment.Tuple;
+import experiment.Util;
 import org.bitcoinj.core.NetworkParameters;
 import org.bitcoinj.kits.WalletAppKit;
 import org.bitcoinj.params.RegTestParams;
 import org.bitcoinj.utils.BriefLogFormatter;
-import perturbation.location.PerturbationLocation;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -167,7 +169,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
     @Override
     public Tuple getTask(int index) {
         if (index >= super.tasks.size())
-            super.getTask(index);
+            return super.getTask(index);
         Tuple clone = new Tuple(3);
         return clone.add(super.tasks.get(index));
     }
@@ -197,15 +199,6 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
     public void print() {
         for (int key : kits.keySet()) {
             System.out.println(key + " " + kits.get(key).wallet().toString(false, false, false, null));
-        }
-    }
-
-    public static void main(String[] args) {
-        BitcoinManager manager = new BitcoinManager(1,3,"Numerical");
-        try {
-            System.out.println(manager.getOracle().assertPerturbation(manager.getTask(0), manager.getCallable(manager.getTask(0)).call()));
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 

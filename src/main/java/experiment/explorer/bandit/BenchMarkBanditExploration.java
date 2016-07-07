@@ -3,6 +3,10 @@ package experiment.explorer.bandit;
 import experiment.Main;
 import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusOne;
+import experiment.explorer.bandit.budget.Budget;
+import experiment.explorer.bandit.budget.TimeBudget;
+import experiment.explorer.bandit.policy.Policy;
+import experiment.explorer.bandit.policy.UCBPolicy;
 import quicksort.QuickSortManager;
 
 import java.io.BufferedReader;

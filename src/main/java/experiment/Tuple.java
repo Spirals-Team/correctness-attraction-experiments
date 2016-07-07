@@ -48,4 +48,8 @@ public class Tuple {
         return ret;
     }
 
+    public int length() {
+        return this.values.length;
+    }
+
 }

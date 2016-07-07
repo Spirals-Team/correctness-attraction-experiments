@@ -87,7 +87,7 @@ public class LCSManager extends ManagerImpl<String[], String> {
     @Override
     public String[] getTask(int indexOfTask) {
         if (indexOfTask >= super.tasks.size())
-            super.getTask(indexOfTask);
+            return super.getTask(indexOfTask);
         return new String [] {super.tasks.get(indexOfTask)[0], super.tasks.get(indexOfTask)[1]};
     }
 

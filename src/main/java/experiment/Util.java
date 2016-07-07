@@ -15,12 +15,10 @@ public class Util {
 
     private static ClassLoader loader = ClassLoader.getSystemClassLoader();
 
-    private static List<Class> classes = new ArrayList<>();
-
     public static List<PerturbationLocation> getAllLocations(String project, String packagaPath, String type) {
         final List<PerturbationLocation> locations = new ArrayList<>();
-        iterateFolders(project, packagaPath);
-        System.out.println("Number of classes " +  classes.size());
+        List<Class> classes = iterateFolders(new ArrayList<>(), project, packagaPath);
+//        System.out.println("Number of classes " +  classes.size());
         classes.stream().forEach(clazz -> {
                     PerturbationLocationImpl.getLocationFromClass(clazz).forEach(location -> {
                         if (!locations.contains(location))
@@ -31,22 +29,23 @@ public class Util {
         return locations.stream().filter(location -> location.getType().equals(type)).collect(Collectors.toList());
     }
 
-    private static void iterateFolders(String path, String currentPackage) {
+    private static List<Class> iterateFolders(List<Class> classes, String path, String currentPackage) {
         File root = new File(path);
         assert root.listFiles() != null;
         for (File subFile : root.listFiles()) {
             if (subFile.isDirectory())
-                iterateFolders(path + subFile.getName() + "/", currentPackage + "." + subFile.getName());
+                iterateFolders(classes, path + subFile.getName() + "/", currentPackage + "." + subFile.getName());
             else if (isJava(subFile.getName())) {
                 try {
                     Class<?> clazz = loader.loadClass(currentPackage + "." + removeExt(subFile.getName()));
-                    System.out.println(currentPackage + "." + removeExt(subFile.getName()));
+//                    System.out.println(currentPackage + "." + removeExt(subFile.getName()));
                     classes.add(clazz);
                 } catch (ClassNotFoundException e) {
                     continue;
                 }
             }
         }
+        return classes;
     }
 
     private static String removeExt(String name) {
@@ -56,7 +55,6 @@ public class Util {
     private static boolean isJava(String name) {
         return name.endsWith(".java");
     }
-
 
     public static String getStringPerc(long nb, long total) {
         double perc = perc(nb, total);

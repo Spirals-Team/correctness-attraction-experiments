@@ -71,7 +71,7 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
     @Override
     public double[] getTask(int indexOfTask) {
         if (indexOfTask >= super.tasks.size())
-            super.getTask(indexOfTask);
+            return super.getTask(indexOfTask);
         double[] clone = new double[super.sizeOfTask];
         System.arraycopy(super.tasks.get(indexOfTask), 0, clone, 0, super.sizeOfTask);
         return clone;
