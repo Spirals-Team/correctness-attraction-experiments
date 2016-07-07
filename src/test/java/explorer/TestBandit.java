@@ -5,10 +5,10 @@ import experiment.Manager;
 import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.bandit.BanditExplorer;
-import experiment.explorer.bandit.Budget;
-import experiment.explorer.bandit.Policy;
-import experiment.explorer.bandit.TimeBudget;
-import experiment.explorer.bandit.UCBPolicy;
+import experiment.explorer.bandit.budget.Budget;
+import experiment.explorer.bandit.policy.Policy;
+import experiment.explorer.bandit.budget.TimeBudget;
+import experiment.explorer.bandit.policy.UCBPolicy;
 import org.junit.Test;
 import quicksort.QuickSortManager;
 
