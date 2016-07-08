@@ -1,3 +1,14 @@
-Location 6 :
-        m_Coefficients = new double[PerturbationEngine.pint(__L6, nc)];
+Location 3 :
 
+
+if (y.getColumnDimension() > 1) {throw new ...}
+                             ^ l3
+this location has no impact on the computation because y > 2 has the same value thant y > 1 in our case.
+
+Location 73.
+
+Matrix x = new Matrix(a.getColumnDimension(), 1);
+                                              ^
+This points add a row to the matrix x. This has no impact because every later access is done by the literal 0. the extra Row is never Read/Write.
+
+s

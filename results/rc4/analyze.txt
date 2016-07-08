@@ -1,0 +1,7 @@
+Location 86 95 :
+
+for (int i=0; i < STATE_LENGTH; i++) { ... }
+              ^ 86 95
+This location skip the last iteration, if the perturbation happens at the pre-last one.
+
+This loop initialize the EngineState, so has an impact on the ciphering.

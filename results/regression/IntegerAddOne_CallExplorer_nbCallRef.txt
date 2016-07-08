@@ -68,16 +68,16 @@ IndexLoc   IndexTask  #ExecRef
 6          9          1         
 6          TotalExcRef 10        
 10         0          1         
-10         1          447       
-10         2          949       
-10         3          1196      
-10         4          620       
-10         5          960       
-10         6          917       
-10         7          960       
-10         8          1000      
-10         9          364       
-10         TotalExcRef 7414      
+10         1          1         
+10         2          1         
+10         3          1         
+10         4          1         
+10         5          1         
+10         6          1         
+10         7          1         
+10         8          1         
+10         9          1         
+10         TotalExcRef 10        
 11         0          11        
 11         1          11        
 11         2          11        
@@ -826,4 +826,4 @@ IndexLoc   IndexTask  #ExecRef
 89         8          1000      
 89         9          1000      
 89         TotalExcRef 10000     
-Total execution ref: 551124
+Total execution ref: 543720
