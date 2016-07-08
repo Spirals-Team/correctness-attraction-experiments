@@ -1,0 +1,20 @@
+List of ids antifragile points.
+0 2 3 7 15 17 18
+
+Location 0 and 15 :
+    int dictSize = PerturbationEngine.pint(__L0, 256);
+    int dictSize = PerturbationEngine.pint(__L15, 256);
+This size a no impact on the algorithm. It has to be at least as long as there is different token in the string we want to compress
+
+Location 2(17) and 3(18)
+
+for (int i =  0 ; (PerturbationEngine.pint(__L2, i)) < (PerturbationEngine.pint(__L3, 256)) ; i++)
+            dictionary.put(i, ("" + ((char) (i))));
+
+The location 2 skip the last iteration : the char 256 : Ā is not added by default to the dictionary. In the case there is this character in the sequence that we want to compress, the algorithm throw an exception :
+
+We can put an extra char in the dictionnary with the location 3.
+
+
+
+

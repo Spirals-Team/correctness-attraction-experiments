@@ -1,0 +1,9 @@
+mRowSubset = new boolean[mBoardSize][mBoardSize];
+mColSubset = new boolean[mBoardSize][mBoardSize];
+mBoxSubset = new boolean[mBoardSize][mBoardSize];
+                        ^L 74 76 78 ^ L 75 77 79
+
+This 6 point are used one time per execution. One more row, column or box (a square 3x3 in sudoku grid) doesn't produce a wrong output.
+Because all the iteration are done on the grid given as input.
+
+As we can expect, One less row, column or box break the system (throws an exception)
