@@ -12,6 +12,9 @@ spoon/
 src/main/java/perturbation/
 
 #Experiment files needed
+resources/input_torrent/test_file*
+resources/output_torrent/
+resources/bitcoin/
 *.pyc
 *.jar
 *.tar.gz
