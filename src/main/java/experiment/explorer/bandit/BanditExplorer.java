@@ -78,7 +78,6 @@ public class BanditExplorer implements Explorer {
 	public void run() {
 		this.arms.forEach(location -> location.setPerturbator(this.exploration.getPerturbators().get(0)));
 		int[] nbCallRef = this.filterLocation();
-		System.err.println("bablabla");
 		while (this.budget.shouldRun()) {
 			int armSelected = this.policyLocation.selectArm();
 			this.pullArm(armSelected, nbCallRef[armSelected]);
@@ -286,8 +285,6 @@ public class BanditExplorer implements Explorer {
 	 */
 	public static void run(String[] args) {
 		int currentIndex;
-
-		System.out.println("ivvboibhob");
 
 		Budget budget = null;
 		Policy policy = null;

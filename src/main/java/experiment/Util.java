@@ -30,7 +30,6 @@ public class Util {
                     });
                 }
         );
-		System.out.println(locations.size());
 		return locations;
     }
 
