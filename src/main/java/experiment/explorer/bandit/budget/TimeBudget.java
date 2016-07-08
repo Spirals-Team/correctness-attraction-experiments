@@ -1,6 +1,5 @@
 package experiment.explorer.bandit.budget;
 
-import experiment.Main;
 import experiment.Util;
 
 /**
@@ -23,8 +22,8 @@ public class TimeBudget implements Budget {
     @Override
     public boolean shouldRun() {
         long timeElapsed = System.currentTimeMillis() - this.start;
-        if (Main.verbose)
-            System.out.println(Util.getStringPerc(timeElapsed, this.budget));
+//        if (Main.verbose)
+            System.err.println(Util.getStringPerc(timeElapsed, this.budget));
         this.timeRemaining = this.budget - timeElapsed;
         return this.timeRemaining > 0;
     }

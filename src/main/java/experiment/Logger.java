@@ -19,7 +19,7 @@ public class Logger {
 
     private int sizeOfTuple;
 
-    private Manager manager;
+    private Manager<?, ?> manager;
 
     /**
      * Init logger with Tuple 6 with the given numbers and 1 enactor.
@@ -82,8 +82,8 @@ public class Logger {
      */
     public void log(int indexLocation, int indexTask, int indexPerturbartor, int indexEnactor, Tuple result, String name) {
         Tuple tuple = (new Tuple(this.sizeOfTuple)).add(result);
-        tuple.set(3, PerturbationEngine.loggers.get(name).getCalls((PerturbationLocation) this.manager.getLocations().get(indexLocation)));//@TODO Check to remove this weird cast
-        tuple.set(4, PerturbationEngine.loggers.get(name).getEnactions((PerturbationLocation) this.manager.getLocations().get(indexLocation)));
+        tuple.set(3, PerturbationEngine.loggers.get(name).getCalls(this.manager.getLocations().get(indexLocation)));
+        tuple.set(4, PerturbationEngine.loggers.get(name).getEnactions(this.manager.getLocations().get(indexLocation)));
         tuple.set(5, 1);
         this.results[indexLocation][indexTask][indexPerturbartor][indexEnactor] = this.results[indexLocation][indexTask][indexPerturbartor][indexEnactor].add(tuple);
     }

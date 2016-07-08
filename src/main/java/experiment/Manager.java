@@ -5,7 +5,7 @@ import perturbation.location.PerturbationLocation;
 import java.util.List;
 
 /**
- * Created by beyni on 21/05/16.
+ * Created by spirals on 21/05/16.
  */
 public interface Manager<T, P> {
 

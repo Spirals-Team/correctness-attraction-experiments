@@ -6,27 +6,32 @@ import perturbation.location.PerturbationLocationImpl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by spirals on 12/04/16.
  */
 public class Util {
 
+	public static void main(String[] args) {
+		System.out.println(Util.getAllLocations("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent", "Numerical").size());
+		System.out.println(Util.getAllLocations("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent", "Boolean").size());
+	}
+
     private static ClassLoader loader = ClassLoader.getSystemClassLoader();
 
-    public static List<PerturbationLocation> getAllLocations(String project, String packagaPath, String type) {
+    public static List<PerturbationLocation> getAllLocations(String project, String packagePath, String type) {
         final List<PerturbationLocation> locations = new ArrayList<>();
-        List<Class> classes = iterateFolders(new ArrayList<>(), project, packagaPath);
+        List<Class> classes = iterateFolders(new ArrayList<>(), project, packagePath);
 //        System.out.println("Number of classes " +  classes.size());
-        classes.stream().forEach(clazz -> {
-                    PerturbationLocationImpl.getLocationFromClass(clazz).forEach(location -> {
-                        if (!locations.contains(location))
+		classes.stream().forEach(clazz -> {
+			PerturbationLocationImpl.getLocationFromClass(clazz).forEach(location -> {
+                        if (!locations.contains(location) && location.getType().equals(type))
                             locations.add(location);
                     });
                 }
         );
-        return locations.stream().filter(location -> location.getType().equals(type)).collect(Collectors.toList());
+		System.out.println(locations.size());
+		return locations;
     }
 
     private static List<Class> iterateFolders(List<Class> classes, String path, String currentPackage) {

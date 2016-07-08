@@ -1,7 +1,9 @@
 package experiment.explorer.bandit;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -30,11 +32,23 @@ public class HelperBandit {
 		String out = "";
 		try {
 			while (in.available() != 0)
-				out += (char) in.read();
+				out += (char)in.read();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return out;
+	}
+
+	static void readStream(InputStream in) {
+		try {
+			BufferedReader reader = new BufferedReader (new InputStreamReader(in));
+			String line;
+			while ((line = reader.readLine ()) != null) {
+				System.out.println ("Stdout: " + line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
