@@ -7,6 +7,8 @@ $bitcoinpath/bitcoin-cli -regtest stop
 sleep 1
 
 killall bitcoind
+pid_shutoff=$(ps -e | grep bitcoin-shutoff | cut -c1-5)
+kill -9 $pid_shutoff
 
 sleep 1
 
