@@ -24,7 +24,7 @@ i=(md5/MD5.java quicksort/QuickSort.java mersenne/MersenneTwister.java sudoku/Su
 for file in "${i[@]}"
 do
     echo "java -cp $jPerturb main.Main -type IntNum:boolean -r -i src/main/java/$file:$perturbation -o src/main/java --with-imports"
-    java -cp $jPerturb main.Main -type IntNum:boolean -r -i src/main/java/$file:$perturbation -o src/main/java --with-imports
+    java -cp $jPerturb main.Main -type IntNum:boolean -r -spoon -i src/main/java/$file:$perturbation -o src/main/java --with-imports
 done
 
 #Install Commons Math
