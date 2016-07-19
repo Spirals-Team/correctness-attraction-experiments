@@ -86,7 +86,7 @@ public class BanditExplorer implements Explorer {
 		}
 		System.err.println(this.lap - initLap + " laps elapsed");
 		this.log();
-		System.exit(32);
+//		System.exit(32);
 	}
 
 	private int[] filterLocation() {
@@ -350,7 +350,7 @@ public class BanditExplorer implements Explorer {
 			runInFork(bandit, args);
 
 		Main.manager.stop();
-		System.exit(32);
+//		System.exit(32);
 	}
 
 	/**
