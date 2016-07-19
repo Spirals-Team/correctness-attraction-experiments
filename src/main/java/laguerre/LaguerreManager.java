@@ -42,7 +42,7 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
             public Double call() throws Exception {
                 PolynomialFunction f = new PolynomialFunction(input);
                 LaguerreSolver solver = new LaguerreSolver();
-                return solver.solve(MaxEval, f, -bound, bound);
+                return  solver.solve(MaxEval, f, -bound, bound);
             }
         };
     }
@@ -76,5 +76,4 @@ public class LaguerreManager extends ManagerImpl<double[], Double> {
         System.arraycopy(super.tasks.get(indexOfTask), 0, clone, 0, super.sizeOfTask);
         return clone;
     }
-
 }
