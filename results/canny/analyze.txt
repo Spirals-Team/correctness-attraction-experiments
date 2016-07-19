@@ -11,10 +11,23 @@ sumX += kernel[xOffset] * PerturbationEngine.pint(__L72,(data[index - xOffset] +
 
 4 pp which results with the same : kernel * (x+1) instead of kernel * x (same for MONE).
 
+Location 223
 
+#zzz
+magnitude[index] = PerturbationEngine.pboolean(__L223, (gradMag >= (CannyEdgeDetectorInstr.MAGNITUDE_LIMIT))) ?
+    CannyEdgeDetectorInstr.MAGNITUDE_MAX :
+    ((int) ((CannyEdgeDetectorInstr.MAGNITUDE_SCALE) * gradMag);
 
+###########
+# Boolean
+###########
 
+Location 230 240 248 258
 
+    int x0 = x1 == 0 ? x1 : x1 - 1;
+    int x2 = x1 == width - 1 ? x1 : x1 + 1;
+    int y0 = y1 == 0 ? y1 : y1 - 1;
+    int y2 = y1 == height - 1 ? y1 : y1 + 1;
 
-
-
+This points are used as start points (index 0) and bound (index 2) in the following for loops. Under the considered task,
+this conditions are always false, and even if we force the true branch, the results is correct.

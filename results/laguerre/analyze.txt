@@ -1,0 +1,35 @@
+
+Location 92
+
+for (int i = 0; i < root.length; i++) {
+    if (complexSolver.isRoot(lo, hi, root[i])) {
+            r = root[PerturbationEngine.pint(__L92, i)].getReal();
+        break;
+    }
+}
+
+This happens 8 times (over 25). It seems like, the solver find always at least i + 1 roots for the given problem.
+Instead of returning the first, it returns the second.
+
+
+############
+# Boolean
+############
+
+-- 99%
+final Complex denominator = PerturbationEngine.pboolean(__L76, dplus.abs() > dminus.abs())?dplus:dminus;
+
+This perturbation include some extra iteration of the while loop because of instead dividing by the largest delta,
+it induce to dividing by the smallest one.
+
+if(PerturbationEngine.pboolean(LaguerreSolver.__L77, denominator.equals(new Complex(0.0D, 0.0D)))) {
+    z = z.add(new Complex(absoluteAccuracy, absoluteAccuracy));
+    oldz = new Complex(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+} else {
+    oldz = z;
+    z = z.subtract(nC.divide(denominator));
+}
+
+The values z and oldz are used to compute the roots iteratively. Even if, the algorithm take a wrong path, it
+will correct the values of z and oldz at the next iteration.
+

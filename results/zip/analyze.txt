@@ -15,6 +15,10 @@ The location 2 skip the last iteration : the char 256 : Ā is not added by defau
 
 We can put an extra char in the dictionnary with the location 3.
 
+Location 4 :
 
+for (int i = 0; i < PerturbationEngine.pboolean(__L4, 256) ; i++)
+    dictionary.put(i, ("" + ((char) (i))));
 
-
+This locations breaks the for loop. Then the initial dictionary of the decompress function is small and not match with the compress one. This
+ results with a wrong string.

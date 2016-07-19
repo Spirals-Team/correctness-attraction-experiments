@@ -7,3 +7,12 @@ This 6 point are used one time per execution. One more row, column or box (a squ
 Because all the iteration are done on the grid given as input.
 
 As we can expect, One less row, column or box break the system (throws an exception)
+
+Location 97 : 99.67%
+
+setSubsetValue(i, j, value, PerturbationEngine.pboolean( __L97, true));
+
+This perturbation doesn't put one of the input constraint (treat it as it was empty ( = 0). Either the solver does change
+ nor in the subsets this value during the computation, then the output is correct.
+
+ Location

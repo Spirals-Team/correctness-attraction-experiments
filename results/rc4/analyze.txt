@@ -5,3 +5,11 @@ for (int i=0; i < STATE_LENGTH; i++) { ... }
 This location skip the last iteration, if the perturbation happens at the pre-last one.
 
 This loop initialize the EngineState, so has an impact on the ciphering.
+
+Location 88 :
+
+6,23%
+for (int i=0; i < PerturbationEngine.pboolean(__L88, STATE_LENGTH) ; i++) { engineState[i] = (byte)i; }
+
+This is used to to initialize the state of the engine.
+

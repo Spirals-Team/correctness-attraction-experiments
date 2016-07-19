@@ -11,4 +11,30 @@ Matrix x = new Matrix(a.getColumnDimension(), 1);
                                               ^
 This points add a row to the matrix x. This has no impact because every later access is done by the literal 0. the extra Row is never Read/Write.
 
-s
+Location 8 9 :
+
+do {
+    // Set ridge regression adjustment
+    Matrix ssWithRidge = ss.copy();
+    for (int i = 0; i < nc; i++)
+        ssWithRidge.set(i, i, ssWithRidge.get(i, i) + ridge);
+
+    // Carry out the regression
+    try {
+        solution = ssWithRidge.solve(bb);
+        for (int i = 0; i < nc; i++)
+        m_Coefficients[i] = solution.get(i, 0);
+        success = true;
+    } catch (Exception ex) {
+        ridge *= 10;
+        success = false;
+    }
+} while (!PerturbationEngine.pboolean(__L9, (!(PerturbationEngine.pboolean(LinearRegression.__L8, success)))));
+
+
+
+Location 27 :
+
+success = PerturbationEngine.pboolean(LinearRegression.__L27, true);
+
+This point induce one more iteration of the loops.

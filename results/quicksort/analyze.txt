@@ -202,5 +202,13 @@ Location 46:
 array[j] = pint(__L46, x);
 Same as 41.
 
+###########
+# Boolean
+###########
 
+Location 16:
 
+99,90%
+while (PerturbationEngine.pboolean(left <= right)) { ... }
+
+That's break the while loop. But there is a 2 recursive calls and then the algorithm sort.

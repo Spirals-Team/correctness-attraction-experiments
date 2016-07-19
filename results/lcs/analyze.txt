@@ -9,3 +9,20 @@ Location 52 :
 Introduce an extra loop iteration, but can't produce ArrayOutBoundException. There is an impact only at the last iteration, i.e. when y == 0, but under conditions:
        x != 0, so y == 0.
 
+#############
+# Boolean
+#############
+
+for (int i = 0; i < a.length(); i++)
+    for (int j = 0; PerturbationEngine.pboolean(__L14, j < b.length()); j++)
+        if (a.charAt(i) == b.charAt(j))
+            lengths[i+1][j+1] = lengths[i][j] + 1;
+        else
+            lengths[i+1][j+1] = Math.max(lengths[i+1][j], lengths[i][j+1]);
+
+Location 14
+    This location is really interesting because it introduce a kind of "k-band" for the array
+    of the length computed.
+    The fact is, if the loop is broken at the end of the loop when x is close to zero (begin of the top loop), this creates the top
+    of the k-band. In the other hand, when x is close to the a.length and the loop is broken at the begin, this create the bottom of the k-band.
+    However, this half k-band is correctly created in 75% + of the run.

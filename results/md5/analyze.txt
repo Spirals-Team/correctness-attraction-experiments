@@ -23,3 +23,16 @@ j & 3 <=> j & b11 so the 2 last bit are important.
 100 = b1100100.
 
 20 and 100 have 0 at the last 2 bits. Others, modify it and that's why they break oracle.
+
+###########
+# Boolean
+###########
+
+66%
+
+for (int i = 0; PerturbationEngine.pboolean(__L22, i < 8); i++) {
+    paddingBytes[(((paddingBytes.length) - 8) + i)] = ((byte) (messageLenBits));
+    messageLenBits >>>= 8;
+}
+
+This location can break the loop, or add an extra iteration.
