@@ -108,8 +108,7 @@ public class QuickSortInstr {
     public static void sort(int[] array, int beg, int end) {
         int left = PerturbationEngine.pint(__L0, beg);
         int right = PerturbationEngine.pint(__L1, end);
-//        int pivot = PerturbationEngine.pint(__L9, array[PerturbationEngine.pint(__L8, ((PerturbationEngine.pint(__L2, beg)) + (PerturbationEngine.pint(__L7, ((PerturbationEngine.pint(__L5, ((PerturbationEngine.pint(__L3, end)) - (PerturbationEngine.pint(__L4, beg))))) / (PerturbationEngine.pint(__L6, 2)))))))]);
-        int pivot = PerturbationEngine.pint(__L9, array[PerturbationEngine.pint(__L8, beg)]);
+        int pivot = PerturbationEngine.pint(__L9, array[PerturbationEngine.pint(__L8, ((PerturbationEngine.pint(__L2, beg)) + (PerturbationEngine.pint(__L7, ((PerturbationEngine.pint(__L5, ((PerturbationEngine.pint(__L3, end)) - (PerturbationEngine.pint(__L4, beg))))) / (PerturbationEngine.pint(__L6, 2)))))))]);
         while (PerturbationEngine.pboolean(__L12, ((PerturbationEngine.pint(__L10, left)) <= (PerturbationEngine.pint(__L11, right))))) {
             while (PerturbationEngine.pboolean(__L16, ((PerturbationEngine.pint(__L14, array[PerturbationEngine.pint(__L13, left)])) < (PerturbationEngine.pint(__L15, pivot))))) {
                 PerturbationEngine.pint(__L17, (left++));
