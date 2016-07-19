@@ -44,8 +44,10 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         super(seed);
         super.CUP = this.getClass();//CUP is unused for bitcoin
         super.locations = Util.getAllLocations("./bitcoinj/core/src/main/java/org/bitcoinj/", "org.bitcoinj", typePerturbed);
+        BriefLogFormatter.initWithSilentBitcoinJ();
         this.initialize(numberOfTask, size);
         this.recover();
+
     }
 
     @Override
@@ -81,8 +83,6 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         this.kits = initKits();
 
         System.out.println("Init...");
-
-        BriefLogFormatter.initWithSilentBitcoinJ();
 
         BitcoinToolbox.clean();
 
@@ -201,5 +201,4 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
             System.out.println(key + " " + kits.get(key).wallet().toString(false, false, false, null));
         }
     }
-
 }

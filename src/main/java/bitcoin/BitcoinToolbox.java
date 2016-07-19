@@ -1,8 +1,7 @@
 package bitcoin;
 
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.InputStream;
 
 /**
  * Created by spirals on 25/04/16.
@@ -23,20 +22,30 @@ public class BitcoinToolbox {
         int exitedValue = -1;
         try {
             while (exitedValue != 0) {
-//                System.out.println(command + args);
+//                System.err.println(command + args);
                 p = Runtime.getRuntime().exec(command + args);
                 p.waitFor();
                 exitedValue = p.exitValue();
+                InputStream in = p.getInputStream();
+//                String out = "";
+//                try {
+//                    while (in.available() != 0)
+//                        out += (char)in.read();
+//                    System.err.println(out);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+
                 Thread.sleep(100);
             }
-            BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                output.append(line + "\n");
-            }
+//            BufferedReader reader =
+//                    new BufferedReader(new InputStreamReader(p.getInputStream()));
+//            String line = "";
+//            while ((line = reader.readLine()) != null) {
+//                output.append(line + "\n");
+//            }
 
-//            System.out.println(output);
+//            System.err.println(output);
 
         } catch (Exception e) {
             e.printStackTrace();

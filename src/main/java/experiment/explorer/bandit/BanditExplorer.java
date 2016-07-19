@@ -78,11 +78,13 @@ public class BanditExplorer implements Explorer {
 	public void run() {
 		this.arms.forEach(location -> location.setPerturbator(this.exploration.getPerturbators().get(0)));
 		int[] nbCallRef = this.filterLocation();
+		int initLap = this.lap;
 		while (this.budget.shouldRun()) {
 			int armSelected = this.policyLocation.selectArm();
 			this.pullArm(armSelected, nbCallRef[armSelected]);
 			nbCallRef = this.filterLocation();
 		}
+		System.err.println(this.lap - initLap + " laps elapsed");
 		this.log();
 		System.exit(32);
 	}
@@ -91,6 +93,7 @@ public class BanditExplorer implements Explorer {
 		this.arms.forEach(PerturbationEngine.loggers.get("filterLocation")::logOn);
 		int[] nbCallRef = new int[this.arms.size()];
 		this.run(this.lap);
+		this.filter.clear();
 		for (int i = 0; i < this.arms.size(); i++) {
 			if (PerturbationEngine.loggers.get("filterLocation").getCalls(this.arms.get(i)) == 0)
 				this.filter.add(i);
@@ -99,6 +102,13 @@ public class BanditExplorer implements Explorer {
 		}
 		PerturbationEngine.loggers.get("filterLocation").reset();
 		this.policyLocation.filter(filter);
+		System.err.println((this.arms.size() - this.filter.size()) + " : " + this.filter.size() + " : " + this.arms.size());
+		if (this.arms.size() == this.filter.size()) {
+			System.err.println("Error, no perturbable point is active");
+			System.exit(42);
+//			this.manager.recover();
+//			return this.filterLocation();
+		}
 		this.arms.forEach(PerturbationEngine.loggers.get("filterLocation")::logOn);
 		return nbCallRef;
 	}
@@ -131,7 +141,7 @@ public class BanditExplorer implements Explorer {
 				if (assertion)
 					result.set(0, 1); // success
 				else {
-                    System.err.println("FAIL");
+					System.err.println("FAIL");
 					result.set(1, 1); // failures
 					this.manager.recover();
 				}
@@ -229,7 +239,7 @@ public class BanditExplorer implements Explorer {
 		outErr += this.budget.outStateAsString() + " ";
 		/* policy state */
 		outErr += this.policyLocation.outStateAsString() + " ";
-        /* inner logger */
+		/* inner logger */
 		Tuple[][][][] results = this.logger.getResults();
 		for (Tuple[][][] result : results)
 			outErr += result[0][0][0].toString();
@@ -360,7 +370,7 @@ public class BanditExplorer implements Explorer {
 		int code = 23;
 		while (code == 23) {
 			try {
-				System.out.println(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
+//				System.out.println(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
 				Process p = Runtime.getRuntime().exec(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
 				new Thread(() -> {
 					HelperBandit.readStream(p.getErrorStream());

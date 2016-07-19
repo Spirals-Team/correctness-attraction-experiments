@@ -65,6 +65,7 @@ public abstract class ExplorerImpl implements Explorer {
         } catch (Exception | Error e) {
             result.set(2, 1);
             executor.shutdownNow();
+            e.printStackTrace();
             this.manager.recover();
             return result;
         }

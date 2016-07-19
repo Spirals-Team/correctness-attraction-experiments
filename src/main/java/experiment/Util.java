@@ -12,17 +12,11 @@ import java.util.List;
  */
 public class Util {
 
-	public static void main(String[] args) {
-		System.out.println(Util.getAllLocations("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent", "Numerical").size());
-		System.out.println(Util.getAllLocations("ttorrent/core/src/main/java/com/turn/ttorrent/", "com.turn.ttorrent", "Boolean").size());
-	}
-
     private static ClassLoader loader = ClassLoader.getSystemClassLoader();
 
     public static List<PerturbationLocation> getAllLocations(String project, String packagePath, String type) {
         final List<PerturbationLocation> locations = new ArrayList<>();
         List<Class> classes = iterateFolders(new ArrayList<>(), project, packagePath);
-//        System.out.println("Number of classes " +  classes.size());
 		classes.stream().forEach(clazz -> {
 			PerturbationLocationImpl.getLocationFromClass(clazz).forEach(location -> {
                         if (!locations.contains(location) && location.getType().equals(type))
@@ -41,10 +35,12 @@ public class Util {
                 iterateFolders(classes, path + subFile.getName() + "/", currentPackage + "." + subFile.getName());
             else if (isJava(subFile.getName())) {
                 try {
+//                    Class<?> clazz = Class.forName(currentPackage + "." + removeExt(subFile.getName()));
                     Class<?> clazz = loader.loadClass(currentPackage + "." + removeExt(subFile.getName()));
 //                    System.out.println(currentPackage + "." + removeExt(subFile.getName()));
                     classes.add(clazz);
                 } catch (ClassNotFoundException e) {
+//                    e.printStackTrace();
                     continue;
                 }
             }
