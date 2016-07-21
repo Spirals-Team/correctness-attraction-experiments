@@ -1,12 +1,26 @@
 package gui;
 
 import experiment.Tuple;
-import quicksort.QuickSortManager;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
+import java.awt.BasicStroke;
+import java.awt.Checkbox;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -106,6 +120,22 @@ public class Window extends JFrame implements Observer {
      * add Listener to modify the probability to perturb
      */
     private void addListeners() {
+        new ArduinoConnector().addListener(new ArduinoListener() {
+            @Override
+            public void increase() {
+                model.addRand(0.05f);
+            }
+
+            @Override
+            public void decrease() {
+                model.minusRand(0.05f);
+            }
+
+            @Override
+            public void event(int data) {
+                rand.setText(String.format("%.3f", model.getRnd()));
+            }
+        });
         //Mouse Wheel
         this.addMouseWheelListener(new MouseAdapter() {
             @Override
