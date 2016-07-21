@@ -24,15 +24,20 @@ j & 3 <=> j & b11 so the 2 last bit are important.
 
 20 and 100 have 0 at the last 2 bits. Others, modify it and that's why they break oracle.
 
+int numBlocks =( ((messageLenBytes + 8) >>> 6) ) + 1;
+                ^L3 ^L1              ^L2
+This variable is used as bound for the loop. Because of the shift 6, the plus one is lost and the perturbation has no effect.
+
+
 ###########
 # Boolean
 ###########
 
-66%
+Location 22 : 66%
 
-for (int i = 0; PerturbationEngine.pboolean(__L22, i < 8); i++) {
-    paddingBytes[(((paddingBytes.length) - 8) + i)] = ((byte) (messageLenBits));
-    messageLenBits >>>= 8;
+for (int i = 0; i < 8; i++) {
+                     ^ L22
+   paddingBytes[(((paddingBytes.length) - 8) + i)] = ((byte) (messageLenBits));
+   messageLenBits >>>= 8;
 }
-
-This location can break the loop, or add an extra iteration.
+This location can break the loop, or add an extra iteration. It is used 9 times by each executions. There is 20 exceptions (1 per executions) because of the extra loop (out bound of the array paddingBytes). Then there is 2 failures per executions (40 in total).

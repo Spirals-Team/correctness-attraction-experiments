@@ -1,9 +1,8 @@
 Location 13:
-(PerturbationEngine.pint(__L13, kwidth) >= 2)
-
-if kwidth >= 2, kwidth + 1 > 2.
-
-if kwidth < 2, kwidth + 1 == 2. In that case, an iteration of the loop is skipped.
+if (g1 <= GAUSSIAN_CUT_OFF && kwidth >= 2) break;
+                              ^L13
+if kwidth >= 2 then kwidth + 1 > 2, nothing change.
+if kwidth + 1 == 2 then true to false. If g1 <= GAUSSIAN_CUT_OFF is true too, the loop is broken earlier than should be.
 
 Location 63 67 72 76:
 sumY += kernel[xOffset] * PerturbationEngine.pint(__L63,(data[index - yOffset] + PerturbationEngine.pint(__L67,data[index + yOffset])));
