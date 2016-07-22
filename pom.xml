@@ -28,6 +28,14 @@
         </dependency>
 
         <dependency>
+            <groupId>RXTX</groupId>
+            <artifactId>RXTX</artifactId>
+            <version>2.2pre2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/RXTXcomm.jar</systemPath>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.6.1</version>
@@ -61,14 +69,6 @@
             <groupId>org.sat4j</groupId>
             <artifactId>core</artifactId>
             <version>2.3.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>RXTX</groupId>
-            <artifactId>RXTX</artifactId>
-            <version>2.2pre2</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/RXTXcomm.jar</systemPath>
         </dependency>
 
         <!--Maybe we will need the two next dependencies to debug bitcoinj experiments-->
