@@ -17,7 +17,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.stream.IntStream;
 
 /**
@@ -153,7 +158,6 @@ public class Model extends Observable {
                 .forEach(location -> location.setPerturbator(new InvPerturbatorImpl()));
         this.locations.stream().filter(location -> location.getType().equals("Numerical"))
                 .forEach(location -> location.setPerturbator(new AddNPerturbatorImpl(1)));
-
         this.antifragileLocation = new ArrayList<>();
         this.robustLocation = new ArrayList<>();
         this.weakLocation = new ArrayList<>();
