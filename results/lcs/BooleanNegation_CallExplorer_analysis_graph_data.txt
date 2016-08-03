@@ -1,16 +1,16 @@
 contains the data for build a graph for analysis.
 Exploration Boolean Negation
 NEGB : negation of boolean value.
-25 string of 100 char
+25 pairs of RNA sequences (16 - 25 nt)
 RNA sequence of thaliana and sativa from miRBase (mature.fa)
 9 perturbation points
 Perturbator IndexLoc   #Perturbations #Success   #Failure   #Exception #Call          %Success                   
 NEGB        9          525            0          500        25         5775            0,00                      
-NEGB        14         21160          16015      4645       500        20962380       ---------------- 75,69     
-NEGB        18         20660          8067       12593      0          20858800       -------- 39,05             
-NEGB        51         1110           37         1059       14         28585          - 3,33                     
-NEGB        54         1087           28         1059       0          27537          - 2,58                     
-NEGB        55         1110           28         1059       23         28587          - 2,52                     
-NEGB        64         1085           262        823        0          53920          ----- 24,15                
-NEGB        74         784            559        225        0          26490          --------------- 71,30      
+NEGB        14         10960          4862       5598       500        4593060        --------- 44,36            
+NEGB        18         10460          8798       1662       0          4383600        ----------------- 84,11    
+NEGB        51         688            20         663        5          10093          - 2,91                     
+NEGB        54         667            4          663        0          9529           - 0,60                     
+NEGB        55         688            4          663        21         10097          - 0,58                     
+NEGB        64         663            60         603        0          18566          -- 9,05                    
+NEGB        74         514            126        388        0          10512          ----- 24,51                
 NEGB        82         0              0          0          0          0              NaN                        
