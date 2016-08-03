@@ -13,6 +13,7 @@ import experiment.explorer.bandit.budget.LapBudget;
 import experiment.explorer.bandit.budget.TimeBudget;
 import experiment.explorer.bandit.policy.EpsilonGreedyPolicy;
 import experiment.explorer.bandit.policy.Policy;
+import experiment.explorer.bandit.policy.RandomPolicy;
 import experiment.explorer.bandit.policy.UCBPolicy;
 import perturbation.PerturbationEngine;
 import perturbation.enactor.NCallEnactorImpl;
@@ -26,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
@@ -42,7 +44,9 @@ import static experiment.explorer.bandit.HelperBandit.CMD_EXEC_BANDIT;
  */
 public class BanditExplorer implements Explorer {
 
-	private final String name = "Bandit";
+	public static final String name = "Bandit";
+
+	private int initLap;
 
 	private Logger logger;
 
@@ -77,55 +81,73 @@ public class BanditExplorer implements Explorer {
 	@Override
 	public void run() {
 		this.arms.forEach(location -> location.setPerturbator(this.exploration.getPerturbators().get(0)));
-		int[] nbCallRef = this.filterLocation();
-		int initLap = this.lap;
-		while (this.budget.shouldRun()) {
+		this.initLap = this.lap;
+		do {
+			int[] nbCallRef;
+			while ((nbCallRef = this.filterLocation()) == null) ;
 			int armSelected = this.policyLocation.selectArm();
 			this.pullArm(armSelected, nbCallRef[armSelected]);
-			nbCallRef = this.filterLocation();
-		}
+		} while (this.budget.shouldRun());
+		this.exit(32);
+	}
+
+	private void exit(int code) {
 		System.err.println(this.lap - initLap + " laps elapsed");
 		this.log();
-//		System.exit(32);
+		if (code != 42)
+			this.manager.stop();
+		System.exit(code);
 	}
 
 	private int[] filterLocation() {
 		this.arms.forEach(PerturbationEngine.loggers.get("filterLocation")::logOn);
 		int[] nbCallRef = new int[this.arms.size()];
-		this.run(this.lap);
+		Tuple resultRunReference = this.run(this.lap);
+
+		if (resultRunReference.get(0) != 1) {
+			System.err.println("Error during the reference run");
+			if (!this.budget.shouldRun())
+				this.exit(32);
+			this.manager.recover();
+			return null;
+		}
+
 		this.filter.clear();
+
 		for (int i = 0; i < this.arms.size(); i++) {
 			if (PerturbationEngine.loggers.get("filterLocation").getCalls(this.arms.get(i)) == 0)
 				this.filter.add(i);
 			else
 				nbCallRef[i] = PerturbationEngine.loggers.get("filterLocation").getCalls(this.arms.get(i));
 		}
+
 		PerturbationEngine.loggers.get("filterLocation").reset();
-		this.policyLocation.filter(filter);
+		this.policyLocation.filter(this.filter);
 		System.err.println((this.arms.size() - this.filter.size()) + " : " + this.filter.size() + " : " + this.arms.size());
+
 		if (this.arms.size() == this.filter.size()) {
-			System.err.println("Error, no perturbable point is active");
-			System.exit(42);
-//			this.manager.recover();
-//			return this.filterLocation();
+			System.err.println("Error, no pp is active");
+			System.err.println(new Date());
+			this.exit(42);
 		}
-		this.arms.forEach(PerturbationEngine.loggers.get("filterLocation")::logOn);
 		return nbCallRef;
 	}
 
 	private void pullArm(int indexArm, int nbCallRef) {
 		this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef + 1), this.arms.get(indexArm)));
-		PerturbationEngine.loggers.get(this.name).logOn(this.arms.get(indexArm));
+		PerturbationEngine.loggers.get(name).logOn(this.arms.get(indexArm));
 		Tuple result = run(this.lap);
-//		if (PerturbationEngine.loggers.get(this.name).getEnactions(this.arms.get(indexArm)) > 1)
-//			System.err.println("PERTURBED MORE THAN ONE TIME");
-		if (PerturbationEngine.loggers.get(this.name).getEnactions(this.arms.get(indexArm)) == 1 && result.total() != 0) {
-			this.logger.log(indexArm, 0, 0, 0, result, this.name);
+		System.err.println(result);
+		if (PerturbationEngine.loggers.get(name).getEnactions(this.arms.get(indexArm)) > 1)
+			System.err.println("Perturbed more thant one time");
+		else {
+			System.err.println(this.arms.get(indexArm).getLocationIndex() + " has been pulled");
+			this.logger.log(indexArm, 0, 0, 0, result, name);
 			this.policyLocation.update(indexArm, (int) result.get(0));
 			this.lap++;
+			this.arms.get(indexArm).setEnactor(new NeverEnactorImpl());
+			PerturbationEngine.loggers.get(name).reset();
 		}
-		this.arms.get(indexArm).setEnactor(new NeverEnactorImpl());
-		PerturbationEngine.loggers.get(this.name).reset();
 	}
 
 	private Tuple run(int indexOfTask) {
@@ -135,9 +157,9 @@ public class BanditExplorer implements Explorer {
 			Callable instanceRunner = this.manager.getCallable(this.manager.getTask(indexOfTask));
 			Future future = executor.submit(instanceRunner);
 			try {
+				executor.shutdown();
 				Object output = (future.get(Main.numberOfSecondsToWait, TimeUnit.SECONDS));
 				boolean assertion = this.manager.getOracle().assertPerturbation(this.manager.getTask(indexOfTask), output);
-				executor.shutdownNow();
 				if (assertion)
 					result.set(0, 1); // success
 				else {
@@ -150,21 +172,22 @@ public class BanditExplorer implements Explorer {
 				future.cancel(true);
 				result.set(2, 1); // error computation time
 				System.err.println("Time out!");
-				executor.shutdownNow();
 				this.manager.recover();
 				return result;
 			}
 		} catch (Exception | Error e) {
-			System.err.println("EXCEPTION | ERROR");
-			if (e.getMessage() != null && e.getMessage().endsWith("(Too many open files)")) {
-				System.err.println("TOO MANY FILE");
-				System.out.println(outStateBandit());
-				System.exit(23);
-			}
+			e.printStackTrace();
 			result.set(2, 1);
-			executor.shutdownNow();
 			this.manager.recover();
 			return result;
+		} finally {
+			try {
+				executor.awaitTermination(5, TimeUnit.SECONDS);
+				executor.shutdownNow();
+				executor.awaitTermination(5, TimeUnit.SECONDS);
+			} catch (InterruptedException ignored) {
+
+			}
 		}
 	}
 
@@ -184,7 +207,7 @@ public class BanditExplorer implements Explorer {
 
 	@Override
 	public void log() {
-		String path = "results/" + this.manager.getName() + "/" + this.exploration.getName() + "_" + this.name;
+		String path = "results/" + this.manager.getName() + "/" + this.exploration.getName() + "_" + name;
 		Tuple[][][][] result = this.logger.getResults();
 		try {
 			FileWriter writer = new FileWriter(path + "_policy.txt", false);
@@ -221,11 +244,9 @@ public class BanditExplorer implements Explorer {
 	}
 
 	private void logStateBandit(String path) throws IOException {
-		if (this.budget instanceof TimeBudget && this.policyLocation instanceof UCBPolicy) {
-			FileWriter writer = new FileWriter(path + "_state.txt", false);
-			writer.write(this.outStateBandit());
-			writer.close();
-		}
+		FileWriter writer = new FileWriter(path + "_state.txt", false);
+		writer.write(this.outStateBandit());
+		writer.close();
 	}
 
 	/**
@@ -249,21 +270,27 @@ public class BanditExplorer implements Explorer {
 	/**
 	 * Build a bandit from the given String.
 	 */
-	public static BanditExplorer buildBanditFromString(int position, String[] states) {
+	public static BanditExplorer buildBanditFromString(int position, String[] states, Policy policy) {
 		int numberOfLocations = Main.manager.getLocations().size();
 		int lap = Integer.parseInt(states[position]);
 		position++;
 		/* Budget */
 		Budget budget = TimeBudget.buildFromString(states[position]);
 		position++;
-        /* Policy UCB */
-		Policy policy = UCBPolicy.buildFromString(states, numberOfLocations, position);
-		position += 1 + 3 * numberOfLocations;
+		if (policy instanceof UCBPolicy) {
+			/* Policy UCB */
+			policy = UCBPolicy.buildFromString(states, numberOfLocations, position);
+			position += 1 + 3 * numberOfLocations;
+		} else {
+			/* random policy */
+			policy = RandomPolicy.buildFromString(states, numberOfLocations, position);
+			position += numberOfLocations;
+		}
 		BanditExplorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
-        /* Lap */
+		/* Lap */
 		explorer.lap = lap;
 		int sizeOfTuple = explorer.logger.getResults()[0][0][0][0].length();
-        /* explorer logger */
+		/* explorer logger */
 		for (int i = 0; i < numberOfLocations; i++) {
 			Tuple current = new Tuple(sizeOfTuple);
 			for (int indexTuple = 0; indexTuple < sizeOfTuple; indexTuple++)
@@ -273,20 +300,6 @@ public class BanditExplorer implements Explorer {
 		return explorer;
 	}
 
-	/**
-	 * Main used in the fork
-	 *
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Main.exploration = new IntegerExplorationPlusOne();
-		int index = (Main.getIndexOfOption("-bandit", args) + 1);
-		Main.numberOfTask = Integer.parseInt(args[index]);
-		Main.buildSubject(Main.getIndexOfOption("-s", args) + 1, args);
-		Main.manager.getLocations(Main.exploration.getType());
-		BanditExplorer bandit = buildBanditFromString(index, args);
-		bandit.run();
-	}
 
 	/**
 	 * Run called by the Main class
@@ -294,64 +307,78 @@ public class BanditExplorer implements Explorer {
 	 * @param args
 	 */
 	public static void run(String[] args) {
-		int currentIndex;
-
-		Budget budget = null;
-		Policy policy = null;
-
 		Main.manager.getLocations(Main.exploration.getType());
 
+		Budget budget = getBudgetArgs(args);
+		Policy policy = getPolicyArgs(args);
+
+		BanditExplorer explorer;
+
+		if (Main.getIndexOfOption("-state", args) != -1) {
+			explorer = buildBanditArgs(budget, policy);
+		} else
+			explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
+
+		explorer.run();
+
+		Main.manager.stop();
+	}
+
+	private static BanditExplorer buildBanditArgs(Budget budget, Policy policy) {
+		String bandit;
+		try {
+			String path = "results/" + Main.manager.getName() + "/" + Main.exploration.getName() + "_" + BanditExplorer.name + "_state.txt";
+//				System.err.println(path);
+			BufferedReader buffer = new BufferedReader(new FileReader(path));
+			bandit = buffer.lines().reduce("", (acc, l) -> acc + l);
+			buffer.close();
+//				System.err.println(bandit);
+			String[] banditAsArray = bandit.split(" ");
+			banditAsArray[1] = budget.outStateAsString();//Change the state of the budget to reallocate some times.
+			bandit = Arrays.stream(banditAsArray).reduce("", (acc, cell) -> acc + cell + " ");
+//				System.err.println(bandit);
+			return BanditExplorer.buildBanditFromString(0, bandit.split(" "), policy);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		return null;
+	}
+
+	private static Budget getBudgetArgs(String[] args) {
+		int currentIndex;
 		if ((currentIndex = Main.getIndexOfOption("-budget", args)) != -1) {
 			switch (args[currentIndex + 1]) {
 				case "time":
-					budget = new TimeBudget(Integer.parseInt(args[currentIndex + 2]) * 1000 * 60);
-					break;
+					return new TimeBudget(Integer.parseInt(args[currentIndex + 2]) * 1000 * 60);
 				case "lap":
-					budget = new LapBudget(Integer.parseInt(args[currentIndex + 2]));
-					break;
+					return new LapBudget(Integer.parseInt(args[currentIndex + 2]));
+				default:
+					return new TimeBudget(5000 * 60);
 			}
 		} else
-			budget = new TimeBudget(5000 * 60);
+			return new TimeBudget(5000 * 60);
+	}
 
+	private static Policy getPolicyArgs(String[] args) {
+		int currentIndex;
 		if ((currentIndex = Main.getIndexOfOption("-policy", args)) != -1) {
 			switch (args[currentIndex + 1]) {
+				case "rnd":
+					return new RandomPolicy(Main.manager.getLocations().size());
 				case "eps":
-					policy = new EpsilonGreedyPolicy(Main.manager.getLocations().size(), 0.80D);
-					break;
+					return new EpsilonGreedyPolicy(Main.manager.getLocations().size(), 0.80D);
+				default:
+					return new UCBPolicy(Main.manager.getLocations().size(), 23);
 			}
 		} else
-			policy = new UCBPolicy(Main.manager.getLocations().size(), 23);
-
-		BanditExplorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
-		String bandit = explorer.outStateBandit();
-
-		if ((currentIndex = Main.getIndexOfOption("-state", args)) != -1) {
-			try {
-				String path = "results/" + Main.manager.getName() + "/" + Main.exploration.getName() + "_" + explorer.name + "_state.txt";
-//				System.out.println(path);
-				BufferedReader buffer = new BufferedReader(new FileReader(path));
-				bandit = buffer.lines().reduce("", (acc, l) -> acc + l);
-				buffer.close();
-//				System.out.println(bandit);
-				String[] banditAsArray = bandit.split(" ");
-				banditAsArray[1] = budget.outStateAsString();//Change the state of the budget to reallocate some times.
-				bandit = Arrays.stream(banditAsArray).reduce("", (acc, cell) -> acc + cell + " ");
-//				System.out.println(bandit);
-				explorer = BanditExplorer.buildBanditFromString(0, bandit.split(" "));
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}
-		}
-
-		if (Main.getIndexOfOption("-f", args) == -1)
-			explorer.run();
-		else
-			runInFork(bandit, args);
-
-		Main.manager.stop();
-//		System.exit(32);
+			return new UCBPolicy(Main.manager.getLocations().size(), 23);
 	}
+
+
+	/**
+	 * NOT USED ANYMORE
+	 */
 
 	/**
 	 * This method will run the bandit exploration in a new processes java in order to allow the system to
@@ -364,27 +391,44 @@ public class BanditExplorer implements Explorer {
 	 * @param bandit
 	 * @param args
 	 */
+	@Deprecated
 	private static void runInFork(String bandit, String[] args) {
 		int indexSubject = Main.getIndexOfOption("-s", args);
 		long time = System.currentTimeMillis();
 		int code = 23;
 		while (code == 23) {
 			try {
-//				System.out.println(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
+//				System.err.println(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
 				Process p = Runtime.getRuntime().exec(CMD_EXEC_BANDIT + "-s " + args[indexSubject + 1] + " -bandit " + bandit);
 				new Thread(() -> {
 					HelperBandit.readStream(p.getErrorStream());
 				}).run();
 				p.waitFor();
 				code = p.exitValue();
-				System.out.println(code);
+				System.err.println(code);
 				bandit = HelperBandit.readInput(p.getInputStream());
-//				System.out.println(HelperBandit.readInput(p.getErrorStream()));
+//				System.err.println(HelperBandit.readInput(p.getErrorStream()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(System.currentTimeMillis() - time);
+		System.err.println(System.currentTimeMillis() - time);
+	}
+
+	/**
+	 * Main used in the fork
+	 *
+	 * @param args
+	 */
+	@Deprecated
+	public static void main(String[] args) {
+		Main.exploration = new IntegerExplorationPlusOne();
+		int index = (Main.getIndexOfOption("-bandit", args) + 1);
+		Main.numberOfTask = Integer.parseInt(args[index]);
+		Main.buildSubject(Main.getIndexOfOption("-s", args) + 1, args);
+		Main.manager.getLocations(Main.exploration.getType());
+		BanditExplorer bandit = buildBanditFromString(index, args, null);//TODO
+		bandit.run();
 	}
 
 

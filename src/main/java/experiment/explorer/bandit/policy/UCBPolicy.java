@@ -2,7 +2,6 @@ package experiment.explorer.bandit.policy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
  * Created by bdanglot on 06/06/16.
@@ -33,12 +32,12 @@ public class UCBPolicy extends PolicyImpl {
 		List<Integer> indices = new ArrayList<>();
 
         /* This ensure that we have at least pulled one time every arms */ // TODO Look if this is needed and it's not too expensive.
-//        if (!this.allArmsHasBeenPulledOneTime) {
-//            for (int i = 0; i < super.nbPull.length; i++) {
-//                if (super.nbPull[i] == 0)
-//                    return i;
-//            }
-//        }
+        if (!this.allArmsHasBeenPulledOneTime) {
+            for (int i = 0; i < super.nbPull.length; i++) {
+                if (super.nbPull[i] == 0)
+                    return i;
+            }
+        }
 
 		this.allArmsHasBeenPulledOneTime = true;
 
@@ -56,12 +55,11 @@ public class UCBPolicy extends PolicyImpl {
 			}
 		}
 		this.nbLap++;
+
 		if (indices.isEmpty()) {
-			IntStream.range(0, super.nbPull.length).filter(index -> !super.filterArm.contains(index)).forEach(indices::add);
-			if (indices.isEmpty())
-				return super.random.nextInt(super.nbPull.length);
-			return indices.get(super.random.nextInt(indices.size()));
+			throw new IllegalStateException();
 		}
+
 		return indices.get(super.random.nextInt(indices.size()));
 	}
 

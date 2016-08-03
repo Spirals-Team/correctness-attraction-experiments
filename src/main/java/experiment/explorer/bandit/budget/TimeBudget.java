@@ -35,7 +35,7 @@ public class TimeBudget implements Budget {
 
     @Override
     public String outStateAsString() {
-        return String .valueOf(this.timeRemaining);
+        return String.valueOf(this.timeRemaining);
     }
 
     public static Budget buildFromString(String budget) {
