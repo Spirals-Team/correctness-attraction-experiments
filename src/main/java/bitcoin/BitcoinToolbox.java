@@ -1,6 +1,7 @@
 package bitcoin;
 
 
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -22,19 +23,19 @@ public class BitcoinToolbox {
         int exitedValue = -1;
         try {
             while (exitedValue != 0) {
-//                System.err.println(command + args);
+                System.err.println(command + args);
                 p = Runtime.getRuntime().exec(command + args);
                 p.waitFor();
                 exitedValue = p.exitValue();
                 InputStream in = p.getInputStream();
-//                String out = "";
-//                try {
-//                    while (in.available() != 0)
-//                        out += (char)in.read();
-//                    System.err.println(out);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
+                String out = "";
+                try {
+                    while (in.available() != 0)
+                        out += (char)in.read();
+                    System.err.println(out);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 Thread.sleep(100);
             }

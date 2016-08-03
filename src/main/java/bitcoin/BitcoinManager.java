@@ -15,7 +15,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 /**
  * Created by spirals on 25/04/16.
@@ -25,6 +24,10 @@ import java.util.stream.IntStream;
  * Runner.numberOfTask is the number of tx, and super.sizeOfTask is the number of bitcoin node used in scenarios.
  */
 public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
+
+    private int currentIndex = -1;
+
+    private Tuple currentTask;
 
     private Map<Integer, WalletAppKit> kits;
 
@@ -36,16 +39,16 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
     static final int FEE_AMOUNT = 1;
 
-    public BitcoinManager(int numberOfTask, int size, String typePerturbed) {
-        this(numberOfTask, size, 23, typePerturbed);
+    public BitcoinManager(int size, String typePerturbed) {
+        this(size, 23, typePerturbed);
     }
 
-    public BitcoinManager(int numberOfTask, int size, int seed, String typePerturbed) {
+    public BitcoinManager(int size, int seed, String typePerturbed) {
         super(seed);
         super.CUP = this.getClass();//CUP is unused for bitcoin
         super.locations = Util.getAllLocations("./bitcoinj/core/src/main/java/org/bitcoinj/", "org.bitcoinj", typePerturbed);
         BriefLogFormatter.initWithSilentBitcoinJ();
-        this.initialize(numberOfTask, size);
+        this.initialize(-1, size);
         this.recover();
 
     }
@@ -56,10 +59,8 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         this.indexTasks = new ArrayList<>();
         this.tasks = new ArrayList<>();
         this.sizeOfTask = sizeOfTask;
-        IntStream.range(0, numberOfTask).forEach(index -> {
-            this.indexTasks.add(index);
-            this.tasks.add(this.generateOneTask());
-        });
+        this.currentIndex = 0;
+        this.currentTask = this.generateOneTask();
     }
 
     @Override
@@ -67,11 +68,15 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         for (Integer key : this.kits.keySet()) {
             this.kits.get(key).stopAsync();
         }
+        Thread.getAllStackTraces().keySet().stream().forEach(Thread::interrupt);
     }
 
     private HashMap<Integer, WalletAppKit> initKits() {
-        if (this.kits != null)
-            stop();
+        if (this.kits != null) {
+            for (Integer key : this.kits.keySet()) {
+                this.kits.get(key).stopAsync();
+            }
+        }
         return new HashMap<>();
     }
 
@@ -82,7 +87,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
         this.kits = initKits();
 
-        System.out.println("Init...");
+        System.err.println("Init...");
 
         BitcoinToolbox.clean();
 
@@ -143,7 +148,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
         BitcoinToolbox.mine();
 
-        System.out.println(System.currentTimeMillis() - timeInit);
+        System.err.println(System.currentTimeMillis() - timeInit);
     }
 
     public static int btcStringToBtcInt(String amount) {
@@ -166,12 +171,16 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
         return task;
     }
 
+
     @Override
     public Tuple getTask(int index) {
-        if (index >= super.tasks.size())
-            return super.getTask(index);
-        Tuple clone = new Tuple(3);
-        return clone.add(super.tasks.get(index));
+        if (index == currentIndex)
+            return this.currentTask;
+        else {
+            this.currentIndex = index;
+            this.currentTask = this.generateOneTask();
+            return this.currentTask;
+        }
     }
 
     @Override
@@ -191,7 +200,7 @@ public class BitcoinManager extends ManagerImpl<Tuple, Integer> {
 
     @Override
     public String getHeader() {
-        return super.indexTasks.size() + " random tx between " + super.sizeOfTask + " bitcoin nodes\n" +
+        return this.currentIndex + " random tx between " + super.sizeOfTask + " bitcoin nodes\n" +
                 "Random integer generated with " + super.seedForGenTask + " as seed\n" +
                 super.locations.size() + " perturbations points\n";
     }
