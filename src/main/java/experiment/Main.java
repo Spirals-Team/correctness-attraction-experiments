@@ -1,20 +1,28 @@
 package experiment;
 
-import experiment.exploration.*;
+import canny.CannyManager;
+import experiment.exploration.BooleanExplorationNegation;
+import experiment.exploration.Exploration;
+import experiment.exploration.IntegerExplorationMinueOne;
+import experiment.exploration.IntegerExplorationPlusMagnitude;
+import experiment.exploration.IntegerExplorationPlusOne;
+import experiment.explorer.CallExplorer;
+import experiment.explorer.Explorer;
+import experiment.explorer.HeatMapExplorer;
+import experiment.explorer.RandomExplorer;
+import experiment.explorer.SeedExplorer;
+import experiment.explorer.TaskNumberExplorer;
+import experiment.explorer.TaskSizeExplorer;
 import experiment.explorer.bandit.BanditExplorer;
 import gui.Window;
-
-import experiment.explorer.*;
-
+import lcs.LCSManager;
 import md5.MD5Manager;
 import mersenne.MersenneManager;
 import partial_mutant.MutantExplorer;
 import quicksort.QuickSortManager;
 import sudoku.SudokuManager;
-import zip.ZipManager;
-import lcs.LCSManager;
 import tea.TEAManager;
-import canny.CannyManager;
+import zip.ZipManager;
 
 /**
  * Created by bdanglot on 02/05/16.
@@ -112,12 +120,13 @@ public class Main {
                 break;
             case "bandit":
                 runBandit(index+1, args);
+                break;
             case "mutant":
                 runMutantExplorer();
+                break;
             default:
                 usage();
         }
-        System.exit(0);
     }
 
     private static Explorer buildExp(int index, String[] args) {
@@ -249,7 +258,7 @@ public class Main {
                     manager = (Manager) Main.class.getClassLoader().loadClass("regression.LinearRegressionManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "lcs":
-                    manager = new LCSManager(numberOfTask, sizeOfTask, seed);
+                    manager = new LCSManager(numberOfTask, seed);
                     break;
                 case "sat":
                     manager = (Manager) Main.class.getClassLoader().loadClass("sat.SATManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
@@ -264,7 +273,7 @@ public class Main {
                     manager = (Manager) Main.class.getClassLoader().loadClass("rc4.RC4Manager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "torrent":
-                    manager = (Manager) Main.class.getClassLoader().loadClass("torrent.TorrentManager").getDeclaredConstructor(int.class, int.class, int.class, String.class).newInstance(numberOfTask, sizeOfTask, seed, typePerturbed);
+                    manager = (Manager) Main.class.getClassLoader().loadClass("torrent.TorrentManager").getDeclaredConstructor(int.class, int.class, String.class).newInstance(sizeOfTask, seed, typePerturbed);
                     break;
                 case "mersenne":
                 case "mt":
@@ -275,12 +284,13 @@ public class Main {
                     break;
                 case "bitcoin":
                 case "btc":
-                    manager = (Manager) Main.class.getClassLoader().loadClass("bitcoin.BitcoinManager").getDeclaredConstructor(int.class, int.class, int.class, String.class).newInstance(numberOfTask, sizeOfTask, seed, typePerturbed);
+                    manager = (Manager) Main.class.getClassLoader().loadClass("bitcoin.BitcoinManager").getDeclaredConstructor(int.class, int.class, String.class).newInstance(sizeOfTask, seed, typePerturbed);
                     break;
                 case "classifier":
                 case "bayes":
                     manager = (Manager) Main.class.getClassLoader().loadClass("classifier.BayesManager").getDeclaredConstructor(int.class, int.class).newInstance(numberOfTask, seed);
                     break;
+                case "sdk":
                 case "sudoku":
                     manager = new SudokuManager(numberOfTask, sizeOfTask, seed);
                     break;

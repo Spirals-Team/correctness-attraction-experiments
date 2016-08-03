@@ -20,11 +20,6 @@ public abstract class ManagerImpl<T, P> implements Manager<T, P> {
     protected Random randomForGenTask;
 
     /**
-     * Number of seconds to wait until the callable time out
-     */
-    protected int numberOfSecondsToWait;
-
-    /**
      * Class Under Perturbations
      */
     protected Class<?> CUP;
@@ -129,6 +124,5 @@ public abstract class ManagerImpl<T, P> implements Manager<T, P> {
     @Override
     public void stop() {
         //Empty method, we assume sub class will implements it if needed
-
     }
 }
