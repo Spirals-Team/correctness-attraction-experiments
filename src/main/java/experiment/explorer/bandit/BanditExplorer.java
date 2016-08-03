@@ -96,7 +96,7 @@ public class BanditExplorer implements Explorer {
 		this.log();
 		if (code != 42)
 			this.manager.stop();
-		System.exit(code);
+		// System.exit(code);
 	}
 
 	private int[] filterLocation() {
@@ -128,7 +128,7 @@ public class BanditExplorer implements Explorer {
 		if (this.arms.size() == this.filter.size()) {
 			System.err.println("Error, no pp is active");
 			System.err.println(new Date());
-			this.exit(42);
+			// this.exit(42);
 		}
 		return nbCallRef;
 	}
@@ -340,7 +340,7 @@ public class BanditExplorer implements Explorer {
 			return BanditExplorer.buildBanditFromString(0, bandit.split(" "), policy);
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(-1);
+			// System.exit(-1);
 		}
 		return null;
 	}
