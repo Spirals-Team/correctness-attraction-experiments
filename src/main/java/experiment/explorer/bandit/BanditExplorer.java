@@ -103,7 +103,6 @@ public class BanditExplorer implements Explorer {
 		this.arms.forEach(PerturbationEngine.loggers.get("filterLocation")::logOn);
 		int[] nbCallRef = new int[this.arms.size()];
 		Tuple resultRunReference = this.run(this.lap);
-
 		if (resultRunReference.get(0) != 1) {
 			System.err.println("Error during the reference run");
 			if (!this.budget.shouldRun())
@@ -138,9 +137,7 @@ public class BanditExplorer implements Explorer {
 		PerturbationEngine.loggers.get(name).logOn(this.arms.get(indexArm));
 		Tuple result = run(this.lap);
 		System.err.println(result);
-		if (PerturbationEngine.loggers.get(name).getEnactions(this.arms.get(indexArm)) > 1)
-			System.err.println("Perturbed more thant one time");
-		else {
+		if (PerturbationEngine.loggers.get(name).getEnactions(this.arms.get(indexArm)) == 1) {
 			System.err.println(this.arms.get(indexArm).getLocationIndex() + " has been pulled");
 			this.logger.log(indexArm, 0, 0, 0, result, name);
 			this.policyLocation.update(indexArm, (int) result.get(0));
