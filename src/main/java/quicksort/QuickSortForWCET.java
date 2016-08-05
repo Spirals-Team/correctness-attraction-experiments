@@ -17,7 +17,7 @@ public class QuickSortForWCET {
 
 	public static PerturbationLocation __L1;
 
-	static long count = 0;
+	static long countLoop = 0L;
 
 	public static void sort(int[] array, int beg, int end) {
 
@@ -28,12 +28,12 @@ public class QuickSortForWCET {
 
 			while (array[left] < pivot) {
 				left++;
-				count++;
+				countLoop++;
 			}
 
 			while (array[right] > pivot) {
 				right--;
-				count++;
+				countLoop++;
 			}
 
 			if (left <= right) {
