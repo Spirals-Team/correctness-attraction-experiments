@@ -1,4 +1,4 @@
-package regression;
+package linreg;
 
 import experiment.CallableImpl;
 import experiment.ManagerImpl;
@@ -132,7 +132,7 @@ public class LinearRegressionManager extends ManagerImpl<Matrix[], double[]> {
 
     @Override
     public String getName() {
-        return "regression";
+        return "linreg";
     }
 
     @Override
