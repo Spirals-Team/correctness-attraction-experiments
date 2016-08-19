@@ -96,8 +96,9 @@ public abstract class ExplorerImpl implements Explorer {
         this.initLogger();
         @SuppressWarnings("unchecked")
         List<Integer> indices = this.manager.getIndexTask();
-        for (Integer index : indices)
-            this.runTask(index);
+        for (int i = 0 ; i < indices.size() ; i++) {
+            this.runTask(i);
+        }
         log();
     }
 

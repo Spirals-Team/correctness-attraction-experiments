@@ -56,7 +56,7 @@ public class CallExplorer extends ExplorerImpl {
     }
 
     private Tuple runAtTheIndexOfCall(int indexOfCall, int indexOfTask, PerturbationLocation location) {
-        location.setEnactor(new NCallEnactorImpl(indexOfCall, location));
+        location.setEnactor(new NCallEnactorImpl(indexOfCall));
         return this.run(indexOfTask);
     }
 

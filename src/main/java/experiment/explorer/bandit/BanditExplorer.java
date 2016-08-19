@@ -96,7 +96,7 @@ public class BanditExplorer implements Explorer {
 		this.log();
 		if (code != 42)
 			this.manager.stop();
-		// System.exit(code);
+//		 System.exit(code);
 	}
 
 	private int[] filterLocation() {
@@ -127,13 +127,13 @@ public class BanditExplorer implements Explorer {
 		if (this.arms.size() == this.filter.size()) {
 			System.err.println("Error, no pp is active");
 			System.err.println(new Date());
-			// this.exit(42);
+//			this.exit(42);
 		}
 		return nbCallRef;
 	}
 
 	private void pullArm(int indexArm, int nbCallRef) {
-		this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef + 1), this.arms.get(indexArm)));
+		this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef + 1)));
 		PerturbationEngine.loggers.get(name).logOn(this.arms.get(indexArm));
 		Tuple result = run(this.lap);
 		System.err.println(result);

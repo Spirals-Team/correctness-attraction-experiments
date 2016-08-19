@@ -254,7 +254,7 @@ public class Main {
             switch (args[index]) {
                 case "lr":
                 case "linear":
-                case "regression":
+                case "linreg":
                     manager = (Manager) Main.class.getClassLoader().loadClass("regression.LinearRegressionManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "lcs":

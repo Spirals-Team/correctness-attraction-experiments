@@ -56,7 +56,7 @@ public class ExecPathExplorer {
 			for (PerturbationLocation location : locations) {
 				System.out.println(Util.getStringPerc(locations.indexOf(location), locations.size()));
 				for (int call = 0; call < nbCallRef[locations.indexOf(location)]; call++) {
-					location.setEnactor(new NCallEnactorImpl(call, location));
+					location.setEnactor(new NCallEnactorImpl(call));
 					int[] task = manager.getTask(i);
 					try {
 						runQuicksort(task);
