@@ -11,9 +11,15 @@ public class ExampleManager extends ManagerImpl<Integer, Integer> {
 
 	private int currentTask = 0;
 
+	public ExampleManager(int numberOfTask) {
+		super(23);
+		this.CUP = ExampleInstr.class;
+		super.initialize(numberOfTask, 1);
+	}
+
 	@Override
 	protected Integer generateOneTask() {
-		return currentTask++;
+		return super.tasks.size();
 	}
 
 	@Override
@@ -21,24 +27,28 @@ public class ExampleManager extends ManagerImpl<Integer, Integer> {
 		return new CallableImpl<Integer, Integer>(input) {
 			@Override
 			public Integer call() throws Exception {
-				return Main.function(this.input);
+				return ExampleInstr.function(this.input);
 			}
-		}
+		};
+	}
+
+	@Override
+	public Integer getTask(int indexOfTask) {
+		return new Integer(super.tasks.get(indexOfTask));
 	}
 
 	@Override
 	public Oracle<Integer, Integer> getOracle() {
-
-		return null;
+		return (input, output) -> output == Example.function(input);
 	}
 
 	@Override
 	public String getName() {
-		return null;
+		return "example";
 	}
 
 	@Override
 	public String getHeader() {
-		return null;
+		return "example header\n";
 	}
 }
