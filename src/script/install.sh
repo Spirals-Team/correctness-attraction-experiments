@@ -23,8 +23,8 @@ cd ..
 i=(md5/MD5.java quicksort/QuickSort.java mersenne/MersenneTwister.java sudoku/Sudoku.java zip/LZW.java canny/CannyEdgeDetector.java)
 for file in "${i[@]}"
 do
-    echo "java -cp $jPerturb main.Main -type IntNum:boolean -r -i src/main/java/$file:$perturbation -o src/main/java --with-imports"
-    java -cp $jPerturb main.Main -type IntNum:boolean -r -spoon -i src/main/java/$file:$perturbation -o src/main/java --with-imports
+    echo "java -cp $jPerturb main.ExploreExample -type IntNum:boolean -r -i src/main/java/$file:$perturbation -o src/main/java"
+    java -cp $jPerturb main.Main -type IntNum:boolean -r -i src/main/java/$file:$perturbation -o src/main/java
 done
 
 #Install Commons Math
@@ -39,10 +39,10 @@ cd ..
 #Spooning math
 simplex=org/apache/commons/math3/optim/linear/SimplexSolver.java
 laguerre=org/apache/commons/math3/analysis/solvers/LaguerreSolver.java
-echo "java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -r -spoon -i $path_math/$simplex:$perturbation -o $path_math --with-imports"
-java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -r -spoon -i $path_math/$simplex:$perturbation -o $path_math --with-imports
-echo "java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -spoon -i $path_math/$laguerre:$perturbation -o $path_math --with-imports"
-java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -spoon -i $path_math/$laguerre:$perturbation -o $path_math --with-imports
+echo "java -cp $jar_math:$jPerturb main.ExploreExample -type IntNum:boolean -r -i $path_math/$simplex:$perturbation -o $path_math"
+java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -r -i $path_math/$simplex:$perturbation -o $path_math
+echo "java -cp $jar_math:$jPerturb main.ExploreExample -type IntNum:boolean -i $path_math/$laguerre:$perturbation -o $path_math"
+java -cp $jar_math:$jPerturb main.Main -type IntNum:boolean -i $path_math/$laguerre:$perturbation -o $path_math
 
 #Install Instrumented Math
 cd commons-math3-3.6.1-src
@@ -69,11 +69,11 @@ path_weka=weka-3-8-0/src/src/main/java/
 #Spooning Weka
 #i=weka/experiment/CrossValidationResultProducer.java
 i=$path_weka/weka/experiment/CrossValidationResultProducer.java
-echo "java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.Main -type IntNum:boolean -spoon -i $i:$perturbation -o $path_weka --with-imports"
-java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.Main -type IntNum:boolean -spoon -i $i:$perturbation -o $path_weka --with-imports
+echo "java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.ExploreExample -type IntNum:boolean -i $i:$perturbation -o $path_weka"
+java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.Main -type IntNum:boolean -i $i:$perturbation -o $path_weka
 i=$path_weka/weka/core/matrix/LinearRegression.java
-echo "java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.Main -type IntNum:boolean -spoon -i $i:$perturbation -o $path_weka --with-imports"
-java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.Main -type IntNum:boolean -spoon -i $i:$perturbation -o $path_weka --with-imports
+echo "java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.ExploreExample -type IntNum:boolean -i $i:$perturbation -o $path_weka"
+java -cp $jar_weka:$mvn_dep_weka:$lib_weka:$jPerturb main.Main -type IntNum:boolean -i $i:$perturbation -o $path_weka
 
 cd weka-3-8-0/src
 mvn install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
@@ -91,8 +91,8 @@ cd ..
 path_torrent=ttorrent/core/src/main/java/
 i=com/turn/ttorrent/
 jar_torrent=ttorrent/core/target/ttorrent-core-1.6-SNAPSHOT.jar
-echo "java -cp $mvn_dep_torrent:$jar_torrent:$jPerturb main.Main -type IntNum:boolean -spoon -i $path_torrent/$i:$perturbation -o $path_torrent --with-imports"
-java -cp $mvn_dep_torrent:$jar_torrent:$jPerturb main.Main -type IntNum:boolean -spoon -i $path_torrent/$i:$perturbation -o $path_torrent --with-imports
+echo "java -cp $mvn_dep_torrent:$jar_torrent:$jPerturb main.ExploreExample -type IntNum:boolean -i $path_torrent/$i:$perturbation -o $path_torrent"
+java -cp $mvn_dep_torrent:$jar_torrent:$jPerturb main.Main -type IntNum:boolean -i $path_torrent/$i:$perturbation -o $path_torrent
 
 cd ttorrent
 mvn install -Dmaven.javadoc.skip=true -DskipTests
@@ -112,8 +112,8 @@ jar_bitcoin=bitcoinj/core/target/bitcoinj-core-0.13.6.jar
 path_bitcoin=bitcoinj/core/src/main/java/
 #i=$path_bitcoin/org/bitcoinj/core/ECKey.java:$path_bitcoin/org/bitcoinj/crypto/DeterministicKey.java:$path_bitcoin/org/bitcoinj/core/Sha256Hash.java:$path_bitcoin/org/bitcoinj/wallet/BasicKeyChain.java:$path_bitcoin/org/bitcoinj/core/UnsafeByteArrayOutputStream.java:$path_bitcoin/org/bitcoinj/script/ScriptChunk.java
 i=$path_bitcoin/org/bitcoinj
-echo "java -cp $mvn_dep_bitcoin:$jar_bitcoin:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -x -i $i:$perturbation -o $path_bitcoin"
-java -cp $mvn_dep_bitcoin:$jar_bitcoin:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -x -i $i:$perturbation -o $path_bitcoin
+echo "java -cp $mvn_dep_bitcoin:$jar_bitcoin:$jPerturb main.ExploreExample -type IntNum:boolean -x -i $i:$perturbation -o $path_bitcoin"
+java -cp $mvn_dep_bitcoin:$jar_bitcoin:$jPerturb main.Main -type IntNum:boolean -x -i $i:$perturbation -o $path_bitcoin
 
 #Install instrumented Bitcoinj
 cd bitcoinj
@@ -143,11 +143,11 @@ mvn_dep_bitcoin=$m2_repo/junit/junit/4.12/junit-4.12.jar:$m2_repo/org/hamcrest/h
 jar_bc=bc-java/core/build/libs/core-1.52.jar
 path_bc=bc-java/core/src/main/java/
 i=$path_bc/org/bouncycastle/crypto/engines/RSACoreEngine.java
-echo "java -cp $jar_bc:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -i $i:$perturbation -o $path_bc"
-java -cp $jar_bc:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -i $i:$perturbation -o $path_bc
+echo "java -cp $jar_bc:$jPerturb main.ExploreExample -type IntNum:boolean -i $i:$perturbation -o $path_bc"
+java -cp $jar_bc:$jPerturb main.Main -type IntNum:boolean -i $i:$perturbation -o $path_bc
 i=$path_bc/org/bouncycastle/crypto/engines/RC4Engine.java
-echo "java -cp $jar_bc:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -i $i:$perturbation -o $path_bc"
-java -cp $jar_bc:$jPerturb main.Main -type IntNum:boolean -spoon --with-imports -i $i:$perturbation -o $path_bc
+echo "java -cp $jar_bc:$jPerturb main.ExploreExample -type IntNum:boolean -i $i:$perturbation -o $path_bc"
+java -cp $jar_bc:$jPerturb main.Main -type IntNum:boolean -i $i:$perturbation -o $path_bc
 
 cd bc-java
 gradle core:clean
@@ -170,8 +170,8 @@ file=$path/org/sat4j/minisat/core/Solver.java
 
 echo $file
 
-echo "java -cp $jPerturb:org.sat4j.core.jar main.Main -type IntNum:boolean -spoon -i $file:$perturbation -o $path -x --with-imports"
-java -cp $jPerturb:org.sat4j.core.jar main.Main -type IntNum:boolean -spoon -i $file:$perturbation -o $path -x --with-imports
+echo "java -cp $jPerturb:org.sat4j.core.jar main.ExploreExample -type IntNum:boolean -i $file:$perturbation -o $path -x"
+java -cp $jPerturb:org.sat4j.core.jar main.Main -type IntNum:boolean -i $file:$perturbation -o $path -x
 
 cd sat-src
 
