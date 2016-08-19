@@ -1,17 +1,11 @@
 package rsa;
 
 import experiment.CallableImpl;
-import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.engines.RSAEngine;
-import org.bouncycastle.crypto.generators.RSAKeyPairGenerator;
-import org.bouncycastle.crypto.params.RSAKeyGenerationParameters;
 import org.bouncycastle.crypto.params.RSAKeyParameters;
 import org.bouncycastle.crypto.params.RSAPrivateCrtKeyParameters;
-import org.bouncycastle.util.encoders.Hex;
 
 import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.Random;
 
 /**
  * Created by bdanglot on 29/04/16.
@@ -36,6 +30,21 @@ public class RSACallable extends CallableImpl<byte[], byte[]> {
 
     public RSACallable(byte[] input) {
         super(input);
+    }
+
+    public void init () {
+        cipher = new RSAEngine();
+        cipher.init(true, privParameters);
+        decipher = new RSAEngine();
+        decipher.init(false, pubParameters);
+    }
+
+    public byte[] cipher() {
+        return cipher.processBlock(input, 0, input.length);
+    }
+
+    public byte[] decipher(byte [] ciphered) {
+        return decipher.processBlock(ciphered, 0, ciphered.length);
     }
 
     @Override
@@ -68,64 +77,68 @@ public class RSACallable extends CallableImpl<byte[], byte[]> {
 
     public static void main(String[] args) {
 
-        int z = 129;
-        byte[] input = new byte[z];
-        Random rnd = new Random(31L);
-        for (int i = 0; i < z; i++) {
-            while ((input[i] = (byte) rnd.nextInt()) == 0) ;
-        }
+        System.out.println(mod.bitLength());
+        BigInteger modp1 = mod.add(BigInteger.ONE);
+        System.out.println(modp1.bitLength());
 
-        input[7] = 0;
-
-        RSAEngine cipher = new RSAEngine();
-        RSAEngine decipher = new RSAEngine();
-
-        cipher.init(true, privParameters);
-        decipher.init(false, pubParameters);
-
-
-        byte[][] multiciphered = new byte[(input.length / 128) + (input.length % 128 == 0 ? 0 : 1)][128];
-
-        for (int i = 0; i < multiciphered.length; i++) {
-            int length = i == multiciphered.length - 1 ? (input.length - (128 * i)) : 128;
-            System.arraycopy(input, 128 * i, multiciphered[i], 0, length);
-        }
-
-        for (int i = 0; i < multiciphered.length; i++) {
-            for (int i1 = 0; i1 < multiciphered[i].length; i1++) {
-                System.out.print(multiciphered[i][i1] + " ");
-            }
-        }
-        System.out.println();
-
-        for (int i = 0; i < multiciphered.length; i++) {
-            int length = i == multiciphered.length - 1 ? (input.length - (128 * i)) : 128;
-            for (int i1 = 0; i1 < length; i1++) {
-                System.out.print(multiciphered[i][i1]+ " ");
-            }
-            System.out.println();
-            multiciphered[i] = cipher.processBlock(multiciphered[i], 0, length);
-        }
-
-        for (int i = 0; i < multiciphered.length; i++) {
-            int length = i == multiciphered.length - 1 ? (input.length - (128 * i)) : 128;
-
-            multiciphered[i] = decipher.processBlock(multiciphered[i], 0, length);
-        }
-
-        for (int i = 0; i < multiciphered.length; i++) {
-            for (int i1 = 0; i1 < multiciphered[i].length; i1++) {
-                System.out.print(multiciphered[i][i1] + " ");
-            }
-        }
-        System.out.println();
-
-        for (int i = 0; i < input.length; i++) {
-            System.out.print(input[i] + " ");
-        }
-        System.out.println();
-
-
+//        int z = 129;
+//        byte[] input = new byte[z];
+//        Random rnd = new Random(31L);
+//        for (int i = 0; i < z; i++) {
+//            while ((input[i] = (byte) rnd.nextInt()) == 0) ;
+//        }
+//
+//        input[7] = 0;
+//
+//        RSAEngine cipher = new RSAEngine();
+//        RSAEngine decipher = new RSAEngine();
+//
+//        cipher.init(true, privParameters);
+//        decipher.init(false, pubParameters);
+//
+//
+//        byte[][] multiciphered = new byte[(input.length / 128) + (input.length % 128 == 0 ? 0 : 1)][128];
+//
+//        for (int i = 0; i < multiciphered.length; i++) {
+//            int length = i == multiciphered.length - 1 ? (input.length - (128 * i)) : 128;
+//            System.arraycopy(input, 128 * i, multiciphered[i], 0, length);
+//        }
+//
+//        for (int i = 0; i < multiciphered.length; i++) {
+//            for (int i1 = 0; i1 < multiciphered[i].length; i1++) {
+//                System.out.print(multiciphered[i][i1] + " ");
+//            }
+//        }
+//        System.out.println();
+//
+//        for (int i = 0; i < multiciphered.length; i++) {
+//            int length = i == multiciphered.length - 1 ? (input.length - (128 * i)) : 128;
+//            for (int i1 = 0; i1 < length; i1++) {
+//                System.out.print(multiciphered[i][i1]+ " ");
+//            }
+//            System.out.println();
+//            multiciphered[i] = cipher.processBlock(multiciphered[i], 0, length);
+//        }
+//
+//        for (int i = 0; i < multiciphered.length; i++) {
+//            int length = i == multiciphered.length - 1 ? (input.length - (128 * i)) : 128;
+//
+//            multiciphered[i] = decipher.processBlock(multiciphered[i], 0, length);
+//        }
+//
+//        for (int i = 0; i < multiciphered.length; i++) {
+//            for (int i1 = 0; i1 < multiciphered[i].length; i1++) {
+//                System.out.print(multiciphered[i][i1] + " ");
+//            }
+//        }
+//        System.out.println();
+//
+//        for (int i = 0; i < input.length; i++) {
+//            System.out.print(input[i] + " ");
+//        }
+//        System.out.println();
+//
+//
 //        byte[] ciphered = cipher.processBlock(input, 0, input.length);
 //        byte[] unciphered = decipher.processBlock(ciphered, 0, ciphered.length);
 //
