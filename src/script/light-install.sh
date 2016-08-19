@@ -4,13 +4,12 @@
 git clone http://github.com/Spirals-Team/jPerturb.git 2>/dev/null
 cd jPerturb
 git pull
+mvn clean install
 cd ..
-
-cp -r jPerturb/src/main/java/perturbation src/main/java/
 
 #Now RM huge packages
 path=src/main/java
-packages=(bitcoin classifier laguerre rc4 regression rsa sat simplex torrent)
+packages=(bitcoin classifier laguerre rc4 linreg rsa sat simplex torrent)
 for file in "${packages[@]}"
 do
     echo "rm -rf $path/$file"

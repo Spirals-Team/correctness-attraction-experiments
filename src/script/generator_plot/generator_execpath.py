@@ -4,6 +4,7 @@ lines = [line.rstrip('\n') for line in open("results/quicksort/outputExec.txt")]
 nbSuccess, nbFailure = ' '.join(lines[0].split()).split(" ")
 
 fig = plt.figure()
+ax = fig.add_axes((.1,.4,.8,.5))
 
 for i in range(0, int(nbSuccess)):
     print(str(i) + " / " + nbSuccess)
@@ -18,6 +19,14 @@ for i in range(0, int(nbFailure)):
 path_reference = [int(x) for x in ' '.join(lines[1].split()).split(" ")]
 plt.plot(range(0,len(path_reference)), path_reference, 'b-', label="unperturbed", linewidth=1.5)
 
-fig.savefig("results/quicksort/img/exec_path_1.pdf")
+plt.xlabel("time (in recursive call)")
+plt.ylabel("Number of unsorted pairs")
+plt.title("Executions of Quicksort")
+
+fig.savefig("results/quicksort/img/exec_path.pdf", bbox_inches='tight')
+ax.set_xscale('symlog')
+ax.set_yscale('symlog')
+fig.savefig("results/quicksort/img/exec_path_log.pdf", bbox_inches='tight')
 plt.close(fig)
+
 

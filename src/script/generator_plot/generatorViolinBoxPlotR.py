@@ -3,8 +3,7 @@ import sys
 
 exploration=sys.argv[1]
 
-subjects=("quicksort", "zip", "sudoku", "md5", "rsa", "rc4", "canny", "lcs", "laguerre", "regression" )[::-1] #NEED TO ADD LCS
-
+subjects=("quicksort", "zip", "sudoku", "md5", "rsa", "rc4", "canny", "lcs", "laguerre", "linreg" )[::-1]
 outputR = open('results/violin_boxplot'+exploration+'.R', 'w')
 
 outputR.write("pdf(\"violinboxplot_"+exploration+".pdf\")\n")
