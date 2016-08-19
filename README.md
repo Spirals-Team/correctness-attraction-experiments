@@ -86,9 +86,7 @@ mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s md5 -run tasksi
 
 ### Options
 
-You can run each subject separately, or all of it with the Runner. Options remains the same.
-
-Several options available :
+Options available :
 * -size \<integer> specify the size of each task
 * -nb \<integer> specify the number of task
 * -time \<integer> specify the number of seconds to wait until timeout
@@ -106,6 +104,3 @@ Several options available :
 * runs will be executed before everything else, you must specify a subject (with -s) before
 * you can type -run gui to run the demo gui with success meter
 * -help display this help
-
-
-
