@@ -18,7 +18,7 @@ do
 done
 
 #Rewriting the pom.xml in order to remove dependencies
-head -n 36 pom.xml > npom.xml
+head -n 66 pom.xml > npom.xml
 echo "</dependencies>" >> npom.xml
 echo "</project>" >> npom.xml
 rm -f pom.xml
