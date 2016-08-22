@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * Created by bdanglot on 16/08/16.
  */
-public class Monkey {
+public class RndMonkey {
 
 	private static final int sleepTask = 500;
 
@@ -30,7 +30,7 @@ public class Monkey {
 
 	private Random random;
 
-	public Monkey(String adr) {
+	public RndMonkey(String adr) {
 		try {
 			this.random = new Random(23);
 			System.setProperty("webdriver.chrome.driver", "lib/chromedriver");
