@@ -1,5 +1,7 @@
 package shadow;
 
+import experiment.Util;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -12,10 +14,32 @@ public class Logger {
 	private int[] failurePerLocation;
 	private int[] executionPerLocation;
 
+	private int nbRequest;
+
 	public Logger(int numberOfLocations) {
 		this.successPerLocation = new int[numberOfLocations];
 		this.failurePerLocation = new int[numberOfLocations];
 		this.executionPerLocation = new int[numberOfLocations];
+		this.nbRequest = 0;
+	}
+
+	/**
+	 * @return nbRequest, sum Exec, sum Success, sum Failures
+	 */
+	public int[] getState() {
+		int nbLocation = this.successPerLocation.length;
+		int[] states = new int[4];
+		states[0] = this.nbRequest;
+		for (int i = 0; i < nbLocation; i++) {
+			states[1] += this.executionPerLocation[i];
+			states[2] += this.successPerLocation[i];
+			states[3] += this.failurePerLocation[i];
+		}
+		return states;
+	}
+
+	public void logRequest() {
+		this.nbRequest++;
 	}
 
 	public synchronized void count(boolean assertion, int index) {
@@ -28,35 +52,30 @@ public class Logger {
 
 	public synchronized void log() {
 		try {
-			FileWriter writer = new FileWriter("output", false);
+			FileWriter writer = new FileWriter("results/shadow/results.txt", false);
 			String format = "%-10s %-10s %-10s %-10s %-25s";
+			int accSuccess = 0, accExecution = 0, numberOfPPExplored = 0;
 			writer.write(String.format(format, "IndexLoc", "#Exec", "#Success", "#Failure", "CorrectnessRatio") + "\n");
 			for (int i = 0; i < this.executionPerLocation.length; i++) {
-				if (this.executionPerLocation[i] != 0)
+				if (this.executionPerLocation[i] != 0) {
 					writer.write(String.format(format, i, this.executionPerLocation[i],
 							this.successPerLocation[i], this.failurePerLocation[i],
-							getStringPerc(this.successPerLocation[i], this.executionPerLocation[i])) + "\n");
+							Util.getStringPerc(this.successPerLocation[i], this.executionPerLocation[i])) + "\n");
+					accSuccess += this.successPerLocation[i];
+					accExecution += this.executionPerLocation[i];
+					numberOfPPExplored++;
+				}
 			}
+			format = "%-25s %-25s";
+			writer.write(String.format("%-25s %-10s %-10s %-25s", "PP explored : ", numberOfPPExplored, this.executionPerLocation.length, Util.getStringPerc(numberOfPPExplored, this.executionPerLocation.length)) + "\n");
+			writer.write(String.format(format, "# Executions : ", accExecution) + "\n");
+			writer.write(String.format(format, "# Success : ", accSuccess) + "\n");
+			writer.write(String.format(format, "Correctness ratio : ", Util.getStringPerc(accSuccess, accExecution)) + "\n");
+			writer.write(String.format(format, "# Request : ", this.nbRequest) + "\n");
+			writer.write(String.format(format, "Execution ratio : ", Util.getStringPerc(accExecution, this.nbRequest)) + "\n");
 			writer.close();
 		} catch (IOException ignored) {
 		}
 		System.out.println("End log");
 	}
-
-	public static String getStringPerc(long nb, long total) {
-		double perc = perc(nb, total);
-		String ret = dash(perc);
-		return ret + " " + String.format("%.2f", perc);
-	}
-
-	public static double perc(long nb, long total) {
-		return (double) nb / (double) total * 100;
-	}
-
-	public static String dash(double perc) {
-		String dash = "";
-		for (int d = 0; d < perc / 5; d++) dash += "-";
-		return dash;
-	}
-
 }

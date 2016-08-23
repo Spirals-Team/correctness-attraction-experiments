@@ -16,7 +16,17 @@ import java.util.Map;
 public class ShadowHelper {
 
 	public static boolean isUsed(String requestURI) {
-		return !requestURI.endsWith(".ico") && !requestURI.endsWith(".png") && !requestURI.endsWith(".csv") && !requestURI.endsWith(".jpg") && !requestURI.endsWith(".gif");
+		return !requestURI.contains(".ico") &&
+				!requestURI.contains(".png") &&
+				!requestURI.contains(".csv") &&
+				!requestURI.contains(".jpg") &&
+				!requestURI.contains(".gif") &&
+				!requestURI.contains(".css") &&
+				!requestURI.contains(".js") &&
+				!requestURI.contains(".jpeg") &&
+				!requestURI.contains(".svg") &&
+				!requestURI.contains("?browse") &&
+				!requestURI.contains(".woff");
 	}
 
 	public static byte[] readContent(HttpServletRequest request) throws IOException {
@@ -35,7 +45,6 @@ public class ShadowHelper {
 	}
 
 
-
 	public static void replaceCookie(Request proxyRequest, String cookie, Enumeration<String> names) {
 		Map<String, String> headers = new HashMap<>();
 		while (names.hasMoreElements()) {
@@ -48,8 +57,6 @@ public class ShadowHelper {
 		proxyRequest.getHeaders().clear();
 		headers.keySet().forEach(k -> proxyRequest.header(k, headers.get(k)));
 	}
-
-
 
 
 }

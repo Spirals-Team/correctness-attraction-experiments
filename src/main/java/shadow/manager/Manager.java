@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface Manager {
 
+	List<PerturbationLocation> getLocations();
+
 	int getNumberLocations();
 
 	PerturbationLocation logOn(PerturbationLocation location) throws RemoteException;

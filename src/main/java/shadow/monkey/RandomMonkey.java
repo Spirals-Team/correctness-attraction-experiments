@@ -2,49 +2,23 @@ package shadow.monkey;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.UnhandledAlertException;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
  * Created by bdanglot on 16/08/16.
  */
-public class RndMonkey {
+public class RandomMonkey extends MonkeyImpl {
 
-	private static final int sleepTask = 500;
+	public RandomMonkey(String adr) {
+		super(adr);
+	}
 
-	private static final int sleepInit = 1000;
-
-	private String adr;
-
-	private WebDriver driver;
-
-	private List<String> words;
-
-	private Random random;
-
-	public RndMonkey(String adr) {
-		try {
-			this.random = new Random(23);
-			System.setProperty("webdriver.chrome.driver", "lib/chromedriver");
-			this.driver = new ChromeDriver();
-			BufferedReader reader = new BufferedReader(new FileReader("/usr/share/dict/words"));
-			String currentLine;
-			this.words = new ArrayList<>();
-			while ((currentLine = reader.readLine()) != null)
-				this.words.add(currentLine);
-			reader.close();
-			this.adr = adr;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public RandomMonkey(String adr, int seed) {
+		super(adr, seed);
 	}
 
 	private void clickOnLink() throws Exception {
@@ -84,7 +58,7 @@ public class RndMonkey {
 		);
 		if (!elements.isEmpty()) {
 			WebElement element = elements.get(random.nextInt(elements.size()));
-			element.sendKeys(words.get(random.nextInt(words.size())));
+			element.sendKeys(super.getRandomWord());
 			element.submit();
 			Thread.sleep(sleepTask);
 			return true;
@@ -111,6 +85,8 @@ public class RndMonkey {
 				if (!action)
 					clickOnLink();
 			}
+		} catch (org.openqa.selenium.remote.SessionNotFoundException sessionNotFound) {
+			this.quit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -120,17 +96,9 @@ public class RndMonkey {
 				this.init();
 		} catch (UnhandledAlertException e) {
 			driver.switchTo().alert().dismiss();
+		} catch (org.openqa.selenium.remote.SessionNotFoundException sessionNotFound) {
+			this.quit();
 		}
-	}
-
-
-	public void init() throws InterruptedException {
-		driver.get(adr);
-		Thread.sleep(sleepInit);
-	}
-
-	public void quit() {
-		this.driver.quit();
 	}
 
 }

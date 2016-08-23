@@ -1,8 +1,8 @@
 package shadow.manager;
 
+import experiment.Util;
 import perturbation.enactor.Enactor;
 import perturbation.location.PerturbationLocation;
-import shadow.Logger;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -41,13 +41,8 @@ public class RandomManager extends ManagerImpl {
 	}
 
 	@Override
-	public void disableLocation(PerturbationLocation location) throws RemoteException {
-		super.skeleton.disableLocation(location);
-	}
-
-	@Override
 	public PerturbationLocation enableLocation(final List<Integer> list) throws RemoteException {
-		System.out.println("[MNGR] nb active location : " + Logger.getStringPerc(list.size(), super.locations.size()));
+		System.out.println("[MNGR] nb active location : " + Util.getStringPerc(list.size(), super.locations.size()));
 		List<PerturbationLocation> filteredLocations = super.locations.stream().filter(location ->
 				list.contains(super.locations.indexOf(location))
 		).collect(Collectors.toList());
@@ -59,7 +54,7 @@ public class RandomManager extends ManagerImpl {
 
 	@Override
 	public PerturbationLocation enableLocation(List<Integer> list, Enactor enactor) throws RemoteException {
-		System.out.println("[MNGR] nb active location : " + Logger.getStringPerc(list.size(), super.locations.size()));
+		System.out.println("[MNGR] nb active location : " + Util.getStringPerc(list.size(), super.locations.size()));
 		List<PerturbationLocation> filteredLocations = super.locations.stream().filter(location ->
 				list.contains(super.locations.indexOf(location))
 		).collect(Collectors.toList());

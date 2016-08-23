@@ -1,6 +1,6 @@
 package shadow.budget;
 
-import shadow.Logger;
+import experiment.Util;
 
 /**
  * Created by bdanglot on 16/08/16.
@@ -17,7 +17,7 @@ public class NbRequestBudget implements Budget {
 	}
 
 	public boolean hasToRun() {
-		return this.nbRequest >= this.nbRequestDone;
+		return this.nbRequest > this.nbRequestDone;
 	}
 
 	public void update() {
@@ -26,6 +26,6 @@ public class NbRequestBudget implements Budget {
 
 	@Override
 	public String toString() {
-		return Logger.getStringPerc(this.nbRequestDone, this.nbRequest);
+		return Util.getStringPerc(this.nbRequestDone, this.nbRequest);
 	}
 }

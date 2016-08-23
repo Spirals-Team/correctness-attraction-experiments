@@ -1,6 +1,7 @@
 package shadow.explorer;
 
 import org.eclipse.jetty.client.api.Response;
+import shadow.Logger;
 import shadow.shadower.RequestContent;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,5 +15,7 @@ public interface Explorer {
 	void run(HttpServletRequest request) throws RemoteException;
 
 	void endRun(RequestContent referenceOutput, Response perturbationOutput) throws RemoteException;
+
+	Logger getLogger();
 
 }

@@ -18,6 +18,8 @@ import java.util.Map;
  */
 public class HistoryExplorer extends ExplorerImpl {
 
+//	private History history;
+
 	private Map<HttpServletRequest, List<Integer>> history;
 
 	private boolean locationEnabled;
@@ -25,6 +27,7 @@ public class HistoryExplorer extends ExplorerImpl {
 	public HistoryExplorer(Budget budget, Oracle oracle, Manager perturbationManager, String adrProduction) {
 		super(budget, oracle, perturbationManager.getNumberLocations(), perturbationManager, adrProduction);
 		super.oracle = (referenceOutput, perturbationOutput) -> referenceOutput.getResponse().getStatus() != 500 && referenceOutput.getResponse().getStatus() != 404;
+//		this.history = new History(perturbationManager);
 		this.history = new HashMap<>();
 		this.locationEnabled = false;
 	}
@@ -36,7 +39,7 @@ public class HistoryExplorer extends ExplorerImpl {
 			if (!locationEnabled) {
 				List<Integer> lst = this.history.get(request);
 				if (lst == null || lst.isEmpty())
-					super.currentLocation = super.managerPerturbation.enableLocation(new NCallEnactorImpl(0));
+					super.currentLocation = super.managerPerturbation.enableLocation(new NCallEnactorImpl(0));//new NCallEnactorImpl(0)
 				else
 					super.currentLocation = super.managerPerturbation.enableLocation(lst, new NCallEnactorImpl(0));
 				System.out.println("[EXPL] " + this.currentLocation);

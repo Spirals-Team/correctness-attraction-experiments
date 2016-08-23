@@ -1,6 +1,6 @@
 package shadow.budget;
 
-import shadow.Logger;
+import experiment.Util;
 
 /**
  * Created by bdanglot on 19/08/16.
@@ -27,6 +27,6 @@ public class TimeBudget implements Budget {
 
 	@Override
 	public String toString() {
-		return Logger.getStringPerc((System.currentTimeMillis() - this.startTime), this.budget);
+		return Util.getStringPerc((System.currentTimeMillis() - this.startTime), this.budget);
 	}
 }

@@ -1,5 +1,6 @@
 package shadow.explorer;
 
+import javafx.application.Platform;
 import org.eclipse.jetty.client.api.Response;
 import perturbation.location.PerturbationLocation;
 import shadow.Logger;
@@ -26,12 +27,16 @@ public abstract class ExplorerImpl implements Explorer {
 	protected Manager managerPerturbation;
 	protected PerturbationLocation currentLocation;
 
+	@Override
+	public Logger getLogger() {
+		return logger;
+	}
 
 	public ExplorerImpl(Budget budget, Oracle oracle, int nbLocations, Manager managerPerturbation, String adrProduction) {
 		this.budget = budget;
 		this.oracle = oracle;
 		this.logger = new Logger(nbLocations);
-		this.managerReference = ManagerImpl.buildManagerImpl(adrProduction);
+		this.managerReference = new ManagerImpl(adrProduction);
 		try {
 			this.managerReference.logAllLocations();
 		} catch (RemoteException ignored) {
@@ -44,8 +49,9 @@ public abstract class ExplorerImpl implements Explorer {
 	public void run(HttpServletRequest request) throws RemoteException {
 		if (!this.budget.hasToRun()) {
 			this.logger.log();
-			System.exit(0);
+			Platform.exit();
 		}
+		this.logger.logRequest();
 	}
 
 	@Override
@@ -81,7 +87,8 @@ public abstract class ExplorerImpl implements Explorer {
 			int calls = this.managerReference.getCalls(this.currentLocation);
 			int enactions = this.managerReference.getEnactions(this.currentLocation);
 			System.out.println("[EXPL] " + calls + ":" + enactions);
-			return this.currentLocation != null && calls > 0 && enactions > 0;
+			boolean perturbationHappened = this.currentLocation != null && calls > 0 && enactions > 0;
+			return perturbationHappened;
 		} catch (Exception e) {
 			return false;
 		}

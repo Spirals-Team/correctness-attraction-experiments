@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by bdanglot on 16/08/16.
  */
-public abstract class ManagerImpl implements Manager {
+public class ManagerImpl implements Manager {
 
 	protected PerturbationServer skeleton;
 	protected List<PerturbationLocation> locations;
@@ -29,7 +29,7 @@ public abstract class ManagerImpl implements Manager {
 		return null;
 	}
 
-	protected ManagerImpl(String adrPerturbation) {
+	public ManagerImpl(String adrPerturbation) {
 		try {
 			this.skeleton = this.getSkeleton(adrPerturbation);
 			this.locations = this.skeleton.getLocations();
@@ -37,6 +37,11 @@ public abstract class ManagerImpl implements Manager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<PerturbationLocation> getLocations() {
+		return this.locations;
 	}
 
 	@Override
@@ -101,37 +106,32 @@ public abstract class ManagerImpl implements Manager {
 		return this.locations.indexOf(location);
 	}
 
-	public static Manager buildManagerImpl(String adrPerturbation) {
-		return new ManagerImpl(adrPerturbation) {
-			@Override
-			public PerturbationLocation enableLocation() throws RemoteException {
-				//empty
-				return null;
-			}
-
-			@Override
-			public PerturbationLocation enableLocation(Enactor enactor) throws RemoteException {
-				//empty
-				return null;
-			}
-
-			@Override
-			public PerturbationLocation enableLocation(List<Integer> list) throws RemoteException {
-				//empty
-				return null;
-			}
-
-			@Override
-			public PerturbationLocation enableLocation(List<Integer> list, Enactor enactor) throws RemoteException {
-				//empty
-				return null;
-			}
-
-			@Override
-			public void disableLocation(PerturbationLocation locations) throws RemoteException {
-				//empty
-			}
-		};
+	@Override
+	public PerturbationLocation enableLocation() throws RemoteException {
+		//empty
+		throw  new UnsupportedOperationException();
 	}
 
+	@Override
+	public PerturbationLocation enableLocation(Enactor enactor) throws RemoteException {
+		//empty
+		throw  new UnsupportedOperationException();
+	}
+
+	@Override
+	public PerturbationLocation enableLocation(List<Integer> list) throws RemoteException {
+		//empty
+		throw  new UnsupportedOperationException();
+	}
+
+	@Override
+	public PerturbationLocation enableLocation(List<Integer> list, Enactor enactor) throws RemoteException {
+		//empty
+		throw  new UnsupportedOperationException();
+	}
+
+	@Override
+	public void disableLocation(PerturbationLocation location) throws RemoteException {
+		this.skeleton.disableLocation(location);
+	}
 }
