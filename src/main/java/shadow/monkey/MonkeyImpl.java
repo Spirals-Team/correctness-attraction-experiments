@@ -1,5 +1,6 @@
 package shadow.monkey;
 
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -48,8 +49,13 @@ public abstract class MonkeyImpl implements Monkey {
 	}
 
 	public void init() throws InterruptedException {
-		this.driver.get(adr);
-		Thread.sleep(sleepInit);
+		try {
+			this.driver.get(adr);
+			Thread.sleep(sleepInit);
+		} catch (UnhandledAlertException e) {
+			this.driver.switchTo().alert().dismiss();
+			this.init();
+		}
 	}
 
 	public void quit() {

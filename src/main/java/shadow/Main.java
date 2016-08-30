@@ -52,7 +52,7 @@ public class Main {
 		server.setHandler(contextHandler);
 
 		Oracle oracle = new CodeStatusOracle();
-		Budget budget = new NbRequestBudget(500);
+		Budget budget = new NbRequestBudget(5000);
 		Manager managerPerturbation = new RandomManager(ADR_PROD, 23);
 
 		explorer = new HistoryExplorer(budget, oracle, managerPerturbation, ADR_PROD);
@@ -60,7 +60,7 @@ public class Main {
 
 		contextHandler.addServlet(new ServletHolder(servlet), "/*");
 
-		int nbMonkey = 3;
+		int nbMonkey = 5;
 		for (int i = 0; i < nbMonkey; i++) {
 			monkeys.add(runMonkey());
 		}
