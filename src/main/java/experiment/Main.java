@@ -1,11 +1,7 @@
 package experiment;
 
 import canny.CannyManager;
-import experiment.exploration.BooleanExplorationNegation;
-import experiment.exploration.Exploration;
-import experiment.exploration.IntegerExplorationMinueOne;
-import experiment.exploration.IntegerExplorationPlusMagnitude;
-import experiment.exploration.IntegerExplorationPlusOne;
+import experiment.exploration.*;
 import experiment.explorer.CallExplorer;
 import experiment.explorer.Explorer;
 import experiment.explorer.HeatMapExplorer;
@@ -241,6 +237,9 @@ public class Main {
             case "mone":
                 typePerturbed = "Numerical";
                 return new IntegerExplorationMinueOne();
+            case "zero":
+                typePerturbed = "Numerical";
+                return new IntegerExplorationZero();
             case "boolean":
                 typePerturbed = "Boolean";
                 return new BooleanExplorationNegation();
