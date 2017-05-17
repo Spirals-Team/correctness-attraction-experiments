@@ -98,8 +98,8 @@ public abstract class ExplorerImpl implements Explorer {
         List<Integer> indices = this.manager.getIndexTask();
         for (int i = 0 ; i < indices.size() ; i++) {
             this.runTask(i);
+            log();
         }
-        log();
     }
 
     @Override

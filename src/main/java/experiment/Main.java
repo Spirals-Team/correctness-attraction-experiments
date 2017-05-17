@@ -254,7 +254,7 @@ public class Main {
                 case "lr":
                 case "linear":
                 case "linreg":
-                    manager = (Manager) Main.class.getClassLoader().loadClass("regression.LinearRegressionManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
+                    manager = (Manager) Main.class.getClassLoader().loadClass("linreg.LinearRegressionManager").getDeclaredConstructor(int.class, int.class, int.class).newInstance(numberOfTask, sizeOfTask, seed);
                     break;
                 case "lcs":
                     manager = new LCSManager(numberOfTask, seed);
