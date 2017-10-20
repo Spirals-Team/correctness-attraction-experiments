@@ -1,8 +1,8 @@
 [![Travis Build Status](https://api.travis-ci.org/Spirals-Team/jPerturb-experiments.svg?branch=master)](https://travis-ci.org/Spirals-Team/jPerturb-experiments)
 
-# jPerturb-experiments
+# Open-science experiments about Correctness Attraction
 
-This project contains experiments for [jPerturb](https://github.com/Spirals-Team/jPerturb)
+Considered programs:
 
 * quicksort: Quicksort without memory version.
 * zip: LZW compression.
@@ -28,7 +28,8 @@ This package is out of the experiments because it is used to draw perturbation e
 
 ## Experiments
 
-The experiments are the exploration of the perturbation envelop of each project.
+The experiments are the exploration of the perturbation envelop of each project. They use [jPerturb](https://github.com/Spirals-Team/jPerturb)
+
 
 In order to explore it, we use 5 explorations:
 
