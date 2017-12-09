@@ -2,7 +2,7 @@
 
 # Open-science experiments about Correctness Attraction
 
-Considered programs:
+## Considered programs
 
 * quicksort: Quicksort without memory version.
 * zip: LZW compression.
@@ -26,10 +26,7 @@ If the source is not specified, sources come from [RosettaCode](http://rosettaco
 about quicksort-visualization:
 This package is out of the experiments because it is used to draw perturbation envelop of quicksort algorithm.
 
-## Experiments
-
-The experiments are the exploration of the perturbation envelop of each project. They use [jPerturb](https://github.com/Spirals-Team/jPerturb)
-
+## Perturbations
 
 In order to explore it, we use 5 explorations:
 
@@ -38,45 +35,19 @@ In order to explore it, we use 5 explorations:
    * Add 1 with an increasing random probability.
    * Negation of Boolean at each call of each perturbation Point.
    * Negation of Boolean with an increasing random probability.
-
-Additionnal exploration :
    * Minus 1 at each call of each perturbation Point.
-
-## Install
-
-You can use:
-```
-./src/script/light-install.sh
-```
-To have a quick start of jPerturb-experiments. Only little exp will remains in the project : quicksort sudoku zip md5 mersenne tea canny and lcs.
-The gui is available too.
-
-In order to fully install, launch the following script:
-```
-./src/script/install.sh
-```
-It will install everything you will need to run experiments but it will take a while and need at least gradle version 2.13 installed and in your path.
 
 ## Run
 
-### Commands
+Run the systematical call exploration with plus one perturbator model on quicksort, with 20 array of 100 integers with verbose mode:
 
 ```
-mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="<options>"
-```
+git clone 
+https://github.com/Spirals-Team/correctness-attraction-experiments.git
+cd correctness-attraction-experiments
+./src/script/light-install.sh
 
-## Example of running commands
-
-Run the systematical call exploration with plus one perturbator model on quicksort, with 50 array of 200 integers with verbose mode:
-
-```
-mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-v -s qs -nb 50 -size 200 -exp call one"
-```
-
-Run the gui on zip:
-
-```
-mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s zip -run gui"
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-v -s qs -nb 20 -size 100 -exp call one"
 ```
 
 Run the task size exploration on md5:
@@ -85,7 +56,28 @@ Run the task size exploration on md5:
 mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s md5 -run tasksize"
 ```
 
-### Options
+## GUI
+
+Run the gui on zip:
+
+```
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="-s zip -run gui"
+```
+
+
+## Advanced usage
+
+In order to install all projects, launch the following script, it will install everything you will need to run experiments but it will take a while and need at least gradle version 2.13 installed and in your path.
+
+```
+./src/script/install.sh
+```
+
+
+```
+mvn exec:java -Dexec.mainClass="experiment.Main" -Dexec.args="<options>"
+```
+
 
 Options available :
 * -size \<integer> specify the size of each task
