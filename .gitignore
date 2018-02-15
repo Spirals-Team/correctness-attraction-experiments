@@ -9,7 +9,6 @@ target/
 #Perturbation files needed
 jPerturb/
 spoon/
-src/main/java/perturbation/
 
 #Experiment files needed
 resources/input_torrent/test_file*

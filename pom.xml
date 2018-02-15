@@ -91,14 +91,14 @@
 
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>core</artifactId>
-            <version>1.52</version>
+            <artifactId>bcprov-jdk14</artifactId>
+            <version>1.59</version>
         </dependency>
 
         <dependency>
             <groupId>org.sat4j</groupId>
-            <artifactId>core</artifactId>
-            <version>2.3.5</version>
+            <artifactId>org.sat4j.core</artifactId>
+            <version>2.3.1</version>
         </dependency>
 
         <!--Maybe we will need the two next dependencies to debug bitcoinj experiments-->
