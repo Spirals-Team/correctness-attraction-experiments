@@ -8,6 +8,7 @@ import experiment.Util;
 import experiment.exploration.Exploration;
 import experiment.exploration.IntegerExplorationPlusOne;
 import experiment.explorer.Explorer;
+import experiment.explorer.RunResult;
 import experiment.explorer.bandit.budget.Budget;
 import experiment.explorer.bandit.budget.LapBudget;
 import experiment.explorer.bandit.budget.TimeBudget;
@@ -79,7 +80,7 @@ public class BanditExplorer implements Explorer {
 	}
 
 	@Override
-	public void run() {
+	public Logger run() {
 		this.arms.forEach(location -> location.setPerturbator(this.exploration.getPerturbators().get(0)));
 		this.initLap = this.lap;
 		do {
@@ -89,6 +90,7 @@ public class BanditExplorer implements Explorer {
 			this.pullArm(armSelected, nbCallRef[armSelected]);
 		} while (this.budget.shouldRun());
 		this.exit(32);
+		return null;
 	}
 
 	private void exit(int code) {
@@ -135,12 +137,11 @@ public class BanditExplorer implements Explorer {
 	private void pullArm(int indexArm, int nbCallRef) {
 		this.arms.get(indexArm).setEnactor(new NCallEnactorImpl(this.random.nextInt(nbCallRef + 1)));
 		PerturbationEngine.loggers.get(name).logOn(this.arms.get(indexArm));
-		Tuple result = run(this.lap);
-		System.err.println(result);
+
 		if (PerturbationEngine.loggers.get(name).getEnactions(this.arms.get(indexArm)) == 1) {
 			System.err.println(this.arms.get(indexArm).getLocationIndex() + " has been pulled");
-			this.logger.log(indexArm, 0, 0, 0, result, name);
-			this.policyLocation.update(indexArm, (int) result.get(0));
+			this.logger.log(indexArm, 0, 0, 0, new RunResult(), name);
+			this.policyLocation.update(indexArm, 1);
 			this.lap++;
 			this.arms.get(indexArm).setEnactor(new NeverEnactorImpl());
 			PerturbationEngine.loggers.get(name).reset();
