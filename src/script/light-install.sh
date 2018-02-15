@@ -16,11 +16,4 @@ do
     rm -rf $path/$file
 done
 
-#Rewriting the pom.xml in order to remove dependencies
-head -n 66 pom.xml > npom.xml
-echo "</dependencies>" >> npom.xml
-echo "</project>" >> npom.xml
-rm -f pom.xml
-mv npom.xml pom.xml
-
 mvn compile
