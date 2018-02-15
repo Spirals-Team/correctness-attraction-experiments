@@ -95,7 +95,7 @@ public class RC4Manager extends ManagerImpl<String, String> {
 		int cptSuccess = 0;
 		List<Integer> failuresCall = new ArrayList<>();
 		try {
-			PerturbationLocation location = RC4Engine.__L114;
+			PerturbationLocation location = (PerturbationLocation) RC4Engine.class.getField("__L114").get(null);
 			PerturbationEngine.loggers.put("ExploreExample", new LoggerImpl());
 			for (int t = 0; t < 20; t++) {
 				PerturbationEngine.loggers.get("ExploreExample").logOn(location);
