@@ -1,4 +1,4 @@
-[![Travis Build Status](https://api.travis-ci.org/Spirals-Team/jPerturb-experiments.svg?branch=master)](https://travis-ci.org/Spirals-Team/jPerturb-experiments)
+[![Travis Build Status](https://api.travis-ci.org/Spirals-Team/correctness-attraction-experiments.svg?branch=master)](https://travis-ci.org/Spirals-Team/correctness-attraction-experiments)
 
 # Open-science experiments about Correctness Attraction
 
