@@ -206,7 +206,7 @@ public class BanditExplorer implements Explorer {
 	@Override
 	public void log() {
 		String path = "results/" + this.manager.getName() + "/" + this.exploration.getName() + "_" + name;
-		Tuple[][][][] result = this.logger.getResults();
+		Tuple[][][][] result = this.logger.getTupleResults();
 		try {
 			FileWriter writer = new FileWriter(path + "_policy.txt", false);
 			writer.write(this.policyLocation.log());
@@ -259,7 +259,7 @@ public class BanditExplorer implements Explorer {
 		/* policy state */
 		outErr += this.policyLocation.outStateAsString() + " ";
 		/* inner logger */
-		Tuple[][][][] results = this.logger.getResults();
+		Tuple[][][][] results = this.logger.getTupleResults();
 		for (Tuple[][][] result : results)
 			outErr += result[0][0][0].toString();
 		return outErr;
@@ -287,13 +287,13 @@ public class BanditExplorer implements Explorer {
 		BanditExplorer explorer = new BanditExplorer(Main.exploration, Main.manager, policy, budget);
 		/* Lap */
 		explorer.lap = lap;
-		int sizeOfTuple = explorer.logger.getResults()[0][0][0][0].length();
+		int sizeOfTuple = explorer.logger.getTupleResults()[0][0][0][0].length();
 		/* explorer logger */
 		for (int i = 0; i < numberOfLocations; i++) {
 			Tuple current = new Tuple(sizeOfTuple);
 			for (int indexTuple = 0; indexTuple < sizeOfTuple; indexTuple++)
 				current.set(indexTuple, Integer.parseInt(states[position + (i * sizeOfTuple) + indexTuple]));
-			explorer.logger.getResults()[i][0][0][0] = current;
+			explorer.logger.getTupleResults()[i][0][0][0] = current;
 		}
 		return explorer;
 	}
