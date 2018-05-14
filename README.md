@@ -2,6 +2,19 @@
 
 # Open-science experiments about Correctness Attraction
 
+See  [Correctness Attraction: A Study of Stability of Software Behavior Under Runtime Perturbation](https://hal.archives-ouvertes.fr/hal-01378523/file/correctness-attraction.pdf) (Benjamin Danglot, Philippe Preux, Benoit Baudry and Martin Monperrus), In Empirical Software Engineering, Springer Verlag, 2017.
+
+```
+@article{danglot2016correctness,
+ title = {{Correctness Attraction: A Study of Stability of Software Behavior Under Runtime Perturbation}},
+ author = {Danglot, Benjamin and Preux, Philippe and Baudry, Benoit and Monperrus, Martin},
+ journal = {{Empirical Software Engineering}},
+ publisher = {{Springer Verlag}},
+ year = {2017},
+ doi = {10.1007/s10664-017-9571-8},
+}
+```
+
 ## Considered programs
 
 * quicksort: Quicksort without memory version.
